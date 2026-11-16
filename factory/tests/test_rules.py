@@ -187,3 +187,11 @@ def test_graph_edges_use_full_output_names(claims: dict[str, Any], tmp_path: Pat
     for e in cat["dependency_graph"]["edges"]:
         if e["kind"] == "reads":
             assert set(ids[e["from"]]["outputs"]) & set(ids[e["to"]]["inputs"])
+
+
+def test_assigned_variable_is_still_read_when_read() -> None:
+    x = {"k": "FirstName", "name": "x"}
+    plus_one = {"k": "BinaryOp", "op": "Add", "l": x, "r": {"k": "NumLit", "v": 1}}
+    ast = {"k": "Call", "fn": "Set", "args": [x, plus_one]}
+    assert rules._reads(ast) == {"x"}
+    assert rules._reads({"k": "Call", "fn": "Set", "args": [x, {"k": "NumLit", "v": 1}]}) == set()

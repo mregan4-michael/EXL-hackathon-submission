@@ -183,6 +183,31 @@ def _assigned(ast: dict[str, Any]) -> set[str]:
     return out
 
 
+def _reads(ast: dict[str, Any]) -> set[str]:
+    """References read by the formula: every reference except the assignment target
+    position of Set/Collect/ClearCollect, so `Set(x, x + 1)` still reads `x`."""
+    out: set[str] = set()
+
+    def visit(n: dict[str, Any]) -> None:
+        name = fxast.dotted(n)
+        if name is not None:
+            out.add(name)
+            return
+        for key in ("l", "r", "x"):
+            if isinstance(n.get(key), dict):
+                visit(n[key])
+        args = n.get("args", [])
+        skip_first = n["k"] == "Call" and n.get("fn") in ASSIGN_FX
+        for i, c in enumerate(args):
+            if not (skip_first and i == 0):
+                visit(c)
+        for c in n.get("fields", {}).values():
+            visit(c)
+
+    visit(ast)
+    return out
+
+
 def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
     k, formula = site["kind"], site["formula"]
     inputs: list[str]
@@ -194,9 +219,7 @@ def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
     if site["language"] == "powerfx" and site.get("ast"):
         ast = site["ast"]
         assigned = _assigned(ast)
-        inputs = sorted(
-            r for r in fxast.references(ast) if not r.startswith("Self") and r not in assigned
-        )
+        inputs = sorted(r for r in _reads(ast) if not r.startswith("Self"))
         outputs = [f"{site['control'] or 'App'}.{site['prop']}", *sorted(assigned)]
         numbers = fxast.numbers(ast)
         atoms = _canvas_atoms(ast)
