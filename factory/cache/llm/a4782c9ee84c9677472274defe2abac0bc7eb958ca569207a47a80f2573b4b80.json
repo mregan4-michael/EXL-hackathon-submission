@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 79,
+ "content": "{\"statement\": \"The condition is whether the selected claim type is 'Motor', 'Home', 'Theft', or 'Injury'. If not, the excess value is set to 500. The effect is setting the lblExcess.Text to the determined value.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 556,
+ "seconds": 10.498
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The condition is that the cat_version should match the result of the cat_businessapprovalpublishedworkflow function with the cat_businessapprovalversion parameter. The threshold values are the result of the function, and the effect is setting the cat_version column to this result.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 488,
+ "seconds": 10.938
+}

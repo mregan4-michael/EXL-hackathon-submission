@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+import shutil
 import sys
 
 from factory import __version__
@@ -30,11 +31,12 @@ def _cmd_parse(args: argparse.Namespace) -> int:
 def _cmd_analyse(args: argparse.Namespace) -> int:
     import json
 
+    from factory.analyse import rules
     from factory.analyse.catalogue import build_catalogue, write
     from factory.analyse.parse import parse_app, write_model
     from factory.common.fxhost import FxHost
     from factory.common.llm import LLMClient
-    from factory.common.paths import OUT
+    from factory.common.paths import OUT, REPO_ROOT
 
     for app in args.app:
         model_path = OUT / app / "legacy-model.json"
@@ -43,8 +45,18 @@ def _cmd_analyse(args: argparse.Namespace) -> int:
                 write_model(parse_app(app, fx))
         model = json.loads(model_path.read_text())
         llm = LLMClient(audit_path=OUT / app / "audit.jsonl", stage="analyse", replay=args.replay)
-        catalogue, report = build_catalogue(model, llm, args.prompt, workers=args.workers)
+        catalogue, report = build_catalogue(
+            model,
+            llm,
+            args.prompt,
+            workers=args.workers,
+            policy_version=args.policy or rules.POLICY_VERSION,
+        )
         path = write(app, catalogue, report)
+        published = REPO_ROOT / "artefacts" / app
+        published.mkdir(parents=True, exist_ok=True)
+        for name in ("rule-catalogue.json", "analysis-report.json"):
+            shutil.copyfile(path.parent / name, published / name)
         review = sum(1 for r in catalogue["rules"] if r["flags"]["needs_human_review"])
         print(
             f"{app}: {report['candidates']} candidates -> {report['rules']} rules "
@@ -97,6 +109,49 @@ def _cmd_parity(args: argparse.Namespace) -> int:
     return 1 if bad else 0
 
 
+def _cmd_score(args: argparse.Namespace) -> int:
+    import json
+
+    from factory.improve.score import score_committed
+
+    for app in args.app or ["approvals-kit", "claims-workbench"]:
+        print(json.dumps(score_committed(app), indent=1))
+    return 0
+
+
+def _cmd_experiment(args: argparse.Namespace) -> int:
+    from factory.improve import experiment as ex
+
+    if args.action == "run":
+        r = ex.run(
+            args.name, args.interpret, args.policy, args.hypothesis, args.parent, args.replay
+        )
+        print(
+            f"{r['name']}: tuning {r['tuning']['score']} held-out {r['heldout']['score']} "
+            f"-> {r['decision']}"
+        )
+    elif args.action == "critique":
+        print(ex.critique(args.name, args.replay)["proposal"])
+    elif args.action == "leaderboard":
+        print(ex.leaderboard())
+    else:
+        bad = ex.replay_all()
+        print("\n".join(bad) or "all runs reproduce from the cache")
+        return 1 if bad else 0
+    return 0
+
+
+def _cmd_evidence(args: argparse.Namespace) -> int:
+    from factory.evidence import dashboard, review, trace
+
+    for app in review.APPS:
+        trace.write(app)
+    review.write()
+    dashboard.write()
+    print("artefacts/*/traceability-matrix.{json,html}, HUMAN_REVIEW.md, dashboard/index.html")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="factory", description=__doc__)
     parser.add_argument("--version", action="version", version=f"factory {__version__}")
@@ -107,8 +162,9 @@ def build_parser() -> argparse.ArgumentParser:
     a = sub.add_parser("analyse", help="build rule-catalogue.json from parsed models")
     a.add_argument("app", nargs="+")
     a.add_argument("--replay", action="store_true", help="cache only; fail on any cache miss")
-    a.add_argument("--prompt", default="interpret.v1")
+    a.add_argument("--prompt", default="interpret.v2")
     a.add_argument("--workers", type=int, default=4)
+    a.add_argument("--policy", default=None, help="candidate policy version (default: current)")
     a.set_defaults(func=_cmd_analyse)
     g = sub.add_parser("generate", help="emit the .NET/React/Bicep target from model + catalogue")
     g.add_argument("app", nargs="+")
@@ -119,6 +175,20 @@ def build_parser() -> argparse.ArgumentParser:
     q.add_argument("--freeze", action="store_true", help="(re)build the frozen test set first")
     q.add_argument("--check", action="store_true", help="exit non-zero on any mismatch")
     q.set_defaults(func=_cmd_parity)
+    sc = sub.add_parser("score", help="score the committed artefacts (docs/scoring.md)")
+    sc.add_argument("app", nargs="*")
+    sc.set_defaults(func=_cmd_score)
+    e = sub.add_parser("experiment", help="Phase 5 one-variable experiments")
+    e.add_argument("action", choices=["run", "critique", "leaderboard", "replay"])
+    e.add_argument("name", nargs="?")
+    e.add_argument("--interpret", default="interpret.v1")
+    e.add_argument("--policy", default="candidates.v1")
+    e.add_argument("--parent")
+    e.add_argument("--hypothesis", default="")
+    e.add_argument("--replay", action="store_true")
+    e.set_defaults(func=_cmd_experiment)
+    ev = sub.add_parser("evidence", help="traceability matrices, review queue, dashboard")
+    ev.set_defaults(func=_cmd_evidence)
     return parser
 
 

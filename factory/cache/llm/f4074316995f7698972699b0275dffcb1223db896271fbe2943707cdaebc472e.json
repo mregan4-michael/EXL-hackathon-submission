@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 82,
+ "content": "{\"statement\": \"The condition checks if the length of the 'value' in the 'Body' of the 'Get_Dynamic_Data_for_Request_Data' output is greater than 0. If true, it means there are dynamic approvers found, which is a business rule for determining approval routing.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 600,
+ "seconds": 10.188
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 65,
+ "content": "{\"statement\": \"The condition checks if the length of the 'body/cat_customresponses' output is zero, meaning no custom responses exist. If true, it triggers the 'If_no_Custom_Responses' action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 518,
+ "seconds": 10.343
+}

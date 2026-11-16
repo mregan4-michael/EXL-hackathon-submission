@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 89,
+ "content": "{\"statement\": \"The condition checks if the node delegation rule is either Out of Office (809,060,002) or Time-out or Out of Office (809,060,003). If true, the approval process will route to the next approver or delegate.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 685,
+ "seconds": 12.379
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"The Time Out field must be a positive number less than or equal to 2.14748e+09. If the value is less than 0, it is considered invalid.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 494,
+ "seconds": 9.564
+}

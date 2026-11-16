@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 51,
+ "content": "{\"statement\": \"Prevents decrementing the timeout if the same approval instance is processed more than once a day, based on the timestamp comparison.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 554,
+ "seconds": 7.995
+}

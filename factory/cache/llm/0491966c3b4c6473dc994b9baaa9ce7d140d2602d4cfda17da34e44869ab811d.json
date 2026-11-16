@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 77,
+ "content": "{\"statement\": \"The calculated column 'cat_BusinessApprover.cat_backupdelegateid' determines the backup delegate ID by selecting a delegate from 'cat_approverid' based on the 'cat_backupdelegate' value. This decision affects the workflow routing and approval process.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 500,
+ "seconds": 15.175
+}

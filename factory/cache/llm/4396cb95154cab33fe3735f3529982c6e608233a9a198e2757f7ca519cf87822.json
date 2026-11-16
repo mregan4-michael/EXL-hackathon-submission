@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"The condition is when the business approval data, business approval stage, name, source data, and source data type all match. The effect is to calculate the value of the sourcedatanamevalue column based on these matching criteria.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 517,
+ "seconds": 12.832
+}

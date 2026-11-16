@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 62,
+ "content": "{\"statement\": \"The condition checks if the selected items in cboApproverDelegate are empty. If they are, it sets the DisplayMode to Disabled; otherwise, it sets it to Edit.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 498,
+ "seconds": 8.721
+}

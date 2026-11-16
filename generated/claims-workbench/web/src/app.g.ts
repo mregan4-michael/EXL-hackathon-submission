@@ -331,7 +331,9 @@ export const app: AppDefinition = {
           "name": "galReferrals",
           "type": "Gallery",
           "widget": "label",
-          "rules": {},
+          "rules": {
+            "Items": "BR-012"
+          },
           "source": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml:4",
           "computed": []
         },
@@ -387,7 +389,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-012"
+            "Text": "BR-013"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:12",
           "computed": [
@@ -409,7 +411,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-013"
+            "Text": "BR-014"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:30",
           "computed": [
@@ -421,7 +423,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-014"
+            "Text": "BR-015"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:34",
           "computed": [
@@ -441,7 +443,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-015"
+            "Text": "BR-016"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:45",
           "computed": [
@@ -469,7 +471,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-016"
+            "Text": "BR-017"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:53",
           "computed": [
@@ -481,7 +483,7 @@ export const app: AppDefinition = {
           "type": "Button",
           "widget": "button",
           "rules": {
-            "DisplayMode": "BR-017"
+            "DisplayMode": "BR-018"
           },
           "label": "Approve payment",
           "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:62",
@@ -549,7 +551,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-018"
+            "Text": "BR-019"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:22",
           "computed": [
@@ -561,7 +563,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Visible": "BR-019"
+            "Visible": "BR-020"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:31",
           "computed": [
@@ -574,7 +576,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-020"
+            "Text": "BR-021"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:36",
           "computed": [
@@ -586,7 +588,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Visible": "BR-021"
+            "Visible": "BR-022"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:44",
           "computed": [
@@ -599,7 +601,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Visible": "BR-022"
+            "Visible": "BR-023"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:49",
           "computed": [
@@ -612,7 +614,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-023"
+            "Text": "BR-024"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:57",
           "computed": [
@@ -624,7 +626,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-024"
+            "Text": "BR-025"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:67",
           "computed": [
@@ -636,7 +638,7 @@ export const app: AppDefinition = {
           "type": "Button",
           "widget": "button",
           "rules": {
-            "DisplayMode": "BR-025"
+            "DisplayMode": "BR-026"
           },
           "label": "Decline claim",
           "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:71",
@@ -650,7 +652,7 @@ export const app: AppDefinition = {
           "type": "Label",
           "widget": "label",
           "rules": {
-            "Text": "BR-026"
+            "Text": "BR-027"
           },
           "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:81",
           "computed": [

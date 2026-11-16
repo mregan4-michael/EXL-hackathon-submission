@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 106,
+ "content": "{\"statement\":\"The condition is if the selected item key is 'Save'. If so, it sets _isBusy to true and checks if there are delegates selected. If there are, it patches the Business Approvers table to add new delegates as approvers if they don't already exist. It also handles error checking and notifying the user. The effect is to save the settings and reset the controls if the save is successful.\", \n\"category\":\"authorisation\",\n\"is_business_rule\":true,\n\"confidence\":1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 1098,
+ "seconds": 32.515
+}

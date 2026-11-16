@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 54,
+ "content": "{\"statement\": \"The condition is that the input 'text_3' must be equal to 'Information'. If this condition is met, the action proceeds.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 502,
+ "seconds": 7.552
+}

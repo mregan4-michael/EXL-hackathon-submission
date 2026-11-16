@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 63,
+ "content": "{\"statement\": \"The label 'lblLateNotification' is visible if the difference between the selected incident date and notified date is more than 30 days. This condition decides whether a notification is overdue.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 497,
+ "seconds": 9.107
+}

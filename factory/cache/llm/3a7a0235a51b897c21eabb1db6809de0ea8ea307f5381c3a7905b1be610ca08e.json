@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The condition checks if the status is not 'Disabled' and if the current date falls between the start date and end date, and if the date difference is greater than the Out Of Office Check Days. If all conditions are met, the action proceeds.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 731,
+ "seconds": 11.476
+}

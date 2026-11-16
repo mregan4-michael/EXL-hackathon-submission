@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 78,
+ "content": "{\"statement\": \"The calculated column 'cat_BusinessApprover.cat_displayname' retrieves the name from 'cat_businessapprovaldata' based on the dynamic approver type and the approver's name. This condition decides the approval routing and the approver or delegate selection.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 500,
+ "seconds": 14.045
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 72,
+ "content": "{\"statement\": \"The condition is that if the value of txtClaimAmount.Text is greater than 50000, then 'Apply 5% large-loss handling surcharge' will be displayed. Otherwise, nothing will be displayed.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 480,
+ "seconds": 9.93
+}

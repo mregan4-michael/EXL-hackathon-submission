@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 90,
+ "content": "{\"statement\": \"The condition is that claims with status 'Referred' and assigned to the current user's email are sorted by the notification date in ascending order. The threshold values are 'Referred' for status and the current user's email for assigned to. The effect is sorting the items in the galReferrals.Items collection.\", \n \"category\": \"routing\",\n \"is_business_rule\": true,\n \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 517,
+ "seconds": 11.225
+}

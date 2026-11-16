@@ -83,7 +83,14 @@ class LLMClient:
     cache_dir: Path = CACHE_DIR
     _lock: threading.Lock = field(default_factory=threading.Lock)
     stats: dict[str, float] = field(
-        default_factory=lambda: {"calls": 0, "cache_hits": 0, "tokens": 0, "seconds": 0.0}
+        default_factory=lambda: {
+            "calls": 0,
+            "cache_hits": 0,
+            "tokens": 0,
+            "seconds": 0.0,
+            "tokens_incl_replay": 0,
+            "ms_incl_replay": 0,
+        }
     )
 
     def chat(self, messages: list[dict[str, str]], prompt_version: str) -> str:
@@ -166,6 +173,8 @@ class LLMClient:
         }
         with self._lock:
             self.stats["calls"] += 1
+            self.stats["tokens_incl_replay"] += tokens
+            self.stats["ms_incl_replay"] += round(float(rec.get("seconds", 0.0)) * 1000)
             if cache_hit:
                 self.stats["cache_hits"] += 1
             else:

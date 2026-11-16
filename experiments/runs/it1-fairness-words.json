@@ -1,0 +1,36 @@
+{
+  "config": {
+    "candidates": "candidates.v2",
+    "interpret": "interpret.v1"
+  },
+  "decision": "kept",
+  "heldout": {
+    "app": "claims-workbench",
+    "score": 0.6793
+  },
+  "hypothesis": "Fairness flags in the tuning app match the substring 'age' inside identifiers such as Message/Stage; matching whole identifier words should cut false fairness reviews without losing real age/vulnerability fields.",
+  "name": "it1-fairness-words",
+  "parent": "it0-baseline",
+  "tuning": {
+    "app": "approvals-kit",
+    "components": {
+      "cost_efficiency": 0.6984,
+      "counts": {
+        "candidates": 170,
+        "evidence": {
+          "unproven": 150
+        },
+        "ground_truth_found": 115,
+        "ground_truth_total": 124,
+        "llm_tokens_incl_replay": 90476,
+        "needs_review": 18,
+        "rules": 150
+      },
+      "executed_oracle_parity_rate": 0.0,
+      "generated_test_pass_rate": 0.8375,
+      "one_minus_human_review_rate": 0.88,
+      "rule_recall_vs_ground_truth": 0.9274
+    },
+    "score": 0.5129
+  }
+}

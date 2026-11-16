@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 64,
+ "content": "{\"statement\": \"This workflow triggers every day at 06:00 AM GMT Standard Time, checking if a record exists. If a record does not exist, it will create a new one.\", \"category\": \"validation\", \"is_business_rule\": false, \"confidence\": 0.95}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 533,
+ "seconds": 10.014
+}

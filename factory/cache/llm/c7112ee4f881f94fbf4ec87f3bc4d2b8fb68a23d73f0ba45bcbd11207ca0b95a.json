@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 88,
+ "content": "{\"statement\": \"The condition checks if the claim type is 'Injury' or 'Theft'. If it is 'Injury', it routes to the 'Injury' case; if it is 'Theft', it routes to the 'Theft' case. This decision affects the approval routing for different claim types.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 532,
+ "seconds": 6.797
+}

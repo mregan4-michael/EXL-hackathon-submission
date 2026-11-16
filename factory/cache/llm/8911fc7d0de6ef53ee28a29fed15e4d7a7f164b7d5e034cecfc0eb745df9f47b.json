@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 77,
+ "content": "{\"statement\": \"The condition checks if the message is 3 and the filter for _cat_nextremindernode_value is not null. This condition decides whether a reminder node is triggered based on the message and the value of _cat_nextremindernode_value.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 517,
+ "seconds": 11.911
+}

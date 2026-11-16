@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 79,
+ "content": "{\"statement\": \"The payment is held if the payee details changed within the last 30 days. This condition is checked by comparing the current time with the time the payee change occurred, and if the difference is less than 30 days, the payment is held.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 562,
+ "seconds": 8.322
+}

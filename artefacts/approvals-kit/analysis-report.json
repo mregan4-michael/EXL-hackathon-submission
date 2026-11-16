@@ -1,60 +1,28 @@
 {
   "app_id": "approvals-kit",
-  "run_id": "30f56ebcbf4c9f0a",
+  "run_id": "7f5f2b76b2a85fdf",
   "candidates": 170,
-  "rules": 150,
+  "rules": 158,
   "rejected_by_model": [
     {
       "candidate_id": "778906c6b698",
       "path": "App.OnStart"
     },
     {
-      "candidate_id": "b718f34c0844",
-      "path": "scrSettingsNew/lblDelegateError_1.Visible"
+      "candidate_id": "a88e0d1d7ed3",
+      "path": "scrSettings/lblBackupDelegateError.Visible"
     },
     {
-      "candidate_id": "f1e1a8c58912",
-      "path": "cat_BusinessApprovalCondition.cat_conditionvaluedisplay"
-    },
-    {
-      "candidate_id": "2a391bdfb79f",
-      "path": "cat_BusinessApprovalNode.cat_GoToPaths"
-    },
-    {
-      "candidate_id": "62b6e3ab7207",
-      "path": "cat_BusinessApprovalNode.cat_processnamevalue"
+      "candidate_id": "1d7421ab2032",
+      "path": "scrSettingsNew/lblBackupDelegateError_1.Visible"
     },
     {
       "candidate_id": "4bddc3248b53",
       "path": "cat_BusinessApprovalPublishedWorkflow.cat_friendlyname"
     },
     {
-      "candidate_id": "a4b77c66d001",
-      "path": "cat_BusinessApprovalRuntimeCondition.cat_conditionvaluedisplay"
-    },
-    {
-      "candidate_id": "a8ff251eca88",
-      "path": "cat_BusinessApprovalRuntimeNode.cat_GoToPaths"
-    },
-    {
-      "candidate_id": "5d17ac06a58c",
-      "path": "cat_BusinessApprovalRuntimeNode.cat_sourcedatanamevalue"
-    },
-    {
-      "candidate_id": "bdd674c5a1a1",
-      "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_order"
-    },
-    {
-      "candidate_id": "841d5e370a53",
-      "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_path"
-    },
-    {
-      "candidate_id": "8c6643cec3ea",
-      "path": "cat_BusinessApprovalRuntimeStageInstance.cat_stagenamevalue"
-    },
-    {
-      "candidate_id": "049d7d952b71",
-      "path": "cat_BusinessApprover.cat_displayname"
+      "candidate_id": "74570556c937",
+      "path": "cat_BusinessApprovalRuntimeStage.cat_sourcedatanamevalue"
     },
     {
       "candidate_id": "969fad9e7590",
@@ -65,20 +33,20 @@
       "path": "BACoreDailyCalculateApprovalTimeouts/triggers/Daily_Run"
     },
     {
-      "candidate_id": "bf4a2b099092",
-      "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days/actions/If_Today_is_Working_day_and_not_holiday"
+      "candidate_id": "bb19b589d5b5",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF/actions/If_First_Not_OOF_found"
     },
     {
-      "candidate_id": "da52341d27e2",
-      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists"
+      "candidate_id": "06694b953102",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF/actions/If_First_Not_OOF_found/else/actions/If_Manager_found"
     },
     {
-      "candidate_id": "79668584ced8",
-      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/actions/If_no_more_running_instances_3"
+      "candidate_id": "45fc96cc8342",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type"
     },
     {
-      "candidate_id": "2d7cef20b3d4",
-      "path": "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists"
+      "candidate_id": "6ff35fff5591",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found"
     },
     {
       "candidate_id": "3e22fc4c2478",
@@ -89,6 +57,8 @@
     "calls": 170,
     "cache_hits": 170,
     "tokens": 0,
-    "seconds": 0.0
+    "seconds": 0.0,
+    "tokens_incl_replay": 106771,
+    "ms_incl_replay": 2115062
   }
 }

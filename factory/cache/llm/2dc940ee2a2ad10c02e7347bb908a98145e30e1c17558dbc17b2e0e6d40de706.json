@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"The default approver email is calculated based on the approver ID and the business approval version. If the business approval version has a business approver, the default approver email is set; otherwise, it remains empty.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 504,
+ "seconds": 10.948
+}

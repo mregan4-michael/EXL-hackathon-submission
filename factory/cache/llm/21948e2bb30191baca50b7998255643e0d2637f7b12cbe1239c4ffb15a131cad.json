@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 85,
+ "content": "{\"statement\": \"The condition checks if the 'Notification Type' is not blank or an error, and if so, it looks up the 'Business Approver Notification Type' choices to find the corresponding value. The effect is to set the 'cmbxlPreferredNotification.DefaultSelectedItems' to the found value.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 505,
+ "seconds": 21.917
+}

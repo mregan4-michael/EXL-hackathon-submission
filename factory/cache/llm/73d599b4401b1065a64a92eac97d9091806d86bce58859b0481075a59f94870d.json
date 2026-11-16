@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 103,
+ "content": "{\"statement\": \"The condition is if chkVatRegistered.Value is true, then set lblVatRecoverable.Text to the rounded value of lblNetSettlement.Text divided by 6, otherwise set it to 0. The threshold values are the value of lblNetSettlement.Text and 6. The effect is to set the text of lblVatRecoverable.Text.\", \n \"category\": \"calculation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 494,
+ "seconds": 12.094
+}

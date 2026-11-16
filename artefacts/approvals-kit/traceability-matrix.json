@@ -1,0 +1,3831 @@
+{
+ "app": "approvals-kit",
+ "rules": [
+  {
+   "id": "BR-001",
+   "statement": "The condition is if _myUPN is blank. If it is, then set _myUPN to the userPrincipalName from the Office365Users.MyProfileV2 function. Then set _mySettings to the first record in the Business Approvers table where the Approver Id matches _myUPN.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:83",
+     "path": "scrSettings/scrSettings.OnVisible",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-002",
+   "statement": "The condition is if the selected item key is 'Save'. If so, it sets _isBusy to true and checks if there are delegates selected. If there are, it patches the Business Approvers table to add new delegates as approvers if they don't already exist. It also handles error checking and notifying the user. The effect is to save the settings and reset the controls if the save is successful.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:700",
+     "path": "scrSettings/ck_CommandBar.OnChange",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "action: generated as an action endpoint (guard + RBAC + persist)"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-003",
+   "statement": "If either the lblDelegateError or lblBackupDelegateError is visible, then the 'Save' button is disabled.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:1120",
+     "path": "scrSettings/Toolbar_7.DisabledItems",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (node Table): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-004",
+   "statement": "The condition is if the count of selected delegates in cboApproverDelegate is greater than 0. If true, it checks if the first delegate does not exist in Business Approvers. If it does not exist, it adds the delegate with Approver Type as 'Business Approver Type'.User'. It also checks if the backup delegate does not exist and adds it if it does not exist. If there are multiple backup delegates, it adds the first one. If there is an error in Business Approvers, it notifies with error message. Otherwise, it notifies with success message. The effect is to set _isBusy to false, reset the controls, and look up the current user's settings.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:1162",
+     "path": "scrSettings/Toolbar_7.OnClick",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (node VariadicOp): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-005",
+   "statement": "The condition is that if the Delegate field is not blank, it searches for a user in Office365 with the Approver Id from the Delegate field. The effect is to populate the cboApproverDelegate.DefaultSelectedItems with the found user.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:4401",
+     "path": "scrSettings/cboApproverDelegate.DefaultSelectedItems",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (function With): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-006",
+   "statement": "The condition checks if the selected delegate's UPN matches the user's UPN. If they match, it displays a message saying 'You cannot be your own delegate.'",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:4829",
+     "path": "scrSettings/lblDelegateError.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/approvals-kit/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.scrSettings_lblDelegateError_Text"
+     },
+     "parity_cases": 21,
+     "formula_status": "unproven"
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-007",
+   "statement": "The label 'lblDelegateError' is visible if the length of the text in the current record is greater than zero. This rule is used for validation purposes.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:5051",
+     "path": "scrSettings/lblDelegateError.Visible",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/approvals-kit/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.scrSettings_lblDelegateError_Visible"
+     },
+     "parity_cases": 8,
+     "formula_status": "unproven"
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-008",
+   "statement": "The condition checks if the 'Backup Delegate' is set and if so, it searches for a user by their 'Approver Id'. The threshold values are the 'Backup Delegate' setting and the 'Approver Id' of the delegate. The effect is to return the user found by the search if the delegate is set.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:5594",
+     "path": "scrSettings/cboApproverBackupDelegate.DefaultSelectedItems",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (function With): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-009",
+   "statement": "The condition checks if the selected items in cboApproverDelegate are empty. If they are, it sets the DisplayMode to Disabled; otherwise, it sets it to Edit.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:5840",
+     "path": "scrSettings/cboApproverBackupDelegate.DisplayMode",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (function CountRows): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-010",
+   "statement": "The text checks if the selected delegate is the same as the user's UPN or if the selected delegate is the same as any delegate in the selected list. If either condition is met, it displays an error message.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:6028",
+     "path": "scrSettings/lblBackupDelegateError.Text",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (function With): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-011",
+   "statement": "The control's text property is set to 'Enabled' if the value is 'Enabled', otherwise it is set to 'Disabled'.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:7519",
+     "path": "scrSettings/cboOutOfOffice.Text",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (non-boolean condition of type str): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-012",
+   "statement": "The condition filters Business Approval Work Profiles based on the Active Business Approval Work Profiles view. The threshold values are 'Business Approval Work Profiles' and 'Business Approval Work Profiles (Views).Active Business Approval Work Profiles'. The effect is to select items from the 'ddlWorkProfile.Items' control.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:8239",
+     "path": "scrSettings/ddlWorkProfile.Items",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-013",
+   "statement": "The condition sorts public holidays by date in ascending order, considering the selected holiday calendar and only including holidays on or after today. The effect is to display the sorted list of public holidays.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:12325",
+     "path": "scrSettings/galPublicHolidays.Items",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-014",
+   "statement": "The script checks if the userPrincipalName is blank. If it is, it sets the _myUPN to the userPrincipalName from the Office365Users.MyProfileV2. If the _mySettings.Delegate or _mySettings.'Backup Delegate' is not blank or has no errors, it collects the approver or backup approver details from the Office365Users.SearchUserV2 and adds them to the respective collections. This script decides the approvers and backup approvers based on the user's details.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:83",
+     "path": "scrSettingsNew/scrSettingsNew.OnVisible",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-015",
+   "statement": "The condition is selecting 'Save' and checking if there are delegates to update. If there are delegates, it updates the Business Approvers record with the approver and backup approver details. If there are errors, it notifies with an error message; otherwise, it notifies with a success message.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:1002",
+     "path": "scrSettingsNew/ck_CommandBar_1.OnSelect",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "action: generated as an action endpoint (guard + RBAC + persist)"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-016",
+   "statement": "This rule clears a collection named colSelectedApprovalDelegate with the selected people from the People Picker control if the selected people are not blank or contain errors. It ensures that the approval delegate is set based on the selected people.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3584",
+     "path": "scrSettingsNew/ck_PeoplePicker_ApprovalDelegate.OnChange",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-017",
+   "statement": "If the selected delegate in the People Picker is not blank and is not the same as the user's UPN, then set the delegate error message. Otherwise, do nothing.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3724",
+     "path": "scrSettingsNew/lblDelegateError_1.Text",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-018",
+   "statement": "The visibility of the label 'lblDelegateError_1' is determined by whether the text input field is not empty. If the field contains any text, the label is visible; otherwise, it is hidden.",
+   "category": "visibility",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3946",
+     "path": "scrSettingsNew/lblDelegateError_1.Visible",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/approvals-kit/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.scrSettingsNew_lblDelegateError_1_Visible"
+     },
+     "parity_cases": 8,
+     "formula_status": "unproven"
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-019",
+   "statement": "This rule clears a collection named colSelectedBackupDelegate with the selected people if the selected people are not blank or have no errors. It ensures the collection is updated with the selected people.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:4598",
+     "path": "scrSettingsNew/ck_PeoplePicker_BackupDelegate.OnChange",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-020",
+   "statement": "If both the approval delegate and backup delegate selections are not empty, it checks if the selected backup delegate is the same as the approver's UPN or if they are different. If so, it sets the error message based on the selected condition.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:4738",
+     "path": "scrSettingsNew/lblBackupDelegateError_1.Text",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-021",
+   "statement": "The condition checks if the 'Notification Type' is not blank or an error, and if so, it looks up the 'Business Approver Notification Type' choices to find the corresponding value. The effect is to set the 'cmbxlPreferredNotification.DefaultSelectedItems' to the found value.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:5468",
+     "path": "scrSettingsNew/cmbxlPreferredNotification.DefaultSelectedItems",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-022",
+   "statement": "The condition is whether the checkbox is checked. If it is checked, the label is set to 'Enabled' label, otherwise to 'Disabled' label.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6061",
+     "path": "scrSettingsNew/cbxOutOfOffice.Label",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/approvals-kit/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.scrSettingsNew_cbxOutOfOffice_Label"
+     },
+     "parity_cases": 42,
+     "formula_status": "unproven"
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-023",
+   "statement": "The condition checks if a work profile with a specific name exists in the 'Business Approval Work Profiles' collection. If found, it selects the default work profile. The effect is to determine the default work profile based on the provided name.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6608",
+     "path": "scrSettingsNew/cmbxWorkProfile.DefaultSelectedItems",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "unsupported (node Table): routed to scenario/unproven evidence, no code generated"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-024",
+   "statement": "The condition filters Business Approval Work Profiles based on the 'Active Business Approval Work Profiles' view. The threshold values are 'Business Approval Work Profiles' and 'Business Approval Work Profiles (Views).Active Business Approval Work Profiles'. The effect is to select items from the 'cmbxWorkProfile.Items' control.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6614",
+     "path": "scrSettingsNew/cmbxWorkProfile.Items",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-025",
+   "statement": "The condition sorts business approval public holidays by date starting from today, considering the holiday calendar selected in the work profile. The effect is to display holidays in ascending order of date.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:10844",
+     "path": "scrSettingsNew/galPublicHolidays_1.Items",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-026",
+   "statement": "The condition checks if the Path Index is within the range of 1 to 2,147,480,436. If the Path Index is outside this range, it is considered invalid.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalCondition/Entity.xml:534",
+     "path": "cat_BusinessApprovalCondition.cat_PathIndex",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-027",
+   "statement": "The condition for cat_branchdisplay is based on cat_businessapprovalcondition, cat_businessapprovalstage, cat_conditionvaluedisplay, and cat_stagecondition. This condition decides the display of the cat_branchdisplay column in the Business Approval Condition entity.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalCondition/Formulas/cat_businessapprovalcondition-cat_branchdisplay.xaml:1",
+     "path": "cat_BusinessApprovalCondition.cat_branchdisplay",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-028",
+   "statement": "The condition checks if a business approval condition is met based on the approval data, condition data, and condition value. It determines whether a record exists and if the condition value is met, then it displays the condition value in the calculated column.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalCondition/Formulas/cat_businessapprovalcondition-cat_conditionvaluedisplay.xaml:1",
+     "path": "cat_BusinessApprovalCondition.cat_conditionvaluedisplay",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-029",
+   "statement": "The condition checks if a node name value exists in a business approval condition and node. If the condition is met, the value is calculated and used. This could be used for routing, delegating, or other workflow decisions.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalCondition/Formulas/cat_businessapprovalcondition-cat_nodenamevalue.xaml:1",
+     "path": "cat_BusinessApprovalCondition.cat_nodenamevalue",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-030",
+   "statement": "The condition checks if the current stage name matches 'stagenamevalue' in the business approval stage. If true, it triggers the business approval condition. The effect is to evaluate the business approval condition based on the current stage name.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalCondition/Formulas/cat_businessapprovalcondition-cat_stagenamevalue.xaml:1",
+     "path": "cat_BusinessApprovalCondition.cat_stagenamevalue",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-031",
+   "statement": "The condition checks the first 5 entries of the cat_GoToPaths table column to determine if the record should be routed to a specific path. If the first 5 entries are empty, the record is not routed.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Entity.xml:250",
+     "path": "cat_BusinessApprovalNode.cat_GoToPaths",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-032",
+   "statement": "The condition is that the value of cat_PathIndex must be within the range of 1 to 2,147,480,447. If the value is outside this range, the business rule will prevent the record from being processed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Entity.xml:800",
+     "path": "cat_BusinessApprovalNode.cat_PathIndex",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-033",
+   "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000. If the cat_RowIndex is not a valid number or falls outside this range, the condition fails.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Entity.xml:920",
+     "path": "cat_BusinessApprovalNode.cat_RowIndex",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-034",
+   "statement": "The Time Out field must be a positive number less than or equal to 2.14748e+09. If the value is less than 0, it is considered invalid.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Entity.xml:1159",
+     "path": "cat_BusinessApprovalNode.cat_TimeOut",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-035",
+   "statement": "The condition is that the process name value is calculated based on the business approval node, business approval process, and name. The effect is to set the cat_processnamevalue column to this calculated value.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Formulas/cat_businessapprovalnode-cat_processnamevalue.xaml:1",
+     "path": "cat_BusinessApprovalNode.cat_processnamevalue",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-036",
+   "statement": "The condition is when the data source 'cat_businessapprovaldata' matches the business approval node 'cat_businessapprovalnode' and the name 'cat_name' matches 'cat_sourcedata'. The effect is to set the calculated column 'cat_sourcedatanamevalue' to the value of 'cat_businessapprovaldata'.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Formulas/cat_businessapprovalnode-cat_sourcedatanamevalue.xaml:1",
+     "path": "cat_BusinessApprovalNode.cat_sourcedatanamevalue",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-037",
+   "statement": "The condition is that the value of cat_stagenamevalue is determined by the cat_businessapprovalnode, cat_businessapprovalstage, and cat_name columns. The effect is to set the value of cat_stagenamevalue based on these columns.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Formulas/cat_businessapprovalnode-cat_stagenamevalue.xaml:1",
+     "path": "cat_BusinessApprovalNode.cat_stagenamevalue",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-038",
+   "statement": "The reminder days must be a positive number and less than or equal to 2,147,480,000. If the reminder days are not a valid number, the system will not allow the record to be saved.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalNodeReminder/Entity.xml:211",
+     "path": "cat_BusinessApprovalNodeReminder.cat_ReminderDays",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-039",
+   "statement": "The reminder days field must be a positive number and less than or equal to 2,147,480,000. If the value is less than 0, it will be set to 0.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalNodeReminderInstance/Entity.xml:251",
+     "path": "cat_BusinessApprovalNodeReminderInstance.cat_ReminderDays",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-040",
+   "statement": "The condition is that the cat_version should match the result of the cat_businessapprovalpublishedworkflow function with the cat_businessapprovalversion parameter. The threshold values are the result of the function, and the effect is setting the cat_version column to this result.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalPublishedWorkflow/Formulas/cat_businessapprovalpublishedworkflow-cat_version.xaml:1",
+     "path": "cat_BusinessApprovalPublishedWorkflow.cat_version",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-041",
+   "statement": "The condition is that the Path Index must be within the range of 1 to 2,147,480,439. If the Path Index is outside this range, the business rule will not be satisfied.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeCondition/Entity.xml:392",
+     "path": "cat_BusinessApprovalRuntimeCondition.cat_PathIndex",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-042",
+   "statement": "The condition value display formula checks the business approval runtime condition, runtime data, condition data, condition value, and name to determine the display value. It decides the approval routing, approver, or delegate selection based on the business rules.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeCondition/Formulas/cat_businessapprovalruntimecondition-cat_conditionvaluedisplay.xaml:1",
+     "path": "cat_BusinessApprovalRuntimeCondition.cat_conditionvaluedisplay",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-043",
+   "statement": "The condition checks the first 5 entries of the cat_GoToPaths table column to determine the routing path for a business approval. It decides whether to route the approval based on the first 5 entries, which could be a validation or routing decision.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Entity.xml:250",
+     "path": "cat_BusinessApprovalRuntimeNode.cat_GoToPaths",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-044",
+   "statement": "The condition is that cat_PathIndex must be a positive integer between 1 and 2,147,480,000, and it must be required. If the condition is not met, the system will not proceed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Entity.xml:762",
+     "path": "cat_BusinessApprovalRuntimeNode.cat_PathIndex",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-045",
+   "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000. If the cat_RowIndex is not within this range, the system will reject it.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Entity.xml:841",
+     "path": "cat_BusinessApprovalRuntimeNode.cat_RowIndex",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-046",
+   "statement": "The Time Out field must be a positive number less than or equal to 2.14748e+09. This field decides when a workflow step should timeout, affecting the approval process.",
+   "category": "deadline",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Entity.xml:1039",
+     "path": "cat_BusinessApprovalRuntimeNode.cat_TimeOut",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-047",
+   "statement": "The condition checks if the data exists in the Business Approval Runtime Data and Business Approval Runtime Node tables, and if so, it calculates the value of cat_sourcedatanamevalue. The threshold values are the existence of data in the specified tables, and the effect is to calculate the value of cat_sourcedatanamevalue.",
+   "category": "data_integrity",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Formulas/cat_businessapprovalruntimenode-cat_sourcedatanamevalue.xaml:1",
+     "path": "cat_BusinessApprovalRuntimeNode.cat_sourcedatanamevalue",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-048",
+   "statement": "The condition is when the node name value equals the calculation of the business approval runtime node, the business approval runtime node instance, and the node name. The effect is to set the node name value to this calculated value.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNodeInstance/Formulas/cat_businessapprovalruntimenodeinstance-cat_nodenamevalue.xaml:1",
+     "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_nodenamevalue",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-049",
+   "statement": "The condition is when the cat_order value is calculated based on cat_businessapprovalruntimenode, cat_businessapprovalruntimenodeinstance, and cat_rowindex. The threshold values are the inputs and the effect is the output cat_order.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNodeInstance/Formulas/cat_businessapprovalruntimenodeinstance-cat_order.xaml:1",
+     "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_order",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-050",
+   "statement": "The condition is when the path index is valid and the business approval runtime node instance exists. The effect is to calculate the path based on the business approval runtime node and instance.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNodeInstance/Formulas/cat_businessapprovalruntimenodeinstance-cat_path.xaml:1",
+     "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_path",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-051",
+   "statement": "The reminder days must be a positive number and less than or equal to 2,147,480,000. If the reminder days are not a valid number, the system will not allow the record to be saved.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNodeReminder/Entity.xml:250",
+     "path": "cat_BusinessApprovalRuntimeNodeReminder.cat_ReminderDays",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-052",
+   "statement": "The condition is that the Order ID must be within the range of 1 to 2.14748e+09. The effect is that records outside this range are considered invalid and may not be processed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeStage/Entity.xml:173",
+     "path": "cat_BusinessApprovalRuntimeStage.cat_Order",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-053",
+   "statement": "The condition is that the 'cat_Paths' table must have at least 1 and at most 5 rows. If it has fewer than 1 or more than 5 rows, the condition fails.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeStage/Entity.xml:213",
+     "path": "cat_BusinessApprovalRuntimeStage.cat_Paths",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-054",
+   "statement": "The calculated column 'cat_order' in the form of 'cat_BusinessApprovalRuntimeStageInstance' depends on the value of 'cat_businessapprovalruntimestage' and 'cat_businessapprovalruntimestageinstance'. The effect is that 'cat_order' is set to the value of 'cat_businessapprovalruntimestage' if 'cat_businessapprovalruntimestageinstance' is not null.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeStageInstance/Formulas/cat_businessapprovalruntimestageinstance-cat_order.xaml:1",
+     "path": "cat_BusinessApprovalRuntimeStageInstance.cat_order",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-055",
+   "statement": "The condition checks if the current stage name value of a business approval runtime stage instance matches the name of the business approval runtime stage. If true, it sets the cat_stagenamevalue column to the name of the business approval runtime stage. This is a business rule as it decides the approval routing and workflow.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeStageInstance/Formulas/cat_businessapprovalruntimestageinstance-cat_stagenamevalue.xaml:1",
+     "path": "cat_BusinessApprovalRuntimeStageInstance.cat_stagenamevalue",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-056",
+   "statement": "The condition is that the 'cat_Order' entity must exist and its value must be between 1 and 2.14748e+09 (inclusive). If the condition is not met, the system will not proceed with the approval process.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalStage/Entity.xml:212",
+     "path": "cat_BusinessApprovalStage.cat_Order",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-057",
+   "statement": "The condition is that the 'cat_Paths' column must have a value between 1 and 5, inclusive. This determines whether the business approval stage can proceed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalStage/Entity.xml:252",
+     "path": "cat_BusinessApprovalStage.cat_Paths",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-058",
+   "statement": "The condition is when the business approval data, business approval stage, name, source data, and source data type all match. The effect is to calculate the value of the sourcedatanamevalue column based on these matching criteria.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalStage/Formulas/cat_businessapprovalstage-cat_sourcedatanamevalue.xaml:1",
+     "path": "cat_BusinessApprovalStage.cat_sourcedatanamevalue",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-059",
+   "statement": "The version number must be a positive integer between 1 and 2,147,480,741 (inclusive). If the version number is missing or invalid, the system will not allow the record to proceed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalVersion/Entity.xml:594",
+     "path": "cat_BusinessApprovalVersion.cat_Version",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-060",
+   "statement": "The default approver display name is calculated based on the business approval version, business approver, and name. This rule determines who the approver should be based on the business context.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalVersion/Formulas/cat_businessapprovalversion-cat_defaultapproverdisplayname.xaml:1",
+     "path": "cat_BusinessApprovalVersion.cat_defaultapproverdisplayname",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-061",
+   "statement": "The default approver email is calculated based on the approver ID and the business approval version. If the business approval version has a business approver, the default approver email is set; otherwise, it remains empty.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalVersion/Formulas/cat_businessapprovalversion-cat_defaultapproveremail.xaml:1",
+     "path": "cat_BusinessApprovalVersion.cat_defaultapproveremail",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-062",
+   "statement": "The cat_version calculated column in the cat_BusinessApprovalWorkflow entity checks if the cat_businessapprovalversion exists in the cat_businessapprovalworkflow. If it does, cat_version is set to the value of cat_businessapprovalversion; otherwise, it remains null.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprovalWorkflow/Formulas/cat_businessapprovalworkflow-cat_version.xaml:1",
+     "path": "cat_BusinessApprovalWorkflow.cat_version",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-063",
+   "statement": "The calculated column 'cat_BusinessApprover.cat_backupdelegateid' determines the backup delegate ID by selecting a delegate from 'cat_approverid' based on the 'cat_backupdelegate' value. This decision affects the workflow routing and approval process.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprover/Formulas/cat_businessapprover-cat_backupdelegateid.xaml:1",
+     "path": "cat_BusinessApprover.cat_backupdelegateid",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-064",
+   "statement": "The formula calculates the cat_delegateid based on cat_approverid, cat_businessapprover, and cat_delegate. It decides the delegate based on business rules.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprover/Formulas/cat_businessapprover-cat_delegateid.xaml:1",
+     "path": "cat_BusinessApprover.cat_delegateid",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-065",
+   "statement": "The calculated column 'cat_BusinessApprover.cat_displayname' retrieves the name from 'cat_businessapprovaldata' based on the dynamic approver type and the approver's name. This condition decides the approval routing and the approver or delegate selection.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Entities/cat_BusinessApprover/Formulas/cat_businessapprover-cat_displayname.xaml:1",
+     "path": "cat_BusinessApprover.cat_displayname",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-066",
+   "statement": "The condition is that the message is 3, and the cat_timeoutcounter is 0 and the cat_instancestatus is 809060001. If these conditions are met, the trigger will run.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreApprovalTime-out-A696980C-5FD0-EC11-A7B5-0022486DABEE.json:31",
+     "path": "BACoreApprovalTime-out/triggers/Running_Approval_Instance_Time-Out_Counter_has_reached_0",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-067",
+   "statement": "If the delegate is marked as out of office, the workflow uses the backup delegate instead. Otherwise, it selects the regular delegate.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreApprovalTime-out-A696980C-5FD0-EC11-A7B5-0022486DABEE.json:77",
+     "path": "BACoreApprovalTime-out/actions/varDelegate",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-068",
+   "statement": "The condition checks if the variable 'varDelegate' is null. If it is, the effect is to set the output 'If_no_delegates' to true.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreApprovalTime-out-A696980C-5FD0-EC11-A7B5-0022486DABEE.json:98",
+     "path": "BACoreApprovalTime-out/actions/If_no_delegates",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-069",
+   "statement": "The condition checks if the delegate variable has a non-empty value. If the delegate variable is empty, the workflow will not proceed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreApprovalTime-out-A696980C-5FD0-EC11-A7B5-0022486DABEE.json:154",
+     "path": "BACoreApprovalTime-out/actions/If_delegate_exists",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-070",
+   "statement": "The condition is that the message should be 3 and the cat_isoutofoffice should be true for the approver to be considered out of office.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreApproverOOF-C5C9A675-66D0-EC11-A7B5-0022486DDAB5.json:31",
+     "path": "BACoreApproverOOF/triggers/When_Approver_is_OOF",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-071",
+   "statement": "The condition checks if the business approval process has a message with a value of 3 and a statecode filter. If true, it triggers the workflow.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreCascadeProcessStatus-0CC362B4-1E53-EC11-8F8E-0022486DC855.json:31",
+     "path": "BACoreCascadeProcessStatus/triggers/When_Process_Status_is_changed",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-072",
+   "statement": "The condition checks if the statecode of a business approval version is 3, and it applies a filter. If the statecode is 3, the row is considered for addition, modification, or deletion.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreCascadePublishingActivation-5313BB69-E0C1-EC11-983E-0022486DF843.json:31",
+     "path": "BACoreCascadePublishingActivation/triggers/When_a_row_is_added,_modified_or_deleted",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-073",
+   "statement": "The condition checks if the value of number_1 in the trigger body is equal to 809060000. If true, it proceeds to the next node. This is a validation rule to ensure the correct input value.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json:162",
+     "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-074",
+   "statement": "The condition checks if both @true values are equal. If true, it proceeds with the workflow. This is a validation check to ensure certain conditions are met before proceeding.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json:182",
+     "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data/actions/Condition",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "constant_condition: always true, else branch unreachable"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-075",
+   "statement": "The condition checks if the type of data from 'Get_Dynamic_Data' is '809060001'. If true, it uses the value directly. Otherwise, it concatenates the value with quotes. This decision affects how the data is processed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json:184",
+     "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data/actions/Condition/actions/Set_variable",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-076",
+   "statement": "The condition checks if the value of number_1 is equal to 809060001. If true, it proceeds with the action. This is a validation rule to ensure the data type matches the expected value.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json:362",
+     "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-077",
+   "statement": "The condition checks if the value of 'cat_conditionvalue' in the current item of 'Apply_to_each' is equal to the value of 'value' stored in the variable 'varSourceData'. If they are equal, the condition passes.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json:367",
+     "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome/actions/Apply_to_each/actions/Condition_4",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-078",
+   "statement": "The condition checks if the value of 'text_1' is 'Stage Instance'. If it is, it sets the stage ID to the value of '_cat_gotostage_value' from the 'Apply_to_each' items, otherwise it sets the stage ID to the value of 'cat_pathindex'. This condition decides the routing of the workflow based on the current stage instance.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json:369",
+     "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome/actions/Apply_to_each/actions/Condition_4/actions/Set_varCondition",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-079",
+   "statement": "If the number in the trigger body is less than 8,090,600,060, the condition is met. This decides the approval routing or workflow decision.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json:443",
+     "path": "BACoreChildEvaluateRule/actions/If_Comparison_Operands",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-080",
+   "statement": "The condition checks if the XPath_Selection outputs have a length greater than zero, which means the XPath selection found at least one element. If true, it proceeds to evaluate the condition further.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json:506",
+     "path": "BACoreChildEvaluateRule/actions/If_Comparison_Operands/actions/Found_Condition",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-081",
+   "statement": "The condition checks if the output of 'Get_Settings' has exactly one item in its 'body/value' array. If true, it proceeds to the 'If_found_settings' action.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetDefaultSettings-83B1EC3A-88D3-EC11-A7B5-000D3AF46350.json:71",
+     "path": "BACoreChildGetDefaultSettings/actions/If_found_settings",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-082",
+   "statement": "If the input parameter 'boolean' is true, then the action will proceed. Otherwise, it will not.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicApprover-DCB75FEF-35D6-EC11-A7B5-000D3AF46350.json:168",
+     "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value/actions/If_Manager_Lookup",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-083",
+   "statement": "If the length of the 'body/value' from the 'Get_Approver_and_Delegates' output is zero, then the condition is met. This decides whether the 'If_Approver_is_not_found' action should be triggered.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicApprover-DCB75FEF-35D6-EC11-A7B5-000D3AF46350.json:351",
+     "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value/actions/Lookup_UPN/actions/If_Approver_is_not_found",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-084",
+   "statement": "If the input parameter 'boolean' is true, the workflow action will proceed. Otherwise, it will not.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicDataInstance-C2534955-ADD4-EC11-A7B5-000D3AF46350.json:86",
+     "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-085",
+   "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Dynamic_Approver_Data' is greater than 0. If true, it proceeds to the next action.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicDataInstance-C2534955-ADD4-EC11-A7B5-000D3AF46350.json:117",
+     "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/actions/If_has_data",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-086",
+   "statement": "The condition checks if the value of 'WaitOnNoApprover' from the 'Get_Default_Setting' body is true. If true, it proceeds to 'Do_we_wait_for_Dynamic_Approver_Data'.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicDataInstance-C2534955-ADD4-EC11-A7B5-000D3AF46350.json:170",
+     "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/actions/If_has_data/else/actions/Do_we_wait_for_Dynamic_Approver_Data",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-087",
+   "statement": "If the length of the 'body/value' from the 'Get_Instance_Data' output is greater than 0, then proceed with the next action. This rule checks if instance data exists before proceeding.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicDataInstance-C2534955-ADD4-EC11-A7B5-000D3AF46350.json:386",
+     "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/else/actions/If_has_instance_data",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-088",
+   "statement": "The condition checks if the Approver UPN is not empty. If the Approver UPN is not empty, the condition is true.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetUserMailboxSettings-A68E0A7E-37EC-EE11-904D-000D3A8EDEA8.json:121",
+     "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-089",
+   "statement": "The condition checks if the status is not 'Disabled' and if the current date falls between the start date and end date, and if the date difference is greater than the Out Of Office Check Days. If all conditions are met, the action proceeds.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetUserMailboxSettings-A68E0A7E-37EC-EE11-904D-000D3A8EDEA8.json:301",
+     "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists/actions/Check_status_and_if_Current_Date_falls_between_start_and_end_date",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-090",
+   "statement": "The condition checks if the difference in days is greater than the Out Of Office Check Days. If true, it evaluates to true; otherwise, it evaluates to false.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildGetUserMailboxSettings-A68E0A7E-37EC-EE11-904D-000D3A8EDEA8.json:391",
+     "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists/actions/Condition",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-091",
+   "statement": "The condition is that the input 'text_3' must be equal to 'Information'. If this condition is met, the action proceeds.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildLogRuns-613B8C18-5AD4-EC11-A7B5-000D3AF4AC06.json:121",
+     "path": "BACoreChildLogRuns/actions/If_Information",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-092",
+   "statement": "The condition checks if the input 'text_3' is either 'Data not found', 'Approver not found', or 'Object not found'. If 'Data not found', it sets 'Exception_Type' to 'Data not found'. If 'Approver not found', it sets 'Exception_Type' to 'Approver not found'. If 'Object not found', it sets 'Exception_Type' to 'Object not found'.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreChildLogRuns-613B8C18-5AD4-EC11-A7B5-000D3AF4AC06.json:159",
+     "path": "BACoreChildLogRuns/actions/If_Information/else/actions/Exception_Type",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-093",
+   "statement": "Prevents decrementing the timeout if the same approval instance is processed more than once a day, based on the timestamp comparison.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreDailyCalculateApprovalTimeouts-5ABBAFC2-37CF-EC11-A7B5-0022486DABEE.json:112",
+     "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today",
+     "target": {
+      "kind": "Azure Functions (TimerTrigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-094",
+   "statement": "The condition checks if the timeout mode is set to Business Days (809060000). If true, it requires a calculation based on the Work Profile and holidays.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreDailyCalculateApprovalTimeouts-5ABBAFC2-37CF-EC11-A7B5-0022486DABEE.json:114",
+     "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days",
+     "target": {
+      "kind": "Azure Functions (TimerTrigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-095",
+   "statement": "The condition checks if the current day is a working day and not a holiday, and if there are no holidays in the list. If both conditions are met, the action proceeds.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreDailyCalculateApprovalTimeouts-5ABBAFC2-37CF-EC11-A7B5-0022486DABEE.json:209",
+     "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days/actions/If_Today_is_Working_day_and_not_holiday",
+     "target": {
+      "kind": "Azure Functions (TimerTrigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-096",
+   "statement": "The condition checks if the business approval version category has a message of 1 and the publishing status is 809060000. If true, it triggers the workflow.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACorePublishProcess-D492106F-E56D-EC11-8F8E-000D3A09F61A.json:47",
+     "path": "BACorePublishProcess/triggers/When_new_Process_Version_is_Published",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-097",
+   "statement": "The condition checks if the value of cat_dynamicapprovertype is either 809060002 or 809060001. If true, it proceeds to the next step in the workflow.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACorePublishProcess-D492106F-E56D-EC11-8F8E-000D3A09F61A.json:676",
+     "path": "BACorePublishProcess/actions/Publish_Version/actions/Copy_Stage/actions/Each_Stage/actions/Copy_Nodes/actions/Each_Node/actions/Each_Approver/actions/If_Dynamic_Approver_Type_uses_Request_Data",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-098",
+   "statement": "The condition checks if the length of the 'body/value' in the output of 'Check_if_mapping_already_exist' is zero. If it is, the effect is to set the output to 'If_Mapping_Does_not_Exist'.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACorePublishProcess-D492106F-E56D-EC11-8F8E-000D3A09F61A.json:714",
+     "path": "BACorePublishProcess/actions/Publish_Version/actions/Copy_Stage/actions/Each_Stage/actions/Copy_Nodes/actions/Each_Node/actions/Each_Approver/actions/If_Dynamic_Approver_Type_uses_Request_Data/actions/If_Mapping_Does_not_Exist",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-099",
+   "statement": "The condition checks if the output of the trigger 'body/cat_activateonpublish' is true. If it is, the condition is satisfied.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACorePublishProcess-D492106F-E56D-EC11-8F8E-000D3A09F61A.json:1040",
+     "path": "BACorePublishProcess/actions/Publish_is_Successful/actions/Condition",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-100",
+   "statement": "The condition checks if the 'id' of each item in the 'Apply_to_each_' array matches the 'additionalinformation' field. If they match, the condition is true.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-InitializeWorkflowQueue-D9EB54AC-E574-ED11-81AC-000D3A09C3EA.json:176",
+     "path": "BACoreRuntime-InitializeWorkflowQueue/actions/Apply_to_each_/actions/Condition_2",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-101",
+   "statement": "The condition checks if the 'id' in the 'Apply_to_each_' items matches the 'Requested By' field. If true, the workflow continues; otherwise, it stops.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-InitializeWorkflowQueue-D9EB54AC-E574-ED11-81AC-000D3A09C3EA.json:202",
+     "path": "BACoreRuntime-InitializeWorkflowQueue/actions/Apply_to_each_/actions/Condition_3",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-102",
+   "statement": "The condition checks if the 'id' of the current item in the 'Apply_to_each_' loop matches the 'externalreference'. If true, the workflow continues; otherwise, it stops.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-InitializeWorkflowQueue-D9EB54AC-E574-ED11-81AC-000D3A09C3EA.json:232",
+     "path": "BACoreRuntime-InitializeWorkflowQueue/actions/Apply_to_each_/actions/Condition_4",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-103",
+   "statement": "The condition checks if the length of the 'body/cat_customresponses' output is zero, meaning no custom responses exist. If true, it triggers the 'If_no_Custom_Responses' action.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartApproval-A04208B8-428D-EC11-8D20-000D3A09CA36.json:62",
+     "path": "BACoreRuntime-StartApproval/actions/If_no_Custom_Responses",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-104",
+   "statement": "The condition checks if the variable 'varApprovalCompleted' is false. If it is, the workflow action 'If_Approval_not_completed' is executed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartApproval-A04208B8-428D-EC11-8D20-000D3A09CA36.json:283",
+     "path": "BACoreRuntime-StartApproval/actions/If_Approval_not_completed",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-105",
+   "statement": "If the output of the 'Wait_on_Override' action contains a 'body/cat_iscancellation' key set to false, the condition is met. This decides whether the approval process can proceed without cancellation.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartApproval-A04208B8-428D-EC11-8D20-000D3A09CA36.json:367",
+     "path": "BACoreRuntime-StartApproval/actions/If_Approval_not_completed/actions/Set_override_approver_for_cancellation/actions/If_Not_Cancellation",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-106",
+   "statement": "The condition checks if the node type is 'Approval'. If it is, the workflow proceeds to stage 809060000. If not, it proceeds to stage 809060001. If the node type is 'End_Workflow', the workflow terminates.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:133",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-107",
+   "statement": "The condition checks if the value of cat_approvertype is exactly 8,090,600,000. If true, it proceeds to the next step in the approval workflow.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:142",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-108",
+   "statement": "The condition checks if the node delegation rule is either Out of Office (809,060,002) or Time-out or Out of Office (809,060,003). If the condition is met, the approval process will proceed to the next step.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:165",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-109",
+   "statement": "The condition checks if the value of the parameter 'Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)' is true. If it is, the effect is to set the output 'Check_If_Enable_O365_Mailbox_Settings_is_true' to true.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:444",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF/actions/Check_If_Enable_O365_Mailbox_Settings_is_true",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-110",
+   "statement": "The condition checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, it proceeds to check if an approver is found. This is a validation to ensure that there is at least one approver before proceeding.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:644",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-111",
+   "statement": "The condition checks if the node delegation rule is either Out of Office (809,060,002) or Time-out or Out of Office (809,060,003). If true, the approval process will route to the next approver or delegate.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:667",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-112",
+   "statement": "The condition checks if the parameter 'Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)' is true. If it is, the effect is to proceed with the next step in the workflow.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:697",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/Check_If_Enable_O365_Mailbox_Settings_is_true_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-113",
+   "statement": "The condition checks if the length of the 'id' from the 'First_Not_OOF_2' output is greater than 0. If true, it proceeds to the next step; otherwise, it stops.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:816",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/If_First_Not_OOF_found_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-114",
+   "statement": "The condition checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, it proceeds to check if a manager has been found. This is a business rule as it decides the next step in the approval workflow.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:899",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/If_First_Not_OOF_found_2/else/actions/If_Manager_found_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-115",
+   "statement": "The condition checks if the value of 'cat_dynamicapprovertype' is 'Manager_of_Initiator', 'Manager_of_Request_Data', 'Manager_of_Last_Approver', or 'Use_Request_Data'. If it matches 'Manager_of_Initiator', it sets 'Manager_Lookup_Approval' to 809060000; if it matches 'Manager_of_Request_Data', it sets 'Manager_Lookup_Approval' to 809060002; if it matches 'Manager_of_Last_Approver', it sets 'Manager_Lookup_Approval' to 809060003; otherwise, it sets 'Manager_Lookup_Approval' to 809060001. This decision affects the approval routing based on the initiator, request data, and last approver.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:1220",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-116",
+   "statement": "The condition checks if the length of the dynamic approver data is greater than zero. If it is, the approval process continues; otherwise, it looks for a manager to approve the request.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:1294",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval/cases/Manager_of_Request_Data/actions/If_dynamic_approver_found",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-117",
+   "statement": "The condition checks if the length of the 'value' in the 'Body' of the 'Get_Dynamic_Data_for_Request_Data' output is greater than 0. If true, it means there are dynamic approvers found, which is a business rule for determining approval routing.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:1474",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval/cases/Use_Request_Data/actions/If_any_dynamic_approver_found",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-118",
+   "statement": "The condition checks if the length of the 'body/value' from the 'Get_Runtime_Reminder_Node' output is greater than 0, which means a reminder node exists. If true, it proceeds with creating a reminder instance. This decision affects whether a reminder is created based on the existence of a reminder node.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:1628",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-119",
+   "statement": "The condition checks if the value of 'body/cat_nodeduedatedatatype' is equal to 809060000. If true, it proceeds with the approval reminder creation.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:1686",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists/actions/If_Node_Due_Date_Data_Type_Equals_Request_Data",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-120",
+   "statement": "The condition checks if the node condition is 'If/Else' (809060001). If the condition is met, the flow proceeds to the next step.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:1808",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Go_to_Stage/actions/Check_Node_Condition/actions/Check_If_Has_Condition",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-121",
+   "statement": "The condition checks if the variable 'varGotoStageId' is not empty. If it is empty, the action will not proceed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json:1902",
+     "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Go_to_Stage/actions/Check_Node_Condition/actions/Check_if_GoToStage_variable_is_not_empty",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-122",
+   "statement": "The condition checks if the 'cat_stagecondition' value from the runtime stage definition is 809060000. If true, it proceeds to the 'If_No_Conditions' action.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartStage-FB00D840-CA8C-EC11-8D20-000D3A09D351.json:116",
+     "path": "BACoreRuntime-StartStage/actions/If_No_Conditions",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-123",
+   "statement": "The condition checks if exactly one node is found in the stage. If one node is found, the workflow continues; otherwise, it stops.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartStage-FB00D840-CA8C-EC11-8D20-000D3A09D351.json:221",
+     "path": "BACoreRuntime-StartStage/actions/Each_Path/actions/If_exactly_1_node_found",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-124",
+   "statement": "The condition checks if the value of the first node in the stage is not equal to null. If it is not null, the workflow will proceed; otherwise, it will not.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartStage-FB00D840-CA8C-EC11-8D20-000D3A09D351.json:293",
+     "path": "BACoreRuntime-StartStage/actions/Each_Path/actions/If_exactly_1_node_found/actions/Condition",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-125",
+   "statement": "The condition checks if exactly one stage is found. If exactly one stage is found, the workflow continues. Otherwise, it stops.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-StartWorkflow-65045BB1-F682-EC11-8D20-0022486DA35F.json:74",
+     "path": "BACoreRuntime-StartWorkflow/actions/If_exactly_1_stage_found",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-126",
+   "statement": "The condition checks if the business approval instance has a message with a value of 3 and the instance status is filtered. If both conditions are met, the workflow triggers.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:31",
+     "path": "BACoreRuntime-UpdateApproval/triggers/When_Approval_Instance_is_updated",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-127",
+   "statement": "The condition checks if the value of the 'cat_instancestatus' field in the trigger outputs is 'Completed_(809060002)', and if so, sets the output to 809060002. This is a business rule as it decides the status of the instance.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:54",
+     "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-128",
+   "statement": "The condition checks the value of the 'body/cat_outcome' output from the trigger. If it is 'Approve', the workflow will proceed to 'Approve'. If it is 'Reject', the workflow will proceed to 'Reject'.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:81",
+     "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-129",
+   "statement": "The condition checks if the approval type is either 809060001 (Approve/Reject - First) or 809060003 (Custom - First). If true, the approval proceeds. This condition decides the approval routing.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:91",
+     "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Approve/actions/If_Approval_Type_is_Single_Response",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-130",
+   "statement": "The condition checks if the length of the 'body/value' from the 'Get_Other_Approval_Instances' output is zero, which means there are no more running instances. If true, the approval process proceeds.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:158",
+     "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Approve/actions/If_Approval_Type_is_Single_Response/else/actions/If_no_more_running_instances",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-131",
+   "statement": "The condition checks if the approval type is either 809060001 or 809060003. If true, the approval will proceed to the next step; otherwise, it will reject the approval.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:223",
+     "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Reject/actions/If_Approval_Type_is_Single_Response_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-132",
+   "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero, which means there are no more running instances. If true, the approval process moves to the next step.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:290",
+     "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Reject/actions/If_Approval_Type_is_Single_Response_2/else/actions/If_no_more_running_instances_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-133",
+   "statement": "The condition checks if the 'cat_approvaltype' field in the trigger outputs is either 809060001 or 809060003. If true, the workflow will proceed; otherwise, it will not.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:354",
+     "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-134",
+   "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If it is, the condition is true, otherwise false. This determines if there are no more running approval instances.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:417",
+     "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/actions/If_no_more_running_instances_3",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-135",
+   "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If it is, the effect is to proceed to the next step in the workflow.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json:461",
+     "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/else/actions/If_no_more_running_instances_4",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-136",
+   "statement": "The condition checks if the node status changed message is 3 and if the filter for cat_gotostageinstanceid is null. If both conditions are met, the trigger is fired.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json:48",
+     "path": "BACoreRuntime-UpdateNodeInstance/triggers/When_Node_Status_Changed",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-137",
+   "statement": "The condition checks if there are no running node instances. If there are no running node instances, the instance is considered completed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json:121",
+     "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/actions/If_no_more_running_node_instances",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-138",
+   "statement": "The condition checks if the node type is not equal to 809060002. If true, it proceeds to the next action.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json:170",
+     "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/else/actions/If_Node_Type_is_not_equal_End_Workflow_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-139",
+   "statement": "The condition checks if the value of the 'Get_Next_Node' action is not equal to '_cat_nodeduedaterequestdata_value'. If they are not equal, the workflow will proceed to the next step.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json:172",
+     "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/else/actions/If_Node_Type_is_not_equal_End_Workflow_2/actions/Condition",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-140",
+   "statement": "The condition checks if the length of the 'body/value' from the 'Get_Next_Node_2' output is zero, which determines if a node was found. If no node is found, the workflow proceeds to the 'If_no_node_found_2' action.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json:350",
+     "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-141",
+   "statement": "The condition checks if there are no running node instances. If there are no running node instances, the instance is considered canceled.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json:372",
+     "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/actions/If_no_more_running_node_instances_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-142",
+   "statement": "If the next node's type is GoToStage and the source data type is Previous Node Outcome, the condition is met. This decides the routing or action to be taken next in the workflow.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json:421",
+     "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-143",
+   "statement": "If the node type in the input body is not equal to 809060002, the condition is met. This decides whether to proceed to the next node or end the workflow.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json:423",
+     "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage/actions/If_Node_Type_is_not_equal_End_Workflow",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-144",
+   "statement": "The condition checks if there are no running node instances. If there are none, it proceeds to the next step. This decision affects the workflow by determining if the current stage instance can end.",
+   "category": "state_transition",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json:490",
+     "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage/else/actions/If_no_more_running_node_instances_3",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-145",
+   "statement": "The condition checks if the message is 3 and the filter is cat_instancestatus, deciding the approval routing for the Stage Instance update. It applies to business approval runtime stage instance updates.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json:31",
+     "path": "BACoreRuntime-UpdateStageInstance/triggers/When_Stage_Instance_is_Updated",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-146",
+   "statement": "The condition checks if the value of _cat_gotostage_value from the trigger outputs is not null. If it is null, the rule does not exist and the action fails.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json:71",
+     "path": "BACoreRuntime-UpdateStageInstance/actions/Check_if_Go_To_Stage_rule_exists",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-147",
+   "statement": "The condition checks if the value of the 'cat_instancestatus' field in the trigger outputs is 'Completed_(809060002)' or 'Cancelled_(809060004)', and if so, sets the output to the corresponding numeric value (809060002 or 809060004).",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json:103",
+     "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-148",
+   "statement": "The condition checks if the length of the 'body/value' from the 'Get_Next_Stage' output is zero, which means there are no more stages. If true, the instance status is marked as 'Completed'.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json:134",
+     "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Completed_(809060002)/actions/If_No_more_stages",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-149",
+   "statement": "If the output of the trigger 'body/cat_endworkflow' is not equal to true, then the condition is considered as a business rule that decides whether the workflow should proceed or not.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json:164",
+     "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Completed_(809060002)/actions/If_No_more_stages/else/actions/If_End_Workflow_is_not_True",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-150",
+   "statement": "The condition checks if the length of the 'body/value' from the 'Get_Next_Stage_2' output is zero, which means there are no more stages in the workflow. If true, the instance status is set to 'Cancelled'.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json:244",
+     "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-151",
+   "statement": "The condition checks if the source data type is 'Previous Node Outcome' and if it matches '809060001'. If true, the workflow proceeds; otherwise, it does not.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json:274",
+     "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2/else/actions/If_Source_Data_Type_is_Previous_Node_Outcome",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-152",
+   "statement": "If the output of the trigger is not 'body/cat_endworkflow', then the condition is met. This could be used to decide if the workflow should continue or end based on the source data type.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json:276",
+     "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2/else/actions/If_Source_Data_Type_is_Previous_Node_Outcome/actions/If_End_Workflow_is_not_True_2",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-153",
+   "statement": "The condition checks if the message is 3 and the filter for _cat_nextremindernode_value is not null. This condition decides whether a reminder node is triggered based on the message and the value of _cat_nextremindernode_value.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json:55",
+     "path": "BACoreSendReminder/triggers/When_a_row_is_added,_modified_or_deleted",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-154",
+   "statement": "The condition checks if there are any running approval instances. If there are at least one, the condition evaluates to true; otherwise, it evaluates to false.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json:138",
+     "path": "BACoreSendReminder/actions/Condition",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-155",
+   "statement": "The condition checks the value of the 'cat_reminderchannel' field in the record fetched by 'Get_Existing_Node_Reminder_Instance_record'. If it is 'Email', the switch selects case 809060000; if it is 'Teams', case 809060001; and if it is 'Email_+_Teams', case 809060002. This determines the channel for sending a reminder.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json:143",
+     "path": "BACoreSendReminder/actions/Condition/actions/Each_Approver/actions/Switch",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-156",
+   "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Next_Runtime_Reminder_Node' is greater than 0, which determines if a reminder node exists. If the length is greater than 0, the reminder node exists and the workflow continues.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json:323",
+     "path": "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-157",
+   "statement": "The condition checks if the value of 'cat_nodeduedatedatatype' in the trigger outputs is equal to 809060000. If true, it proceeds with the workflow.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json:381",
+     "path": "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists/actions/If_Node_Due_Date_Data_Type_Equals_Request_Data",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-158",
+   "statement": "The condition checks if the business approval version category has a message of 3 and the statecode is 0. If true, it triggers the workflow.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/approvals-kit/Workflows/BACoreUpdateActivePublishedWorkflow-27678B1C-DA6F-ED11-81AC-000D3A09CF6C.json:28",
+     "path": "BACoreUpdateActivePublishedWorkflow/triggers/Update_Published_Workflow_when_a_version_is_activated",
+     "target": {
+      "kind": "Azure Durable Functions (orchestration)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  }
+ ]
+}

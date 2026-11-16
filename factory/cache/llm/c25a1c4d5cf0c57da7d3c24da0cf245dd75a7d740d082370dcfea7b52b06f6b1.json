@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 80,
+ "content": "{\"statement\":\"The condition is selecting 'Save' and checking if there are delegates to update. If there are delegates, it updates the Business Approvers record with the approver and backup approver details. If there are errors, it notifies with an error message; otherwise, it notifies with a success message.\",\"category\":\"authorisation\",\"is_business_rule\":true,\"confidence\":1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 1108,
+ "seconds": 14.768
+}

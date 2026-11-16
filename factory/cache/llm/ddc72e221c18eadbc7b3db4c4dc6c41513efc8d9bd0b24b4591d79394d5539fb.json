@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 89,
+ "content": "{\"statement\": \"The condition checks if the node type is 'Approval'. If it is, the workflow proceeds to stage 809060000. If not, it proceeds to stage 809060001. If the node type is 'End_Workflow', the workflow terminates.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 637,
+ "seconds": 13.882
+}

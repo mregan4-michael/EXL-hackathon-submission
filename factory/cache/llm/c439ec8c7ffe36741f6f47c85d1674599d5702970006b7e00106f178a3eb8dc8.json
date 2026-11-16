@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"The text checks if the selected delegate is the same as the user's UPN or if the selected delegate is the same as any delegate in the selected list. If either condition is met, it displays an error message.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 564,
+ "seconds": 8.588
+}

@@ -477,7 +477,7 @@
           "path": "App.OnStart"
         }
       ],
-      "statement": "The script sets gblUserAuthorityLimit to the limit of the first record in clm_HandlerAuthorities where the email matches the current user's email. It also sets gblIsManager to true if the current user's email is in the colManagers.Email list. Finally, it collects a list of claim types into colClaimTypes."
+      "statement": "The script sets gblUserAuthorityLimit to the limit of the user's authority found in clm_HandlerAuthorities where the user's email matches. It also sets gblIsManager to true if the user's email is found in colManagers.Email. Finally, it collects a list of claim types ['Motor', 'Home', 'Theft', 'Injury', 'Travel'] into colClaimTypes."
     },
     {
       "class": "executed",
@@ -490,7 +490,7 @@
           "path": "ComplaintScreen/lblSummaryResolution.Visible"
         }
       ],
-      "statement": "The label 'lblSummaryResolution' is visible if the complaint is resolved to satisfaction and the difference in days between the complaint receipt date and the resolution date is 3 days or less. This condition is checked by the formula 'chkResolvedToSatisfaction.Value && DateDiff(dpComplaintReceived.SelectedDate, dpResolvedDate.SelectedDate, TimeUnit.Days) <= 3'."
+      "statement": "The label 'lblSummaryResolution' is visible if the complaint is resolved to satisfaction and the difference in days between the complaint receipt date and the resolution date is 3 days or less. This condition decides whether the label should be displayed or not."
     },
     {
       "class": "executed",
@@ -503,7 +503,7 @@
           "path": "ComplaintScreen/lblComplaintBreach.Visible"
         }
       ],
-      "statement": "The label 'lblComplaintBreach' is hidden if the checkbox 'chkFinalResponseSent' is not checked and the difference in days between the dates selected in 'dpComplaintReceived' and 'dpAsOf' is greater than 56. This condition is used to determine when a complaint breach label should be visible."
+      "statement": "The label 'lblComplaintBreach' is hidden if the checkbox 'chkFinalResponseSent' is not checked and the difference in days between the 'dpComplaintReceived' date and the 'dpAsOf' date is greater than 56 days. This rule decides whether a complaint breach label should be visible or not."
     },
     {
       "class": "executed",
@@ -516,7 +516,7 @@
           "path": "ComplaintScreen/lblRedress.Text"
         }
       ],
-      "statement": "If the selected complaint outcome is 'Upheld', the redress label is set to the financial loss plus an additional 150 if distress inconvenience is checked. If the selected complaint outcome is 'Partially upheld', the redress label is set to half the financial loss plus an additional 75 if distress inconvenience is checked. Otherwise, the redress label is set to 0."
+      "statement": "The condition is whether ddComplaintOutcome.Selected.Value is 'Upheld' or 'Partially upheld'. If it is 'Upheld', the output is the sum of txtFinancialLoss.Text and an additional 150 if chkDistressInconvenience.Value is true. If it is 'Partially upheld', the output is half of txtFinancialLoss.Text rounded to two decimal places and an additional 75 if chkDistressInconvenience.Value is true. The effect is to set lblRedress.Text to the calculated value."
     },
     {
       "class": "executed",
@@ -529,7 +529,7 @@
           "path": "ComplaintScreen/lblComplaintRoute.Text"
         }
       ],
-      "statement": "The condition is if either chkVulnerable.Value is true or ddChannel.Selected.Value is 'Regulator', then the output is 'Escalated', otherwise 'Standard'."
+      "statement": "The condition is if either chkVulnerable.Value is true or ddChannel.Selected.Value is 'Regulator', then the label lblComplaintRoute.Text will be set to 'Escalated', otherwise it will be set to 'Standard'."
     },
     {
       "class": "executed",
@@ -542,7 +542,7 @@
           "path": "IntakeScreen/lblPolicyNumberError.Text"
         }
       ],
-      "statement": "If the policy number is not blank and either it is not exactly 10 characters long or it does not start with 'PL', then display 'Policy number must be 10 characters and start with PL'. Otherwise, display nothing."
+      "statement": "The policy number must be exactly 10 characters long and start with 'PL'. If the policy number is blank or does not meet these criteria, an error message is displayed."
     },
     {
       "class": "executed",
@@ -555,7 +555,7 @@
           "path": "IntakeScreen/lblCoverError.Text"
         }
       ],
-      "statement": "If the incident date is not within the policy period (between policy start and end dates), it displays a warning message. The policy period is defined by the policy start and end dates."
+      "statement": "The Incident date is outside the policy period if the selected Incident date is before the Policy Start date or after the Policy End date. Otherwise, no message is displayed."
     },
     {
       "class": "executed",
@@ -568,7 +568,7 @@
           "path": "IntakeScreen/lblDateOrderError.Text"
         }
       ],
-      "statement": "The label 'lblDateOrderError.Text' will display the message 'Incident date cannot be after the notification date' if the selected incident date is later than the selected notification date."
+      "statement": "The text in lblDateOrderError.Text will be set to 'Incident date cannot be after the notification date' if the selected incident date is later than the selected notification date."
     },
     {
       "class": "executed",
@@ -581,7 +581,7 @@
           "path": "IntakeScreen/lblLateNotification.Visible"
         }
       ],
-      "statement": "If the difference between the selected incident date and notified date is more than 30 days, then the label 'lblLateNotification' will be visible."
+      "statement": "The label 'lblLateNotification' is visible if the difference between the selected incident date and notified date is more than 30 days. This condition decides whether a notification is overdue."
     },
     {
       "class": "executed",
@@ -594,7 +594,7 @@
           "path": "IntakeScreen/lblNcdAfterClaim.Text"
         }
       ],
-      "statement": "If the selected fault status is 'At fault', the label will display the maximum of 0 and the number of years entered minus 2, otherwise it will display the number of years entered. The threshold is 2 years."
+      "statement": "The condition is if ddFault.Selected.Value is 'At fault', then the output is the maximum of 0 and the difference between the value of txtNcdYears.Text and 2, otherwise the value of txtNcdYears.Text. This rule determines the number of years of no claims discount based on fault status."
     },
     {
       "class": "executed",
@@ -607,20 +607,21 @@
           "path": "IntakeScreen/btnSubmit.DisplayMode"
         }
       ],
-      "statement": "The button displays as disabled if the policy number is blank, the incident date is blank, the claim amount is less than or equal to zero, or if there is a cover error message. Otherwise, it displays as editable."
+      "statement": "The button 'btnSubmit' is disabled if the policy number is blank, the incident date is blank, the claim amount is less than or equal to zero, or if there is a cover error message. Otherwise, the button is in edit mode."
     },
     {
-      "class": "executed",
-      "covered": 1,
-      "declared": "executed_oracle",
+      "class": "unproven",
+      "covered": 0,
+      "declared": "unproven",
       "id": "BR-012",
       "locations": [
         {
-          "evidence": "pass",
-          "path": "SettlementScreen/lblExcess.Text"
+          "evidence": "unproven",
+          "path": "ReviewScreen/galReferrals.Items",
+          "reason": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
         }
       ],
-      "statement": "The rule sets the lblExcess.Text label based on the selected ddClaimType value. If ddClaimType is 'Motor', lblExcess.Text is set to 250. If ddClaimType is 'Home', lblExcess.Text is set to 100. If ddClaimType is 'Theft', lblExcess.Text is set to 350. If ddClaimType is 'Injury', lblExcess.Text is set to 0. If ddClaimType is any other value, lblExcess.Text is set to 500."
+      "statement": "The condition is that claims with status 'Referred' and assigned to the current user's email are sorted by the notification date in ascending order. The threshold values are 'Referred' for status and the current user's email for assigned to. The effect is sorting the items in the galReferrals.Items collection."
     },
     {
       "class": "executed",
@@ -630,10 +631,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "SettlementScreen/lblVatRecoverable.Text"
+          "path": "SettlementScreen/lblExcess.Text"
         }
       ],
-      "statement": "The label 'lblVatRecoverable.Text' displays the vat recoverable amount, calculated as the net settlement divided by 6, rounded to two decimal places if the vat registered checkbox is checked, otherwise it displays 0. The threshold value is the net settlement amount in lblNetSettlement.Text, and the effect is to display the calculated vat recoverable amount."
+      "statement": "The condition is whether the selected claim type is 'Motor', 'Home', 'Theft', or 'Injury'. If not, the excess value is set to 500. The effect is setting the lblExcess.Text to the determined value."
     },
     {
       "class": "executed",
@@ -643,10 +644,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "SettlementScreen/lblBetterment.Text"
+          "path": "SettlementScreen/lblVatRecoverable.Text"
         }
       ],
-      "statement": "If the selected claim type is 'Motor' and the vehicle age is greater than 5 years, then the betterment amount is calculated as the cost of parts multiplied by a factor of 0.5 for the first 5 years and then by a decreasing factor for each additional year up to a maximum of 0.1, rounded to 2 decimal places. Otherwise, the betterment amount is 0."
+      "statement": "The condition is if chkVatRegistered.Value is true, then set lblVatRecoverable.Text to the rounded value of lblNetSettlement.Text divided by 6, otherwise set it to 0. The threshold values are the value of lblNetSettlement.Text and 6. The effect is to set the text of lblVatRecoverable.Text."
     },
     {
       "class": "executed",
@@ -656,10 +657,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "SettlementScreen/lblSortCodeError.Text"
+          "path": "SettlementScreen/lblBetterment.Text"
         }
       ],
-      "statement": "If the payee sort code is not blank and does not match the format of 00-00-00, then display the error message 'Sort code must be in the format 00-00-00'."
+      "statement": "If the selected claim type is 'Motor' and the vehicle age is greater than 5 years, then calculate the betterment amount as the cost of parts multiplied by a factor of 0.5 for the first 5 years and then by a decreasing factor of 0.1 for each additional year, rounding the result to 2 decimal places. Otherwise, set the betterment amount to 0."
     },
     {
       "class": "executed",
@@ -669,10 +670,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "SettlementScreen/lblLateInterest.Text"
+          "path": "SettlementScreen/lblSortCodeError.Text"
         }
       ],
-      "statement": "If the number of days between the agreed payment date and the paid date is more than 14, then calculate the late interest as the net settlement amount multiplied by 8% and divided by 365, then subtract 14 from the days and round the result to two decimal places. Otherwise, the late interest is 0."
+      "statement": "UNINTERPRETED: lblSortCodeError.Text is set by the legacy logic at SettlementScreen/lblSortCodeError.Text."
     },
     {
       "class": "executed",
@@ -682,10 +683,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "SettlementScreen/btnApprovePayment.DisplayMode"
+          "path": "SettlementScreen/lblLateInterest.Text"
         }
       ],
-      "statement": "The payment approval button displays as Edit mode if the claim amount is less than or equal to the user authority limit and there is no fraud referral label and the sort code error label is empty. Otherwise, it displays as Disabled mode."
+      "statement": "The Late Interest label is set to the calculated interest amount if the difference between the agreed and paid dates is more than 14 days, otherwise it is set to 0. The interest amount is calculated as the net settlement amount multiplied by 8% and then by the number of days over 14, divided by 365, rounded to 2 decimal places."
     },
     {
       "class": "executed",
@@ -695,10 +696,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "TriageScreen/lblAuthority.Text"
+          "path": "SettlementScreen/btnApprovePayment.DisplayMode"
         }
       ],
-      "statement": "The application checks the claim amount in the 'txtClaimAmount.Text' field. If the claim amount is less than or equal to 5000, it assigns the claim to 'Handler'. If the claim amount is between 5000 and 25000, it assigns the claim to 'TeamLeader'. Otherwise, it assigns the claim to 'ClaimsManager'."
+      "statement": "The payment approval button displays as Edit mode if the claim amount is less than or equal to the user authority limit and there is no fraud referral label and no sort code error label. Otherwise, it displays as Disabled mode."
     },
     {
       "class": "executed",
@@ -708,10 +709,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "TriageScreen/lblFourEyes.Visible"
+          "path": "TriageScreen/lblAuthority.Text"
         }
       ],
-      "statement": "If the text input 'txtClaimAmount.Text' contains a value greater than 10000, then the label 'lblFourEyes.Visible' is shown. Otherwise, it is hidden."
+      "statement": "The authority level is determined based on the claim amount. If the claim amount is less than or equal to 5000, the handler is assigned. If the claim amount is between 5000 and 25000, the team leader is assigned. Otherwise, the claims manager is assigned."
     },
     {
       "class": "executed",
@@ -721,10 +722,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "TriageScreen/lblFraudScore.Text"
+          "path": "TriageScreen/lblFourEyes.Visible"
         }
       ],
-      "statement": "The score is 40 if the difference between the policy start date and incident date is less than 30 days, 30 if the number of prior claims is 3 or more, 20 if the difference between the incident date and notified date is more than 30 days, and 10 if there are no police references and the claim type is theft. The score is 0 otherwise."
+      "statement": "The label 'lblFourEyes' is visible if the claim amount entered in 'txtClaimAmount' is greater than 10000. This rule decides whether the label should be shown or not based on the claim amount."
     },
     {
       "class": "executed",
@@ -734,10 +735,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "TriageScreen/lblFraudReferral.Visible"
+          "path": "TriageScreen/lblFraudScore.Text"
         }
       ],
-      "statement": "The label 'lblFraudReferral' is visible if the fraud score is 50 or higher. This rule is used for authorisation purposes."
+      "statement": "The condition checks if the incident date is within 30 days of the policy start date, if the number of prior claims is 3 or more, if the notified date is more than 30 days after the incident date, and if the 'No Police Ref' checkbox is checked and the claim type is 'Theft'. If any of these conditions are met, the fraud score is set to 40, 30, 20, or 10 respectively. Otherwise, the fraud score is set to 0."
     },
     {
       "class": "executed",
@@ -747,10 +748,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "TriageScreen/lblVulnerable.Visible"
+          "path": "TriageScreen/lblFraudReferral.Visible"
         }
       ],
-      "statement": "The label 'lblVulnerable' is shown if the user is 75 years or older, or if they have a 'Third party (Power of Attorney)' preference for contact, or if the user's date of birth is more than 75 years before the date they were notified."
+      "statement": "The condition is that the value of lblFraudScore.Text must be greater than or equal to 50. If this condition is met, lblFraudReferral.Visible is set to true, allowing the referral label to be visible."
     },
     {
       "class": "executed",
@@ -760,10 +761,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "TriageScreen/lblPriority.Text"
+          "path": "TriageScreen/lblVulnerable.Visible"
         }
       ],
-      "statement": "The label 'P1' is displayed if the 'lblVulnerable' is visible, or if the selected claim type is 'Injury', or if the claim amount is greater than 25000. The label 'P2' is displayed if none of the above conditions are met and the claim amount is 25000 or less. The label 'P3' is displayed if none of the above conditions are met and the claim amount is less than 25000."
+      "statement": "The label 'lblVulnerable' is visible if the user is 75 years or older than the date of notification, or if the preferred contact is 'Third party (Power of Attorney)'."
     },
     {
       "class": "executed",
@@ -773,10 +774,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "TriageScreen/lblSlaDays.Text"
+          "path": "TriageScreen/lblPriority.Text"
         }
       ],
-      "statement": "The condition is if the value of lblPriority.Text is 'P1', then lblSlaDays.Text is set to 2 days; if the value is 'P2', then lblSlaDays.Text is set to 5 days; otherwise, lblSlaDays.Text is set to 10 days."
+      "statement": "The priority label is set to 'P1' if the 'Vulnerable' label is visible, or if the selected claim type is 'Injury'. It is set to 'P2' if the claim amount is greater than 25000. Otherwise, it is set to 'P3'."
     },
     {
       "class": "executed",
@@ -786,10 +787,10 @@
       "locations": [
         {
           "evidence": "pass",
-          "path": "TriageScreen/btnAutoDecline.DisplayMode"
+          "path": "TriageScreen/lblSlaDays.Text"
         }
       ],
-      "statement": "The button displays as disabled if either the 'lblVulnerable.Visible' label is shown or the 'lblFraudScore.Text' value is 50 or higher. Otherwise, it displays in edit mode."
+      "statement": "The SlaDays label is set to 2 days if the Priority label is 'P1', to 5 days if the Priority label is 'P2', and to 10 days otherwise. This rule determines the severity level of a claim."
     },
     {
       "class": "executed",
@@ -799,16 +800,29 @@
       "locations": [
         {
           "evidence": "pass",
+          "path": "TriageScreen/btnAutoDecline.DisplayMode"
+        }
+      ],
+      "statement": "The button 'btnAutoDecline' is disabled if either the 'lblVulnerable' label is visible or the 'lblFraudScore' text value is 50 or more. Otherwise, it is in edit mode."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-027",
+      "locations": [
+        {
+          "evidence": "pass",
           "path": "TriageScreen/lblOldSurcharge.Text"
         }
       ],
-      "statement": "If the claim amount is greater than 50000, a 5% surcharge is applied. Otherwise, no surcharge is applied."
+      "statement": "The condition is that if the value of txtClaimAmount.Text is greater than 50000, then 'Apply 5% large-loss handling surcharge' will be displayed. Otherwise, nothing will be displayed."
     },
     {
       "class": "unproven",
       "covered": 0,
       "declared": "scenario",
-      "id": "BR-027",
+      "id": "BR-028",
       "locations": [
         {
           "evidence": "unproven",
@@ -816,13 +830,13 @@
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The Claim Amount must be a positive number and not exceed 10 million. Any value below 0 or above 10 million will trigger a validation error."
+      "statement": "The Claim Amount must be a positive number and less than or equal to 10 million. Violating this rule will prevent the claim from being processed."
     },
     {
       "class": "unproven",
       "covered": 0,
       "declared": "scenario",
-      "id": "BR-028",
+      "id": "BR-029",
       "locations": [
         {
           "evidence": "unproven",
@@ -836,7 +850,7 @@
       "class": "unproven",
       "covered": 0,
       "declared": "scenario",
-      "id": "BR-029",
+      "id": "BR-030",
       "locations": [
         {
           "evidence": "unproven",
@@ -844,21 +858,7 @@
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The condition is that the number of prior claims must be between 0 and 50. If this condition is met, the effect is that the number of prior claims remains unchanged."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-030",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "clm_Complaint.clm_RedressAmount",
-          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
-        }
-      ],
-      "statement": "The condition is that the value of clm_Complaint.clm_RedressAmount must be between 0 and 100,000 (inclusive). If the value is outside this range, the effect is that the value is adjusted to be within the range. This is a validation rule."
+      "statement": "The condition is that the number of prior claims must be between 0 and 50. This threshold value decides whether a record or instance already exists before a workflow step runs, or when a scheduled trigger fires, which is a business rule."
     },
     {
       "class": "unproven",
@@ -868,11 +868,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "clm_HandlerAuthority.clm_Limit",
+          "path": "clm_Complaint.clm_RedressAmount",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The condition is that the clm_Limit must be required and must be within the range of 0 to 250000. If the condition is not met, the effect is an error or validation failure."
+      "statement": "The condition is that the value of clm_Complaint.clm_RedressAmount must be between 0 and 100,000 (inclusive). If the value is outside this range, the record is considered invalid and may not be processed."
     },
     {
       "class": "unproven",
@@ -882,17 +882,31 @@
       "locations": [
         {
           "evidence": "unproven",
+          "path": "clm_HandlerAuthority.clm_Limit",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+        }
+      ],
+      "statement": "The condition is that the clm_Limit must be required and must be within the range of 0 to 250000. If these conditions are not met, the record will not be saved."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-033",
+      "locations": [
+        {
+          "evidence": "unproven",
           "path": "clm_Payment.clm_Amount",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The amount in the clm_Payment.clm_Amount field must be a positive number and must not exceed 1,000,000. If the amount is less than 0 or greater than 1,000,000, the system will reject it."
+      "statement": "The amount field must have a value between 0 and 1,000,000 (inclusive). If the amount is missing or outside this range, the system will not allow the record to be saved."
     },
     {
       "class": "scenario",
       "covered": 1,
       "declared": "scenario",
-      "id": "BR-033",
+      "id": "BR-034",
       "locations": [
         {
           "checks": [
@@ -904,21 +918,7 @@
           "path": "Auditor"
         }
       ],
-      "statement": "The Auditor role has read access to all claim, payment, and complaint records. If the role is granted, the system will allow read access to these records."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-034",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "ClaimsHandler",
-          "reason": "security role: generated RBAC table; no journey check exercises this role"
-        }
-      ],
-      "statement": "The ClaimsHandler role grants read, write, and create permissions for Claim objects to users and BusinessUnit-level permissions for Complaint objects. The threshold values are read, write, and create permissions for Claim objects, and BusinessUnit-level permissions for Complaint objects."
+      "statement": "The Auditor role has read access to all Claim, Payment, and Complaint records. This condition determines the Auditor's access level."
     },
     {
       "class": "unproven",
@@ -928,11 +928,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "ClaimsManager",
+          "path": "ClaimsHandler",
           "reason": "security role: generated RBAC table; no journey check exercises this role"
         }
       ],
-      "statement": "The ClaimsManager role grants global read, write, approve, assign, and write complaint permissions to claims data. This rule applies to the ClaimsManager security role."
+      "statement": "The ClaimsHandler role grants read, write, and create permissions for Claim records, and read permissions for Complaint records within a Business Unit. This affects the visibility and access to Claim and Complaint records."
     },
     {
       "class": "unproven",
@@ -942,11 +942,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "TeamLeader",
+          "path": "ClaimsManager",
           "reason": "security role: generated RBAC table; no journey check exercises this role"
         }
       ],
-      "statement": "The TeamLeader role grants read, write, create, approve, and write access to claims and complaints within the same business unit. If a user is assigned the TeamLeader role, they can access these claims and complaints."
+      "statement": "The ClaimsManager role grants global permissions for read, write, approve, assign, and write complaints on claims. This affects the ClaimsManager's ability to manage claim-related activities."
     },
     {
       "class": "unproven",
@@ -956,11 +956,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "ClaimsComplaintDeadlines/triggers/Recurrence",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+          "path": "TeamLeader",
+          "reason": "security role: generated RBAC table; no journey check exercises this role"
         }
       ],
-      "statement": "This rule sets a recurrence schedule to run every day at 06:00 UTC on January 1, 2024, and continues indefinitely. It is a business rule as it defines a business deadline."
+      "statement": "The TeamLeader role grants read, write, create, approve, and write access to claims and complaint records within the same business unit. This rule determines the access levels for TeamLeader role."
     },
     {
       "class": "unproven",
@@ -974,7 +974,7 @@
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the complaint has been open between 40 and 56 days. If true, it triggers a reminder at week 6."
+      "statement": "The condition checks if the number of days open is greater than or equal to 40 and less than or equal to 56. If true, it triggers the reminder window. This is a business rule as it decides when a reminder should be sent to the handler."
     },
     {
       "class": "unproven",
@@ -988,7 +988,7 @@
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if the Days_open value is greater than or equal to 56 days. If true, it triggers the action 'Check_eight_week_breach'."
+      "statement": "The condition is that the Days_open value must be greater than or equal to 56 days. If this condition is met, the workflow action will proceed. This is a business rule as it determines the approval routing and the validity of a complaint."
     },
     {
       "class": "unproven",
@@ -1002,7 +1002,7 @@
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule triggers when a new claim is added or modified, and it checks if the claim's fraud score is 50 or higher. If the condition is met, the rule is triggered."
+      "statement": "The condition is that the claim fraud score must be 50 or higher when a new claim or modification is added. If the claim fraud score is less than 50, the trigger does not apply."
     },
     {
       "class": "unproven",
@@ -1016,7 +1016,7 @@
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if the customer has a vulnerability flag set to true. If true, the customer is referred for further review; otherwise, the system auto-declines the claim."
+      "statement": "The condition checks if the 'clm_vulnerabilityflag' in the input body is true. If true, the workflow action is executed. This is a business rule as it decides the routing for a customer referral based on their vulnerability status."
     },
     {
       "class": "unproven",
@@ -1030,7 +1030,7 @@
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the claim payment amount is greater than zero. If true, it triggers the workflow. The threshold value is 0."
+      "statement": "The condition is that the claim payment message is 1 and the claim amount is greater than 0. If these conditions are met, the trigger fires."
     },
     {
       "class": "unproven",
@@ -1044,7 +1044,7 @@
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if the claim amount is 10,000 or more. If true, it requires a second approver."
+      "statement": "The condition is that the claim amount is greater than or equal to 10,000. If this condition is met, a second approver is required. This rule decides whether a second approver is needed for claims payments."
     },
     {
       "class": "unproven",
@@ -1058,7 +1058,7 @@
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The payment is held if the payee changed in the last 30 days, as determined by the difference between the current time and the payee change timestamp being less than 30 days."
+      "statement": "The payment is held if the payee details changed within the last 30 days. This condition is checked by comparing the current time with the time the payee change occurred, and if the difference is less than 30 days, the payment is held."
     },
     {
       "class": "unproven",
@@ -1072,7 +1072,7 @@
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The code switches the value of 'body/clm_claimtype' from 'Injury' or 'Theft' to 'Injury' or 'Theft' respectively. If 'body/clm_claimtype' is 'Injury', it routes to 'Injury'. If 'body/clm_claimtype' is 'Theft', it routes to 'Theft'."
+      "statement": "The condition checks if the claim type is 'Injury' or 'Theft'. If it is 'Injury', it routes to the 'Injury' case; if it is 'Theft', it routes to the 'Theft' case. This decision affects the approval routing for different claim types."
     }
   ],
   "rules": {

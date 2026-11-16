@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 81,
+ "content": "{\"statement\": \"The condition checks if the length of the 'body/value' from the 'Get_Next_Node_2' output is zero, which determines if a node was found. If no node is found, the workflow proceeds to the 'If_no_node_found_2' action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 555,
+ "seconds": 14.041
+}

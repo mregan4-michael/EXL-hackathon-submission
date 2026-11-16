@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 52,
+ "content": "{\"statement\": \"The condition checks if exactly one stage is found. If exactly one stage is found, the workflow continues. Otherwise, it stops.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 524,
+ "seconds": 14.745
+}

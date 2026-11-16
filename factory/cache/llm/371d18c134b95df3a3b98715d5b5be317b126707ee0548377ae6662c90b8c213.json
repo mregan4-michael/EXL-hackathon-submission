@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 93,
+ "content": "{\"statement\": \"The condition checks if the data exists in the Business Approval Runtime Data and Business Approval Runtime Node tables, and if so, it calculates the value of cat_sourcedatanamevalue. The threshold values are the existence of data in the specified tables, and the effect is to calculate the value of cat_sourcedatanamevalue.\", \"category\": \"data_integrity\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 525,
+ "seconds": 15.332
+}

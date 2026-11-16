@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"The amount field must have a value between 0 and 1,000,000 (inclusive). If the amount is missing or outside this range, the system will not allow the record to be saved.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 488,
+ "seconds": 9.336
+}

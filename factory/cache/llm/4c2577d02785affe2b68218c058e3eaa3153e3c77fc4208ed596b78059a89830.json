@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 137,
+ "content": "{\"statement\": \"The condition checks if the incident date is within 30 days of the policy start date, if the number of prior claims is 3 or more, if the notified date is more than 30 days after the incident date, and if the 'No Police Ref' checkbox is checked and the claim type is 'Theft'. If any of these conditions are met, the fraud score is set to 40, 30, 20, or 10 respectively. Otherwise, the fraud score is set to 0.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 617,
+ "seconds": 16.813
+}

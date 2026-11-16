@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 59,
+ "content": "{\"statement\": \"The Incident date is outside the policy period if the selected Incident date is before the Policy Start date or after the Policy End date. Otherwise, no message is displayed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 519,
+ "seconds": 8.516
+}

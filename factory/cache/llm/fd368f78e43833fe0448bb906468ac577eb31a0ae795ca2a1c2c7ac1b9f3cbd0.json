@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 72,
+ "content": "{\"statement\": \"The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If it is, the effect is to proceed to the next step in the workflow.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 567,
+ "seconds": 13.116
+}

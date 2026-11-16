@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 86,
+ "content": "{\"statement\":\"The condition is if _myUPN is blank. If it is, then set _myUPN to the userPrincipalName from the Office365Users.MyProfileV2 function. Then set _mySettings to the first record in the Business Approvers table where the Approver Id matches _myUPN.\",\"category\":\"authorisation\",\"is_business_rule\":true,\"confidence\":1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 535,
+ "seconds": 30.041
+}

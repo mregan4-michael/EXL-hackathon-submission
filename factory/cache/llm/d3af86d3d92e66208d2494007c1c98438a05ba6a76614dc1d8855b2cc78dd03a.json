@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 75,
+ "content": "{\"statement\": \"The condition is that the claim amount is greater than or equal to 10,000. If this condition is met, a second approver is required. This rule decides whether a second approver is needed for claims payments.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 542,
+ "seconds": 9.544
+}

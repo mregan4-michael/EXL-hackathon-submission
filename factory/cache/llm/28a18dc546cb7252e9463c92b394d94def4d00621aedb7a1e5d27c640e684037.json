@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 167,
+ "content": "{\"statement\": \"The condition is if the count of selected delegates in cboApproverDelegate is greater than 0. If true, it checks if the first delegate does not exist in Business Approvers. If it does not exist, it adds the delegate with Approver Type as 'Business Approver Type'.User'. It also checks if the backup delegate does not exist and adds it if it does not exist. If there are multiple backup delegates, it adds the first one. If there is an error in Business Approvers, it notifies with error message. Otherwise, it notifies with success message. The effect is to set _isBusy to false, reset the controls, and look up the current user's settings.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 1093,
+ "seconds": 25.727
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 77,
+ "content": "{\"statement\": \"The condition checks the first 5 entries of the cat_GoToPaths table column to determine the routing path for a business approval. It decides whether to route the approval based on the first 5 entries, which could be a validation or routing decision.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 491,
+ "seconds": 10.779
+}

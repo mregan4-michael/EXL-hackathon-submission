@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 57,
+ "content": "{\"statement\": \"The condition is that the claim payment message is 1 and the claim amount is greater than 0. If these conditions are met, the trigger fires.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 507,
+ "seconds": 9.038
+}

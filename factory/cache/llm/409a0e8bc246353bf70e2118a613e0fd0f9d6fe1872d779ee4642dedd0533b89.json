@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 74,
+ "content": "{\"statement\": \"If the length of the 'body/value' from the 'Get_Approver_and_Delegates' output is zero, then the condition is met. This decides whether the 'If_Approver_is_not_found' action should be triggered.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 550,
+ "seconds": 12.546
+}

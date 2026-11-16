@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 61,
+ "content": "{\"statement\": \"If the selected delegate in the People Picker is not blank and is not the same as the user's UPN, then set the delegate error message. Otherwise, do nothing.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 539,
+ "seconds": 8.161
+}

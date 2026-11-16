@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 61,
+ "content": "{\"statement\": \"The workflow triggers daily at midnight (2022-05-09T00:00:00Z) based on a daily recurrence schedule.\", \"category\": \"deadline\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 521,
+ "seconds": 11.389
+}

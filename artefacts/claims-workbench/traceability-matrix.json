@@ -1,0 +1,1130 @@
+{
+ "app": "claims-workbench",
+ "rules": [
+  {
+   "id": "BR-001",
+   "statement": "The script sets gblUserAuthorityLimit to the limit of the user's authority found in clm_HandlerAuthorities where the user's email matches. It also sets gblIsManager to true if the user's email is found in colManagers.Email. Finally, it collects a list of claim types ['Motor', 'Home', 'Theft', 'Injury', 'Travel'] into colClaimTypes.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/App.pa.yaml:3",
+     "path": "App.OnStart",
+     "target": {
+      "kind": "session globals (partial)",
+      "code": "",
+      "symbol": "unresolved: gblIsManager"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "scenario",
+   "scenario_checks": [
+    "approve enabled within authority limit (BR-017)",
+    "over-authority payment refused (guard re-evaluated server-side)"
+   ],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-002",
+   "statement": "The label 'lblSummaryResolution' is visible if the complaint is resolved to satisfaction and the difference in days between the complaint receipt date and the resolution date is 3 days or less. This condition decides whether the label should be displayed or not.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:35",
+     "path": "ComplaintScreen/lblSummaryResolution.Visible",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.ComplaintScreen_lblSummaryResolution_Visible"
+     },
+     "parity_cases": 44,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-003",
+   "statement": "The label 'lblComplaintBreach' is hidden if the checkbox 'chkFinalResponseSent' is not checked and the difference in days between the 'dpComplaintReceived' date and the 'dpAsOf' date is greater than 56 days. This rule decides whether a complaint breach label should be visible or not.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:40",
+     "path": "ComplaintScreen/lblComplaintBreach.Visible",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.ComplaintScreen_lblComplaintBreach_Visible"
+     },
+     "parity_cases": 43,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-004",
+   "statement": "The condition is whether ddComplaintOutcome.Selected.Value is 'Upheld' or 'Partially upheld'. If it is 'Upheld', the output is the sum of txtFinancialLoss.Text and an additional 150 if chkDistressInconvenience.Value is true. If it is 'Partially upheld', the output is half of txtFinancialLoss.Text rounded to two decimal places and an additional 75 if chkDistressInconvenience.Value is true. The effect is to set lblRedress.Text to the calculated value.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:44",
+     "path": "ComplaintScreen/lblRedress.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.ComplaintScreen_lblRedress_Text"
+     },
+     "parity_cases": 93,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-005",
+   "statement": "The condition is if either chkVulnerable.Value is true or ddChannel.Selected.Value is 'Regulator', then the label lblComplaintRoute.Text will be set to 'Escalated', otherwise it will be set to 'Standard'.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:54",
+     "path": "ComplaintScreen/lblComplaintRoute.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.ComplaintScreen_lblComplaintRoute_Text"
+     },
+     "parity_cases": 21,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-006",
+   "statement": "The policy number must be exactly 10 characters long and start with 'PL'. If the policy number is blank or does not meet these criteria, an error message is displayed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:15",
+     "path": "IntakeScreen/lblPolicyNumberError.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.IntakeScreen_lblPolicyNumberError_Text"
+     },
+     "parity_cases": 13,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-007",
+   "statement": "The Incident date is outside the policy period if the selected Incident date is before the Policy Start date or after the Policy End date. Otherwise, no message is displayed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:37",
+     "path": "IntakeScreen/lblCoverError.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.IntakeScreen_lblCoverError_Text"
+     },
+     "parity_cases": 20,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-008",
+   "statement": "The text in lblDateOrderError.Text will be set to 'Incident date cannot be after the notification date' if the selected incident date is later than the selected notification date.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:46",
+     "path": "IntakeScreen/lblDateOrderError.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.IntakeScreen_lblDateOrderError_Text"
+     },
+     "parity_cases": 9,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-009",
+   "statement": "The label 'lblLateNotification' is visible if the difference between the selected incident date and notified date is more than 30 days. This condition decides whether a notification is overdue.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:51",
+     "path": "IntakeScreen/lblLateNotification.Visible",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.IntakeScreen_lblLateNotification_Visible"
+     },
+     "parity_cases": 29,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-010",
+   "statement": "The condition is if ddFault.Selected.Value is 'At fault', then the output is the maximum of 0 and the difference between the value of txtNcdYears.Text and 2, otherwise the value of txtNcdYears.Text. This rule determines the number of years of no claims discount based on fault status.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:65",
+     "path": "IntakeScreen/lblNcdAfterClaim.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.IntakeScreen_lblNcdAfterClaim_Text"
+     },
+     "parity_cases": 44,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-011",
+   "statement": "The button 'btnSubmit' is disabled if the policy number is blank, the incident date is blank, the claim amount is less than or equal to zero, or if there is a cover error message. Otherwise, the button is in edit mode.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:75",
+     "path": "IntakeScreen/btnSubmit.DisplayMode",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.IntakeScreen_btnSubmit_DisplayMode"
+     },
+     "parity_cases": 73,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-012",
+   "statement": "The condition is that claims with status 'Referred' and assigned to the current user's email are sorted by the notification date in ascending order. The threshold values are 'Referred' for status and the current user's email for assigned to. The effect is sorting the items in the galReferrals.Items collection.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml:7",
+     "path": "ReviewScreen/galReferrals.Items",
+     "target": {
+      "kind": "not compiled",
+      "code": "",
+      "symbol": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "no_executable_oracle"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-013",
+   "statement": "The condition is whether the selected claim type is 'Motor', 'Home', 'Theft', or 'Injury'. If not, the excess value is set to 500. The effect is setting the lblExcess.Text to the determined value.",
+   "category": "calculation",
+   "confidence": 0.5,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:15",
+     "path": "SettlementScreen/lblExcess.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.SettlementScreen_lblExcess_Text"
+     },
+     "parity_cases": 29,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "prompt_injection_suspected: legacy source contains text addressed to an AI",
+    "low_confidence<0.7"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-014",
+   "statement": "The condition is if chkVatRegistered.Value is true, then set lblVatRecoverable.Text to the rounded value of lblNetSettlement.Text divided by 6, otherwise set it to 0. The threshold values are the value of lblNetSettlement.Text and 6. The effect is to set the text of lblVatRecoverable.Text.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:33",
+     "path": "SettlementScreen/lblVatRecoverable.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.SettlementScreen_lblVatRecoverable_Text"
+     },
+     "parity_cases": 29,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-015",
+   "statement": "If the selected claim type is 'Motor' and the vehicle age is greater than 5 years, then calculate the betterment amount as the cost of parts multiplied by a factor of 0.5 for the first 5 years and then by a decreasing factor of 0.1 for each additional year, rounding the result to 2 decimal places. Otherwise, set the betterment amount to 0.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:37",
+     "path": "SettlementScreen/lblBetterment.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.SettlementScreen_lblBetterment_Text"
+     },
+     "parity_cases": 119,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-016",
+   "statement": "UNINTERPRETED: lblSortCodeError.Text is set by the legacy logic at SettlementScreen/lblSortCodeError.Text.",
+   "category": "other",
+   "confidence": 0.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:48",
+     "path": "SettlementScreen/lblSortCodeError.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.SettlementScreen_lblSortCodeError_Text"
+     },
+     "parity_cases": 8,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "interpretation_failed: unparseable reply",
+    "low_confidence<0.7"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-017",
+   "statement": "The Late Interest label is set to the calculated interest amount if the difference between the agreed and paid dates is more than 14 days, otherwise it is set to 0. The interest amount is calculated as the net settlement amount multiplied by 8% and then by the number of days over 14, divided by 365, rounded to 2 decimal places.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:56",
+     "path": "SettlementScreen/lblLateInterest.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.SettlementScreen_lblLateInterest_Text"
+     },
+     "parity_cases": 90,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-018",
+   "statement": "The payment approval button displays as Edit mode if the claim amount is less than or equal to the user authority limit and there is no fraud referral label and no sort code error label. Otherwise, it displays as Disabled mode.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:66",
+     "path": "SettlementScreen/btnApprovePayment.DisplayMode",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.SettlementScreen_btnApprovePayment_DisplayMode"
+     },
+     "parity_cases": 62,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-019",
+   "statement": "The authority level is determined based on the claim amount. If the claim amount is less than or equal to 5000, the handler is assigned. If the claim amount is between 5000 and 25000, the team leader is assigned. Otherwise, the claims manager is assigned.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:25",
+     "path": "TriageScreen/lblAuthority.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.TriageScreen_lblAuthority_Text"
+     },
+     "parity_cases": 19,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-020",
+   "statement": "The label 'lblFourEyes' is visible if the claim amount entered in 'txtClaimAmount' is greater than 10000. This rule decides whether the label should be shown or not based on the claim amount.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:35",
+     "path": "TriageScreen/lblFourEyes.Visible",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.TriageScreen_lblFourEyes_Visible"
+     },
+     "parity_cases": 11,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "contradiction"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-021",
+   "statement": "The condition checks if the incident date is within 30 days of the policy start date, if the number of prior claims is 3 or more, if the notified date is more than 30 days after the incident date, and if the 'No Police Ref' checkbox is checked and the claim type is 'Theft'. If any of these conditions are met, the fraud score is set to 40, 30, 20, or 10 respectively. Otherwise, the fraud score is set to 0.",
+   "category": "calculation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:39",
+     "path": "TriageScreen/lblFraudScore.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.TriageScreen_lblFraudScore_Text"
+     },
+     "parity_cases": 160,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-022",
+   "statement": "The condition is that the value of lblFraudScore.Text must be greater than or equal to 50. If this condition is met, lblFraudReferral.Visible is set to true, allowing the referral label to be visible.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:48",
+     "path": "TriageScreen/lblFraudReferral.Visible",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.TriageScreen_lblFraudReferral_Visible"
+     },
+     "parity_cases": 11,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-023",
+   "statement": "The label 'lblVulnerable' is visible if the user is 75 years or older than the date of notification, or if the preferred contact is 'Third party (Power of Attorney)'.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:53",
+     "path": "TriageScreen/lblVulnerable.Visible",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.TriageScreen_lblVulnerable_Visible"
+     },
+     "parity_cases": 73,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-024",
+   "statement": "The priority label is set to 'P1' if the 'Vulnerable' label is visible, or if the selected claim type is 'Injury'. It is set to 'P2' if the claim amount is greater than 25000. Otherwise, it is set to 'P3'.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:60",
+     "path": "TriageScreen/lblPriority.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.TriageScreen_lblPriority_Text"
+     },
+     "parity_cases": 66,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-025",
+   "statement": "The SlaDays label is set to 2 days if the Priority label is 'P1', to 5 days if the Priority label is 'P2', and to 10 days otherwise. This rule determines the severity level of a claim.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:70",
+     "path": "TriageScreen/lblSlaDays.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.TriageScreen_lblSlaDays_Text"
+     },
+     "parity_cases": 22,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-026",
+   "statement": "The button 'btnAutoDecline' is disabled if either the 'lblVulnerable' label is visible or the 'lblFraudScore' text value is 50 or more. Otherwise, it is in edit mode.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:75",
+     "path": "TriageScreen/btnAutoDecline.DisplayMode",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.TriageScreen_btnAutoDecline_DisplayMode"
+     },
+     "parity_cases": 22,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-027",
+   "statement": "The condition is that if the value of txtClaimAmount.Text is greater than 50000, then 'Apply 5% large-loss handling surcharge' will be displayed. Otherwise, nothing will be displayed.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:85",
+     "path": "TriageScreen/lblOldSurcharge.Text",
+     "target": {
+      "kind": "domain formula",
+      "code": "generated/claims-workbench/src/Domain/Generated/Rules.g.cs",
+      "symbol": "Rules.TriageScreen_lblOldSurcharge_Text"
+     },
+     "parity_cases": 12,
+     "formula_status": "pass"
+    }
+   ],
+   "evidence": "executed",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "dead_code"
+   ],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-028",
+   "statement": "The Claim Amount must be a positive number and less than or equal to 10 million. Violating this rule will prevent the claim from being processed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Entities/clm_Claim/Entity.xml:26",
+     "path": "clm_Claim.clm_ClaimAmount",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-029",
+   "statement": "The Fraud Score column in the Claim entity ranges from 0 to 100. If the Fraud Score is outside this range, it is considered invalid.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Entities/clm_Claim/Entity.xml:75",
+     "path": "clm_Claim.clm_FraudScore",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-030",
+   "statement": "The condition is that the number of prior claims must be between 0 and 50. This threshold value decides whether a record or instance already exists before a workflow step runs, or when a scheduled trigger fires, which is a business rule.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Entities/clm_Claim/Entity.xml:105",
+     "path": "clm_Claim.clm_PriorClaims",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-031",
+   "statement": "The condition is that the value of clm_Complaint.clm_RedressAmount must be between 0 and 100,000 (inclusive). If the value is outside this range, the record is considered invalid and may not be processed.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Entities/clm_Complaint/Entity.xml:63",
+     "path": "clm_Complaint.clm_RedressAmount",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-032",
+   "statement": "The condition is that the clm_Limit must be required and must be within the range of 0 to 250000. If these conditions are not met, the record will not be saved.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Entities/clm_HandlerAuthority/Entity.xml:26",
+     "path": "clm_HandlerAuthority.clm_Limit",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-033",
+   "statement": "The amount field must have a value between 0 and 1,000,000 (inclusive). If the amount is missing or outside this range, the system will not allow the record to be saved.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Entities/clm_Payment/Entity.xml:25",
+     "path": "clm_Payment.clm_Amount",
+     "target": {
+      "kind": "no generated target",
+      "code": "",
+      "symbol": ""
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-034",
+   "statement": "The Auditor role has read access to all Claim, Payment, and Complaint records. This condition determines the Auditor's access level.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Roles/Auditor.xml:2",
+     "path": "Auditor",
+     "target": {
+      "kind": "RBAC privilege table",
+      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
+      "symbol": "App.Roles[Auditor]"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "scenario",
+   "scenario_checks": [
+    "Auditor can read payments (Global read)",
+    "Auditor refused claim creation (no prvCreate)",
+    "Auditor refused payment"
+   ],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-035",
+   "statement": "The ClaimsHandler role grants read, write, and create permissions for Claim records, and read permissions for Complaint records within a Business Unit. This affects the visibility and access to Claim and Complaint records.",
+   "category": "visibility",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Roles/ClaimsHandler.xml:2",
+     "path": "ClaimsHandler",
+     "target": {
+      "kind": "RBAC privilege table",
+      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
+      "symbol": "App.Roles[ClaimsHandler]"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-036",
+   "statement": "The ClaimsManager role grants global permissions for read, write, approve, assign, and write complaints on claims. This affects the ClaimsManager's ability to manage claim-related activities.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Roles/ClaimsManager.xml:2",
+     "path": "ClaimsManager",
+     "target": {
+      "kind": "RBAC privilege table",
+      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
+      "symbol": "App.Roles[ClaimsManager]"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-037",
+   "statement": "The TeamLeader role grants read, write, create, approve, and write access to claims and complaint records within the same business unit. This rule determines the access levels for TeamLeader role.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Roles/TeamLeader.xml:2",
+     "path": "TeamLeader",
+     "target": {
+      "kind": "RBAC privilege table",
+      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
+      "symbol": "App.Roles[TeamLeader]"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": true
+  },
+  {
+   "id": "BR-038",
+   "statement": "The condition checks if the number of days open is greater than or equal to 40 and less than or equal to 56. If true, it triggers the reminder window. This is a business rule as it decides when a reminder should be sent to the handler.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Workflows/ClaimsComplaintDeadlines-7B2E3D21-1C2E-4F9B-8D22-3E4F5A6B7C02.json:48",
+     "path": "ClaimsComplaintDeadlines/actions/Apply_to_each_complaint/actions/Check_reminder_window",
+     "target": {
+      "kind": "Azure Functions (TimerTrigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-039",
+   "statement": "The condition is that the Days_open value must be greater than or equal to 56 days. If this condition is met, the workflow action will proceed. This is a business rule as it determines the approval routing and the validity of a complaint.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Workflows/ClaimsComplaintDeadlines-7B2E3D21-1C2E-4F9B-8D22-3E4F5A6B7C02.json:91",
+     "path": "ClaimsComplaintDeadlines/actions/Apply_to_each_complaint/actions/Check_eight_week_breach",
+     "target": {
+      "kind": "Azure Functions (TimerTrigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-040",
+   "statement": "The condition is that the claim fraud score must be 50 or higher when a new claim or modification is added. If the claim fraud score is less than 50, the trigger does not apply.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Workflows/ClaimsFraudReferral-8C3F4E32-2D3F-4A0C-9E33-4F5A6B7C8D03.json:9",
+     "path": "ClaimsFraudReferral/triggers/When_a_row_is_added_or_modified",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-041",
+   "statement": "The condition checks if the 'clm_vulnerabilityflag' in the input body is true. If true, the workflow action is executed. This is a business rule as it decides the routing for a customer referral based on their vulnerability status.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Workflows/ClaimsFraudReferral-8C3F4E32-2D3F-4A0C-9E33-4F5A6B7C8D03.json:27",
+     "path": "ClaimsFraudReferral/actions/Check_vulnerable_customer",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "fairness_review: fraud/vulnerability/age-related decision"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-042",
+   "statement": "The condition is that the claim payment message is 1 and the claim amount is greater than 0. If these conditions are met, the trigger fires.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Workflows/ClaimsPaymentAuthorisation-6A1F2C10-0B1D-4E8A-9C11-2D3E4F5A6B01.json:9",
+     "path": "ClaimsPaymentAuthorisation/triggers/When_a_row_is_added_or_modified",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-043",
+   "statement": "The condition is that the claim amount is greater than or equal to 10,000. If this condition is met, a second approver is required. This rule decides whether a second approver is needed for claims payments.",
+   "category": "authorisation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Workflows/ClaimsPaymentAuthorisation-6A1F2C10-0B1D-4E8A-9C11-2D3E4F5A6B01.json:42",
+     "path": "ClaimsPaymentAuthorisation/actions/Check_four_eyes_threshold",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": true,
+   "review_reasons": [
+    "contradiction"
+   ],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-044",
+   "statement": "The payment is held if the payee details changed within the last 30 days. This condition is checked by comparing the current time with the time the payee change occurred, and if the difference is less than 30 days, the payment is held.",
+   "category": "validation",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Workflows/ClaimsPaymentAuthorisation-6A1F2C10-0B1D-4E8A-9C11-2D3E4F5A6B01.json:105",
+     "path": "ClaimsPaymentAuthorisation/actions/Check_recent_payee_change",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  },
+  {
+   "id": "BR-045",
+   "statement": "The condition checks if the claim type is 'Injury' or 'Theft'. If it is 'Injury', it routes to the 'Injury' case; if it is 'Theft', it routes to the 'Theft' case. This decision affects the approval routing for different claim types.",
+   "category": "routing",
+   "confidence": 1.0,
+   "links": [
+    {
+     "source": "legacy/claims-workbench/Workflows/ClaimsPaymentAuthorisation-6A1F2C10-0B1D-4E8A-9C11-2D3E4F5A6B01.json:146",
+     "path": "ClaimsPaymentAuthorisation/actions/Route_by_claim_type",
+     "target": {
+      "kind": "Azure Functions (Cosmos DB change-feed trigger)",
+      "code": "",
+      "symbol": "design only"
+     },
+     "parity_cases": 0,
+     "formula_status": null
+    }
+   ],
+   "evidence": "unproven",
+   "scenario_checks": [],
+   "needs_human_review": false,
+   "review_reasons": [],
+   "auto_migrated": false
+  }
+ ]
+}

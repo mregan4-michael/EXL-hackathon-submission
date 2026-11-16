@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"The condition is that the process name value is calculated based on the business approval node, business approval process, and name. The effect is to set the cat_processnamevalue column to this calculated value.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 497,
+ "seconds": 9.647
+}

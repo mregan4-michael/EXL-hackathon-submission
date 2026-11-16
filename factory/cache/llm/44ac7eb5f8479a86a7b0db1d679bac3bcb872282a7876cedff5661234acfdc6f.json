@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 72,
+ "content": "{\"statement\": \"The condition checks if a node name value exists in a business approval condition and node. If the condition is met, the value is calculated and used. This could be used for routing, delegating, or other workflow decisions.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 505,
+ "seconds": 11.718
+}

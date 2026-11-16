@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 52,
+ "content": "{\"statement\": \"The Auditor role has read access to all Claim, Payment, and Complaint records. This condition determines the Auditor's access level.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 473,
+ "seconds": 7.671
+}

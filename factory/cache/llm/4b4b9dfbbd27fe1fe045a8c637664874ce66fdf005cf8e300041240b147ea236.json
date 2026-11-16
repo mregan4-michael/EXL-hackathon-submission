@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 54,
+ "content": "{\"statement\": \"The condition checks if the Approver UPN is not empty. If the Approver UPN is not empty, the condition is true.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 561,
+ "seconds": 8.294
+}

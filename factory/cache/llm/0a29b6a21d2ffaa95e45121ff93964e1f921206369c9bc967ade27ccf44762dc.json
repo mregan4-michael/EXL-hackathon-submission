@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 61,
+ "content": "{\"statement\": \"The condition checks if the selected delegate's UPN matches the user's UPN. If they match, it displays a message saying 'You cannot be your own delegate.'\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 491,
+ "seconds": 6.527
+}

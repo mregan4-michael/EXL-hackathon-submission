@@ -1,0 +1,36 @@
+{
+  "config": {
+    "candidates": "candidates.v2",
+    "interpret": "interpret.v2"
+  },
+  "decision": "kept",
+  "heldout": {
+    "app": "claims-workbench",
+    "score": 0.6648
+  },
+  "hypothesis": "9 of the 9 tuning ground-truth misses were rejected by the model as not business rules (aggregate critic summary); they are approval-routing, reminder and pre-existence checks. Prompt v2 defines those as business rules, which should raise recall without adding review load.",
+  "name": "it3-interpret-workflow-rules",
+  "parent": "it1-fairness-words",
+  "tuning": {
+    "app": "approvals-kit",
+    "components": {
+      "cost_efficiency": 0.6621,
+      "counts": {
+        "candidates": 170,
+        "evidence": {
+          "unproven": 158
+        },
+        "ground_truth_found": 117,
+        "ground_truth_total": 124,
+        "llm_tokens_incl_replay": 106771,
+        "needs_review": 17,
+        "rules": 158
+      },
+      "executed_oracle_parity_rate": 0.0,
+      "generated_test_pass_rate": 0.8375,
+      "one_minus_human_review_rate": 0.8924,
+      "rule_recall_vs_ground_truth": 0.9435
+    },
+    "score": 0.5144
+  }
+}

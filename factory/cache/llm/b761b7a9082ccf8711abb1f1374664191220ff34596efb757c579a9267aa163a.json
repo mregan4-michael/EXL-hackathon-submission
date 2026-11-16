@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"The condition checks if the value of 'WaitOnNoApprover' from the 'Get_Default_Setting' body is true. If true, it proceeds to 'Do_we_wait_for_Dynamic_Approver_Data'.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 556,
+ "seconds": 13.49
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"The workflow triggers every day at midnight (2022-04-11T00:00:00Z) to check for recurrence. It runs every 24 hours.\", \"category\": \"deadline\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 525,
+ "seconds": 7.613
+}

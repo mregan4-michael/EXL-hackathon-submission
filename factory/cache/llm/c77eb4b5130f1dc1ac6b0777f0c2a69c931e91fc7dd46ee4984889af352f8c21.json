@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 91,
+ "content": "{\"statement\": \"The condition is if ddFault.Selected.Value is 'At fault', then the output is the maximum of 0 and the difference between the value of txtNcdYears.Text and 2, otherwise the value of txtNcdYears.Text. This rule determines the number of years of no claims discount based on fault status.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 503,
+ "seconds": 11.596
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 87,
+ "content": "{\"statement\": \"The calculated column 'cat_sourcedatanamevalue' retrieves data from the 'cat_businessapprovalruntimedata' table, filtered by 'cat_businessapprovalruntimestage' and 'cat_name'. The effect is to populate 'cat_sourcedatanamevalue' with the relevant data.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 527,
+ "seconds": 11.701
+}

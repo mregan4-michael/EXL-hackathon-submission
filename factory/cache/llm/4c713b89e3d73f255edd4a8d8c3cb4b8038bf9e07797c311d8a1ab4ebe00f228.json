@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 64,
+ "content": "{\"statement\": \"The condition checks if the node status changed message is 3 and if the filter for cat_gotostageinstanceid is null. If both conditions are met, the trigger is fired.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 520,
+ "seconds": 10.159
+}

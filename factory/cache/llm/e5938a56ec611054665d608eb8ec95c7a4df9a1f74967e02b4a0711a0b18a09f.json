@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 64,
+ "content": "{\"statement\": \"The condition checks if the length of the dynamic approver data is greater than zero. If it is, the approval process continues; otherwise, it looks for a manager to approve the request.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 599,
+ "seconds": 7.933
+}

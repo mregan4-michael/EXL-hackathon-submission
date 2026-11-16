@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 62,
+ "content": "{\"statement\": \"The condition checks if the 'id' of each item in the 'Apply_to_each_' array matches the 'additionalinformation' field. If they match, the condition is true.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 513,
+ "seconds": 9.401
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"If the output of the 'Wait_on_Override' action contains a 'body/cat_iscancellation' key set to false, the condition is met. This decides whether the approval process can proceed without cancellation.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 539,
+ "seconds": 12.051
+}

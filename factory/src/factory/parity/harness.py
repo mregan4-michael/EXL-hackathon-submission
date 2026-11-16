@@ -425,6 +425,17 @@ def _report(
     n_cases: int,
 ) -> dict[str, Any]:
     _, skipped = emit.formulas(*_load(app))
+    rules = classify_rules(app, catalogue, status, skipped)
+    return _summary(app, es, status, drift, n_cases, skipped, rules)
+
+
+def classify_rules(
+    app: str,
+    catalogue: dict[str, Any],
+    status: dict[str, dict[str, Any]],
+    skipped: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Evidence class per catalogue rule from formula statuses and recorded journey checks."""
     skipped_by = {s["path"]: s["disposition"] for s in skipped}
     scen: dict[str, list[tuple[str, bool]]] = defaultdict(list)
     for c in _scenarios(app):
@@ -474,7 +485,18 @@ def _report(
                 "locations": locs,
             }
         )
+    return rules
 
+
+def _summary(
+    app: str,
+    es: list[Entry],
+    status: dict[str, dict[str, Any]],
+    drift: int,
+    n_cases: int,
+    skipped: list[dict[str, Any]],
+    rules: list[dict[str, Any]],
+) -> dict[str, Any]:
     muts = [s["mutation"] for s in status.values() if "mutation" in s]
     killed = sum(m["killed"] for m in muts)
     total = killed + sum(len(m["survived"]) for m in muts)

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"The application sets the theme and initializes empty lists for selected delegates. It also sets the default theme and clears the lists for selected delegates, populating the backup delegate list with the value from the settings.\", \"category\": \"initialization\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 1113,
+ "seconds": 27.484
+}

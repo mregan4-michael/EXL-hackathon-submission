@@ -979,7 +979,9 @@
             "file": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml",
             "line": 4
           },
-          "rules": {}
+          "rules": {
+            "Items": "BR-012"
+          }
         },
         {
           "name": "btnReassign",
@@ -1045,7 +1047,7 @@
             "line": 12
           },
           "rules": {
-            "Text": "BR-012"
+            "Text": "BR-013"
           }
         },
         {
@@ -1067,7 +1069,7 @@
             "line": 30
           },
           "rules": {
-            "Text": "BR-013"
+            "Text": "BR-014"
           }
         },
         {
@@ -1079,7 +1081,7 @@
             "line": 34
           },
           "rules": {
-            "Text": "BR-014"
+            "Text": "BR-015"
           }
         },
         {
@@ -1101,7 +1103,7 @@
             "line": 45
           },
           "rules": {
-            "Text": "BR-015"
+            "Text": "BR-016"
           }
         },
         {
@@ -1133,7 +1135,7 @@
             "line": 53
           },
           "rules": {
-            "Text": "BR-016"
+            "Text": "BR-017"
           }
         },
         {
@@ -1145,7 +1147,7 @@
             "line": 62
           },
           "rules": {
-            "DisplayMode": "BR-017"
+            "DisplayMode": "BR-018"
           },
           "label": "Approve payment"
         }
@@ -1218,7 +1220,7 @@
             "line": 22
           },
           "rules": {
-            "Text": "BR-018"
+            "Text": "BR-019"
           }
         },
         {
@@ -1230,7 +1232,7 @@
             "line": 31
           },
           "rules": {
-            "Visible": "BR-019"
+            "Visible": "BR-020"
           }
         },
         {
@@ -1242,7 +1244,7 @@
             "line": 36
           },
           "rules": {
-            "Text": "BR-020"
+            "Text": "BR-021"
           }
         },
         {
@@ -1254,7 +1256,7 @@
             "line": 44
           },
           "rules": {
-            "Visible": "BR-021"
+            "Visible": "BR-022"
           }
         },
         {
@@ -1266,7 +1268,7 @@
             "line": 49
           },
           "rules": {
-            "Visible": "BR-022"
+            "Visible": "BR-023"
           }
         },
         {
@@ -1278,7 +1280,7 @@
             "line": 57
           },
           "rules": {
-            "Text": "BR-023"
+            "Text": "BR-024"
           }
         },
         {
@@ -1290,7 +1292,7 @@
             "line": 67
           },
           "rules": {
-            "Text": "BR-024"
+            "Text": "BR-025"
           }
         },
         {
@@ -1302,7 +1304,7 @@
             "line": 71
           },
           "rules": {
-            "DisplayMode": "BR-025"
+            "DisplayMode": "BR-026"
           },
           "label": "Decline claim"
         },
@@ -1315,7 +1317,7 @@
             "line": 81
           },
           "rules": {
-            "Text": "BR-026"
+            "Text": "BR-027"
           }
         }
       ]
@@ -1903,7 +1905,7 @@
       "depth": "User",
       "finding": "No legacy role grants prvCreateclm_Claim, so IntakeScreen/btnSubmit can only succeed for System Administrators in the source environment. The intake screen is clearly designed for handlers.",
       "decision": "Grant ClaimsHandler Create on clm_Claim at User depth (own records), matching the existing handler Read/Write depth.",
-      "status": "proposed: awaiting business sign-off (QUESTIONS.md Q5)"
+      "status": "approved: signed off by the repository owner on 2026-11-16 for this submission (QUESTIONS.md Q5); the insurer's business owner must re-confirm before go-live"
     }
   ],
   "generated": {
@@ -2058,28 +2060,28 @@
       {
         "output": "lblFraudScore.Text",
         "screen": "TriageScreen",
-        "rule_id": "BR-020",
+        "rule_id": "BR-021",
         "method": "Rules.TriageScreen_lblFraudScore_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:39"
       },
       {
         "output": "lblFraudReferral.Visible",
         "screen": "TriageScreen",
-        "rule_id": "BR-021",
+        "rule_id": "BR-022",
         "method": "Rules.TriageScreen_lblFraudReferral_Visible",
         "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:48"
       },
       {
         "output": "lblSortCodeError.Text",
         "screen": "SettlementScreen",
-        "rule_id": "BR-015",
+        "rule_id": "BR-016",
         "method": "Rules.SettlementScreen_lblSortCodeError_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:48"
       },
       {
         "output": "btnApprovePayment.DisplayMode",
         "screen": "SettlementScreen",
-        "rule_id": "BR-017",
+        "rule_id": "BR-018",
         "method": "Rules.SettlementScreen_btnApprovePayment_DisplayMode",
         "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:66"
       },
@@ -2093,14 +2095,14 @@
       {
         "output": "lblBetterment.Text",
         "screen": "SettlementScreen",
-        "rule_id": "BR-014",
+        "rule_id": "BR-015",
         "method": "Rules.SettlementScreen_lblBetterment_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:37"
       },
       {
         "output": "lblExcess.Text",
         "screen": "SettlementScreen",
-        "rule_id": "BR-012",
+        "rule_id": "BR-013",
         "method": "Rules.SettlementScreen_lblExcess_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:15"
       },
@@ -2114,28 +2116,28 @@
       {
         "output": "lblLateInterest.Text",
         "screen": "SettlementScreen",
-        "rule_id": "BR-016",
+        "rule_id": "BR-017",
         "method": "Rules.SettlementScreen_lblLateInterest_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:56"
       },
       {
         "output": "lblVatRecoverable.Text",
         "screen": "SettlementScreen",
-        "rule_id": "BR-013",
+        "rule_id": "BR-014",
         "method": "Rules.SettlementScreen_lblVatRecoverable_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:33"
       },
       {
         "output": "lblVulnerable.Visible",
         "screen": "TriageScreen",
-        "rule_id": "BR-022",
+        "rule_id": "BR-023",
         "method": "Rules.TriageScreen_lblVulnerable_Visible",
         "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:53"
       },
       {
         "output": "btnAutoDecline.DisplayMode",
         "screen": "TriageScreen",
-        "rule_id": "BR-025",
+        "rule_id": "BR-026",
         "method": "Rules.TriageScreen_btnAutoDecline_DisplayMode",
         "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:75"
       },
@@ -2163,7 +2165,7 @@
       {
         "output": "lblAuthority.Text",
         "screen": "TriageScreen",
-        "rule_id": "BR-018",
+        "rule_id": "BR-019",
         "method": "Rules.TriageScreen_lblAuthority_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:25"
       },
@@ -2177,7 +2179,7 @@
       {
         "output": "lblFourEyes.Visible",
         "screen": "TriageScreen",
-        "rule_id": "BR-019",
+        "rule_id": "BR-020",
         "method": "Rules.TriageScreen_lblFourEyes_Visible",
         "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:35"
       },
@@ -2191,7 +2193,7 @@
       {
         "output": "lblOldSurcharge.Text",
         "screen": "TriageScreen",
-        "rule_id": "BR-026",
+        "rule_id": "BR-027",
         "method": "Rules.TriageScreen_lblOldSurcharge_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:85"
       },
@@ -2205,14 +2207,14 @@
       {
         "output": "lblPriority.Text",
         "screen": "TriageScreen",
-        "rule_id": "BR-023",
+        "rule_id": "BR-024",
         "method": "Rules.TriageScreen_lblPriority_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:60"
       },
       {
         "output": "lblSlaDays.Text",
         "screen": "TriageScreen",
-        "rule_id": "BR-024",
+        "rule_id": "BR-025",
         "method": "Rules.TriageScreen_lblSlaDays_Text",
         "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:70"
       },
@@ -2270,7 +2272,7 @@
       {
         "path": "ReviewScreen/galReferrals.Items",
         "source": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml:7",
-        "rule_id": null,
+        "rule_id": "BR-012",
         "disposition": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
       },
       {

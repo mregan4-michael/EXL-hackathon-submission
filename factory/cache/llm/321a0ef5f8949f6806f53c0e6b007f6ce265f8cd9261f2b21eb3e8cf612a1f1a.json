@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 109,
+ "content": "{\"statement\": \"The calculated column 'cat_order' in the form of 'cat_BusinessApprovalRuntimeStageInstance' depends on the value of 'cat_businessapprovalruntimestage' and 'cat_businessapprovalruntimestageinstance'. The effect is that 'cat_order' is set to the value of 'cat_businessapprovalruntimestage' if 'cat_businessapprovalruntimestageinstance' is not null.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 503,
+ "seconds": 20.115
+}

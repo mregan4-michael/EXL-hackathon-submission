@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 93,
+ "content": "{\"statement\": \"The label 'lblComplaintBreach' is hidden if the checkbox 'chkFinalResponseSent' is not checked and the difference in days between the 'dpComplaintReceived' date and the 'dpAsOf' date is greater than 56 days. This rule decides whether a complaint breach label should be visible or not.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 514,
+ "seconds": 12.318
+}
