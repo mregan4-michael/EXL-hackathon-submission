@@ -67,3 +67,12 @@ def test_recorded_runs_follow_the_keep_rule() -> None:
         assert r["decision"] == ("kept" if better else "reverted")
         assert set(r["heldout"]) == {"app", "score"}  # aggregate only
     assert any(r["decision"] == "reverted" for r in runs.values())
+
+
+def test_runs_are_loaded_whatever_their_name(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "fairness-v4.json").write_text(json.dumps({"name": "fairness-v4"}))
+    (tmp_path / "fairness-v4.critique.json").write_text("{}")
+    monkeypatch.setattr(experiment, "RUNS", tmp_path)
+    assert [r["name"] for r in experiment.load_runs()] == ["fairness-v4"]

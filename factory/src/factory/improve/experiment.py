@@ -49,7 +49,7 @@ def _analyse(name: str, app: str, interpret: str, policy: str, replay: bool) -> 
 
 
 def load_runs() -> list[dict[str, Any]]:
-    paths = sorted(p for p in RUNS.glob("it*.json") if not p.name.endswith(".critique.json"))
+    paths = sorted(p for p in RUNS.glob("*.json") if not p.name.endswith(".critique.json"))
     return [json.loads(p.read_text()) for p in paths]
 
 
