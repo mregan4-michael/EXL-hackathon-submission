@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"This rule clears a collection named colSelectedApprovalDelegate with the values of Self.SelectedPeople if Self.SelectedPeople is not blank or an error. If Self.SelectedPeople is blank or an error, the collection remains unchanged.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 397,
+ "seconds": 8.009
+}

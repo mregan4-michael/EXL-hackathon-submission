@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 79,
+ "content": "{\n \"statement\": \"The condition checks if the length of the 'value' in the 'Body' of the output from 'Get_Dynamic_Data_for_Request_Data' is greater than 0. If true, it means there are dynamic approvers found in the request data.\",\n \"category\": \"validation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 504,
+ "seconds": 11.803
+}

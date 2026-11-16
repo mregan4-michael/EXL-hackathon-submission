@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 60,
+ "content": "{\"statement\": \"This rule checks if the 'body/value' of the 'Check_if_mapping_already_exist' output is empty. If it is, the rule proceeds to the next action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 475,
+ "seconds": 9.314
+}

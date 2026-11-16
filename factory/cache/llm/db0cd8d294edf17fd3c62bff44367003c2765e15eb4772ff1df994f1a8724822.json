@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 87,
+ "content": "{\n \"statement\": \"The condition checks if the value of 'body/cat_nodetype' is not equal to 809060002. If true, the workflow proceeds to the next node; otherwise, it returns the output 'If_Node_Type_is_not_equal_End_Workflow'.\",\n \"category\": \"authorisation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 489,
+ "seconds": 12.205
+}

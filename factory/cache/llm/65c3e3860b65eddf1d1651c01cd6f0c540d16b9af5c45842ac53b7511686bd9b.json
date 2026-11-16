@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 65,
+ "content": "{\"statement\": \"The business approver's delegate ID is calculated based on the approver ID, business approver, and delegate. If any of these values are null, the result will also be null.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 0.95}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 394,
+ "seconds": 8.415
+}

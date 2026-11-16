@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 64,
+ "content": "{\"statement\": \"If the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero, the condition is met. If so, the action proceeds.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 471,
+ "seconds": 10.04
+}

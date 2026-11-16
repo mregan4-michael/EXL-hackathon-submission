@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 54,
+ "content": "{\"statement\": \"If the XPath_Selection outputs have a length greater than zero, the condition is met. If so, the Found_Condition is found.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 420,
+ "seconds": 7.283
+}

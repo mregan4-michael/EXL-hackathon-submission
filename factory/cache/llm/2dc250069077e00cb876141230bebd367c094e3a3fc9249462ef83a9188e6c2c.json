@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 107,
+ "content": "{\"statement\": \"If the selected complaint outcome is 'Upheld', the redress label is set to the financial loss plus an additional 150 if distress inconvenience is checked. If the selected complaint outcome is 'Partially upheld', the redress label is set to half the financial loss plus an additional 75 if distress inconvenience is checked. Otherwise, the redress label is set to 0.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 467,
+ "seconds": 15.408
+}

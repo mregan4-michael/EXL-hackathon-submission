@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 61,
+ "content": "{\"statement\": \"The rule checks if the Days_open value is greater than or equal to 56 days. If true, it triggers the action 'Check_eight_week_breach'.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 443,
+ "seconds": 8.203
+}

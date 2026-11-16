@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"If the text input 'txtClaimAmount.Text' contains a value greater than 10000, then the label 'lblFourEyes.Visible' is shown. Otherwise, it is hidden.\", \"category\": \"visibility\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 371,
+ "seconds": 8.509
+}

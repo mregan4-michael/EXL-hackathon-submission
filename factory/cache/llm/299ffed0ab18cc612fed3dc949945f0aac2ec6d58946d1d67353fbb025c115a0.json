@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 73,
+ "content": "{\"statement\": \"The condition checks if the node name value is valid based on the business approval condition, business approval node, and name. If the node name value is valid, it returns the node name value; otherwise, it returns an empty string.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 409,
+ "seconds": 10.126
+}

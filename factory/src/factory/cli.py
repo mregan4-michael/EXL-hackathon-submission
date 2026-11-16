@@ -27,6 +27,34 @@ def _cmd_parse(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_analyse(args: argparse.Namespace) -> int:
+    import json
+
+    from factory.analyse.catalogue import build_catalogue, write
+    from factory.analyse.parse import parse_app, write_model
+    from factory.common.fxhost import FxHost
+    from factory.common.llm import LLMClient
+    from factory.common.paths import OUT
+
+    for app in args.app:
+        model_path = OUT / app / "legacy-model.json"
+        if not model_path.exists():
+            with FxHost() as fx:
+                write_model(parse_app(app, fx))
+        model = json.loads(model_path.read_text())
+        llm = LLMClient(audit_path=OUT / app / "audit.jsonl", stage="analyse", replay=args.replay)
+        catalogue, report = build_catalogue(model, llm, args.prompt, workers=args.workers)
+        path = write(app, catalogue, report)
+        review = sum(1 for r in catalogue["rules"] if r["flags"]["needs_human_review"])
+        print(
+            f"{app}: {report['candidates']} candidates -> {report['rules']} rules "
+            f"({len(report['rejected_by_model'])} rejected, {review} need review); "
+            f"llm calls {llm.stats['calls']:.0f}, cache hits {llm.stats['cache_hits']:.0f}, "
+            f"tokens {llm.stats['tokens']:.0f}, {llm.stats['seconds']:.1f}s -> {path}"
+        )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="factory", description=__doc__)
     parser.add_argument("--version", action="version", version=f"factory {__version__}")
@@ -34,6 +62,12 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("parse", help="deterministically parse legacy apps to a LegacyModel")
     p.add_argument("app", nargs="+")
     p.set_defaults(func=_cmd_parse)
+    a = sub.add_parser("analyse", help="build rule-catalogue.json from parsed models")
+    a.add_argument("app", nargs="+")
+    a.add_argument("--replay", action="store_true", help="cache only; fail on any cache miss")
+    a.add_argument("--prompt", default="interpret.v1")
+    a.add_argument("--workers", type=int, default=4)
+    a.set_defaults(func=_cmd_analyse)
     return parser
 
 

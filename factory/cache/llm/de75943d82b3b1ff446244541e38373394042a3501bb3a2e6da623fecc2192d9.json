@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"This rule checks if the 'statecode' of a 'cat_businessapprovalversion' message is 3. If true, it triggers the 'When_a_row_is_added,_modified_or_deleted' action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 419,
+ "seconds": 10.439
+}

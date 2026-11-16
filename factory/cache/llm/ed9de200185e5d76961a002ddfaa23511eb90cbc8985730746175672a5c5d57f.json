@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"If the output of the trigger is not equal to true, then the condition is met. This means if the value of 'body/cat_endworkflow' is anything other than true, the condition is satisfied.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 461,
+ "seconds": 13.696
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"If the payee sort code is not blank and does not match the format of 00-00-00, then display the error message 'Sort code must be in the format 00-00-00'.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 422,
+ "seconds": 6.722
+}

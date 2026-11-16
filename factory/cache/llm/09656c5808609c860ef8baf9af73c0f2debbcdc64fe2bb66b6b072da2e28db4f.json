@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 87,
+ "content": "{\"statement\": \"The condition is when the value of cat_businessapprovalruntimestage is equal to the value of cat_businessapprovalruntimestageinstance. The effect is to set the value of cat_order to the result of the cat_businessapprovalruntimestage function. This is a calculation business rule.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 407,
+ "seconds": 10.862
+}

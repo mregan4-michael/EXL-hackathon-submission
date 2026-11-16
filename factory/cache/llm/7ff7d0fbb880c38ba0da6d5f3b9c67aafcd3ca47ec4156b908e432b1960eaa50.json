@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 131,
+ "content": "{\"statement\": \"The label 'P1' is displayed if the 'lblVulnerable' is visible, or if the selected claim type is 'Injury', or if the claim amount is greater than 25000. The label 'P2' is displayed if none of the above conditions are met and the claim amount is 25000 or less. The label 'P3' is displayed if none of the above conditions are met and the claim amount is less than 25000.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 424,
+ "seconds": 17.537
+}

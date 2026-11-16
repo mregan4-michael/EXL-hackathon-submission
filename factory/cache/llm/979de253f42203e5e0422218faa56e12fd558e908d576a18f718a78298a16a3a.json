@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 53,
+ "content": "{\"statement\": \"If either the lblDelegateError is visible or the lblBackupDelegateError is visible, then the 'Save' button is disabled.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 389,
+ "seconds": 14.809
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"The condition checks the value of 'body/cat_outcome' from the trigger outputs. If it is 'Approve', it proceeds to 'Approve'. If it is 'Reject', it proceeds to 'Reject'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 481,
+ "seconds": 9.784
+}

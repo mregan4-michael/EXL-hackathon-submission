@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 65,
+ "content": "{\"statement\": \"The condition is that the 'cat_Paths' column must have a value between 1 and 5, inclusive. If the value is outside this range, the business approval stage is invalid.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 391,
+ "seconds": 9.803
+}

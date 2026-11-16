@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 77,
+ "content": "{\"statement\": \"The Order entity must have a value between 1 and 2.14748e+09 (2.14748 billion) to be valid. If the value is outside this range, the entity is considered invalid.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 393,
+ "seconds": 9.944
+}

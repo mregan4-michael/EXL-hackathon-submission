@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 75,
+ "content": "{\"statement\": \"If the selected delegate in the approval process is not empty and the selected delegate's PersonaKey matches the user's UPN, then set the label 'lblDelegateError_1.Text' to the error message 'SettingsLoc.lblDelegateErrorMsg'.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 443,
+ "seconds": 8.117
+}

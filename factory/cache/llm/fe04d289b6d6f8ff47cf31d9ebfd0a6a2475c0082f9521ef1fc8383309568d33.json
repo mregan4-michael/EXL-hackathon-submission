@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The condition is that the value of cat_displayname is calculated based on cat_businessapprovaldata, cat_businessapprover, cat_dynamicapprovertype, and cat_name. The effect is that the calculated value is assigned back to cat_displayname.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 404,
+ "seconds": 11.801
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"The condition checks if the value of cat_PathIndex is within the range of 1 to 2.14748e+09. If the value is outside this range, it triggers an error.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 398,
+ "seconds": 8.58
+}

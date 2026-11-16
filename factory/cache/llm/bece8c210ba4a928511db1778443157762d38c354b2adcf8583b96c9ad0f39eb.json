@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 58,
+ "content": "{\"statement\": \"The Fraud Score column in the Claim entity ranges from 0 to 100. If the Fraud Score is outside this range, it is considered invalid.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 390,
+ "seconds": 8.259
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 85,
+ "content": "{\"statement\": \"The condition checks if the next node's type is 'GoToStage' (809060001) and its source data type is 'Previous Node Outcome' (809060001). If both conditions are met, the flow continues.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 588,
+ "seconds": 11.498
+}

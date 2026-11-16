@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 94,
+ "content": "{\"statement\": \"The label 'lblComplaintBreach' is hidden if the checkbox 'chkFinalResponseSent' is not checked and the difference in days between the dates selected in 'dpComplaintReceived' and 'dpAsOf' is greater than 56. This condition is used to determine when a complaint breach label should be visible.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 418,
+ "seconds": 11.422
+}

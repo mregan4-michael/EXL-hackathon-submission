@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 74,
+ "content": "{\"statement\": \"The reminder days column in the cat_BusinessApprovalNodeReminderInstance table can have values between 0 and 2,147,480,000 (inclusive). Any value outside this range will be considered invalid.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 408,
+ "seconds": 9.237
+}

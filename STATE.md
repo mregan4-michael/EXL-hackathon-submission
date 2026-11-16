@@ -1,6 +1,6 @@
 # STATE (resumability file — keep current)
 
-- Current phase: 1 done -> 2 (rule catalogue)
+- Current phase: 2 done -> 3 (design + generate)
 - Done: tool discovery; Approvals Kit chosen (see DECISIONS ADR-001); schema contract written.
 - Next: Phase 2 rule-catalogue builder (deterministic candidates + LLM interpretation, cache/replay, audit).
 - Run parser: `DOTNET_ROOT=$HOME/.dotnet uv run factory parse approvals-kit claims-workbench` (output under factory/out/, gitignored, regenerated).
@@ -12,3 +12,5 @@
   (measured on this VM: ~17.6 tok/s generation, ~97 tok/s prompt). `make llm` starts it.
 - Approvals Kit source: `git clone https://github.com/microsoft/powercat-business-approvals-kit` @ 786b456f0643ef2b6d3109f5dc2f71de05a07dc6 (MIT). Vendored subset under `legacy/approvals-kit/`.
 - Power Fx: NuGet Microsoft.PowerFx.Interpreter 1.8.1 (verified parse + eval of If/Switch/With/Filter/DateAdd/DateDiff/Round).
+- Phase 2 branch: devin/phase2-catalogue (stacked on PR #2). Ground truth frozen: experiments/ground-truth/approvals-kit.json (124 locations), GROUNDTRUTH.lock.
+- Phase 2: `DOTNET_ROOT=$HOME/.dotnet uv run factory analyse approvals-kit claims-workbench [--replay]`. LLM cache in factory/cache/llm (committed; replay needs no model). Catalogues copied to artefacts/<app>/.

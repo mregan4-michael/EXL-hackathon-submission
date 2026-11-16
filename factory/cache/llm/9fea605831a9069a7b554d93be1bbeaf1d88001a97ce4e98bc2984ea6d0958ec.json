@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 59,
+ "content": "{\"statement\": \"The condition checks if the value of 'id' in the 'Apply_to_each_' items is equal to 'additionalinformation'. If true, the condition is met.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 417,
+ "seconds": 9.884
+}

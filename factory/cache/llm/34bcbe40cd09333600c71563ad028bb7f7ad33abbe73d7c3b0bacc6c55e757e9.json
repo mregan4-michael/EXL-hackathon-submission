@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 66,
+ "content": "{\"statement\": \"The condition checks if the value of '_cat_nodeduedaterequestdata_value' from the first node in the stage is not null. If it is null, the condition is considered true.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 460,
+ "seconds": 13.429
+}

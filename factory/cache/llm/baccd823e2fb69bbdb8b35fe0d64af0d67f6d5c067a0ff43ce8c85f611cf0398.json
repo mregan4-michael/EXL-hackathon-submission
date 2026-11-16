@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 171,
+ "content": "{\n \"statement\": \"The condition is if the count of selected delegates in cboApproverDelegate is greater than 0. If true, it checks if the first delegate exists in Business Approvers. If not, it adds the first delegate as a new Business Approver. It also checks if the backup delegate exists in Business Approvers. If the backup delegate exists, it adds the backup delegate as a new Business Approver. If the backup delegate does not exist, it adds the backup delegate as a new Business Approver. If there are errors in Business Approvers, it notifies with an error message. Otherwise, it notifies with a success message. The effect is to save the settings and reset the delegates and notification dropdowns.\",\n \"category\": \"authorisation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 998,
+ "seconds": 32.615
+}

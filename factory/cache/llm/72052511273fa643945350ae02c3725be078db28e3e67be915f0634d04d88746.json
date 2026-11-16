@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 93,
+ "content": "{\n \"statement\": \"The condition is if the 'Backup Delegate' is not blank, then search for a user by their 'Approver Id'. The threshold values are the 'Backup Delegate' and 'Approver Id'. The effect is to set the 'cboApproverBackupDelegate.DefaultSelectedItems' to the result of the search.\",\n \"category\": \"authorisation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 425,
+ "seconds": 14.844
+}

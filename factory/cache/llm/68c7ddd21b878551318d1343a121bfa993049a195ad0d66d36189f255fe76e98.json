@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"The rule saves settings and delegates based on selected items. It checks if there are approval and backup delegates, updates the 'Business Approvers' table, and notifies the user with an error or success message.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 993,
+ "seconds": 17.762
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"The condition is that the lookup result matches the name of the business approval work profile. The threshold values are the name of the work profile, and the effect is to set the DefaultSelectedItems control to the lookup result.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 401,
+ "seconds": 9.05
+}

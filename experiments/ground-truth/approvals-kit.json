@@ -1,0 +1,627 @@
+{
+  "app_id": "approvals-kit",
+  "labelled_by": "Devin (hand-labelled once, before any tuning)",
+  "method": "docs/scoring.md#rule-recall",
+  "rules": [
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
+      "path": "scrSettings/ck_CommandBar.OnChange",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
+      "path": "scrSettings/Toolbar_7.DisabledItems",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
+      "path": "scrSettings/Toolbar_7.OnClick",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
+      "path": "scrSettings/lblDelegateError.Text",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
+      "path": "scrSettings/cboApproverBackupDelegate.DisplayMode",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
+      "path": "scrSettings/lblBackupDelegateError.Text",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
+      "path": "scrSettings/ddlWorkProfile.Items",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
+      "path": "scrSettings/galPublicHolidays.Items",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
+      "path": "scrSettingsNew/ck_CommandBar_1.OnSelect",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
+      "path": "scrSettingsNew/lblDelegateError_1.Text",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
+      "path": "scrSettingsNew/lblBackupDelegateError_1.Text",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
+      "path": "scrSettingsNew/cmbxWorkProfile.Items",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
+      "path": "scrSettingsNew/galPublicHolidays_1.Items",
+      "kind": "canvas_property"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalCondition/Entity.xml",
+      "path": "cat_BusinessApprovalCondition.cat_PathIndex",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Entity.xml",
+      "path": "cat_BusinessApprovalNode.cat_GoToPaths",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Entity.xml",
+      "path": "cat_BusinessApprovalNode.cat_PathIndex",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Entity.xml",
+      "path": "cat_BusinessApprovalNode.cat_RowIndex",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Entity.xml",
+      "path": "cat_BusinessApprovalNode.cat_TimeOut",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalNodeReminder/Entity.xml",
+      "path": "cat_BusinessApprovalNodeReminder.cat_ReminderDays",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalNodeReminderInstance/Entity.xml",
+      "path": "cat_BusinessApprovalNodeReminderInstance.cat_ReminderDays",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeCondition/Entity.xml",
+      "path": "cat_BusinessApprovalRuntimeCondition.cat_PathIndex",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Entity.xml",
+      "path": "cat_BusinessApprovalRuntimeNode.cat_GoToPaths",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Entity.xml",
+      "path": "cat_BusinessApprovalRuntimeNode.cat_PathIndex",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Entity.xml",
+      "path": "cat_BusinessApprovalRuntimeNode.cat_RowIndex",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Entity.xml",
+      "path": "cat_BusinessApprovalRuntimeNode.cat_TimeOut",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNodeReminder/Entity.xml",
+      "path": "cat_BusinessApprovalRuntimeNodeReminder.cat_ReminderDays",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeStage/Entity.xml",
+      "path": "cat_BusinessApprovalRuntimeStage.cat_Order",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeStage/Entity.xml",
+      "path": "cat_BusinessApprovalRuntimeStage.cat_Paths",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalStage/Entity.xml",
+      "path": "cat_BusinessApprovalStage.cat_Order",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalStage/Entity.xml",
+      "path": "cat_BusinessApprovalStage.cat_Paths",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalVersion/Entity.xml",
+      "path": "cat_BusinessApprovalVersion.cat_Version",
+      "kind": "table_column"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreApprovalTime-out-A696980C-5FD0-EC11-A7B5-0022486DABEE.json",
+      "path": "BACoreApprovalTime-out/triggers/Running_Approval_Instance_Time-Out_Counter_has_reached_0",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreApprovalTime-out-A696980C-5FD0-EC11-A7B5-0022486DABEE.json",
+      "path": "BACoreApprovalTime-out/actions/varDelegate",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreApprovalTime-out-A696980C-5FD0-EC11-A7B5-0022486DABEE.json",
+      "path": "BACoreApprovalTime-out/actions/If_no_delegates",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreApprovalTime-out-A696980C-5FD0-EC11-A7B5-0022486DABEE.json",
+      "path": "BACoreApprovalTime-out/actions/If_delegate_exists",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreApproverOOF-C5C9A675-66D0-EC11-A7B5-0022486DDAB5.json",
+      "path": "BACoreApproverOOF/triggers/When_Approver_is_OOF",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreCascadeProcessStatus-0CC362B4-1E53-EC11-8F8E-0022486DC855.json",
+      "path": "BACoreCascadeProcessStatus/triggers/When_Process_Status_is_changed",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreCascadePublishingActivation-5313BB69-E0C1-EC11-983E-0022486DF843.json",
+      "path": "BACoreCascadePublishingActivation/triggers/When_a_row_is_added,_modified_or_deleted",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json",
+      "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json",
+      "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data/actions/Condition/actions/Set_variable",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json",
+      "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json",
+      "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome/actions/Apply_to_each/actions/Condition_4",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json",
+      "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome/actions/Apply_to_each/actions/Condition_4/actions/Set_varCondition",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json",
+      "path": "BACoreChildEvaluateRule/actions/If_Comparison_Operands",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildEvaluateRule-A361AA67-04AD-EC11-983E-0022486E1632.json",
+      "path": "BACoreChildEvaluateRule/actions/If_Comparison_Operands/actions/Found_Condition",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicApprover-DCB75FEF-35D6-EC11-A7B5-000D3AF46350.json",
+      "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicApprover-DCB75FEF-35D6-EC11-A7B5-000D3AF46350.json",
+      "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value/actions/If_Manager_Lookup",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicApprover-DCB75FEF-35D6-EC11-A7B5-000D3AF46350.json",
+      "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value/actions/Lookup_UPN/actions/If_Approver_is_not_found",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicDataInstance-C2534955-ADD4-EC11-A7B5-000D3AF46350.json",
+      "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicDataInstance-C2534955-ADD4-EC11-A7B5-000D3AF46350.json",
+      "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/actions/If_has_data",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicDataInstance-C2534955-ADD4-EC11-A7B5-000D3AF46350.json",
+      "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/actions/If_has_data/else/actions/Do_we_wait_for_Dynamic_Approver_Data",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetDynamicDataInstance-C2534955-ADD4-EC11-A7B5-000D3AF46350.json",
+      "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/else/actions/If_has_instance_data",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetUserMailboxSettings-A68E0A7E-37EC-EE11-904D-000D3A8EDEA8.json",
+      "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetUserMailboxSettings-A68E0A7E-37EC-EE11-904D-000D3A8EDEA8.json",
+      "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists/actions/Check_status_and_if_Current_Date_falls_between_start_and_end_date",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreChildGetUserMailboxSettings-A68E0A7E-37EC-EE11-904D-000D3A8EDEA8.json",
+      "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists/actions/Condition",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreDailyCalculateApprovalTimeouts-5ABBAFC2-37CF-EC11-A7B5-0022486DABEE.json",
+      "path": "BACoreDailyCalculateApprovalTimeouts/triggers/Daily_Run",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreDailyCalculateApprovalTimeouts-5ABBAFC2-37CF-EC11-A7B5-0022486DABEE.json",
+      "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreDailyCalculateApprovalTimeouts-5ABBAFC2-37CF-EC11-A7B5-0022486DABEE.json",
+      "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreDailyCalculateApprovalTimeouts-5ABBAFC2-37CF-EC11-A7B5-0022486DABEE.json",
+      "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days/actions/If_Today_is_Working_day_and_not_holiday",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACorePublishProcess-D492106F-E56D-EC11-8F8E-000D3A09F61A.json",
+      "path": "BACorePublishProcess/triggers/When_new_Process_Version_is_Published",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACorePublishProcess-D492106F-E56D-EC11-8F8E-000D3A09F61A.json",
+      "path": "BACorePublishProcess/actions/Publish_Version/actions/Copy_Stage/actions/Each_Stage/actions/Copy_Nodes/actions/Each_Node/actions/Each_Approver/actions/If_Dynamic_Approver_Type_uses_Request_Data",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACorePublishProcess-D492106F-E56D-EC11-8F8E-000D3A09F61A.json",
+      "path": "BACorePublishProcess/actions/Publish_Version/actions/Copy_Stage/actions/Each_Stage/actions/Copy_Nodes/actions/Each_Node/actions/Each_Approver/actions/If_Dynamic_Approver_Type_uses_Request_Data/actions/If_Mapping_Does_not_Exist",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACorePublishProcess-D492106F-E56D-EC11-8F8E-000D3A09F61A.json",
+      "path": "BACorePublishProcess/actions/Publish_is_Successful/actions/Condition",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartApproval-A04208B8-428D-EC11-8D20-000D3A09CA36.json",
+      "path": "BACoreRuntime-StartApproval/actions/If_no_Custom_Responses",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartApproval-A04208B8-428D-EC11-8D20-000D3A09CA36.json",
+      "path": "BACoreRuntime-StartApproval/actions/If_Approval_not_completed",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartApproval-A04208B8-428D-EC11-8D20-000D3A09CA36.json",
+      "path": "BACoreRuntime-StartApproval/actions/If_Approval_not_completed/actions/Set_override_approver_for_cancellation/actions/If_Not_Cancellation",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF/actions/If_First_Not_OOF_found",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF/actions/If_First_Not_OOF_found/else/actions/If_Manager_found",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF/actions/Check_If_Enable_O365_Mailbox_Settings_is_true",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/Check_If_Enable_O365_Mailbox_Settings_is_true_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/If_First_Not_OOF_found_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/If_First_Not_OOF_found_2/else/actions/If_Manager_found_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval/cases/Manager_of_Request_Data/actions/If_dynamic_approver_found",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval/cases/Use_Request_Data/actions/If_any_dynamic_approver_found",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists/actions/If_Node_Due_Date_Data_Type_Equals_Request_Data",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Go_to_Stage/actions/Check_Node_Condition/actions/Check_If_Has_Condition",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Go_to_Stage/actions/Check_Node_Condition/actions/Check_if_GoToStage_variable_is_not_empty",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartStage-FB00D840-CA8C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartStage/actions/If_No_Conditions",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartStage-FB00D840-CA8C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartStage/actions/Each_Path/actions/If_exactly_1_node_found",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartStage-FB00D840-CA8C-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-StartStage/actions/Each_Path/actions/If_exactly_1_node_found/actions/Condition",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartWorkflow-65045BB1-F682-EC11-8D20-0022486DA35F.json",
+      "path": "BACoreRuntime-StartWorkflow/actions/If_exactly_1_stage_found",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/triggers/When_Approval_Instance_is_updated",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Approve/actions/If_Approval_Type_is_Single_Response",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Approve/actions/If_Approval_Type_is_Single_Response/else/actions/If_no_more_running_instances",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Reject/actions/If_Approval_Type_is_Single_Response_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Reject/actions/If_Approval_Type_is_Single_Response_2/else/actions/If_no_more_running_instances_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/actions/If_no_more_running_instances_3",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/else/actions/If_no_more_running_instances_4",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/triggers/When_Node_Status_Changed",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/actions/If_no_more_running_node_instances",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/else/actions/If_Node_Type_is_not_equal_End_Workflow_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/else/actions/If_Node_Type_is_not_equal_End_Workflow_2/actions/Condition",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/actions/If_no_more_running_node_instances_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage/actions/If_Node_Type_is_not_equal_End_Workflow",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateNodeInstance-514B484E-A68D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage/else/actions/If_no_more_running_node_instances_3",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateStageInstance/triggers/When_Stage_Instance_is_Updated",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateStageInstance/actions/Check_if_Go_To_Stage_rule_exists",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Completed_(809060002)/actions/If_No_more_stages",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Completed_(809060002)/actions/If_No_more_stages/else/actions/If_End_Workflow_is_not_True",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2/else/actions/If_Source_Data_Type_is_Previous_Node_Outcome",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateStageInstance-0D3A2E2C-A78D-EC11-8D20-000D3A09D351.json",
+      "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2/else/actions/If_Source_Data_Type_is_Previous_Node_Outcome/actions/If_End_Workflow_is_not_True_2",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json",
+      "path": "BACoreSendReminder/triggers/When_a_row_is_added,_modified_or_deleted",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json",
+      "path": "BACoreSendReminder/actions/Condition",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json",
+      "path": "BACoreSendReminder/actions/Condition/actions/Each_Approver/actions/Switch",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json",
+      "path": "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json",
+      "path": "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists/actions/If_Node_Due_Date_Data_Type_Equals_Request_Data",
+      "kind": "flow_action"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreSyncApproverOOF-89DABC4E-35B9-EC11-983F-0022486DE2EB.json",
+      "path": "BACoreSyncApproverOOF/triggers/Recurrence",
+      "kind": "flow_trigger"
+    },
+    {
+      "file": "legacy/approvals-kit/Workflows/BACoreUpdateActivePublishedWorkflow-27678B1C-DA6F-ED11-81AC-000D3A09CF6C.json",
+      "path": "BACoreUpdateActivePublishedWorkflow/triggers/Update_Published_Workflow_when_a_version_is_activated",
+      "kind": "flow_trigger"
+    }
+  ]
+}

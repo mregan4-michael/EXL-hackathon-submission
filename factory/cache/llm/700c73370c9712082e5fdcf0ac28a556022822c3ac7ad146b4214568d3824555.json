@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 56,
+ "content": "{\"statement\": \"If the input text_3 is equal to 'Information', the condition is met and the action is triggered. Otherwise, the action is not triggered.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 406,
+ "seconds": 8.126
+}

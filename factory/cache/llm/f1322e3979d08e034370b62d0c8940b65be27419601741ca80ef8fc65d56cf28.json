@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 57,
+ "content": "{\"statement\": \"If the length of the 'body/value' in the output of 'Get_Instance_Data' is greater than 0, then proceed with the next action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 433,
+ "seconds": 9.03
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 77,
+ "content": "{\n \"statement\": \"The application sets the AppTheme and DefaultTheme based on predefined color palettes. It also clears the colSelectedApprovalDelegate and colSelectedBackupDelegate collections and populates colSelectedBackupDelegate with the value of _mySettings.Backup Delegate.\",\n \"category\": \"state_transition\",\n \"is_business_rule\": false,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 1017,
+ "seconds": 24.033
+}

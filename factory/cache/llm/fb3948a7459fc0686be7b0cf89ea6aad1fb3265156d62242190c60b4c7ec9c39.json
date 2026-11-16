@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 60,
+ "content": "{\n \"statement\": \"If the length of the 'id' in the output 'First_Not_OOF_2' is greater than 0, then proceed with the next action.\",\n \"category\": \"validation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 502,
+ "seconds": 9.827
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 73,
+ "content": "{\"statement\": \"The version field must have a value between 1 and 2,147,480,000, inclusive. If the value is outside this range, the system will not allow the record to be saved.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 396,
+ "seconds": 8.594
+}

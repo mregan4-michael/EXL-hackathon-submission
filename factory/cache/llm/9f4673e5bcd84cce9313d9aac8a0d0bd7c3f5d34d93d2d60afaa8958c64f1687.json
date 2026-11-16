@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 80,
+ "content": "{\"statement\": \"The condition is that the value in the cat_Order column must be required and must be within the range of 1 to 2.14748e+09. If the condition is not met, the effect is that the record is not valid.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 394,
+ "seconds": 11.322
+}

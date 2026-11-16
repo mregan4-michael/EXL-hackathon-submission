@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 91,
+ "content": "{\"statement\": \"The calculated column 'cat_BusinessApprover.cat_backupdelegateid' determines the value based on the 'cat_approverid', 'cat_backupdelegate', and 'cat_businessapprover' columns. If any of these columns have a value of 0, the calculated column will also have a value of 0.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 0.95}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 404,
+ "seconds": 13.545
+}

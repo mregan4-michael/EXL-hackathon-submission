@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The condition checks if the length of the 'body/value' in the output of 'Get_Next_Stage_2' is zero. If it is, the effect is to proceed to the 'If_No_more_stages_2' action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 460,
+ "seconds": 13.168
+}

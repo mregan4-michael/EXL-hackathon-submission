@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 100,
+ "content": "{\"statement\": \"The workflow triggers every day at midnight (24 hours interval) to check for recurrence events. The condition is met if the current time is between 2022-04-11T00:00:00Z and 2022-04-12T00:00:00Z.\", \"category\": \"recurrence\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 429,
+ "seconds": 9.438
+}

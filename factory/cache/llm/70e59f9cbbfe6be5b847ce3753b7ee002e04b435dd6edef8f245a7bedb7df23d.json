@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 58,
+ "content": "{\"statement\": \"The label 'lblFraudReferral' is visible if the fraud score is 50 or higher. This rule is used for authorisation purposes.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 378,
+ "seconds": 9.089
+}

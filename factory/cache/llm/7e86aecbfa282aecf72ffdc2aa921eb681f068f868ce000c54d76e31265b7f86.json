@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 72,
+ "content": "{\"statement\": \"The button displays as disabled if the policy number is blank, the incident date is blank, the claim amount is less than or equal to zero, or if there is a cover error message. Otherwise, it displays as editable.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 454,
+ "seconds": 13.03
+}

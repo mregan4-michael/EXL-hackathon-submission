@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\n \"statement\": \"The condition checks if the source data type from the next stage is 809060001. If true, the effect is to proceed to the next stage; otherwise, it stops.\",\n \"category\": \"authorisation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 497,
+ "seconds": 11.739
+}

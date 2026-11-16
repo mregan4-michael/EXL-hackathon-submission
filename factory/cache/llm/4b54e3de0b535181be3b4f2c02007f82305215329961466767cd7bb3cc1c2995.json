@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 63,
+ "content": "{\"statement\": \"The business approval friendly name is calculated based on the business approval version, name, and version. If any of these values are not provided, the friendly name will be null.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 0.95}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 408,
+ "seconds": 8.554
+}

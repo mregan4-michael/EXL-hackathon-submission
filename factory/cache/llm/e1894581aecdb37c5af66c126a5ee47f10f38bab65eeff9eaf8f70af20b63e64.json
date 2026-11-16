@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 63,
+ "content": "{\"statement\": \"The condition is that the number of prior claims must be between 0 and 50. If this condition is met, the effect is that the number of prior claims remains unchanged.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 395,
+ "seconds": 8.573
+}
