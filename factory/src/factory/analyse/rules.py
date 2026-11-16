@@ -189,6 +189,7 @@ def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
     numbers: list[float]
     atoms: list[tuple[str, str, float]] = []
     dead = False
+    review: list[str] = []
     if site["language"] == "powerfx" and site.get("ast"):
         ast = site["ast"]
         assigned = _assigned(ast)
@@ -226,7 +227,8 @@ def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
             outputs = [site["path"].split("/")[-1]]
             numbers = _wdl_numbers(formula)
             atoms = _wdl_atoms(formula)
-            dead = _constant_condition(formula)
+            if _constant_condition(formula):
+                review.append("constant_condition: always true, else branch unreachable")
             reason = "Power Automate flow logic; no executable oracle. Proved by a scenario test."
         else:
             inputs = [site["path"]]
@@ -254,6 +256,7 @@ def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
         injection_suspected=bool(INJECTION.search(formula + "\n" + site.get("description", ""))),
         oracle=oracle,
         atoms=atoms,
+        review_reasons=review,
     )
 
 
