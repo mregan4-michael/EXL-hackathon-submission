@@ -105,3 +105,16 @@ def test_testset_lock_rejects_edited_testset(tmp_path, monkeypatch):
     (ts / "x.jsonl").write_text('{"case": 1}\n')
     with pytest.raises(SystemExit, match="does not match TESTSET.lock"):
         harness.verify_lock("x")
+
+
+def test_same_distinguishes_outcome_kinds():
+    from factory.parity.harness import same
+
+    assert same({"value": None}, {"value": None})
+    assert not same({"unsupported": "x"}, {"value": None})
+    assert not same({"unsupported": "x"}, {"unsupported": "y"})
+    assert same({"error": "div0"}, {"error": "Div: division by zero", "kind": "fx"})
+    assert not same({"error": "boom", "kind": "crash"}, {"error": "div0"})
+    assert not same(
+        {"error": "no response", "kind": "crash"}, {"error": "no response", "kind": "crash"}
+    )

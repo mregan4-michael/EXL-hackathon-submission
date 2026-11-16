@@ -169,10 +169,24 @@ def canon(v: Any) -> Any:
     return ("?", json.dumps(v, sort_keys=True, default=str))
 
 
+def outcome(r: dict[str, Any]) -> str:
+    """value | error (a Power Fx error value) | unsupported (oracle) | crash (C# non-Fx failure)."""
+    if "unsupported" in r:
+        return "unsupported"
+    if "error" in r:
+        return "error" if r.get("kind", "fx") == "fx" else "crash"
+    return "value"
+
+
 def same(a: dict[str, Any], b: dict[str, Any]) -> bool:
-    if "error" in a or "error" in b:
-        return "error" in a and "error" in b
-    return bool(canon(a.get("value")) == canon(b.get("value")))
+    ka, kb = outcome(a), outcome(b)
+    if ka != kb or ka == "crash":
+        return False
+    if ka == "value":
+        return bool(canon(a.get("value")) == canon(b.get("value")))
+    if ka == "unsupported":
+        return bool(a["unsupported"] == b["unsupported"])
+    return True  # both are Power Fx errors; messages differ between engines by design
 
 
 # ---------------------------------------------------------------- freeze
