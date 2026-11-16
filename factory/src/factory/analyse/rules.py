@@ -24,6 +24,7 @@ PURE_FX = {
     "Lower", "Upper", "Trim", "Mod", "Sum", "Coalesce", "Left", "Right", "Mid", "Concatenate",
 }  # fmt: skip
 SIDE_EFFECT_FX = {"Patch", "Set", "Navigate", "Notify", "Collect", "ClearCollect", "Remove", "Back"}
+ASSIGN_FX = {"Set", "Collect", "ClearCollect"}
 INJECTION = re.compile(
     r"ignore (all )?(previous|prior|above) instructions|\bAI (reviewer|assistant|model)\b|"
     r"system prompt|you are (now )?(an?|the) |classify this rule|no human review",
@@ -170,6 +171,17 @@ def _constant_condition(formula: str) -> bool:
     return False
 
 
+def _assigned(ast: dict[str, Any]) -> set[str]:
+    """Variables/collections written by Set, Collect or ClearCollect (first argument)."""
+    out: set[str] = set()
+    for n in fxast.walk(ast):
+        if n["k"] == "Call" and n["fn"] in ASSIGN_FX and n["args"]:
+            name = fxast.dotted(n["args"][0])
+            if name:
+                out.add(name)
+    return out
+
+
 def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
     k, formula = site["kind"], site["formula"]
     inputs: list[str]
@@ -179,8 +191,11 @@ def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
     dead = False
     if site["language"] == "powerfx" and site.get("ast"):
         ast = site["ast"]
-        inputs = sorted(r for r in fxast.references(ast) if not r.startswith("Self"))
-        outputs = [f"{site['control'] or 'App'}.{site['prop']}"]
+        assigned = _assigned(ast)
+        inputs = sorted(
+            r for r in fxast.references(ast) if not r.startswith("Self") and r not in assigned
+        )
+        outputs = [f"{site['control'] or 'App'}.{site['prop']}", *sorted(assigned)]
         numbers = fxast.numbers(ast)
         atoms = _canvas_atoms(ast)
         dead = site["control"] in dead_controls and site["prop"] != "Visible"
