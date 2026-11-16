@@ -135,6 +135,9 @@ export function App() {
       widget = <input id={c.name} type="date" value={typeof raw === "string" ? raw : ""} onChange={(e) => set(e.target.value || null)} />;
     else if (c.widget === "checkbox")
       widget = <input id={c.name} type="checkbox" checked={raw === true} onChange={(e) => set(e.target.checked)} />;
+    else if (c.widget === "select" && !c.options?.length)
+      // Items is data-bound (not a static literal): accept the value as free text.
+      widget = <input id={c.name} value={typeof raw === "string" ? raw : ""} onChange={(e) => set(e.target.value || null)} />;
     else if (c.widget === "select")
       widget = (
         <select id={c.name} value={typeof raw === "string" ? raw : ""} onChange={(e) => set(e.target.value || null)}>
