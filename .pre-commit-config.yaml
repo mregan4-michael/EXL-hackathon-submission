@@ -1,0 +1,37 @@
+# Hooks are a convenience; CI (.github/workflows/ci.yml) is the gate.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-json
+        exclude: ^legacy/
+      - id: check-yaml
+        exclude: ^legacy/
+      - id: check-added-large-files
+        args: ["--maxkb=2048"]
+      - id: end-of-file-fixer
+        exclude: ^(legacy|generated|factory/out|parity/testset)/
+      - id: trailing-whitespace
+        exclude: ^(legacy|generated|factory/out|parity/testset)/
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff
+        entry: uv run ruff check
+        language: system
+        types: [python]
+      - id: black
+        name: black
+        entry: uv run black --check
+        language: system
+        types: [python]
+      - id: mypy
+        name: mypy --strict
+        entry: uv run mypy
+        language: system
+        types: [python]
+        pass_filenames: false

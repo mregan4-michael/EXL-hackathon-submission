@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mregan4-michael/EXL-hackathon-submission/schemas/rule-catalogue.schema.json",
+  "title": "Business Rule Catalogue",
+  "description": "FROZEN CONTRACT v1.0.0 between the Analyse stage and Design/Generate/Parity. Changes require a new major version and an ADR.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "app_id", "generated_at_run", "prompt_versions", "rules", "dependency_graph"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "app_id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "generated_at_run": {"type": "string", "description": "Run id (deterministic: hash of inputs + prompt versions), not wall-clock."},
+    "prompt_versions": {"type": "object", "additionalProperties": {"type": "string"}},
+    "rules": {"type": "array", "items": {"$ref": "#/$defs/rule"}},
+    "dependency_graph": {"$ref": "#/$defs/graph"}
+  },
+  "$defs": {
+    "source_location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "kind", "path", "line"],
+      "properties": {
+        "file": {"type": "string", "description": "Repo-relative path of the legacy artefact."},
+        "kind": {"enum": ["canvas_property", "flow_action", "flow_trigger", "table_column", "table_business_rule", "calculated_column", "security_role", "app_onstart"]},
+        "path": {"type": "string", "description": "Screen/Control.Property for canvas; action path for flows; Table.Column for Dataverse."},
+        "line": {"type": "integer", "minimum": 1, "description": "1-based line in the file where the formula/definition starts."}
+      }
+    },
+    "pii_field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "classification"],
+      "properties": {
+        "field": {"type": "string"},
+        "classification": {"enum": ["none", "personal", "special_category", "financial", "contact", "identifier"]}
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "candidate_id", "statement", "category", "formula", "formula_language", "source_locations", "inputs", "outputs", "confidence", "pii", "flags", "oracle"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^BR-[0-9]{3}$"},
+        "candidate_id": {"type": "string", "description": "Stable deterministic id of the parsed candidate (hash of normalised source location)."},
+        "statement": {"type": "string", "minLength": 10},
+        "category": {"enum": ["validation", "calculation", "authorisation", "routing", "visibility", "state_transition", "deadline", "notification", "data_integrity", "other"]},
+        "formula": {"type": "string"},
+        "formula_language": {"enum": ["powerfx", "wdl", "dataverse_xaml", "dataverse_metadata"]},
+        "source_locations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source_location"}},
+        "inputs": {"type": "array", "items": {"type": "string"}},
+        "outputs": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "pii": {"type": "array", "items": {"$ref": "#/$defs/pii_field"}},
+        "flags": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["contradiction_with", "dead_code", "magic_numbers", "fairness_review", "needs_human_review", "review_reasons"],
+          "properties": {
+            "contradiction_with": {"type": "array", "items": {"type": "string"}},
+            "dead_code": {"type": "boolean"},
+            "magic_numbers": {"type": "array", "items": {"type": "number"}},
+            "fairness_review": {"type": "boolean"},
+            "needs_human_review": {"type": "boolean"},
+            "review_reasons": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "oracle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["proof_type", "reason"],
+          "properties": {
+            "proof_type": {"enum": ["executed_oracle", "scenario", "unproven"]},
+            "reason": {"type": "string"}
+          }
+        }
+      }
+    },
+    "graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodes", "edges"],
+      "properties": {
+        "nodes": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "kind"], "properties": {"id": {"type": "string"}, "kind": {"enum": ["screen", "table", "flow", "rule", "app"]}}}},
+        "edges": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["from", "to", "kind"], "properties": {"from": {"type": "string"}, "to": {"type": "string"}, "kind": {"enum": ["reads", "writes", "triggers", "contains", "calls", "defines"]}}}}
+      }
+    }
+  }
+}
