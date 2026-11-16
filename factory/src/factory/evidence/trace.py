@@ -47,7 +47,16 @@ def _targets(design: dict[str, Any]) -> dict[str, dict[str, str]]:
     for role in design["rbac"]:
         out[role] = {"kind": "RBAC privilege table", "code": app_cs, "symbol": f"App.Roles[{role}]"}
     if design["session_globals"]:
-        out["App.OnStart"] = {"kind": "session globals", "code": app_cs, "symbol": "App.Globals"}
+        unresolved = [g["name"] for g in design["session_globals"] if not g["resolved"]]
+        out["App.OnStart"] = (
+            {"kind": "session globals", "code": app_cs, "symbol": "App.Globals"}
+            if not unresolved
+            else {
+                "kind": "session globals (partial)",
+                "code": "",
+                "symbol": "unresolved: " + ", ".join(unresolved),
+            }
+        )
     for n in g["not_compiled"]:
         out.setdefault(n["path"], {"kind": "not compiled", "code": "", "symbol": n["disposition"]})
     for fl in design["flows"]:

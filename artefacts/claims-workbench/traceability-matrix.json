@@ -11,9 +11,9 @@
      "source": "legacy/claims-workbench/CanvasApps/src/App.pa.yaml:3",
      "path": "App.OnStart",
      "target": {
-      "kind": "session globals",
-      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
-      "symbol": "App.Globals"
+      "kind": "session globals (partial)",
+      "code": "",
+      "symbol": "unresolved: gblIsManager"
      },
      "parity_cases": 0,
      "formula_status": null
@@ -26,7 +26,7 @@
    ],
    "needs_human_review": false,
    "review_reasons": [],
-   "auto_migrated": true
+   "auto_migrated": false
   },
   {
    "id": "BR-002",

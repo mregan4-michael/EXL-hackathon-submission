@@ -40,3 +40,21 @@ def test_review_queue_contains_every_flagged_and_failed_rule() -> None:
         for r in trace.matrix(app)["rules"]:
             if r["needs_human_review"] or r["evidence"] == "failed":
                 assert r["id"] in q
+
+
+def test_startup_globals_with_unresolved_values_are_not_migrated() -> None:
+    design = {
+        "app_id": "x",
+        "generated": {"formulas": [], "not_compiled": []},
+        "actions": [],
+        "rbac": {},
+        "flows": [],
+        "session_globals": [
+            {"name": "gblLimit", "resolved": True},
+            {"name": "gblIsManager", "resolved": False},
+        ],
+    }
+    t = trace._targets(design)["App.OnStart"]
+    assert t["code"] == "" and "gblIsManager" in t["symbol"]
+    design["session_globals"] = design["session_globals"][:1]
+    assert trace._targets(design)["App.OnStart"]["code"]
