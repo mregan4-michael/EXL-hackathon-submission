@@ -50,8 +50,8 @@ At the default assumptions, the 30-app effort model projects **~161 h per app, ~
 - **284 Approvals Kit formulas** use `Self`/`Parent`/`User()`, which the canvas-free oracle cannot run. They are reported as unproven (KF-2).
 - **Azure browser sign-in (MSAL) is not implemented**, and nothing was deployed to Azure (KF-6, KF-10).
 - **Model confidence is useless** (≈1.0 everywhere) and is not used to skip review (KF-7).
-- **it3 tuning gain did not generalise:** +0.0015 tuning, −0.0145 held-out. It was promoted anyway, per the pre-registered rule (ADR-014, Q7) (KF-8).
-- `RBAC-001` (ClaimsHandler may create a claim) is a proposed permission awaiting business sign-off (Q5).
+- **it3 tuning gain did not generalise:** +0.0015 tuning, −0.0145 held-out. It was promoted anyway, per the pre-registered rule (ADR-014, Q7), and the repository owner approved keeping it (KF-8).
+- `RBAC-001` (ClaimsHandler may create a claim) was approved by the repository owner on 2026-11-16 (Q5). The insurer's business owner must still confirm it before go-live.
 - Dataverse Min/Max column ranges are not enforced (KF-11). 17 mutants survive (KF-4).
 
 ## Self-audit: shortcuts, uncertainty, things I got wrong

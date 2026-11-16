@@ -29,7 +29,7 @@ def write() -> None:
     rbac = json.loads(
         (REPO_ROOT / "factory/fixtures/claims-workbench/rbac-decisions.json").read_text()
     )
-    lines += ["## Migration decisions awaiting sign-off", ""]
+    lines += ["## Migration decisions that change legacy privileges", ""]
     for d in rbac["decisions"]:
         lines.append(f"- **{d['id']}** ({d['status']}): {d['decision']} Finding: {d['finding']}")
     for app in APPS:

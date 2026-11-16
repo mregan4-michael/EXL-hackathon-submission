@@ -14,5 +14,5 @@ Each entry: what fails, the exact input that triggers it, why, status. Figures c
 | KF-6 | Azure browser sign-in is not implemented | deploying the React UI outside `Identity:Mode=demo` | Needs MSAL.js or a Static Web Apps linked backend (Q6) | Open: the API fails closed |
 | KF-7 | Model confidence is uninformative | `confidence` in `rule-catalogue.json` | Qwen2.5-3B returns ~1.0 for nearly every rule | Open: not used to skip review |
 | KF-8 | it3 tuning gain did not generalise | `experiments/leaderboard.md` it3 row | +0.0015 tuning, -0.0145 held-out (ADR-014) | Accepted per protocol; disclosed |
-| KF-9 | `RBAC-001` (ClaimsHandler create claim) is unsigned | `factory/fixtures/claims-workbench/rbac-decisions.json` | Legacy roles grant no create privilege (Q5) | Awaiting business sign-off |
+| KF-9 | `RBAC-001` (ClaimsHandler create claim) changes legacy privileges | `factory/fixtures/claims-workbench/rbac-decisions.json` | Legacy roles grant no create privilege (Q5) | Approved by the repository owner (2026-11-16); insurer business owner must re-confirm before go-live |
 | KF-10 | Nothing was deployed to Azure | `generated/*/infra/main.bicep` | No subscription in this run; Bicep compiles only | Open |

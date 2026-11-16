@@ -1905,7 +1905,7 @@
       "depth": "User",
       "finding": "No legacy role grants prvCreateclm_Claim, so IntakeScreen/btnSubmit can only succeed for System Administrators in the source environment. The intake screen is clearly designed for handlers.",
       "decision": "Grant ClaimsHandler Create on clm_Claim at User depth (own records), matching the existing handler Read/Write depth.",
-      "status": "proposed: awaiting business sign-off (QUESTIONS.md Q5)"
+      "status": "approved: signed off by the repository owner on 2026-11-16 for this submission (QUESTIONS.md Q5); the insurer's business owner must re-confirm before go-live"
     }
   ],
   "generated": {
