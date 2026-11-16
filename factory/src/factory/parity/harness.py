@@ -436,7 +436,10 @@ def _report(
         locs = []
         for loc in r["source_locations"]:
             p = loc["path"]
-            if p in status:
+            failed_checks = [n for n, o in scen.get(p, []) if not o]
+            if failed_checks:  # a failing journey check outranks any formula-level pass
+                locs.append({"path": p, "evidence": "scenario_fail", "checks": failed_checks})
+            elif p in status:
                 locs.append({"path": p, "evidence": status[p]["status"]})
             elif p in scen:
                 ok = all(o for _, o in scen[p])

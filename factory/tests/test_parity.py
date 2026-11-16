@@ -118,3 +118,21 @@ def test_same_distinguishes_outcome_kinds():
     assert not same(
         {"error": "no response", "kind": "crash"}, {"error": "no response", "kind": "crash"}
     )
+
+
+def test_failed_journey_check_outranks_passing_formula(monkeypatch):
+    from factory.parity import harness
+
+    p = "IntakeScreen/btnSubmit.DisplayMode"
+    monkeypatch.setattr(
+        harness, "_scenarios", lambda app: [{"name": "submit gate", "ok": False, "paths": [p]}]
+    )
+    rule = {
+        "id": "BR-X",
+        "statement": "s",
+        "oracle": {"proof_type": "executed_oracle"},
+        "source_locations": [{"path": p, "kind": "canvas_property"}],
+    }
+    rep = harness._report("claims-workbench", {"rules": [rule]}, [], {p: {"status": "pass"}}, 0, 0)
+    assert rep["rule_evidence"][0]["class"] == "failed"
+    assert rep["rule_evidence"][0]["locations"][0]["checks"] == ["submit gate"]
