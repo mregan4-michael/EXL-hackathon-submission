@@ -11,3 +11,7 @@ The brief asks for squash-merge per phase, but Devin's tooling blocks merging in
 ## Q5 No Claims Workbench role can create a claim
 Parsing the roles shows no `prvCreateclm_Claim` grant, so intake (`IntakeScreen/btnSubmit`) only works for System Administrators in the legacy app.
 **Picked:** keep legacy privileges exactly (the generator fails closed), and add one explicit, logged migration decision `RBAC-001` (`factory/fixtures/claims-workbench/rbac-decisions.json`) that grants ClaimsHandler Create at User depth. It appears in `design.json` → `rbac_decisions` and in the evidence pack. Delete the file to restore strict legacy behaviour.
+
+## Q6 How do Azure users sign in to the generated UI?
+Outside `Identity:Mode=demo` the API ignores `X-Demo-User` and trusts only the Entra principal that Container Apps built-in auth injects (`X-MS-CLIENT-PRINCIPAL`); Entra app roles must be named after the legacy security roles and the token must carry a `businessUnit` claim (absent = no BusinessUnit-scoped rows, fail closed).
+**Picked:** secure the API now; the generated React UI still only has the offline demo-user picker. Browser sign-in for Azure (MSAL.js token acquisition, or a Static Web Apps linked backend) is **not implemented** and must be added before any Azure deployment.
