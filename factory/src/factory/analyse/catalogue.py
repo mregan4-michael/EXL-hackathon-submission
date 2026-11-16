@@ -215,7 +215,7 @@ def build_catalogue(
         )
     versions = {"interpret": prompt_version, "candidates": rules.POLICY_VERSION}
     run_id = hashlib.sha256(
-        json.dumps([model["source"], versions], sort_keys=True).encode()
+        json.dumps([model["source"], model["sites"], versions], sort_keys=True).encode()
     ).hexdigest()[:16]
     catalogue = {
         "schema_version": "1.0.0",
