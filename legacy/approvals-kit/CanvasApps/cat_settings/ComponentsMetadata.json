@@ -1,0 +1,18 @@
+{
+  "Components": [
+    {
+      "Name": "Toolbar",
+      "TemplateName": "a8d013202bde4e4a8ddf0de3d99372ef",
+      "Description": "",
+      "AllowCustomization": true,
+      "AllowAccessToGlobals": false
+    },
+    {
+      "Name": "BusyScreen",
+      "TemplateName": "7272df4ffccf4a3988df978d663542ec",
+      "Description": "",
+      "AllowCustomization": true,
+      "AllowAccessToGlobals": false
+    }
+  ]
+}

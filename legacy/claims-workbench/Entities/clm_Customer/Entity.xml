@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Customer" OriginalName="Customer">clm_Customer</Name>
+  <EntityInfo>
+    <entity Name="clm_Customer">
+      <attributes>
+        <attribute PhysicalName="clm_CustomerId">
+          <Type>primarykey</Type>
+          <Name>clm_customerid</Name>
+          <RequiredLevel>systemrequired</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Customer" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_FullName">
+          <Type>nvarchar</Type>
+          <Name>clm_fullname</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <displaynames>
+            <displayname description="Full Name" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_Email">
+          <Type>nvarchar</Type>
+          <Name>clm_email</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <displaynames>
+            <displayname description="Email" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_Phone">
+          <Type>nvarchar</Type>
+          <Name>clm_phone</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>30</MaxLength>
+          <displaynames>
+            <displayname description="Phone" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_Address">
+          <Type>nvarchar</Type>
+          <Name>clm_address</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>400</MaxLength>
+          <displaynames>
+            <displayname description="Postal Address" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_DateOfBirth">
+          <Type>datetime</Type>
+          <Name>clm_dateofbirth</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Date of Birth" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_VulnerabilityFlag">
+          <Type>bit</Type>
+          <Name>clm_vulnerabilityflag</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Vulnerability Declared" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_VulnerabilityNotes">
+          <Type>ntext</Type>
+          <Name>clm_vulnerabilitynotes</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>4000</MaxLength>
+          <displaynames>
+            <displayname description="Vulnerability Notes (health)" languagecode="1033" />
+          </displaynames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>

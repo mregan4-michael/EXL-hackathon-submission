@@ -1,0 +1,201 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {},
+      "triggers": {
+        "When_a_row_is_added_or_modified": {
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 1,
+              "subscriptionRequest/entityname": "clm_payment",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filterexpression": "clm_amount gt 0"
+            }
+          }
+        }
+      },
+      "actions": {
+        "Get_claim": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "clm_claims",
+              "recordId": "@triggerOutputs()?['body/_clm_claimid_value']"
+            }
+          },
+          "runAfter": {}
+        },
+        "Check_four_eyes_threshold": {
+          "type": "If",
+          "runAfter": {
+            "Get_claim": [
+              "Succeeded"
+            ]
+          },
+          "description": "Payments of 10k or more need a second approver.",
+          "expression": {
+            "and": [
+              {
+                "greaterOrEquals": [
+                  "@triggerOutputs()?['body/clm_amount']",
+                  10000
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Start_second_approval": {
+              "type": "OpenApiConnectionWebhook",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_approvals",
+                  "operationId": "StartAndWaitForAnApproval",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_approvals"
+                },
+                "parameters": {
+                  "approvalType": "Basic",
+                  "WebhookApprovalCreationInput/title": "Second approval required"
+                }
+              },
+              "limit": {
+                "timeout": "P3D"
+              }
+            },
+            "Record_second_approver": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "clm_payments",
+                  "recordId": "@triggerOutputs()?['body/clm_paymentid']",
+                  "item": {
+                    "clm_secondapprover": "@body('Start_second_approval')?['responder/email']"
+                  }
+                }
+              },
+              "runAfter": {
+                "Start_second_approval": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
+          "else": {
+            "actions": {}
+          }
+        },
+        "Check_recent_payee_change": {
+          "type": "If",
+          "runAfter": {
+            "Check_four_eyes_threshold": [
+              "Succeeded"
+            ]
+          },
+          "description": "Hold payment if bank details changed in the last 30 days.",
+          "expression": {
+            "and": [
+              {
+                "less": [
+                  "@div(sub(ticks(utcNow()),ticks(triggerOutputs()?['body/clm_payeechangedon'])),864000000000)",
+                  30
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Hold_payment": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "clm_payments",
+                  "recordId": "@triggerOutputs()?['body/clm_paymentid']",
+                  "item": {
+                    "clm_status": "Held - payee change"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "actions": {}
+          }
+        },
+        "Route_by_claim_type": {
+          "type": "Switch",
+          "runAfter": {
+            "Check_recent_payee_change": [
+              "Succeeded"
+            ]
+          },
+          "expression": "@outputs('Get_claim')?['body/clm_claimtype']",
+          "cases": {
+            "Injury": {
+              "case": "Injury",
+              "actions": {
+                "Notify_injury_team": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_office365",
+                      "operationId": "SendEmailV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                    },
+                    "parameters": {
+                      "emailMessage/To": "injury-team@example.invalid"
+                    }
+                  }
+                }
+              }
+            },
+            "Theft": {
+              "case": "Theft",
+              "actions": {
+                "Notify_siu": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_office365",
+                      "operationId": "SendEmailV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                    },
+                    "parameters": {
+                      "emailMessage/To": "siu@example.invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {}
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

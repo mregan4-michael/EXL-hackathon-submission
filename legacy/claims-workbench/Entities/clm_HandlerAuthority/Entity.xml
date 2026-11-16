@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Handler Authority" OriginalName="Handler Authority">clm_HandlerAuthority</Name>
+  <EntityInfo>
+    <entity Name="clm_HandlerAuthority">
+      <attributes>
+        <attribute PhysicalName="clm_HandlerAuthorityId">
+          <Type>primarykey</Type>
+          <Name>clm_handlerauthorityid</Name>
+          <RequiredLevel>systemrequired</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Handler Authority" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_Email">
+          <Type>nvarchar</Type>
+          <Name>clm_email</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <displaynames>
+            <displayname description="Email" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_Limit">
+          <Type>money</Type>
+          <Name>clm_limit</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MinValue>0</MinValue>
+          <MaxValue>250000</MaxValue>
+          <displaynames>
+            <displayname description="Authority Limit" languagecode="1033" />
+          </displaynames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>

@@ -1,0 +1,54 @@
+Screens:
+  ComplaintScreen:
+    Children:
+      - dpComplaintReceived:
+          Control: DatePicker@0.0.46
+      - dpAsOf:
+          Control: DatePicker@0.0.46
+      - dpResolvedDate:
+          Control: DatePicker@0.0.46
+      - chkResolvedToSatisfaction:
+          Control: Checkbox@0.0.30
+      - chkFinalResponseSent:
+          Control: Checkbox@0.0.30
+      - ddChannel:
+          Control: DropDown@0.0.45
+          Properties:
+            Items: =["Phone", "Email", "Letter", "Regulator", "Social media"]
+      - ddComplaintOutcome:
+          Control: DropDown@0.0.45
+          Properties:
+            Items: =["Upheld", "Partially upheld", "Not upheld"]
+      - txtFinancialLoss:
+          Control: TextInput@0.0.53
+      - chkDistressInconvenience:
+          Control: Checkbox@0.0.30
+      - dpFinalResponseDue:
+          Control: DatePicker@0.0.46
+          Properties:
+            DefaultDate: =DateAdd(dpComplaintReceived.SelectedDate, 56, TimeUnit.Days)
+            DisplayMode: =DisplayMode.View
+      - lblSummaryResolution:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Send summary resolution communication"
+            Visible: =chkResolvedToSatisfaction.Value && DateDiff(dpComplaintReceived.SelectedDate, dpResolvedDate.SelectedDate, TimeUnit.Days) <= 3
+      - lblComplaintBreach:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Eight-week deadline breached - issue FOS referral rights"
+            Visible: =!chkFinalResponseSent.Value && DateDiff(dpComplaintReceived.SelectedDate, dpAsOf.SelectedDate, TimeUnit.Days) > 56
+      - lblRedress:
+          Control: Label@2.5.1
+          Properties:
+            Text: |-
+              =Switch(
+                  ddComplaintOutcome.Selected.Value,
+                  "Upheld", Value(txtFinancialLoss.Text) + If(chkDistressInconvenience.Value, 150, 0),
+                  "Partially upheld", Round(Value(txtFinancialLoss.Text) * 0.5, 2) + If(chkDistressInconvenience.Value, 75, 0),
+                  0
+              )
+      - lblComplaintRoute:
+          Control: Label@2.5.1
+          Properties:
+            Text: =If(chkVulnerable.Value || ddChannel.Selected.Value = "Regulator", "Escalated", "Standard")

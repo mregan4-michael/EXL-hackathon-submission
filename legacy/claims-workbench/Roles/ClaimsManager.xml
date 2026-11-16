@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Role name="ClaimsManager">
+  <RolePrivileges>
+    <RolePrivilege name="prvReadclm_Claim" level="Global" />
+    <RolePrivilege name="prvWriteclm_Claim" level="Global" />
+    <RolePrivilege name="prvApproveclm_Payment" level="Global" />
+    <RolePrivilege name="prvAssignclm_Claim" level="Global" />
+    <RolePrivilege name="prvWriteclm_Complaint" level="Global" />
+  </RolePrivileges>
+</Role>

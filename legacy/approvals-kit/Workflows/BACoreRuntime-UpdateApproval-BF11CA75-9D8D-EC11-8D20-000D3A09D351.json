@@ -1,0 +1,547 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps_1": {
+        "impersonation": {
+          "source": "invoker"
+        },
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cat_BusinessApprovalKitDataverse"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_Approval_Instance_is_updated": {
+          "metadata": {
+            "operationMetadataId": "d40a3f82-601e-412c-992c-5f3053a9fabd"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 3,
+              "subscriptionRequest/entityname": "cat_businessapprovalinstance",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filteringattributes": "cat_instancestatus",
+              "subscriptionRequest/runas": 1
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Check_Instance_Status_type": {
+          "runAfter": {},
+          "cases": {
+            "Completed_(809060002)": {
+              "case": 809060002,
+              "actions": {
+                "Get_Other_Approval_Instances": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "6e546375-74be-44eb-aa48-ed60fbea7d81"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps_1",
+                      "operationId": "ListRecords",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "cat_businessapprovalinstances",
+                      "$select": "cat_businessapprovalinstanceid",
+                      "$filter": "_cat_nodeinstance_value eq @{triggerOutputs()?['body/_cat_nodeinstance_value']} and cat_businessapprovalinstanceid ne @{triggerOutputs()?['body/cat_businessapprovalinstanceid']} and cat_instancestatus eq 809060001"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  },
+                  "description": "Get all other approval instances in the same node instance that is not the current approval instance and status is \"Running\" (809060001)"
+                },
+                "Check_Outcome": {
+                  "runAfter": {
+                    "Get_Other_Approval_Instances": [
+                      "Succeeded"
+                    ]
+                  },
+                  "cases": {
+                    "Approve": {
+                      "case": "Approve",
+                      "actions": {
+                        "If_Approval_Type_is_Single_Response": {
+                          "actions": {
+                            "Each_Running_Approval_Instances": {
+                              "foreach": "@outputs('Get_Other_Approval_Instances')?['body/value']",
+                              "actions": {
+                                "Cancel_by_creating_override": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "96c7ca40-e75c-4852-80b0-c24a53f1c229"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connectionName": "shared_commondataserviceforapps_1",
+                                      "operationId": "CreateRecord",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                    },
+                                    "parameters": {
+                                      "entityName": "cat_businessapprovalinstanceoverrides",
+                                      "item/cat_ApprovalInstance@odata.bind": "cat_businessapprovalinstances(@{items('Each_Running_Approval_Instances')?['cat_businessapprovalinstanceid']})",
+                                      "item/cat_iscancellation": true,
+                                      "item/cat_overridereason": "A parallel approval in the same node has completed. Reference Approval Instance ID: @{triggerOutputs()?['body/cat_businessapprovalinstanceid']}"
+                                    },
+                                    "authentication": "@parameters('$authentication')"
+                                  }
+                                }
+                              },
+                              "runAfter": {},
+                              "metadata": {
+                                "operationMetadataId": "4062e6c7-9ab4-478d-b8ef-83f2d5c882d7"
+                              },
+                              "type": "Foreach",
+                              "runtimeConfiguration": {
+                                "concurrency": {
+                                  "repetitions": 20
+                                }
+                              }
+                            },
+                            "Update_Node_Instance_to_Complete_-_cancelled_other_instances": {
+                              "runAfter": {
+                                "Each_Running_Approval_Instances": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "f709b0b9-38b3-4a29-8aa8-f86612c4ade3"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps_1",
+                                  "operationId": "UpdateRecord",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "cat_businessapprovalruntimenodeinstances",
+                                  "recordId": "@triggerOutputs()?['body/_cat_nodeinstance_value']",
+                                  "item/cat_instancestatus": 809060002,
+                                  "item/cat_end": "@utcNow()"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            }
+                          },
+                          "runAfter": {},
+                          "else": {
+                            "actions": {
+                              "If_no_more_running_instances": {
+                                "actions": {
+                                  "Update_Node_Instance_to_Complete_-_No_more_running_instances": {
+                                    "runAfter": {},
+                                    "metadata": {
+                                      "operationMetadataId": "6467e9cb-2b50-4fd1-8b91-70c84809559b"
+                                    },
+                                    "type": "OpenApiConnection",
+                                    "inputs": {
+                                      "host": {
+                                        "connectionName": "shared_commondataserviceforapps_1",
+                                        "operationId": "UpdateRecord",
+                                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                      },
+                                      "parameters": {
+                                        "entityName": "cat_businessapprovalruntimenodeinstances",
+                                        "recordId": "@triggerOutputs()?['body/_cat_nodeinstance_value']",
+                                        "item/cat_instancestatus": 809060002,
+                                        "item/cat_end": "@utcNow()"
+                                      },
+                                      "authentication": "@parameters('$authentication')"
+                                    }
+                                  }
+                                },
+                                "runAfter": {},
+                                "expression": {
+                                  "equals": [
+                                    "@length(outputs('Get_Other_Approval_Instances')?['body/value'])",
+                                    0
+                                  ]
+                                },
+                                "metadata": {
+                                  "operationMetadataId": "b8e89964-b05f-4414-a497-a53ed18d47d3"
+                                },
+                                "type": "If"
+                              }
+                            }
+                          },
+                          "expression": {
+                            "or": [
+                              {
+                                "equals": [
+                                  "@triggerOutputs()?['body/cat_approvaltype']",
+                                  809060001
+                                ]
+                              },
+                              {
+                                "equals": [
+                                  "@triggerOutputs()?['body/cat_approvaltype']",
+                                  809060003
+                                ]
+                              }
+                            ]
+                          },
+                          "metadata": {
+                            "operationMetadataId": "ddad12dd-2e9d-4d68-8cac-a263601f2c1b"
+                          },
+                          "type": "If",
+                          "description": "Approve/Reject - Everyone (809,060,000), Approve/Reject - First (809,060,001), Custom - Everyone (809,060,002), Custom - First (809,060,003)"
+                        }
+                      }
+                    },
+                    "Reject": {
+                      "case": "Reject",
+                      "actions": {
+                        "If_Approval_Type_is_Single_Response_2": {
+                          "actions": {
+                            "Each_Running_Approval_Instances_2": {
+                              "foreach": "@outputs('Get_Other_Approval_Instances')?['body/value']",
+                              "actions": {
+                                "Cancel_by_creating_override_2": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "767a37dc-a4a5-486b-b44d-2419f21a4404"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connectionName": "shared_commondataserviceforapps_1",
+                                      "operationId": "CreateRecord",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                    },
+                                    "parameters": {
+                                      "entityName": "cat_businessapprovalinstanceoverrides",
+                                      "item/cat_ApprovalInstance@odata.bind": "cat_businessapprovalinstances(@{items('Each_Running_Approval_Instances_2')?['cat_businessapprovalinstanceid']})",
+                                      "item/cat_iscancellation": true,
+                                      "item/cat_overridereason": "A parallel approval in the same node has been rejected. Reference Approval Instance ID: @{triggerOutputs()?['body/cat_businessapprovalinstanceid']}"
+                                    },
+                                    "authentication": "@parameters('$authentication')"
+                                  }
+                                }
+                              },
+                              "runAfter": {},
+                              "metadata": {
+                                "operationMetadataId": "91f751db-641c-4b8d-a059-d76506980e66"
+                              },
+                              "type": "Foreach",
+                              "runtimeConfiguration": {
+                                "concurrency": {
+                                  "repetitions": 20
+                                }
+                              }
+                            },
+                            "Update_Node_Instance_to_Canceled-_cancelled_other_instances_2": {
+                              "runAfter": {
+                                "Each_Running_Approval_Instances_2": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "95b3730d-59ff-4e7a-8c46-d01031d5e3de"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps_1",
+                                  "operationId": "UpdateRecord",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "cat_businessapprovalruntimenodeinstances",
+                                  "recordId": "@triggerOutputs()?['body/_cat_nodeinstance_value']",
+                                  "item/cat_instancestatus": 809060004,
+                                  "item/cat_end": "@utcNow()"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            }
+                          },
+                          "runAfter": {},
+                          "else": {
+                            "actions": {
+                              "If_no_more_running_instances_2": {
+                                "actions": {
+                                  "Update_Node_Instance_to_Cancelled_-_No_more_running_instances_2": {
+                                    "runAfter": {},
+                                    "metadata": {
+                                      "operationMetadataId": "7a79590e-74c8-4526-9ce3-a2a757b5bc2b"
+                                    },
+                                    "type": "OpenApiConnection",
+                                    "inputs": {
+                                      "host": {
+                                        "connectionName": "shared_commondataserviceforapps_1",
+                                        "operationId": "UpdateRecord",
+                                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                      },
+                                      "parameters": {
+                                        "entityName": "cat_businessapprovalruntimenodeinstances",
+                                        "recordId": "@triggerOutputs()?['body/_cat_nodeinstance_value']",
+                                        "item/cat_instancestatus": 809060004,
+                                        "item/cat_end": "@utcNow()"
+                                      },
+                                      "authentication": "@parameters('$authentication')"
+                                    }
+                                  }
+                                },
+                                "runAfter": {},
+                                "expression": {
+                                  "equals": [
+                                    "@length(outputs('Get_Other_Approval_Instances')?['body/value'])",
+                                    0
+                                  ]
+                                },
+                                "metadata": {
+                                  "operationMetadataId": "721e5ec8-e53c-4f3a-b299-f13fc3d7dcb1"
+                                },
+                                "type": "If"
+                              }
+                            }
+                          },
+                          "expression": {
+                            "or": [
+                              {
+                                "equals": [
+                                  "@triggerOutputs()?['body/cat_approvaltype']",
+                                  809060001
+                                ]
+                              },
+                              {
+                                "equals": [
+                                  "@triggerOutputs()?['body/cat_approvaltype']",
+                                  809060003
+                                ]
+                              }
+                            ]
+                          },
+                          "metadata": {
+                            "operationMetadataId": "b3eaec08-2b3c-4102-8045-95de450329c5"
+                          },
+                          "type": "If"
+                        }
+                      }
+                    }
+                  },
+                  "default": {
+                    "actions": {
+                      "Condition": {
+                        "actions": {
+                          "Each_Running_Approval_Instances_3": {
+                            "foreach": "@outputs('Get_Other_Approval_Instances')?['body/value']",
+                            "actions": {
+                              "Cancel_by_creating_override_3": {
+                                "runAfter": {},
+                                "metadata": {
+                                  "operationMetadataId": "96c7ca40-e75c-4852-80b0-c24a53f1c229"
+                                },
+                                "type": "OpenApiConnection",
+                                "inputs": {
+                                  "host": {
+                                    "connectionName": "shared_commondataserviceforapps_1",
+                                    "operationId": "CreateRecord",
+                                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                  },
+                                  "parameters": {
+                                    "entityName": "cat_businessapprovalinstanceoverrides",
+                                    "item/cat_ApprovalInstance@odata.bind": "cat_businessapprovalinstances(@{items('Each_Running_Approval_Instances_3')?['cat_businessapprovalinstanceid']})",
+                                    "item/cat_iscancellation": true,
+                                    "item/cat_overridereason": "A parallel approval in the same node has completed. Reference Approval Instance ID: @{triggerOutputs()?['body/cat_businessapprovalinstanceid']}"
+                                  },
+                                  "authentication": "@parameters('$authentication')"
+                                }
+                              }
+                            },
+                            "runAfter": {},
+                            "metadata": {
+                              "operationMetadataId": "4062e6c7-9ab4-478d-b8ef-83f2d5c882d7"
+                            },
+                            "type": "Foreach",
+                            "runtimeConfiguration": {
+                              "concurrency": {
+                                "repetitions": 20
+                              }
+                            }
+                          },
+                          "Update_Node_Instance_to_Complete_-_cancelled_other_instances_2": {
+                            "runAfter": {
+                              "Each_Running_Approval_Instances_3": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "f709b0b9-38b3-4a29-8aa8-f86612c4ade3"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "host": {
+                                "connectionName": "shared_commondataserviceforapps_1",
+                                "operationId": "UpdateRecord",
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                              },
+                              "parameters": {
+                                "entityName": "cat_businessapprovalruntimenodeinstances",
+                                "recordId": "@triggerOutputs()?['body/_cat_nodeinstance_value']",
+                                "item/cat_instancestatus": 809060002,
+                                "item/cat_end": "@utcNow()"
+                              },
+                              "authentication": "@parameters('$authentication')"
+                            }
+                          },
+                          "If_no_more_running_instances_3": {
+                            "actions": {
+                              "Update_Node_Instance_to_Complete_-_No_more_running_instances_2": {
+                                "runAfter": {},
+                                "metadata": {
+                                  "operationMetadataId": "6467e9cb-2b50-4fd1-8b91-70c84809559b"
+                                },
+                                "type": "OpenApiConnection",
+                                "inputs": {
+                                  "host": {
+                                    "connectionName": "shared_commondataserviceforapps_1",
+                                    "operationId": "UpdateRecord",
+                                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                  },
+                                  "parameters": {
+                                    "entityName": "cat_businessapprovalruntimenodeinstances",
+                                    "recordId": "@triggerOutputs()?['body/_cat_nodeinstance_value']",
+                                    "item/cat_instancestatus": 809060002,
+                                    "item/cat_end": "@utcNow()"
+                                  },
+                                  "authentication": "@parameters('$authentication')"
+                                }
+                              }
+                            },
+                            "runAfter": {
+                              "Update_Node_Instance_to_Complete_-_cancelled_other_instances_2": [
+                                "Succeeded"
+                              ]
+                            },
+                            "expression": {
+                              "equals": [
+                                "@length(outputs('Get_Other_Approval_Instances')?['body/value'])",
+                                0
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "b8e89964-b05f-4414-a497-a53ed18d47d3"
+                            },
+                            "type": "If"
+                          }
+                        },
+                        "runAfter": {},
+                        "else": {
+                          "actions": {
+                            "If_no_more_running_instances_4": {
+                              "actions": {
+                                "Update_Node_Instance_to_Complete_-_No_more_running_instances_3": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "6467e9cb-2b50-4fd1-8b91-70c84809559b"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connectionName": "shared_commondataserviceforapps_1",
+                                      "operationId": "UpdateRecord",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                    },
+                                    "parameters": {
+                                      "entityName": "cat_businessapprovalruntimenodeinstances",
+                                      "recordId": "@triggerOutputs()?['body/_cat_nodeinstance_value']",
+                                      "item/cat_instancestatus": 809060002,
+                                      "item/cat_end": "@utcNow()"
+                                    },
+                                    "authentication": "@parameters('$authentication')"
+                                  }
+                                }
+                              },
+                              "runAfter": {},
+                              "expression": {
+                                "equals": [
+                                  "@length(outputs('Get_Other_Approval_Instances')?['body/value'])",
+                                  0
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "b8e89964-b05f-4414-a497-a53ed18d47d3"
+                              },
+                              "type": "If"
+                            }
+                          }
+                        },
+                        "expression": {
+                          "or": [
+                            {
+                              "equals": [
+                                "@triggerOutputs()?['body/cat_approvaltype']",
+                                809060001
+                              ]
+                            },
+                            {
+                              "equals": [
+                                "@triggerOutputs()?['body/cat_approvaltype']",
+                                809060003
+                              ]
+                            }
+                          ]
+                        },
+                        "metadata": {
+                          "operationMetadataId": "e1c4faaa-95d1-493f-84fa-4a7e451ce9d1"
+                        },
+                        "type": "If"
+                      }
+                    }
+                  },
+                  "expression": "@triggerOutputs()?['body/cat_outcome']",
+                  "metadata": {
+                    "operationMetadataId": "79384aff-aa29-4f8b-ab00-627c190ae1f0"
+                  },
+                  "type": "Switch",
+                  "description": "If approved, will go and complete the node. If rejected, will go and cancel the node. (20221219 TY)"
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {}
+          },
+          "expression": "@triggerOutputs()?['body/cat_instancestatus']",
+          "metadata": {
+            "operationMetadataId": "e1112393-00b5-4598-9f82-1a090e784132"
+          },
+          "type": "Switch",
+          "description": "Completed (809,060,002), Suspended (809,060,003), Canceled (809,060,004), Timed Out (809,060,005), Error (809,060,006)"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
