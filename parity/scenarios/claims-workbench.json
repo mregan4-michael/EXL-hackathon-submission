@@ -1,0 +1,83 @@
+{
+  "app": "claims-workbench",
+  "checks": [
+    {
+      "name": "health",
+      "ok": true,
+      "paths": []
+    },
+    {
+      "name": "submit disabled without policy number (BR-011)",
+      "ok": true,
+      "paths": [
+        "IntakeScreen/btnSubmit.DisplayMode"
+      ]
+    },
+    {
+      "name": "submit enabled for complete claim (BR-011)",
+      "ok": true,
+      "paths": [
+        "IntakeScreen/btnSubmit.DisplayMode"
+      ]
+    },
+    {
+      "name": "ClaimsHandler creates claim",
+      "ok": true,
+      "paths": [
+        "IntakeScreen/btnSubmit.OnSelect"
+      ]
+    },
+    {
+      "name": "Auditor refused claim creation (no prvCreate)",
+      "ok": true,
+      "paths": [
+        "IntakeScreen/btnSubmit.OnSelect",
+        "Auditor"
+      ]
+    },
+    {
+      "name": "triage rules evaluated",
+      "ok": true,
+      "paths": []
+    },
+    {
+      "name": "approve enabled within authority limit (BR-017)",
+      "ok": true,
+      "paths": [
+        "SettlementScreen/btnApprovePayment.DisplayMode",
+        "App.OnStart"
+      ]
+    },
+    {
+      "name": "payment created by handler",
+      "ok": true,
+      "paths": [
+        "SettlementScreen/btnApprovePayment.OnSelect"
+      ]
+    },
+    {
+      "name": "over-authority payment refused (guard re-evaluated server-side)",
+      "ok": true,
+      "paths": [
+        "SettlementScreen/btnApprovePayment.DisplayMode",
+        "SettlementScreen/btnApprovePayment.OnSelect",
+        "App.OnStart"
+      ]
+    },
+    {
+      "name": "Auditor refused payment",
+      "ok": true,
+      "paths": [
+        "SettlementScreen/btnApprovePayment.OnSelect",
+        "Auditor"
+      ]
+    },
+    {
+      "name": "Auditor can read payments (Global read)",
+      "ok": true,
+      "paths": [
+        "Auditor"
+      ]
+    }
+  ]
+}

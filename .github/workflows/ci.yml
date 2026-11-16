@@ -74,6 +74,10 @@ jobs:
           uv run factory generate claims-workbench approvals-kit
           git diff --exit-code generated
       - run: dotnet test generated/claims-workbench/src/Tests/Factory.Tests.csproj
+      - name: differential parity vs the Power Fx oracle (frozen test set; fail on mismatch or drift)
+        run: |
+          uv run factory parity --all --check
+          git diff --exit-code parity/reports parity/testset
       - run: dotnet build generated/approvals-kit/src/Api/Factory.Api.csproj
       - run: cd generated/claims-workbench/web && npm ci && npx tsc --noEmit && npm run build
       - run: az bicep build --file generated/claims-workbench/infra/main.bicep --stdout > /dev/null
@@ -81,4 +85,4 @@ jobs:
         run: |
           cd generated/claims-workbench && docker compose up -d --build
           for _ in $(seq 1 60); do curl -sf localhost:8080/health && break; sleep 1; done
-          cd ../.. && python3 scripts/journey.py
+          cd ../.. && python3 scripts/journey.py --record parity/scenarios/claims-workbench.json && git diff --exit-code parity/scenarios

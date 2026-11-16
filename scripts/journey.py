@@ -22,7 +22,12 @@ if not BASE.startswith(("http://", "https://")):
     raise SystemExit(f"API_URL must be http(s): {BASE}")
 HANDLER = "hana.handler@example.test"
 AUDITOR = "ari.auditor@example.test"
+SUB = "IntakeScreen/btnSubmit"
+APP = "SettlementScreen/btnApprovePayment"
 failures: list[str] = []
+# Each check names the legacy source paths it exercises; `--record FILE` saves them as
+# scenario evidence for `factory parity` (rules with no executed oracle evidence).
+checks: list[dict[str, Any]] = []
 
 
 def call(user: str | None, path: str, body: Any = None) -> tuple[int, Any, str]:
@@ -42,8 +47,9 @@ def call(user: str | None, path: str, body: Any = None) -> tuple[int, Any, str]:
         return e.code, json.loads(raw) if raw else None, cid
 
 
-def check(name: str, ok: bool, detail: str) -> None:
+def check(name: str, ok: bool, detail: str, paths: tuple[str, ...] = ()) -> None:
     print(f"  [{'PASS' if ok else 'FAIL'}] {name}: {detail}")
+    checks.append({"name": name, "ok": ok, "paths": list(paths)})
     if not ok:
         failures.append(name)
 
@@ -84,12 +90,14 @@ def main() -> int:
         "submit disabled without policy number (BR-011)",
         incomplete.get("btnSubmit.DisplayMode") == "Disabled",
         str(incomplete.get("btnSubmit.DisplayMode")),
+        (f"{SUB}.DisplayMode",),
     )
     v = evaluate(HANDLER, "IntakeScreen", INTAKE)
     check(
         "submit enabled for complete claim (BR-011)",
         v.get("btnSubmit.DisplayMode") == "Edit",
         str(v.get("btnSubmit.DisplayMode")),
+        (f"{SUB}.DisplayMode",),
     )
     ctx = {"clm_NotifiedDate": "2026-11-03", "clm_ClaimType": "Motor", "clm_CustomerId": "cust-001"}
     status, body, cid = call(
@@ -101,6 +109,7 @@ def main() -> int:
         status == 200 and claim_id is not None,
         f"{status} id={claim_id} status={(body or {}).get('record', {}).get('clm_Status')} "
         f"next={(body or {}).get('navigateTo')} correlation={cid}",
+        (f"{SUB}.OnSelect",),
     )
 
     status, body, cid = call(
@@ -110,6 +119,7 @@ def main() -> int:
         "Auditor refused claim creation (no prvCreate)",
         status == 403,
         f"{status} {(body or {}).get('detail')} correlation={cid}",
+        (f"{SUB}.OnSelect", "Auditor"),
     )
 
     print("2. Triage (TriageScreen)")
@@ -144,6 +154,7 @@ def main() -> int:
         "approve enabled within authority limit (BR-017)",
         s.get("btnApprovePayment.DisplayMode") == "Edit",
         f"{s.get('btnApprovePayment.DisplayMode')} (limit 5000, claim 3200)",
+        (f"{APP}.DisplayMode", "App.OnStart"),
     )
 
     print("4. Payment authorisation")
@@ -159,6 +170,7 @@ def main() -> int:
         status == 200,
         f"{status} amount={rec.get('clm_Amount')} approvedBy={rec.get('clm_ApprovedBy')}"
         f" correlation={cid}",
+        (f"{APP}.OnSelect",),
     )
 
     big = {**INTAKE, **TRIAGE, **SETTLE, "txtClaimAmount.Text": "18500"}
@@ -171,21 +183,33 @@ def main() -> int:
         "over-authority payment refused (guard re-evaluated server-side)",
         status == 409,
         f"{status} {(body or {}).get('detail')} correlation={cid}",
+        (f"{APP}.DisplayMode", f"{APP}.OnSelect", "App.OnStart"),
     )
     status, body, cid = call(
         AUDITOR,
         "/api/screens/SettlementScreen/actions/btnApprovePayment",
         {"inputs": {**INTAKE, **TRIAGE, **SETTLE}, "context": pctx},
     )
-    check("Auditor refused payment", status == 403, f"{status} {(body or {}).get('detail')}")
+    check(
+        "Auditor refused payment",
+        status == 403,
+        f"{status} {(body or {}).get('detail')}",
+        (f"{APP}.OnSelect", "Auditor"),
+    )
 
     status, rows, _ = call(AUDITOR, "/api/clm_Payments")
     check(
         "Auditor can read payments (Global read)",
         status == 200 and isinstance(rows, list),
         f"{status} rows={len(rows) if isinstance(rows, list) else rows}",
+        ("Auditor",),
     )
 
+    if "--record" in sys.argv:
+        out = sys.argv[sys.argv.index("--record") + 1]
+        with open(out, "w", encoding="utf-8") as f:
+            json.dump({"app": "claims-workbench", "checks": checks}, f, indent=2)
+            f.write("\n")
     print(f"\n{'JOURNEY PASSED' if not failures else 'JOURNEY FAILED: ' + ', '.join(failures)}")
     return 1 if failures else 0
 
