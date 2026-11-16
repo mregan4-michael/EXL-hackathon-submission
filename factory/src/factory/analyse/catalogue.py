@@ -158,7 +158,7 @@ def _rule(rid: str, f: rules.Facts, interp: dict[str, Any]) -> dict[str, Any]:
 def _graph(app_id: str, kept: list[tuple[dict[str, Any], rules.Facts]]) -> dict[str, Any]:
     nodes: dict[str, str] = {app_id: "app"}
     edges: set[tuple[str, str, str]] = set()
-    produced = {o.split(".")[0]: r["id"] for r, f in kept for o in f.outputs}
+    produced = {o: r["id"] for r, f in kept for o in f.outputs}
     for r, f in kept:
         s = f.site
         nodes[r["id"]] = "rule"
@@ -172,7 +172,7 @@ def _graph(app_id: str, kept: list[tuple[dict[str, Any], rules.Facts]]) -> dict[
         edges.add((app_id, owner, "contains"))
         edges.add((owner, r["id"], "defines"))
         for inp in f.inputs:
-            src = produced.get(inp.split(".")[0])
+            src = produced.get(inp)
             if src and src != r["id"]:
                 edges.add((src, r["id"], "reads"))
     return {
