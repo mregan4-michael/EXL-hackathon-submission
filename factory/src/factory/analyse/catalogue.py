@@ -17,7 +17,7 @@ from typing import Any
 import jsonschema
 
 from factory.analyse import rules
-from factory.common.llm import LLMClient, LLMError
+from factory.common.llm import LLMClient, LLMError, ReplayMissError
 from factory.common.paths import OUT, PROMPTS, SCHEMAS
 
 CATEGORIES = {
@@ -94,6 +94,8 @@ def parse_reply(text: str) -> dict[str, Any] | None:
 def interpret(llm: LLMClient, system: str, version: str, f: rules.Facts) -> dict[str, Any]:
     try:
         reply = parse_reply(llm.chat(build_messages(system, f), version))
+    except ReplayMissError:
+        raise
     except LLMError as exc:
         return {"error": f"interpretation_failed: {type(exc).__name__}"}
     return reply if reply is not None else {"error": "interpretation_failed: unparseable reply"}
