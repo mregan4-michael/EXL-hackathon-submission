@@ -376,10 +376,6 @@ def openapi(app_id: str, containers: list[dict[str, Any]], screens: list[str]) -
         paths[f"/api/{c['entity_set']}"] = {
             "get": {"responses": {"200": {"description": "list",
                     "content": {"application/json": {"schema": {"type": "array", "items": ref}}}}}},
-            "post": {"requestBody": {"content": {"application/json": {"schema": ref}}},
-                     "responses": {"201": {"description": "created"},
-                                   "400": {"description": "invalid"},
-                                   "403": {"description": "forbidden"}}},
         }  # fmt: skip
         paths[f"/api/{c['entity_set']}/{{id}}"] = {
             "get": {"parameters": [{"name": "id", "in": "path", "required": True,

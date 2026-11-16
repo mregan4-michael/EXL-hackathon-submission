@@ -226,28 +226,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/clm_Claim"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/clm_Claims/{id}": {
@@ -294,28 +272,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/clm_Complaint"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -366,28 +322,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/clm_Customer"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/clm_Customers/{id}": {
@@ -436,28 +370,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/clm_HandlerAuthority"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/clm_HandlerAuthorities/{id}": {
@@ -504,28 +416,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/clm_Payment"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }

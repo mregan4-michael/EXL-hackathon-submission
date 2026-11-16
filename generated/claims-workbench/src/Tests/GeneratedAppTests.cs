@@ -129,4 +129,18 @@ public sealed class GeneratedAppTests(HostFactory host) : IClassFixture<HostFact
             Assert.Contains(res.StatusCode, new[] { HttpStatusCode.Conflict, HttpStatusCode.BadRequest });
         }
     }
+
+    [Fact]
+    public async Task Rows_are_only_written_through_guarded_legacy_actions()
+    {
+        // A generic create route would let a caller skip the DisplayMode guard on the button.
+        using var client = host.CreateClient();
+        var users = await client.GetFromJsonAsync<JsonArray>("/api/demo/users") ?? [];
+        foreach (var c in App.Containers)
+            foreach (var u in users)
+            {
+                using var res = await client.SendAsync(Post($"/api/{c.EntitySet}", u!["email"]!.GetValue<string>(), new { }));
+                Assert.Equal(HttpStatusCode.MethodNotAllowed, res.StatusCode);
+            }
+    }
 }

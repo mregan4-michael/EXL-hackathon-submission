@@ -3120,28 +3120,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalCondition"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalConditions/{id}": {
@@ -3188,28 +3166,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalDataInstance"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -3260,28 +3216,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalData"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalDatas/{id}": {
@@ -3328,28 +3262,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalHolidayCalendar"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -3400,28 +3312,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalInstanceLog"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalInstanceLogs/{id}": {
@@ -3468,28 +3358,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalInstanceOverride"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -3540,28 +3408,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalInstance"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalInstances/{id}": {
@@ -3608,28 +3454,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalNodeReminderInstance"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -3680,28 +3504,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalNodeReminder"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalNodeReminders/{id}": {
@@ -3748,28 +3550,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalNode"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -3820,28 +3600,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalProcess"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalProcess/{id}": {
@@ -3888,28 +3646,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalPublicHolidays"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -3960,28 +3696,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalPublishedRuntimeData"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalPublishedRuntimeDatas/{id}": {
@@ -4028,28 +3742,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalPublishedWorkflow"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -4100,28 +3792,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeCondition"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalRuntimeConditions/{id}": {
@@ -4168,28 +3838,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeData"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -4240,28 +3888,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeException"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalRuntimeExceptions/{id}": {
@@ -4308,28 +3934,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeInstance"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -4380,28 +3984,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeNodeInstance"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalRuntimeNodeInstances/{id}": {
@@ -4448,28 +4030,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeNodeReminder"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -4520,28 +4080,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeNode"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalRuntimeNodes/{id}": {
@@ -4588,28 +4126,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeStageInstance"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -4660,28 +4176,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeStage"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalRuntimeStages/{id}": {
@@ -4728,28 +4222,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalSetting"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -4800,28 +4272,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalStage"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalStages/{id}": {
@@ -4868,28 +4318,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalVersion"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -4940,28 +4368,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalWorkProfile"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalWorkProfiles/{id}": {
@@ -5008,28 +4414,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalWorkflowQueue"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -5080,28 +4464,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprovalWorkflow"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApprovalWorkflows/{id}": {
@@ -5148,28 +4510,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApproverDynamicDataMap"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }
@@ -5220,28 +4560,6 @@
             }
           }
         }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApproverOOF"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
-          }
-        }
       }
     },
     "/api/cat_BusinessApproverOOFs/{id}": {
@@ -5288,28 +4606,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cat_BusinessApprover"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "created"
-          },
-          "400": {
-            "description": "invalid"
-          },
-          "403": {
-            "description": "forbidden"
           }
         }
       }

@@ -62,19 +62,6 @@ foreach (var c in App.Containers)
         var row = await store.GetAsync(c, id, ct);
         return row is not null && Rbac.InScope(depth, user, row) ? Results.Ok(row) : Results.NotFound();
     });
-    app.MapPost($"/api/{c.EntitySet}", async (JsonObject body, HttpContext http, IDocumentStore store, UserDirectory dir, ILogger<Program> log, CancellationToken ct) =>
-    {
-        var user = dir.Resolve(http);
-        if (user is null) return Results.Unauthorized();
-        if (Rbac.Depth(user.Role, c.Table, "Create") is null)
-            return Results.Problem(Rbac.Denied(user, c.Table, "Create"), statusCode: 403);
-        var doc = Records.New(c, user, body.ToDictionary(kv => kv.Key, kv => (object?)kv.Value?.DeepClone()));
-        var missing = Records.Missing(c, doc);
-        if (missing.Count > 0) return Results.ValidationProblem(missing.ToDictionary(m => m, m => new[] { "required" }));
-        await store.CreateAsync(c, doc, ct);
-        log.LogInformation("Created {Table} {Id} by {User}", c.Table, doc["id"], user.Email);
-        return Results.Created($"/api/{c.EntitySet}/{doc["id"]}", doc);
-    });
 }
 
 app.MapPost("/api/screens/{screen}/evaluate", async (string screen, EvaluateRequest req, HttpContext http, IDocumentStore store, UserDirectory dir, CancellationToken ct) =>
