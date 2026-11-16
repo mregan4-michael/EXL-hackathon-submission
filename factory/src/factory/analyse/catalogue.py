@@ -101,7 +101,12 @@ def interpret(llm: LLMClient, system: str, version: str, f: rules.Facts) -> dict
     return reply if reply is not None else {"error": "interpretation_failed: unparseable reply"}
 
 
-def _rule(rid: str, f: rules.Facts, interp: dict[str, Any]) -> dict[str, Any]:
+def _rule(
+    rid: str,
+    f: rules.Facts,
+    interp: dict[str, Any],
+    policy: rules.Policy = rules.POLICIES[rules.POLICY_VERSION],
+) -> dict[str, Any]:
     s = f.site
     reasons = list(f.review_reasons)
     if "error" in interp:
@@ -116,6 +121,11 @@ def _rule(rid: str, f: rules.Facts, interp: dict[str, Any]) -> dict[str, Any]:
             interp["category"],
             interp["confidence"],
         )
+    if policy.consistency_check and "error" not in interp:
+        gaps = rules.inconsistencies(statement, f.atoms)
+        if gaps:
+            confidence = min(confidence, 0.6)
+            reasons.append("statement_formula_inconsistent: " + "; ".join(gaps))
     if f.injection_suspected:
         confidence = min(confidence, 0.5)
         reasons.append("prompt_injection_suspected: legacy source contains text addressed to an AI")
@@ -185,13 +195,18 @@ def _graph(app_id: str, kept: list[tuple[dict[str, Any], rules.Facts]]) -> dict[
 
 
 def build_catalogue(
-    model: dict[str, Any], llm: LLMClient, prompt_version: str, workers: int = 4
+    model: dict[str, Any],
+    llm: LLMClient,
+    prompt_version: str,
+    workers: int = 4,
+    policy_version: str = rules.POLICY_VERSION,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     schema = verify_schema_lock()
+    policy = rules.POLICIES[policy_version]
     system = load_prompt(prompt_version)
     sites = rules.select_candidates(model["sites"])
     dead = rules.dead_controls(model["sites"])
-    all_facts = [rules.facts_for(s, dead) for s in sites]
+    all_facts = [rules.facts_for(s, dead, policy) for s in sites]
     rules.link_contradictions(all_facts)
     with ThreadPoolExecutor(max_workers=workers) as pool:
         interps = list(pool.map(lambda f: interpret(llm, system, prompt_version, f), all_facts))
@@ -210,13 +225,13 @@ def build_catalogue(
         if interp.get("is_business_rule") is False and not f.injection_suspected:
             rejected.append({"candidate_id": f.candidate_id, "path": f.site["path"]})
             continue
-        kept.append((_rule(f"BR-{len(kept) + 1:03d}", f, interp), f))
+        kept.append((_rule(f"BR-{len(kept) + 1:03d}", f, interp, policy), f))
     by_cid = {f.candidate_id: r["id"] for r, f in kept}
     for r, f in kept:
         r["flags"]["contradiction_with"] = sorted(
             by_cid[c] for c in f.contradiction_with if c in by_cid
         )
-    versions = {"interpret": prompt_version, "candidates": rules.POLICY_VERSION}
+    versions = {"interpret": prompt_version, "candidates": policy_version}
     run_id = hashlib.sha256(
         json.dumps([model["source"], model["sites"], versions], sort_keys=True).encode()
     ).hexdigest()[:16]

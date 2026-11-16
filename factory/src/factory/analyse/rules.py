@@ -16,6 +16,24 @@ from typing import Any
 from factory.analyse import fxast
 from factory.analyse.canvas import is_style_property
 
+
+@dataclass(frozen=True)
+class Policy:
+    """Deterministic candidate/flag policy. Versions are immutable; new behaviour = new version."""
+
+    version: str
+    fairness_words: bool  # v2: match whole identifier words, so "Message" no longer hits "age"
+    consistency_check: bool  # v3: statement must repeat every threshold number and strictness
+
+
+POLICIES = {
+    p.version: p
+    for p in (
+        Policy("candidates.v1", fairness_words=False, consistency_check=False),
+        Policy("candidates.v2", fairness_words=True, consistency_check=False),
+        Policy("candidates.v3", fairness_words=True, consistency_check=True),
+    )
+}
 POLICY_VERSION = "candidates.v1"
 
 PURE_FX = {
@@ -40,6 +58,51 @@ _PII = [
 ]
 PII_LEXICON = [(re.compile(p, re.I), c) for p, c in _PII]
 FAIRNESS = re.compile(r"vulnerab|fraud|dateofbirth|age\b|years|nationality|postcode|gender", re.I)
+FAIRNESS_STEMS = ("vulnerab", "fraud", "dateofbirth", "birthdate", "nationality", "postcode")
+FAIRNESS_WORDS = {"age", "ages", "aged", "years", "gender", "sex", "dob", "ethnicity", "religion"}
+_WORD = re.compile(r"[A-Z]+(?![a-z])|[A-Z]?[a-z]+|\d+")
+
+
+def words(text: str) -> list[str]:
+    """Identifier words: 'cat_ClaimantAge/Message' -> ['cat', 'claimant', 'age', 'message']."""
+    return [w.lower() for w in _WORD.findall(text)]
+
+
+def fairness_sensitive(text: str, policy: Policy) -> bool:
+    if not policy.fairness_words:
+        return bool(FAIRNESS.search(text))
+    low = text.lower()
+    return any(st in low for st in FAIRNESS_STEMS) or bool(FAIRNESS_WORDS & set(words(text)))
+
+
+_INCLUSIVE = re.compile(r"or equal|at least|or more|or above|minimum|no less|or over", re.I)
+_EXCLUSIVE_BELOW = re.compile(r"or less|or below|at most|maximum|no more|or under", re.I)
+
+
+def _number_forms(v: float) -> set[str]:
+    if v == int(v):
+        i = int(v)
+        return {str(i), f"{i:,}", f"{v:.1f}", f"{v:.2f}"}
+    return {repr(v), f"{v:.2f}", f"{v:,.2f}"}
+
+
+def inconsistencies(statement: str, atoms: list[tuple[str, str, float]]) -> list[str]:
+    """Threshold facts the plain-English statement fails to repeat (number or strictness)."""
+    out = []
+    for subj, op, v in atoms:
+        if not any(
+            re.search(rf"(?<![\d.]){re.escape(n)}(?![\d])", statement) for n in _number_forms(v)
+        ):
+            out.append(f"{subj} {op} {v:g}: threshold missing from statement")
+        elif op in (">", "<") and (_INCLUSIVE if op == ">" else _EXCLUSIVE_BELOW).search(statement):
+            out.append(f"{subj} {op} {v:g}: statement describes an inclusive bound")
+        elif op in (">=", "<=") and not (_INCLUSIVE if op == ">=" else _EXCLUSIVE_BELOW).search(
+            statement
+        ):
+            out.append(f"{subj} {op} {v:g}: statement does not say the bound is inclusive")
+    return out
+
+
 NOT_MAGIC = {0.0, 1.0, -1.0}
 WDL_REF = re.compile(
     r"(?:body/|\[')([A-Za-z_][\w/]*)|(?:outputs|variables|parameters|body)\('([^']+)'\)"
@@ -208,7 +271,9 @@ def _reads(ast: dict[str, Any]) -> set[str]:
     return out
 
 
-def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
+def facts_for(
+    site: dict[str, Any], dead_controls: set[str], policy: Policy = POLICIES[POLICY_VERSION]
+) -> Facts:
     k, formula = site["kind"], site["formula"]
     inputs: list[str]
     outputs: list[str]
@@ -280,7 +345,7 @@ def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
         outputs=outputs,
         magic_numbers=magic,
         pii=pii,
-        fairness=bool(FAIRNESS.search(text)),
+        fairness=fairness_sensitive(text, policy),
         dead_code=dead,
         injection_suspected=bool(INJECTION.search(formula + "\n" + site.get("description", ""))),
         oracle=oracle,
