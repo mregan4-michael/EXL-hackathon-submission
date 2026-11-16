@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Complaint" OriginalName="Complaint">clm_Complaint</Name>
+  <EntityInfo>
+    <entity Name="clm_Complaint">
+      <attributes>
+        <attribute PhysicalName="clm_ComplaintId">
+          <Type>primarykey</Type>
+          <Name>clm_complaintid</Name>
+          <RequiredLevel>systemrequired</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Complaint" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_ClaimId">
+          <Type>lookup</Type>
+          <Name>clm_claimid</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Claim" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_ReceivedOn">
+          <Type>datetime</Type>
+          <Name>clm_receivedon</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Received On" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_Channel">
+          <Type>nvarchar</Type>
+          <Name>clm_channel</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>20</MaxLength>
+          <displaynames>
+            <displayname description="Channel" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_FinalResponseSent">
+          <Type>bit</Type>
+          <Name>clm_finalresponsesent</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Final Response Sent" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_Outcome">
+          <Type>nvarchar</Type>
+          <Name>clm_outcome</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>20</MaxLength>
+          <displaynames>
+            <displayname description="Outcome" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_RedressAmount">
+          <Type>money</Type>
+          <Name>clm_redressamount</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MinValue>0</MinValue>
+          <MaxValue>100000</MaxValue>
+          <displaynames>
+            <displayname description="Redress Amount" languagecode="1033" />
+          </displaynames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>

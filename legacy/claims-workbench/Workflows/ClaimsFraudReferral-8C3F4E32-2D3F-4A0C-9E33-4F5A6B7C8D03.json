@@ -1,0 +1,107 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {},
+      "triggers": {
+        "When_a_row_is_added_or_modified": {
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 3,
+              "subscriptionRequest/entityname": "clm_claim",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filterexpression": "clm_fraudscore ge 50"
+            }
+          }
+        }
+      },
+      "actions": {
+        "Check_vulnerable_customer": {
+          "type": "If",
+          "runAfter": {},
+          "description": "Vulnerable customers are referred with a welfare flag, never auto-declined.",
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/clm_customer/clm_vulnerabilityflag']",
+                  true
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Create_referral_with_welfare_flag": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "clm_referrals",
+                  "item": {
+                    "clm_welfare": true
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "actions": {
+              "Create_referral": {
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_commondataserviceforapps",
+                    "operationId": "CreateRecord",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                  },
+                  "parameters": {
+                    "entityName": "clm_referrals",
+                    "item": {
+                      "clm_welfare": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Set_status_referred": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "UpdateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "clm_claims",
+              "recordId": "@triggerOutputs()?['body/clm_claimid']",
+              "item": {
+                "clm_status": "Referred"
+              }
+            }
+          },
+          "runAfter": {
+            "Check_vulnerable_customer": [
+              "Succeeded"
+            ]
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

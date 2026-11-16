@@ -1,0 +1,586 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps_1": {
+        "impersonation": {
+          "source": "invoker"
+        },
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cat_BusinessApprovalKitDataverse"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "Enable PowerFx Dataverse Integration (cat_EnablePowerFxDataverseIntegration)": {
+          "defaultValue": false,
+          "type": "Bool",
+          "metadata": {
+            "schemaName": "cat_EnablePowerFxDataverseIntegration",
+            "description": "Activate this feature by setting it to 'Yes' to enable PowerFx Dataverse integration"
+          }
+        }
+      },
+      "staticResults": {
+        "Get_Next_Node0": {
+          "status": "Succeeded",
+          "outputs": {
+            "statusCode": "OK",
+            "headers": {}
+          }
+        }
+      },
+      "triggers": {
+        "When_Node_Status_Changed": {
+          "metadata": {
+            "operationMetadataId": "96da42e6-854d-4364-b46f-9bf79b0dfdef"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 3,
+              "subscriptionRequest/entityname": "cat_businessapprovalruntimenodeinstance",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filteringattributes": "cat_instancestatus",
+              "subscriptionRequest/filterexpression": "cat_gotostageinstanceid eq null",
+              "subscriptionRequest/runas": 1
+            },
+            "authentication": "@parameters('$authentication')"
+          },
+          "description": "Triggers when a node status has changed, except when this is a \"Go to Stage\" condition"
+        }
+      },
+      "actions": {
+        "varStageCompleted": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "b2041fd0-f463-48cf-a904-8f796f48b74f"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "varStageCompleted",
+                "type": "boolean",
+                "value": "@false"
+              }
+            ]
+          }
+        },
+        "Check_Instance_Status_Type": {
+          "runAfter": {
+            "varStageCompleted": [
+              "Succeeded"
+            ]
+          },
+          "cases": {
+            "Completed_(809060002)": {
+              "case": 809060002,
+              "actions": {
+                "If_no_node_found": {
+                  "actions": {
+                    "Get_any_other_running_Node_Instances": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "16bdd77a-91f4-40c2-ad3a-efc48dc5dde7"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_commondataserviceforapps_1",
+                          "operationId": "ListRecords",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                        },
+                        "parameters": {
+                          "entityName": "cat_businessapprovalruntimenodeinstances",
+                          "$filter": "_cat_stageinstance_value eq @{triggerOutputs()?['body/_cat_stageinstance_value']} and cat_path ne @{triggerOutputs()?['body/cat_path']} and cat_instancestatus lt 809060002"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      },
+                      "description": "Get nodes that are either new or running in the same stage instance from other paths (Instance Status less than 80906002 - New 809060000 or Running 809060001)"
+                    },
+                    "If_no_more_running_node_instances": {
+                      "actions": {
+                        "Complete_Runtime_Stage_Instance_Status": {
+                          "runAfter": {},
+                          "metadata": {
+                            "operationMetadataId": "2f00d800-22d9-4215-8e9c-8dbbabd38318"
+                          },
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connectionName": "shared_commondataserviceforapps_1",
+                              "operationId": "UpdateRecord",
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                            },
+                            "parameters": {
+                              "entityName": "cat_businessapprovalruntimestageinstances",
+                              "recordId": "@triggerOutputs()?['body/_cat_stageinstance_value']",
+                              "item/cat_end": "@utcNow()",
+                              "item/cat_instancestatus": 809060002
+                            },
+                            "authentication": "@parameters('$authentication')"
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "Get_any_other_running_Node_Instances": [
+                          "Succeeded"
+                        ]
+                      },
+                      "expression": {
+                        "equals": [
+                          "@length(outputs('Get_any_other_running_Node_Instances')?['body/value'])",
+                          0
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "351a61c5-78b1-4f8a-ba6e-10752e5adeb4"
+                      },
+                      "type": "If",
+                      "description": "End of current stage instance."
+                    }
+                  },
+                  "runAfter": {
+                    "Get_Next_Node": [
+                      "Succeeded"
+                    ]
+                  },
+                  "else": {
+                    "actions": {
+                      "If_Node_Type_is_not_equal_End_Workflow_2": {
+                        "actions": {
+                          "Condition": {
+                            "actions": {
+                              "Get_Node_Due_Date_Request_Data": {
+                                "runAfter": {},
+                                "metadata": {
+                                  "operationMetadataId": "e8d2ebca-a774-4fd3-b241-fd6b2e298ea4"
+                                },
+                                "type": "OpenApiConnection",
+                                "inputs": {
+                                  "host": {
+                                    "connectionName": "shared_commondataserviceforapps_1",
+                                    "operationId": "ListRecords",
+                                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                  },
+                                  "parameters": {
+                                    "entityName": "cat_businessapprovaldatainstances",
+                                    "$filter": "_cat_workflowinstance_value eq @{triggerOutputs()?['body/_cat_workflowinstance_value']} and _cat_runtimedata_value eq @{first(body('Get_Next_Node')['value'])?['_cat_nodeduedaterequestdata_value']}"
+                                  },
+                                  "authentication": "@parameters('$authentication')"
+                                }
+                              }
+                            },
+                            "runAfter": {},
+                            "expression": {
+                              "not": {
+                                "equals": [
+                                  "@first(body('Get_Next_Node')['value'])?['_cat_nodeduedaterequestdata_value']",
+                                  "@null"
+                                ]
+                              }
+                            },
+                            "metadata": {
+                              "operationMetadataId": "1a00c0ed-9852-47e2-b33e-c31f59871939"
+                            },
+                            "type": "If"
+                          },
+                          "Create_new_Node_Instance": {
+                            "runAfter": {
+                              "Perform_an_unbound_action_to_Evaluate_Node_Message": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "5e796899-63ec-4e72-9c01-f52253016805"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "host": {
+                                "connectionName": "shared_commondataserviceforapps_1",
+                                "operationId": "CreateRecord",
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                              },
+                              "parameters": {
+                                "entityName": "cat_businessapprovalruntimenodeinstances",
+                                "item/cat_instancestatus": 809060000,
+                                "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodes(@{first(body('Get_Next_Node')['value'])['cat_businessapprovalruntimenodeid']})",
+                                "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestages(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                "item/cat_StageInstance@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stageinstance_value']})",
+                                "item/cat_start": "@utcNow()",
+                                "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                "item/cat_additionalinformation": "@triggerOutputs()?['body/cat_additionalinformation']",
+                                "item/cat_message": "@outputs('Perform_an_unbound_action_to_Evaluate_Node_Message')?['body/Message']",
+                                "item/cat_nodeduedatedatatype": "@first(body('Get_Next_Node')['value'])?['cat_nodeduedatedatatype']",
+                                "item/cat_NodeDueDateRequestData@odata.bind": "@if(equals(first(body('Get_Next_Node')['value'])?['cat_nodeduedatedatatype'],809060000),concat('cat_businessapprovaldatainstances(',first(outputs('Get_Node_Due_Date_Request_Data')?['body/value'])?['cat_businessapprovaldatainstanceid'],')'),null)",
+                                "item/cat_nodeduedatevalue": "@if(equals(first(body('Get_Next_Node')['value'])?['cat_nodeduedatedatatype'],809060001),first(body('Get_Next_Node')['value'])?['cat_nodeduedatevalue'],null)",
+                                "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']"
+                              },
+                              "authentication": "@parameters('$authentication')"
+                            }
+                          },
+                          "Perform_an_unbound_action_to_Evaluate_Node_Message": {
+                            "runAfter": {
+                              "Condition": [
+                                "Succeeded",
+                                "TimedOut",
+                                "Failed"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "662ab23e-663f-49d9-84ab-3b763dff9d76"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "host": {
+                                "connectionName": "shared_commondataserviceforapps_1",
+                                "operationId": "PerformUnboundAction",
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                              },
+                              "parameters": {
+                                "actionName": "cat_EvaluateNodeMessage",
+                                "item/NodeId": "@first(body('Get_Next_Node')['value'])?['cat_businessapprovalruntimenodeid']",
+                                "item/EnableDataverse": "@parameters('Enable PowerFx Dataverse Integration (cat_EnablePowerFxDataverseIntegration)')",
+                                "item/WorkflowId": "@triggerOutputs()?['body/_cat_workflowinstance_value']"
+                              },
+                              "authentication": "@parameters('$authentication')"
+                            }
+                          }
+                        },
+                        "runAfter": {},
+                        "expression": {
+                          "not": {
+                            "equals": [
+                              "@triggerOutputs()?['body/cat_nodetype']",
+                              809060002
+                            ]
+                          }
+                        },
+                        "metadata": {
+                          "operationMetadataId": "00101c70-2979-4003-ac7c-cf75d15034ff"
+                        },
+                        "type": "If"
+                      }
+                    }
+                  },
+                  "expression": {
+                    "equals": [
+                      "@length(outputs('Get_Next_Node')?['body/value'])",
+                      0
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d6ce4b53-e2a3-42cb-b4f1-24bae35ce137"
+                  },
+                  "type": "If",
+                  "description": "End of current path"
+                },
+                "Get_Next_Node": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "c30a096c-47ac-49d4-a0e7-150504fc91fa"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps_1",
+                      "operationId": "ListRecords",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "cat_businessapprovalruntimenodes",
+                      "$filter": "_cat_stage_value eq '@{triggerOutputs()?['body/_cat_stage_value']}'  and cat_rowindex eq @{add(triggerOutputs()?['body/cat_order'],1)} and cat_pathindex eq @{triggerOutputs()?['body/cat_path']}",
+                      "$top": 1
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  },
+                  "runtimeConfiguration": {
+                    "staticResult": {
+                      "staticResultOptions": "Disabled",
+                      "name": "Get_Next_Node0"
+                    }
+                  }
+                }
+              }
+            },
+            "Canceled_(809060004)": {
+              "case": 809060004,
+              "actions": {
+                "Get_Next_Node_2": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "fc7e2965-7253-4a9c-9cd0-c74913526006"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps_1",
+                      "operationId": "ListRecords",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "cat_businessapprovalruntimenodes",
+                      "$select": "cat_businessapprovalruntimenodeid,cat_nodetype,cat_sourcedatatype",
+                      "$filter": "_cat_stage_value eq '@{triggerOutputs()?['body/_cat_stage_value']}'  and cat_rowindex eq @{add(triggerOutputs()?['body/cat_order'],1)} and cat_pathindex eq @{triggerOutputs()?['body/cat_path']}",
+                      "$top": 1
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "If_no_node_found_2": {
+                  "actions": {
+                    "Get_any_other_running_Node_Instances_2": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "f7f508a7-5cc2-4d72-8376-b4effa8ac586"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_commondataserviceforapps_1",
+                          "operationId": "ListRecords",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                        },
+                        "parameters": {
+                          "entityName": "cat_businessapprovalruntimenodeinstances",
+                          "$filter": "_cat_stageinstance_value eq @{triggerOutputs()?['body/_cat_stageinstance_value']} and cat_path ne @{triggerOutputs()?['body/cat_path']} and cat_instancestatus lt 809060002"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      },
+                      "description": "Get nodes that are either new or running in the same stage instance from other paths (Instance Status less than 80906002 - New 809060000 or Running 809060001)"
+                    },
+                    "If_no_more_running_node_instances_2": {
+                      "actions": {
+                        "Cancel_Runtime_Stage_Instance_Status": {
+                          "runAfter": {},
+                          "metadata": {
+                            "operationMetadataId": "71ab3a16-fab5-4f73-beab-a4aac5ce32ee"
+                          },
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connectionName": "shared_commondataserviceforapps_1",
+                              "operationId": "UpdateRecord",
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                            },
+                            "parameters": {
+                              "entityName": "cat_businessapprovalruntimestageinstances",
+                              "recordId": "@triggerOutputs()?['body/_cat_stageinstance_value']",
+                              "item/cat_end": "@utcNow()",
+                              "item/cat_instancestatus": 809060004
+                            },
+                            "authentication": "@parameters('$authentication')"
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "Get_any_other_running_Node_Instances_2": [
+                          "Succeeded"
+                        ]
+                      },
+                      "expression": {
+                        "equals": [
+                          "@length(outputs('Get_any_other_running_Node_Instances_2')?['body/value'])",
+                          0
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "a7e6131a-a457-4d2c-ba15-740054c8b4ee"
+                      },
+                      "type": "If",
+                      "description": "End of current stage instance."
+                    }
+                  },
+                  "runAfter": {
+                    "Get_Next_Node_2": [
+                      "Succeeded"
+                    ]
+                  },
+                  "else": {
+                    "actions": {
+                      "If_next_node_NodeType_is_GoToStage": {
+                        "actions": {
+                          "If_Node_Type_is_not_equal_End_Workflow": {
+                            "actions": {
+                              "Create_new_Node_Instance_2": {
+                                "runAfter": {},
+                                "metadata": {
+                                  "operationMetadataId": "5e796899-63ec-4e72-9c01-f52253016805"
+                                },
+                                "type": "OpenApiConnection",
+                                "inputs": {
+                                  "host": {
+                                    "connectionName": "shared_commondataserviceforapps_1",
+                                    "operationId": "CreateRecord",
+                                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                  },
+                                  "parameters": {
+                                    "entityName": "cat_businessapprovalruntimenodeinstances",
+                                    "item/cat_instancestatus": 809060000,
+                                    "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodes(@{first(body('Get_Next_Node_2')['value'])['cat_businessapprovalruntimenodeid']})",
+                                    "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestages(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                    "item/cat_StageInstance@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stageinstance_value']})",
+                                    "item/cat_start": "@utcNow()",
+                                    "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                    "item/cat_additionalinformation": "@triggerOutputs()?['body/cat_additionalinformation']",
+                                    "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']"
+                                  },
+                                  "authentication": "@parameters('$authentication')"
+                                }
+                              }
+                            },
+                            "runAfter": {},
+                            "expression": {
+                              "not": {
+                                "equals": [
+                                  "@triggerOutputs()?['body/cat_nodetype']",
+                                  809060002
+                                ]
+                              }
+                            },
+                            "metadata": {
+                              "operationMetadataId": "00101c70-2979-4003-ac7c-cf75d15034ff"
+                            },
+                            "type": "If"
+                          }
+                        },
+                        "runAfter": {},
+                        "else": {
+                          "actions": {
+                            "Get_any_other_running_Node_Instances_3": {
+                              "runAfter": {},
+                              "metadata": {
+                                "operationMetadataId": "f7f508a7-5cc2-4d72-8376-b4effa8ac586"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps_1",
+                                  "operationId": "ListRecords",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "cat_businessapprovalruntimenodeinstances",
+                                  "$filter": "_cat_stageinstance_value eq @{triggerOutputs()?['body/_cat_stageinstance_value']} and cat_path ne @{triggerOutputs()?['body/cat_path']} and cat_instancestatus lt 809060002"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              },
+                              "description": "Get nodes that are either new or running in the same stage instance from other paths (Instance Status less than 80906002 - New 809060000 or Running 809060001)"
+                            },
+                            "If_no_more_running_node_instances_3": {
+                              "actions": {
+                                "Cancel_Runtime_Stage_Instance_Status_2": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "71ab3a16-fab5-4f73-beab-a4aac5ce32ee"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connectionName": "shared_commondataserviceforapps_1",
+                                      "operationId": "UpdateRecord",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                    },
+                                    "parameters": {
+                                      "entityName": "cat_businessapprovalruntimestageinstances",
+                                      "recordId": "@triggerOutputs()?['body/_cat_stageinstance_value']",
+                                      "item/cat_end": "@utcNow()",
+                                      "item/cat_instancestatus": 809060004
+                                    },
+                                    "authentication": "@parameters('$authentication')"
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "Get_any_other_running_Node_Instances_3": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "expression": {
+                                "equals": [
+                                  "@length(outputs('Get_any_other_running_Node_Instances_3')?['body/value'])",
+                                  0
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "a7e6131a-a457-4d2c-ba15-740054c8b4ee"
+                              },
+                              "type": "If",
+                              "description": "End of current stage instance."
+                            }
+                          }
+                        },
+                        "expression": {
+                          "and": [
+                            {
+                              "equals": [
+                                "@first(outputs('Get_Next_Node_2')?['body/value'])?['cat_nodetype']",
+                                809060001
+                              ]
+                            },
+                            {
+                              "equals": [
+                                "@first(outputs('Get_Next_Node_2')?['body/value'])?['cat_sourcedatatype']",
+                                809060001
+                              ]
+                            }
+                          ]
+                        },
+                        "metadata": {
+                          "operationMetadataId": "26683453-b825-4758-ae42-1e154b91b3d8"
+                        },
+                        "type": "If",
+                        "description": "If next node NodeType = GoToStage(809060001) and Source Data Type = Previous Node Outcome(809060001)"
+                      }
+                    }
+                  },
+                  "expression": {
+                    "equals": [
+                      "@length(outputs('Get_Next_Node_2')?['body/value'])",
+                      0
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "62142a0c-4b25-4641-97dc-dd3a2a40b14e"
+                  },
+                  "type": "If"
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {}
+          },
+          "expression": "@triggerOutputs()?['body/cat_instancestatus']",
+          "metadata": {
+            "operationMetadataId": "cc0f6ea3-87fc-4e72-a331-1d8a32cf6d9c"
+          },
+          "type": "Switch",
+          "description": "Completed (809,060,002), Suspended (809,060,003), Canceled (809,060,004), Timed Out (809,060,005), Error (809,060,006)"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

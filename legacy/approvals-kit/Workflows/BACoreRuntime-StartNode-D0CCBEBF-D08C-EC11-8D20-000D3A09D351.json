@@ -1,0 +1,2183 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps_1": {
+        "impersonation": {
+          "source": "invoker"
+        },
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cat_BusinessApprovalKitDataverse"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)": {
+          "defaultValue": false,
+          "type": "Bool",
+          "metadata": {
+            "schemaName": "cat_EnableOffice365MailboxSettings",
+            "description": "Activate this feature by setting it to 'Yes' to retrieve Out-of-Office (OOF) and Working Hours settings from users' mailbox configurations."
+          }
+        }
+      },
+      "staticResults": {
+        "Create_Approval_Instance_(Approver_not_OOF)0": {
+          "status": "Succeeded",
+          "outputs": {
+            "statusCode": "OK",
+            "headers": {}
+          }
+        }
+      },
+      "triggers": {
+        "When_new_Node_Instance_is_created": {
+          "metadata": {
+            "operationMetadataId": "a04a4e6c-ee6f-43d7-b0c1-73d2c167d066"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 1,
+              "subscriptionRequest/entityname": "cat_businessapprovalruntimenodeinstance",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/runas": 1
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "varGotoStageId": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "78f5b739-1dd6-4f55-8632-452f4891bd4a"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "varGotoStageId",
+                "type": "string"
+              }
+            ]
+          },
+          "description": "Tracks next stage Id if evaluated in a \"Go to Stage\" node condition"
+        },
+        "varApproverInfo": {
+          "runAfter": {
+            "varApproverDetails": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "eee1a915-b607-4d3c-b405-c5c8d371d44e"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "varApproverInfo",
+                "type": "object"
+              }
+            ]
+          },
+          "description": "Holds value of the approverId, UPN and NotificationType for Dynamic Approvers. JSON object { \"approverid\": \"Guid of the approver id from Approvers table\", \"upn\": \"upn value for the approver\", \"notificationType\": optionset value }"
+        },
+        "Get_Runtime_Node_Definition": {
+          "runAfter": {
+            "Initialize_Node_Due_Date": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "6cf266d8-8cfe-47e6-8db4-dfd91046cb6f"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "cat_businessapprovalruntimenodes",
+              "recordId": "@triggerOutputs()?['body/_cat_node_value']",
+              "$select": "cat_name, cat_approvaltype,cat_businessapprovalruntimenodeid, _cat_stage_value, cat_delegationrule, cat_nodetype, cat_notificationtype, cat_nodecondition, cat_approvaltype, cat_operand, cat_timeout, cat_timeoutmode, cat_GoToStage, cat_bizappr_runtimenodeapprover,cat_customresponses,_cat_sourcedata_value,cat_sourcedatatype,_cat_gotostage_value, cat_nodeduedatedatatype, cat_nodeduedatevalue,_cat_nodeduedaterequestdata_value,cat_instancestatus",
+              "$expand": "cat_bizappr_runtimenodeapprover($select=cat_approverid, cat_approvertype,_cat_requestdata_value,_cat_workprofile_value,cat_notificationtype,_cat_delegate_value, cat_delegateid, _cat_backupdelegate_value, cat_backupdelegateid, cat_isoutofoffice,cat_dynamicapprovertype), cat_ProcessVersion($select=cat_name,cat_businessapprovalversionid;$expand=cat_DefaultApprover($select=cat_businessapproverid,cat_approverid, cat_isoutofoffice, cat_notificationtype)),cat_GoToStage"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Create_Approval_Instances": {
+          "actions": {
+            "Check_Node_Type": {
+              "runAfter": {},
+              "cases": {
+                "Approval": {
+                  "case": 809060000,
+                  "actions": {
+                    "Each_Approver": {
+                      "foreach": "@body('Get_Runtime_Node_Definition')['cat_bizappr_runtimenodeapprover']",
+                      "actions": {
+                        "If_Approver_Type_=_User_(809,060,000)": {
+                          "actions": {
+                            "Get_Approver,_Delegate_and_Backup": {
+                              "runAfter": {},
+                              "metadata": {
+                                "operationMetadataId": "c2e342ee-62a9-4c3a-b1c9-5e0a2c46e748"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps_1",
+                                  "operationId": "GetItem",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "cat_businessapprovers",
+                                  "recordId": "@item()['cat_businessapproverid']",
+                                  "$select": "cat_businessapproverid,cat_approverid, cat_isoutofoffice, cat_notificationtype, cat_Delegate, cat_BackupDelegate",
+                                  "$expand": "cat_Delegate($select=cat_businessapproverid,cat_approverid,cat_isoutofoffice,cat_notificationtype), cat_BackupDelegate($select=cat_businessapproverid,cat_approverid,cat_isoutofoffice,cat_notificationtype)"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "If_Node_Rule_checks_for_OOF": {
+                              "actions": {
+                                "Get_Approver,_Delegate,_Backup_or_Default_who_is_not_OOF": {
+                                  "runAfter": {
+                                    "Check_If_Enable_O365_Mailbox_Settings_is_true": [
+                                      "Succeeded"
+                                    ]
+                                  },
+                                  "metadata": {
+                                    "operationMetadataId": "b9665d0f-9f1e-4307-92d3-1310e5760603"
+                                  },
+                                  "type": "Query",
+                                  "inputs": {
+                                    "from": "@variables('varApproverDetails')",
+                                    "where": "@and(not(equals(item()?['isOOF'], 'true')), not(empty(item()?['isOOF'])))\n"
+                                  },
+                                  "description": "@and(not(equals(item()?['isOOF'], true)), not(empty(item()?['isOOF'])))"
+                                },
+                                "First_Not_OOF": {
+                                  "runAfter": {
+                                    "Get_Approver,_Delegate,_Backup_or_Default_who_is_not_OOF": [
+                                      "Succeeded"
+                                    ]
+                                  },
+                                  "metadata": {
+                                    "operationMetadataId": "3b11437d-1c79-41d0-a9f2-f9d85e2b292f"
+                                  },
+                                  "type": "Compose",
+                                  "inputs": "@first(body('Get_Approver,_Delegate,_Backup_or_Default_who_is_not_OOF'))"
+                                },
+                                "If_First_Not_OOF_found": {
+                                  "actions": {
+                                    "Create_Delegate_Instance_(Approver,_Delegate,_Backup_or_Default)": {
+                                      "runAfter": {},
+                                      "metadata": {
+                                        "operationMetadataId": "6b966b43-f38f-4c7d-9935-39a6fbd6cf98"
+                                      },
+                                      "type": "OpenApiConnection",
+                                      "inputs": {
+                                        "host": {
+                                          "connectionName": "shared_commondataserviceforapps_1",
+                                          "operationId": "CreateRecord",
+                                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                        },
+                                        "parameters": {
+                                          "entityName": "cat_businessapprovalinstances",
+                                          "item/cat_Approver@odata.bind": "cat_businessapprovers(@{outputs('First_Not_OOF')['id']})",
+                                          "item/cat_instancestatus": 809060000,
+                                          "item/cat_NodeInstance@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                          "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                          "item/cat_additionalinformation": "Original Approver is OOF. Set to @{outputs('First_Not_OOF')['type']}.@{triggerOutputs()?['body/cat_additionalinformation']}",
+                                          "item/cat_approvaltype": "@outputs('Get_Runtime_Node_Definition')?['body/cat_approvaltype']",
+                                          "item/cat_approverupn": "@outputs('First_Not_OOF')['approver']",
+                                          "item/cat_customresponses": "@outputs('Get_Runtime_Node_Definition')?['body/cat_customresponses']",
+                                          "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/_cat_node_value']})",
+                                          "item/cat_notification": "@outputs('Get_Runtime_Node_Definition')?['body/cat_notificationtype']",
+                                          "item/cat_OriginalApprover@odata.bind": "cat_businessapprovers(@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_businessapproverid']})",
+                                          "item/cat_ProcessVersion@odata.bind": "cat_businessapprovalversions(@{body('Get_Runtime_Node_Definition')['cat_processversion/cat_businessapprovalversionid']})",
+                                          "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']",
+                                          "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                          "item/cat_timeoutcounter": "@outputs('Get_Runtime_Node_Definition')?['body/cat_timeout']",
+                                          "item/cat_timeoutupdate": "@utcNow()",
+                                          "item/cat_title": "@{outputs('Get_Runtime_Node_Definition')?['body/cat_processversion/cat_name']} Approval - @{triggerOutputs()?['body/cat_nodenamevalue']} "
+                                        },
+                                        "authentication": "@parameters('$authentication')"
+                                      }
+                                    }
+                                  },
+                                  "runAfter": {
+                                    "First_Not_OOF": [
+                                      "Succeeded"
+                                    ]
+                                  },
+                                  "else": {
+                                    "actions": {
+                                      "Get_Approver_Manager_Info": {
+                                        "runAfter": {},
+                                        "metadata": {
+                                          "operationMetadataId": "8d715ec8-a12d-4684-8896-298435b974b2"
+                                        },
+                                        "type": "Workflow",
+                                        "inputs": {
+                                          "host": {
+                                            "workflowReferenceName": "dcb75fef-35d6-ec11-a7b5-000d3af46350"
+                                          },
+                                          "body": {
+                                            "boolean": true,
+                                            "text": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                            "text_1": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                            "text_2": "@outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_approverid']"
+                                          }
+                                        }
+                                      },
+                                      "Set_Approver_Manager_Info_": {
+                                        "runAfter": {
+                                          "Get_Approver_Manager_Info": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "7f18bedd-6479-4ab2-915f-1f37a284e009"
+                                        },
+                                        "type": "SetVariable",
+                                        "inputs": {
+                                          "name": "varApproverInfo",
+                                          "value": {
+                                            "approverid": "@{body('Get_Approver_Manager_Info')?['approverid']}",
+                                            "upn": "@{body('Get_Approver_Manager_Info')?['upn']}",
+                                            "notificationType": "@body('Get_Approver_Manager_Info')?['notificationtype']",
+                                            "info": "Original Approver is OOF. Approver set to Manager of original Approver (@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_approverid']})"
+                                          }
+                                        }
+                                      },
+                                      "If_Manager_found": {
+                                        "actions": {
+                                          "Log_no_Delegate_found": {
+                                            "runAfter": {},
+                                            "metadata": {
+                                              "operationMetadataId": "d9ce0965-2d02-4020-9ba9-b231017c8b22"
+                                            },
+                                            "type": "Workflow",
+                                            "inputs": {
+                                              "host": {
+                                                "workflowReferenceName": "613b8c18-5ad4-ec11-a7b5-000d3af4ac06"
+                                              },
+                                              "body": {
+                                                "text": "Node",
+                                                "text_1": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                                "text_2": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                                "text_3": "Approver not found",
+                                                "text_5": "@workflow()?['tags']?['flowDisplayName']",
+                                                "text_4": "No delegate or default approver for this process found or all are OOF for Approver ID: @{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_approverid']}. Proceeding with current OOF approver's Manager."
+                                              }
+                                            }
+                                          },
+                                          "Create_Approval_Instance_(no_Delegates_found)": {
+                                            "runAfter": {
+                                              "Log_no_Delegate_found": [
+                                                "Succeeded"
+                                              ]
+                                            },
+                                            "metadata": {
+                                              "operationMetadataId": "95dd45e2-d400-4f3e-902e-da073a965f91"
+                                            },
+                                            "type": "OpenApiConnection",
+                                            "inputs": {
+                                              "host": {
+                                                "connectionName": "shared_commondataserviceforapps_1",
+                                                "operationId": "CreateRecord",
+                                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                              },
+                                              "parameters": {
+                                                "entityName": "cat_businessapprovalinstances",
+                                                "item/cat_Approver@odata.bind": "cat_businessapprovers(@{variables('varApproverInfo')['approverid']})",
+                                                "item/cat_instancestatus": 809060000,
+                                                "item/cat_NodeInstance@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                                "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                                "item/cat_additionalinformation": "Approver is OOF but no delegates found.@{triggerOutputs()?['body/cat_additionalinformation']}",
+                                                "item/cat_approvaltype": "@outputs('Get_Runtime_Node_Definition')?['body/cat_approvaltype']",
+                                                "item/cat_approverupn": "@variables('varApproverInfo')['upn']",
+                                                "item/cat_customresponses": "@outputs('Get_Runtime_Node_Definition')?['body/cat_customresponses']",
+                                                "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/_cat_node_value']})",
+                                                "item/cat_notification": "@outputs('Get_Runtime_Node_Definition')?['body/cat_notificationtype']",
+                                                "item/cat_ProcessVersion@odata.bind": "cat_businessapprovalversions(@{body('Get_Runtime_Node_Definition')['cat_processversion/cat_businessapprovalversionid']})",
+                                                "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']",
+                                                "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                                "item/cat_start": "@utcNow()",
+                                                "item/cat_timeoutcounter": "@outputs('Get_Runtime_Node_Definition')?['body/cat_timeout']",
+                                                "item/cat_timeoutupdate": "@utcNow()",
+                                                "item/cat_title": "@{outputs('Get_Runtime_Node_Definition')?['body/cat_processversion/cat_name']} Approval - @{triggerOutputs()?['body/cat_nodenamevalue']} "
+                                              },
+                                              "authentication": "@parameters('$authentication')"
+                                            },
+                                            "runtimeConfiguration": {
+                                              "staticResult": {
+                                                "staticResultOptions": "Disabled",
+                                                "name": "Create_Approval_Instance_(Approver_not_OOF)0"
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "runAfter": {
+                                          "Set_Approver_Manager_Info_": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "else": {
+                                          "actions": {
+                                            "Log_no_delegate,_backup_delegate_and_manager_found": {
+                                              "runAfter": {},
+                                              "metadata": {
+                                                "operationMetadataId": "14c7eb92-cd3c-4e8e-b9ca-4736b495b1ab"
+                                              },
+                                              "type": "Workflow",
+                                              "inputs": {
+                                                "host": {
+                                                  "workflowReferenceName": "613b8c18-5ad4-ec11-a7b5-000d3af4ac06"
+                                                },
+                                                "body": {
+                                                  "text": "Node",
+                                                  "text_1": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                                  "text_2": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                                  "text_3": "Approver not found",
+                                                  "text_5": "@workflow()['tags/flowDisplayName']",
+                                                  "text_4": "No delegate or default approver for this process found or all are OOF for Approver ID: @{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_approverid']}. Proceeding with current OOF approver."
+                                                }
+                                              }
+                                            },
+                                            "Create_Approval_Instance_No_delegate,_backup_delegate_and_manager_found": {
+                                              "runAfter": {
+                                                "Log_no_delegate,_backup_delegate_and_manager_found": [
+                                                  "Succeeded"
+                                                ]
+                                              },
+                                              "metadata": {
+                                                "operationMetadataId": "bf65aaf5-4377-4634-b423-5800534b9d64"
+                                              },
+                                              "type": "OpenApiConnection",
+                                              "inputs": {
+                                                "host": {
+                                                  "connectionName": "shared_commondataserviceforapps_1",
+                                                  "operationId": "CreateRecord",
+                                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                                },
+                                                "parameters": {
+                                                  "entityName": "cat_businessapprovalinstances",
+                                                  "item/cat_Approver@odata.bind": "cat_businessapprovers(@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_businessapproverid']})",
+                                                  "item/cat_instancestatus": 809060000,
+                                                  "item/cat_NodeInstance@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                                  "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                                  "item/cat_additionalinformation": "@triggerOutputs()?['body/cat_additionalinformation']",
+                                                  "item/cat_approvaltype": "@outputs('Get_Runtime_Node_Definition')?['body/cat_approvaltype']",
+                                                  "item/cat_approverupn": "@outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_approverid']",
+                                                  "item/cat_customresponses": "@outputs('Get_Runtime_Node_Definition')?['body/cat_customresponses']",
+                                                  "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/_cat_node_value']})",
+                                                  "item/cat_notification": "@outputs('Get_Runtime_Node_Definition')?['body/cat_notificationtype']",
+                                                  "item/cat_ProcessVersion@odata.bind": "cat_businessapprovalversions(@{body('Get_Runtime_Node_Definition')['cat_processversion/cat_businessapprovalversionid']})",
+                                                  "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']",
+                                                  "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                                  "item/cat_start": "@utcNow()",
+                                                  "item/cat_timeoutcounter": "@outputs('Get_Runtime_Node_Definition')?['body/cat_timeout']",
+                                                  "item/cat_timeoutupdate": "@utcNow()",
+                                                  "item/cat_title": "@{outputs('Get_Runtime_Node_Definition')?['body/cat_processversion/cat_name']} Approval - @{triggerOutputs()?['body/cat_nodenamevalue']} "
+                                                },
+                                                "authentication": "@parameters('$authentication')"
+                                              },
+                                              "runtimeConfiguration": {
+                                                "staticResult": {
+                                                  "staticResultOptions": "Disabled",
+                                                  "name": "Create_Approval_Instance_(Approver_not_OOF)0"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "expression": {
+                                          "greater": [
+                                            "@length(variables('varApproverInfo')['approverid'])",
+                                            0
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "fad601ed-d33f-471c-8ade-7c1e605fa88e"
+                                        },
+                                        "type": "If"
+                                      }
+                                    }
+                                  },
+                                  "expression": {
+                                    "greater": [
+                                      "@length(coalesce(outputs('First_Not_OOF')?['id'],''))",
+                                      0
+                                    ]
+                                  },
+                                  "metadata": {
+                                    "operationMetadataId": "8c569a23-df35-482e-b4b1-f5696dc50cee"
+                                  },
+                                  "type": "If"
+                                },
+                                "Check_If_Enable_O365_Mailbox_Settings_is_true": {
+                                  "actions": {
+                                    "Get_MailboxSetting_for_Approver": {
+                                      "runAfter": {
+                                        "Set_varApproverDetails": [
+                                          "Succeeded"
+                                        ]
+                                      },
+                                      "metadata": {
+                                        "operationMetadataId": "809b5762-0c40-406a-a234-89b42345116a"
+                                      },
+                                      "type": "Workflow",
+                                      "inputs": {
+                                        "host": {
+                                          "workflowReferenceName": "a68e0a7e-37ec-ee11-904d-000d3a8edea8"
+                                        },
+                                        "body": {
+                                          "text": "@base64(string(variables('varApproverDetails')))"
+                                        }
+                                      }
+                                    },
+                                    "Set_varApproverDetails": {
+                                      "runAfter": {},
+                                      "metadata": {
+                                        "operationMetadataId": "c2164d31-7073-4863-9e13-44ced4263e94"
+                                      },
+                                      "type": "SetVariable",
+                                      "inputs": {
+                                        "name": "varApproverDetails",
+                                        "value": [
+                                          {
+                                            "id": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_businessapproverid']}",
+                                            "approver": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_approverid']}",
+                                            "isOOF": "",
+                                            "notification": "@outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_notificationtype']",
+                                            "type": "Approver"
+                                          },
+                                          {
+                                            "id": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_delegate/cat_businessapproverid']}",
+                                            "approver": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_delegate/cat_approverid']}",
+                                            "isOOF": "",
+                                            "notification": "@outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_delegate/cat_notificationtype']",
+                                            "type": "Delegate"
+                                          },
+                                          {
+                                            "id": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_backupdelegate/cat_businessapproverid']}",
+                                            "approver": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_backupdelegate/cat_approverid']}",
+                                            "isOOF": "",
+                                            "notification": "@outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_backupdelegate/cat_notificationtype']",
+                                            "type": "Backup Delegate"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "Set_OOF_settings_for_varApproverDetails_from_Mailbox": {
+                                      "runAfter": {
+                                        "Get_MailboxSetting_for_Approver": [
+                                          "Succeeded"
+                                        ]
+                                      },
+                                      "metadata": {
+                                        "operationMetadataId": "f55d2693-3264-4784-87ae-f8c39cfdbb98"
+                                      },
+                                      "type": "SetVariable",
+                                      "inputs": {
+                                        "name": "varApproverDetails",
+                                        "value": "@json(base64tostring(outputs('Get_MailboxSetting_for_Approver')?['Body']?['updated_user_details']))"
+                                      }
+                                    }
+                                  },
+                                  "runAfter": {},
+                                  "else": {
+                                    "actions": {
+                                      "Set_OOF_settings_for_varApproverDetails_from_Dataverse": {
+                                        "runAfter": {},
+                                        "metadata": {
+                                          "operationMetadataId": "c2164d31-7073-4863-9e13-44ced4263e94"
+                                        },
+                                        "type": "SetVariable",
+                                        "inputs": {
+                                          "name": "varApproverDetails",
+                                          "value": [
+                                            {
+                                              "id": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_businessapproverid']}",
+                                              "approver": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_approverid']}",
+                                              "isOOF": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_isoutofoffice']}",
+                                              "notification": "@outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_notificationtype']",
+                                              "type": "Approver"
+                                            },
+                                            {
+                                              "id": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_delegate/cat_businessapproverid']}",
+                                              "approver": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_delegate/cat_approverid']}",
+                                              "isOOF": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_delegate/cat_isoutofoffice']}",
+                                              "notification": "@outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_delegate/cat_notificationtype']",
+                                              "type": "Delegate"
+                                            },
+                                            {
+                                              "id": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_backupdelegate/cat_businessapproverid']}",
+                                              "approver": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_backupdelegate/cat_approverid']}",
+                                              "isOOF": "@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_backupdelegate/cat_isoutofoffice']}",
+                                              "notification": "@outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_backupdelegate/cat_notificationtype']",
+                                              "type": "Backup Delegate"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "expression": {
+                                    "equals": [
+                                      "@parameters('Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)')",
+                                      "@true"
+                                    ]
+                                  },
+                                  "metadata": {
+                                    "operationMetadataId": "25946ed4-617c-4ab3-83f1-420d70468e94"
+                                  },
+                                  "type": "If"
+                                }
+                              },
+                              "runAfter": {
+                                "Get_Approver,_Delegate_and_Backup": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "else": {
+                                "actions": {
+                                  "Create_Approval_Instance_(OOF_not_required)": {
+                                    "runAfter": {},
+                                    "metadata": {
+                                      "operationMetadataId": "bf65aaf5-4377-4634-b423-5800534b9d64"
+                                    },
+                                    "type": "OpenApiConnection",
+                                    "inputs": {
+                                      "host": {
+                                        "connectionName": "shared_commondataserviceforapps_1",
+                                        "operationId": "CreateRecord",
+                                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                      },
+                                      "parameters": {
+                                        "entityName": "cat_businessapprovalinstances",
+                                        "item/cat_Approver@odata.bind": "cat_businessapprovers(@{outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_businessapproverid']})",
+                                        "item/cat_instancestatus": 809060000,
+                                        "item/cat_NodeInstance@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                        "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                        "item/cat_additionalinformation": "@triggerOutputs()?['body/cat_additionalinformation']",
+                                        "item/cat_approvaltype": "@outputs('Get_Runtime_Node_Definition')?['body/cat_approvaltype']",
+                                        "item/cat_approverupn": "@outputs('Get_Approver,_Delegate_and_Backup')?['body/cat_approverid']",
+                                        "item/cat_customresponses": "@outputs('Get_Runtime_Node_Definition')?['body/cat_customresponses']",
+                                        "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/_cat_node_value']})",
+                                        "item/cat_notification": "@outputs('Get_Runtime_Node_Definition')?['body/cat_notificationtype']",
+                                        "item/cat_ProcessVersion@odata.bind": "cat_businessapprovalversions(@{body('Get_Runtime_Node_Definition')['cat_processversion/cat_businessapprovalversionid']})",
+                                        "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']",
+                                        "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                        "item/cat_start": "@utcNow()",
+                                        "item/cat_timeoutcounter": "@outputs('Get_Runtime_Node_Definition')?['body/cat_timeout']",
+                                        "item/cat_timeoutupdate": "@utcNow()",
+                                        "item/cat_title": "@{outputs('Get_Runtime_Node_Definition')?['body/cat_processversion/cat_name']} Approval - @{triggerOutputs()?['body/cat_nodenamevalue']} "
+                                      },
+                                      "authentication": "@parameters('$authentication')"
+                                    },
+                                    "runtimeConfiguration": {
+                                      "staticResult": {
+                                        "staticResultOptions": "Disabled",
+                                        "name": "Create_Approval_Instance_(Approver_not_OOF)0"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "expression": {
+                                "and": [
+                                  {
+                                    "or": [
+                                      {
+                                        "equals": [
+                                          "@outputs('Get_Runtime_Node_Definition')?['body/cat_delegationrule']",
+                                          809060002
+                                        ]
+                                      },
+                                      {
+                                        "equals": [
+                                          "@outputs('Get_Runtime_Node_Definition')?['body/cat_delegationrule']",
+                                          809060003
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "44b1913b-fa55-49c6-b0aa-3ad19af185e9"
+                              },
+                              "type": "If",
+                              "description": "If Node Delegation Rule is Out of Office (809,060,002) OR Time-out or Out of Office (809,060,003)"
+                            }
+                          },
+                          "runAfter": {},
+                          "else": {
+                            "actions": {
+                              "If_Approver_found": {
+                                "actions": {
+                                  "Get_Approver,_Delegate_and_Backup_2": {
+                                    "runAfter": {},
+                                    "metadata": {
+                                      "operationMetadataId": "c2e342ee-62a9-4c3a-b1c9-5e0a2c46e748"
+                                    },
+                                    "type": "OpenApiConnection",
+                                    "inputs": {
+                                      "host": {
+                                        "connectionName": "shared_commondataserviceforapps_1",
+                                        "operationId": "GetItem",
+                                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                      },
+                                      "parameters": {
+                                        "entityName": "cat_businessapprovers",
+                                        "recordId": "@variables('varApproverInfo')['approverid']",
+                                        "$select": "cat_businessapproverid,cat_approverid, cat_isoutofoffice, cat_notificationtype, cat_Delegate, cat_BackupDelegate",
+                                        "$expand": "cat_Delegate($select=cat_businessapproverid,cat_approverid,cat_isoutofoffice,cat_notificationtype), cat_BackupDelegate($select=cat_businessapproverid,cat_approverid,cat_isoutofoffice,cat_notificationtype)"
+                                      },
+                                      "authentication": "@parameters('$authentication')"
+                                    }
+                                  },
+                                  "If_Node_Rule_checks_for_OOF_2": {
+                                    "actions": {
+                                      "Get_Approver,_Delegate,_Backup_or_Default_who_is_not_OOF_2": {
+                                        "runAfter": {
+                                          "Check_If_Enable_O365_Mailbox_Settings_is_true_2": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "b9665d0f-9f1e-4307-92d3-1310e5760603"
+                                        },
+                                        "type": "Query",
+                                        "inputs": {
+                                          "from": "@variables('varApproverDetails')",
+                                          "where": "@and(not(equals(item()?['isOOF'], 'true')), not(empty(item()?['isOOF'])))"
+                                        },
+                                        "description": "@and(not(equals(item()?['isOOF'], true)), not(empty(item()?['isOOF'])))"
+                                      },
+                                      "First_Not_OOF_2": {
+                                        "runAfter": {
+                                          "Get_Approver,_Delegate,_Backup_or_Default_who_is_not_OOF_2": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "3b11437d-1c79-41d0-a9f2-f9d85e2b292f"
+                                        },
+                                        "type": "Compose",
+                                        "inputs": "@first(body('Get_Approver,_Delegate,_Backup_or_Default_who_is_not_OOF_2'))"
+                                      },
+                                      "Check_If_Enable_O365_Mailbox_Settings_is_true_2": {
+                                        "actions": {
+                                          "Get_MailboxSetting_for_Approver_2": {
+                                            "runAfter": {
+                                              "Set_varApproverDetails_2": [
+                                                "Succeeded"
+                                              ]
+                                            },
+                                            "metadata": {
+                                              "operationMetadataId": "809b5762-0c40-406a-a234-89b42345116a"
+                                            },
+                                            "type": "Workflow",
+                                            "inputs": {
+                                              "host": {
+                                                "workflowReferenceName": "a68e0a7e-37ec-ee11-904d-000d3a8edea8"
+                                              },
+                                              "body": {
+                                                "text": "@base64(string(variables('varApproverDetails')))"
+                                              }
+                                            }
+                                          },
+                                          "Set_varApproverDetails_2": {
+                                            "runAfter": {},
+                                            "metadata": {
+                                              "operationMetadataId": "c2164d31-7073-4863-9e13-44ced4263e94"
+                                            },
+                                            "type": "SetVariable",
+                                            "inputs": {
+                                              "name": "varApproverDetails",
+                                              "value": [
+                                                {
+                                                  "id": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_businessapproverid']}",
+                                                  "approver": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_approverid']}",
+                                                  "isOOF": "",
+                                                  "notification": "@outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_notificationtype']",
+                                                  "type": "Approver"
+                                                },
+                                                {
+                                                  "id": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_delegate/cat_businessapproverid']}",
+                                                  "approver": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_delegate/cat_approverid']}",
+                                                  "isOOF": "",
+                                                  "notification": "@outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_delegate/cat_notificationtype']",
+                                                  "type": "Delegate"
+                                                },
+                                                {
+                                                  "id": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_backupdelegate/cat_businessapproverid']}",
+                                                  "approver": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_backupdelegate/cat_approverid']}",
+                                                  "isOOF": "",
+                                                  "notification": "@outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_backupdelegate/cat_notificationtype']",
+                                                  "type": "Backup Delegate"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          "Set_OOF_settings_for_varApproverDetails_from_Mailbox_2": {
+                                            "runAfter": {
+                                              "Get_MailboxSetting_for_Approver_2": [
+                                                "Succeeded"
+                                              ]
+                                            },
+                                            "metadata": {
+                                              "operationMetadataId": "f55d2693-3264-4784-87ae-f8c39cfdbb98"
+                                            },
+                                            "type": "SetVariable",
+                                            "inputs": {
+                                              "name": "varApproverDetails",
+                                              "value": "@json(base64tostring(outputs('Get_MailboxSetting_for_Approver_2')?['Body']?['updated_user_details']))"
+                                            }
+                                          }
+                                        },
+                                        "runAfter": {},
+                                        "else": {
+                                          "actions": {
+                                            "Set_OOF_settings_for_varApproverDetails_from_Dataverse_2": {
+                                              "runAfter": {},
+                                              "metadata": {
+                                                "operationMetadataId": "c2164d31-7073-4863-9e13-44ced4263e94"
+                                              },
+                                              "type": "SetVariable",
+                                              "inputs": {
+                                                "name": "varApproverDetails",
+                                                "value": [
+                                                  {
+                                                    "id": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_businessapproverid']}",
+                                                    "approver": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_approverid']}",
+                                                    "isOOF": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_isoutofoffice']}",
+                                                    "notification": "@outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_notificationtype']",
+                                                    "type": "Approver"
+                                                  },
+                                                  {
+                                                    "id": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_delegate/cat_businessapproverid']}",
+                                                    "approver": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_delegate/cat_approverid']}",
+                                                    "isOOF": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_delegate/cat_isoutofoffice']}",
+                                                    "notification": "@outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_delegate/cat_notificationtype']",
+                                                    "type": "Delegate"
+                                                  },
+                                                  {
+                                                    "id": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_backupdelegate/cat_businessapproverid']}",
+                                                    "approver": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_backupdelegate/cat_approverid']}",
+                                                    "isOOF": "@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_backupdelegate/cat_isoutofoffice']}",
+                                                    "notification": "@outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_backupdelegate/cat_notificationtype']",
+                                                    "type": "Backup Delegate"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "expression": {
+                                          "equals": [
+                                            "@parameters('Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)')",
+                                            "@true"
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "25946ed4-617c-4ab3-83f1-420d70468e94"
+                                        },
+                                        "type": "If"
+                                      },
+                                      "If_First_Not_OOF_found_2": {
+                                        "actions": {
+                                          "Create_Approval_Instance_(Approver,_Delegate,_Backup_or_Default)_2": {
+                                            "runAfter": {},
+                                            "metadata": {
+                                              "operationMetadataId": "6b966b43-f38f-4c7d-9935-39a6fbd6cf98"
+                                            },
+                                            "type": "OpenApiConnection",
+                                            "inputs": {
+                                              "host": {
+                                                "connectionName": "shared_commondataserviceforapps_1",
+                                                "operationId": "CreateRecord",
+                                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                              },
+                                              "parameters": {
+                                                "entityName": "cat_businessapprovalinstances",
+                                                "item/cat_Approver@odata.bind": "cat_businessapprovers(@{outputs('First_Not_OOF_2')['id']})",
+                                                "item/cat_instancestatus": 809060000,
+                                                "item/cat_NodeInstance@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                                "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                                "item/cat_additionalinformation": "Original Approver is OOF. Set to @{outputs('First_Not_OOF_2')['type']}.@{triggerOutputs()?['body/cat_additionalinformation']}",
+                                                "item/cat_approvaltype": "@outputs('Get_Runtime_Node_Definition')?['body/cat_approvaltype']",
+                                                "item/cat_approverupn": "@outputs('First_Not_OOF_2')['approver']",
+                                                "item/cat_customresponses": "@outputs('Get_Runtime_Node_Definition')?['body/cat_customresponses']",
+                                                "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/_cat_node_value']})",
+                                                "item/cat_notification": "@outputs('Get_Runtime_Node_Definition')?['body/cat_notificationtype']",
+                                                "item/cat_OriginalApprover@odata.bind": "cat_businessapprovers(@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_businessapproverid']})",
+                                                "item/cat_ProcessVersion@odata.bind": "cat_businessapprovalversions(@{body('Get_Runtime_Node_Definition')['cat_processversion/cat_businessapprovalversionid']})",
+                                                "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']",
+                                                "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                                "item/cat_timeoutcounter": "@outputs('Get_Runtime_Node_Definition')?['body/cat_timeout']",
+                                                "item/cat_timeoutupdate": "@utcNow()",
+                                                "item/cat_title": "@{outputs('Get_Runtime_Node_Definition')?['body/cat_processversion/cat_name']} Approval - @{triggerOutputs()?['body/cat_nodenamevalue']} "
+                                              },
+                                              "authentication": "@parameters('$authentication')"
+                                            }
+                                          }
+                                        },
+                                        "runAfter": {
+                                          "First_Not_OOF_2": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "else": {
+                                          "actions": {
+                                            "Get_Approver_Manager_Info_2": {
+                                              "runAfter": {},
+                                              "metadata": {
+                                                "operationMetadataId": "8d715ec8-a12d-4684-8896-298435b974b2"
+                                              },
+                                              "type": "Workflow",
+                                              "inputs": {
+                                                "host": {
+                                                  "workflowReferenceName": "dcb75fef-35d6-ec11-a7b5-000d3af46350"
+                                                },
+                                                "body": {
+                                                  "boolean": true,
+                                                  "text": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                                  "text_1": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                                  "text_2": "@outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_approverid']"
+                                                }
+                                              }
+                                            },
+                                            "Set_Approver_Manager_Info__2": {
+                                              "runAfter": {
+                                                "Get_Approver_Manager_Info_2": [
+                                                  "Succeeded"
+                                                ]
+                                              },
+                                              "metadata": {
+                                                "operationMetadataId": "7f18bedd-6479-4ab2-915f-1f37a284e009"
+                                              },
+                                              "type": "SetVariable",
+                                              "inputs": {
+                                                "name": "varApproverInfo",
+                                                "value": {
+                                                  "approverid": "@{body('Get_Approver_Manager_Info_2')?['approverid']}",
+                                                  "upn": "@{body('Get_Approver_Manager_Info_2')?['upn']}",
+                                                  "notificationType": "@body('Get_Approver_Manager_Info_2')?['notificationtype']",
+                                                  "info": "Original Approver is OOF. Approver set to Manager of original Approver (@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_approverid']})"
+                                                }
+                                              }
+                                            },
+                                            "If_Manager_found_2": {
+                                              "actions": {
+                                                "Log_no_Delegate_found_2": {
+                                                  "runAfter": {},
+                                                  "metadata": {
+                                                    "operationMetadataId": "d9ce0965-2d02-4020-9ba9-b231017c8b22"
+                                                  },
+                                                  "type": "Workflow",
+                                                  "inputs": {
+                                                    "host": {
+                                                      "workflowReferenceName": "613b8c18-5ad4-ec11-a7b5-000d3af4ac06"
+                                                    },
+                                                    "body": {
+                                                      "text": "Node",
+                                                      "text_1": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                                      "text_2": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                                      "text_3": "Approver not found",
+                                                      "text_5": "@workflow()?['tags']?['flowDisplayName']",
+                                                      "text_4": "No delegate or default approver for this process found or all are OOF for Approver ID: @{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_approverid']}. Proceeding with current OOF approver's Manager."
+                                                    }
+                                                  }
+                                                },
+                                                "Create_Approval_Instance_(no_Delegates_found)_2": {
+                                                  "runAfter": {
+                                                    "Log_no_Delegate_found_2": [
+                                                      "Succeeded"
+                                                    ]
+                                                  },
+                                                  "metadata": {
+                                                    "operationMetadataId": "95dd45e2-d400-4f3e-902e-da073a965f91"
+                                                  },
+                                                  "type": "OpenApiConnection",
+                                                  "inputs": {
+                                                    "host": {
+                                                      "connectionName": "shared_commondataserviceforapps_1",
+                                                      "operationId": "CreateRecord",
+                                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                                    },
+                                                    "parameters": {
+                                                      "entityName": "cat_businessapprovalinstances",
+                                                      "item/cat_Approver@odata.bind": "cat_businessapprovers(@{variables('varApproverInfo')['approverid']})",
+                                                      "item/cat_instancestatus": 809060000,
+                                                      "item/cat_NodeInstance@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                                      "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                                      "item/cat_additionalinformation": "Approver is OOF but no delegates found.@{triggerOutputs()?['body/cat_additionalinformation']}",
+                                                      "item/cat_approvaltype": "@outputs('Get_Runtime_Node_Definition')?['body/cat_approvaltype']",
+                                                      "item/cat_approverupn": "@variables('varApproverInfo')['upn']",
+                                                      "item/cat_customresponses": "@outputs('Get_Runtime_Node_Definition')?['body/cat_customresponses']",
+                                                      "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/_cat_node_value']})",
+                                                      "item/cat_notification": "@outputs('Get_Runtime_Node_Definition')?['body/cat_notificationtype']",
+                                                      "item/cat_ProcessVersion@odata.bind": "cat_businessapprovalversions(@{body('Get_Runtime_Node_Definition')['cat_processversion/cat_businessapprovalversionid']})",
+                                                      "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']",
+                                                      "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                                      "item/cat_start": "@utcNow()",
+                                                      "item/cat_timeoutcounter": "@outputs('Get_Runtime_Node_Definition')?['body/cat_timeout']",
+                                                      "item/cat_timeoutupdate": "@utcNow()",
+                                                      "item/cat_title": "@{outputs('Get_Runtime_Node_Definition')?['body/cat_processversion/cat_name']} Approval - @{triggerOutputs()?['body/cat_nodenamevalue']} "
+                                                    },
+                                                    "authentication": "@parameters('$authentication')"
+                                                  },
+                                                  "runtimeConfiguration": {
+                                                    "staticResult": {
+                                                      "staticResultOptions": "Disabled",
+                                                      "name": "Create_Approval_Instance_(Approver_not_OOF)0"
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "runAfter": {
+                                                "Set_Approver_Manager_Info__2": [
+                                                  "Succeeded"
+                                                ]
+                                              },
+                                              "else": {
+                                                "actions": {
+                                                  "Log_no_delegate,_backup_delegate_and_manager_found_2": {
+                                                    "runAfter": {},
+                                                    "metadata": {
+                                                      "operationMetadataId": "14c7eb92-cd3c-4e8e-b9ca-4736b495b1ab"
+                                                    },
+                                                    "type": "Workflow",
+                                                    "inputs": {
+                                                      "host": {
+                                                        "workflowReferenceName": "613b8c18-5ad4-ec11-a7b5-000d3af4ac06"
+                                                      },
+                                                      "body": {
+                                                        "text": "Node",
+                                                        "text_1": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                                        "text_2": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                                        "text_3": "Approver not found",
+                                                        "text_5": "@workflow()['tags/flowDisplayName']",
+                                                        "text_4": "No delegate or default approver for this process found or all are OOF for Approver ID: @{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_approverid']}. Proceeding with current OOF approver."
+                                                      }
+                                                    }
+                                                  },
+                                                  "Create_Approval_Instance_No_delegate,_backup_delegate_and_manager_found_2": {
+                                                    "runAfter": {
+                                                      "Log_no_delegate,_backup_delegate_and_manager_found_2": [
+                                                        "Succeeded"
+                                                      ]
+                                                    },
+                                                    "metadata": {
+                                                      "operationMetadataId": "bf65aaf5-4377-4634-b423-5800534b9d64"
+                                                    },
+                                                    "type": "OpenApiConnection",
+                                                    "inputs": {
+                                                      "host": {
+                                                        "connectionName": "shared_commondataserviceforapps_1",
+                                                        "operationId": "CreateRecord",
+                                                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                                      },
+                                                      "parameters": {
+                                                        "entityName": "cat_businessapprovalinstances",
+                                                        "item/cat_Approver@odata.bind": "cat_businessapprovers(@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_businessapproverid']})",
+                                                        "item/cat_instancestatus": 809060000,
+                                                        "item/cat_NodeInstance@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                                        "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                                        "item/cat_additionalinformation": "@triggerOutputs()?['body/cat_additionalinformation']",
+                                                        "item/cat_approvaltype": "@outputs('Get_Runtime_Node_Definition')?['body/cat_approvaltype']",
+                                                        "item/cat_approverupn": "@outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_approverid']",
+                                                        "item/cat_customresponses": "@outputs('Get_Runtime_Node_Definition')?['body/cat_customresponses']",
+                                                        "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/_cat_node_value']})",
+                                                        "item/cat_notification": "@outputs('Get_Runtime_Node_Definition')?['body/cat_notificationtype']",
+                                                        "item/cat_ProcessVersion@odata.bind": "cat_businessapprovalversions(@{body('Get_Runtime_Node_Definition')['cat_processversion/cat_businessapprovalversionid']})",
+                                                        "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']",
+                                                        "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                                        "item/cat_start": "@utcNow()",
+                                                        "item/cat_timeoutcounter": "@outputs('Get_Runtime_Node_Definition')?['body/cat_timeout']",
+                                                        "item/cat_timeoutupdate": "@utcNow()",
+                                                        "item/cat_title": "@{outputs('Get_Runtime_Node_Definition')?['body/cat_processversion/cat_name']} Approval - @{triggerOutputs()?['body/cat_nodenamevalue']} "
+                                                      },
+                                                      "authentication": "@parameters('$authentication')"
+                                                    },
+                                                    "runtimeConfiguration": {
+                                                      "staticResult": {
+                                                        "staticResultOptions": "Disabled",
+                                                        "name": "Create_Approval_Instance_(Approver_not_OOF)0"
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "expression": {
+                                                "greater": [
+                                                  "@length(variables('varApproverInfo')['approverid'])",
+                                                  0
+                                                ]
+                                              },
+                                              "metadata": {
+                                                "operationMetadataId": "fad601ed-d33f-471c-8ade-7c1e605fa88e"
+                                              },
+                                              "type": "If"
+                                            }
+                                          }
+                                        },
+                                        "expression": {
+                                          "greater": [
+                                            "@length(coalesce(outputs('First_Not_OOF_2')?['id'],'' ))",
+                                            0
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "8c569a23-df35-482e-b4b1-f5696dc50cee"
+                                        },
+                                        "type": "If"
+                                      }
+                                    },
+                                    "runAfter": {
+                                      "Get_Approver,_Delegate_and_Backup_2": [
+                                        "Succeeded"
+                                      ]
+                                    },
+                                    "else": {
+                                      "actions": {
+                                        "Create_Approval_Instance_(OOF_not_required)_2": {
+                                          "runAfter": {},
+                                          "metadata": {
+                                            "operationMetadataId": "bf65aaf5-4377-4634-b423-5800534b9d64"
+                                          },
+                                          "type": "OpenApiConnection",
+                                          "inputs": {
+                                            "host": {
+                                              "connectionName": "shared_commondataserviceforapps_1",
+                                              "operationId": "CreateRecord",
+                                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                            },
+                                            "parameters": {
+                                              "entityName": "cat_businessapprovalinstances",
+                                              "item/cat_Approver@odata.bind": "cat_businessapprovers(@{outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_businessapproverid']})",
+                                              "item/cat_instancestatus": 809060000,
+                                              "item/cat_NodeInstance@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                              "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                              "item/cat_additionalinformation": "@triggerOutputs()?['body/cat_additionalinformation']",
+                                              "item/cat_approvaltype": "@outputs('Get_Runtime_Node_Definition')?['body/cat_approvaltype']",
+                                              "item/cat_approverupn": "@outputs('Get_Approver,_Delegate_and_Backup_2')?['body/cat_approverid']",
+                                              "item/cat_customresponses": "@outputs('Get_Runtime_Node_Definition')?['body/cat_customresponses']",
+                                              "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/_cat_node_value']})",
+                                              "item/cat_notification": "@outputs('Get_Runtime_Node_Definition')?['body/cat_notificationtype']",
+                                              "item/cat_ProcessVersion@odata.bind": "cat_businessapprovalversions(@{body('Get_Runtime_Node_Definition')['cat_processversion/cat_businessapprovalversionid']})",
+                                              "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']",
+                                              "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                              "item/cat_start": "@utcNow()",
+                                              "item/cat_timeoutcounter": "@outputs('Get_Runtime_Node_Definition')?['body/cat_timeout']",
+                                              "item/cat_timeoutupdate": "@utcNow()",
+                                              "item/cat_title": "@{outputs('Get_Runtime_Node_Definition')?['body/cat_processversion/cat_name']} Approval - @{triggerOutputs()?['body/cat_nodenamevalue']} "
+                                            },
+                                            "authentication": "@parameters('$authentication')"
+                                          },
+                                          "runtimeConfiguration": {
+                                            "staticResult": {
+                                              "staticResultOptions": "Disabled",
+                                              "name": "Create_Approval_Instance_(Approver_not_OOF)0"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "expression": {
+                                      "and": [
+                                        {
+                                          "or": [
+                                            {
+                                              "equals": [
+                                                "@outputs('Get_Runtime_Node_Definition')?['body/cat_delegationrule']",
+                                                809060002
+                                              ]
+                                            },
+                                            {
+                                              "equals": [
+                                                "@outputs('Get_Runtime_Node_Definition')?['body/cat_delegationrule']",
+                                                809060003
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "metadata": {
+                                      "operationMetadataId": "44b1913b-fa55-49c6-b0aa-3ad19af185e9"
+                                    },
+                                    "type": "If",
+                                    "description": "If Node Delegation Rule is Out of Office (809,060,002) OR Time-out or Out of Office (809,060,003)"
+                                  }
+                                },
+                                "runAfter": {
+                                  "Manager_Lookup_Approval": [
+                                    "Succeeded"
+                                  ]
+                                },
+                                "else": {
+                                  "actions": {
+                                    "Log_No_Approver_found": {
+                                      "runAfter": {},
+                                      "metadata": {
+                                        "operationMetadataId": "14c7eb92-cd3c-4e8e-b9ca-4736b495b1ab"
+                                      },
+                                      "type": "Workflow",
+                                      "inputs": {
+                                        "host": {
+                                          "workflowReferenceName": "613b8c18-5ad4-ec11-a7b5-000d3af4ac06"
+                                        },
+                                        "body": {
+                                          "text": "Node",
+                                          "text_1": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                          "text_2": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                          "text_3": "Approver not found",
+                                          "text_5": "@workflow()['tags/flowDisplayName']",
+                                          "text_4": "No approver found for Dynamic Approver "
+                                        }
+                                      }
+                                    },
+                                    "Create_Approval_Instance_(Dynamic)": {
+                                      "runAfter": {
+                                        "Log_No_Approver_found": [
+                                          "Succeeded"
+                                        ]
+                                      },
+                                      "metadata": {
+                                        "operationMetadataId": "fe61d0f5-c787-498c-89d0-09b0372f3d7d"
+                                      },
+                                      "type": "OpenApiConnection",
+                                      "inputs": {
+                                        "host": {
+                                          "connectionName": "shared_commondataserviceforapps_1",
+                                          "operationId": "CreateRecord",
+                                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                        },
+                                        "parameters": {
+                                          "entityName": "cat_businessapprovalinstances",
+                                          "item/cat_Approver@odata.bind": "cat_businessapprovers(@{variables('varApproverInfo')['approverid']})",
+                                          "item/cat_instancestatus": 809060000,
+                                          "item/cat_NodeInstance@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                          "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})",
+                                          "item/cat_additionalinformation": "@{variables('varApproverInfo')['info']}.@{triggerOutputs()?['body/cat_additionalinformation']}",
+                                          "item/cat_approvaltype": "@outputs('Get_Runtime_Node_Definition')?['body/cat_approvaltype']",
+                                          "item/cat_approverupn": "@variables('varApproverInfo')['upn']",
+                                          "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/_cat_node_value']})",
+                                          "item/cat_notification": "@outputs('Get_Runtime_Node_Definition')?['body/cat_notificationtype']",
+                                          "item/cat_ProcessVersion@odata.bind": "cat_businessapprovalversions(@{body('Get_Runtime_Node_Definition')['cat_processversion/cat_businessapprovalversionid']})",
+                                          "item/cat_requestedby": "@triggerOutputs()?['body/cat_requestedby']",
+                                          "item/cat_Stage@odata.bind": "cat_businessapprovalruntimestageinstances(@{triggerOutputs()?['body/_cat_stage_value']})",
+                                          "item/cat_timeoutcounter": "@outputs('Get_Runtime_Node_Definition')?['body/cat_timeout']",
+                                          "item/cat_timeoutupdate": "@utcNow()",
+                                          "item/cat_title": "@{outputs('Get_Runtime_Node_Definition')?['body/cat_processversion/cat_name']} Approval - @{triggerOutputs()?['body/cat_nodenamevalue']} "
+                                        },
+                                        "authentication": "@parameters('$authentication')"
+                                      }
+                                    }
+                                  }
+                                },
+                                "expression": {
+                                  "greater": [
+                                    "@length(variables('varApproverInfo')['approverid'])",
+                                    0
+                                  ]
+                                },
+                                "metadata": {
+                                  "operationMetadataId": "fad601ed-d33f-471c-8ade-7c1e605fa88e"
+                                },
+                                "type": "If"
+                              },
+                              "Manager_Lookup_Approval": {
+                                "runAfter": {},
+                                "cases": {
+                                  "Manager_of_Initiator": {
+                                    "case": 809060000,
+                                    "actions": {
+                                      "Get_Initiator_UPN": {
+                                        "runAfter": {},
+                                        "metadata": {
+                                          "operationMetadataId": "474f823e-ba98-473c-834b-f97dd7e90b9f"
+                                        },
+                                        "type": "OpenApiConnection",
+                                        "inputs": {
+                                          "host": {
+                                            "connectionName": "shared_commondataserviceforapps_1",
+                                            "operationId": "ListRecords",
+                                            "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                          },
+                                          "parameters": {
+                                            "entityName": "cat_businessapprovalworkflows",
+                                            "$select": "cat_requestedby",
+                                            "$filter": "cat_businessapprovalworkflowid eq @{triggerOutputs()?['body/_cat_workflowinstance_value']}",
+                                            "$top": 1
+                                          },
+                                          "authentication": "@parameters('$authentication')"
+                                        }
+                                      },
+                                      "Find_Manager_of_Initiator": {
+                                        "runAfter": {
+                                          "Get_Initiator_UPN": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "f111e0f8-7cf4-46b2-aadc-f76734cc8980"
+                                        },
+                                        "type": "Workflow",
+                                        "inputs": {
+                                          "host": {
+                                            "workflowReferenceName": "dcb75fef-35d6-ec11-a7b5-000d3af46350"
+                                          },
+                                          "body": {
+                                            "boolean": true,
+                                            "text": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                            "text_1": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                            "text_2": "@first(body('Get_Initiator_UPN')?['value'])?['cat_requestedby']"
+                                          }
+                                        }
+                                      },
+                                      "Set_Initiator_Manager_Info": {
+                                        "runAfter": {
+                                          "Find_Manager_of_Initiator": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "7f18bedd-6479-4ab2-915f-1f37a284e009"
+                                        },
+                                        "type": "SetVariable",
+                                        "inputs": {
+                                          "name": "varApproverInfo",
+                                          "value": {
+                                            "approverid": "@{body('Find_Manager_of_Initiator')?['approverid']}",
+                                            "upn": "@{body('Find_Manager_of_Initiator')?['upn']}",
+                                            "notificationType": "@body('Find_Manager_of_Initiator')?['notificationtype']",
+                                            "info": "Approver set to Manager of Initiator (@{first(body('Get_Initiator_UPN')?['value'])?['cat_requestedby']})"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "Manager_of_Request_Data": {
+                                    "case": 809060002,
+                                    "actions": {
+                                      "If_dynamic_approver_found": {
+                                        "actions": {
+                                          "Set_Dynamic_Approver_Manager_Info": {
+                                            "runAfter": {
+                                              "Find_Manager_of_Dynamic_Approver": [
+                                                "Succeeded"
+                                              ]
+                                            },
+                                            "metadata": {
+                                              "operationMetadataId": "b3ffa827-5116-4cdc-9bc6-0edaf799d493"
+                                            },
+                                            "type": "SetVariable",
+                                            "inputs": {
+                                              "name": "varApproverInfo",
+                                              "value": {
+                                                "approverid": "@{body('Find_Manager_of_Dynamic_Approver')?['approverid']}",
+                                                "upn": "@{body('Find_Manager_of_Dynamic_Approver')?['upn']}",
+                                                "notiicationType": "@body('Find_Manager_of_Dynamic_Approver')?['notificationtype']",
+                                                "info": "Approver is set to Manager of @{body('Get_Dynamic_Approver_Data')?['dataname']}"
+                                              }
+                                            }
+                                          },
+                                          "Find_Manager_of_Dynamic_Approver": {
+                                            "runAfter": {},
+                                            "metadata": {
+                                              "operationMetadataId": "db189150-e02c-47ba-ae6b-55115281f58e"
+                                            },
+                                            "type": "Workflow",
+                                            "inputs": {
+                                              "host": {
+                                                "workflowReferenceName": "dcb75fef-35d6-ec11-a7b5-000d3af46350"
+                                              },
+                                              "body": {
+                                                "boolean": true,
+                                                "text": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                                "text_1": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                                "text_2": "@body('Get_Dynamic_Approver_Data')?['raw']"
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "runAfter": {
+                                          "Get_Dynamic_Approver_Data": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "else": {
+                                          "actions": {
+                                            "Compose": {
+                                              "runAfter": {},
+                                              "metadata": {
+                                                "operationMetadataId": "eaed8be7-c1f8-4700-b36b-c331db5c679b"
+                                              },
+                                              "type": "Compose",
+                                              "inputs": "Create approval to default approver. If default approver does not exist, terminate flow with error."
+                                            }
+                                          }
+                                        },
+                                        "expression": {
+                                          "greater": [
+                                            "@length(coalesce(outputs('Get_Dynamic_Approver_Data')?['Body']?['value']))",
+                                            0
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "aa03358e-d818-462c-b5c9-6f331e0f5e79"
+                                        },
+                                        "type": "If"
+                                      },
+                                      "Get_Dynamic_Approver_Data": {
+                                        "runAfter": {},
+                                        "metadata": {
+                                          "operationMetadataId": "828868da-237b-4a86-9356-4eda3d3973bb"
+                                        },
+                                        "type": "Workflow",
+                                        "inputs": {
+                                          "host": {
+                                            "workflowReferenceName": "c2534955-add4-ec11-a7b5-000d3af46350"
+                                          },
+                                          "body": {
+                                            "text": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                            "boolean": true,
+                                            "text_2": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                            "text_1": "@item()['cat_businessapproverid']"
+                                          }
+                                        },
+                                        "description": "Child Flow will wait until data is available if settings set to Wait On No Approver = true, or flow timed-out."
+                                      }
+                                    }
+                                  },
+                                  "Manager_of_Last_Approver": {
+                                    "case": 809060003,
+                                    "actions": {
+                                      "Find_Last_Approver": {
+                                        "runAfter": {},
+                                        "metadata": {
+                                          "operationMetadataId": "975be9dd-fbbb-41d5-a8ef-71fa5cf6d268"
+                                        },
+                                        "type": "OpenApiConnection",
+                                        "inputs": {
+                                          "host": {
+                                            "connectionName": "shared_commondataserviceforapps_1",
+                                            "operationId": "ListRecords",
+                                            "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                          },
+                                          "parameters": {
+                                            "entityName": "cat_businessapprovalinstances",
+                                            "$select": "cat_approverupn",
+                                            "$filter": "_cat_workflowinstance_value eq @{triggerOutputs()?['body/_cat_workflowinstance_value']} and cat_instancestatus eq 809060002",
+                                            "$orderby": "cat_actionedon desc",
+                                            "$top": 1
+                                          },
+                                          "authentication": "@parameters('$authentication')"
+                                        }
+                                      },
+                                      "Set_Manager_of_Last_Approver": {
+                                        "runAfter": {
+                                          "Find_Manager_of_Last_Approver": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "4372270e-b98d-4ed8-b7bc-89f391801fed"
+                                        },
+                                        "type": "SetVariable",
+                                        "inputs": {
+                                          "name": "varApproverInfo",
+                                          "value": {
+                                            "approverid": "@{body('Find_Manager_of_Last_Approver')?['approverid']}",
+                                            "upn": "@{body('Find_Manager_of_Last_Approver')?['upn']}",
+                                            "notificationType": "@body('Find_Manager_of_Last_Approver')?['notificationtype']",
+                                            "info": "Approver set to Manager of Last Approver (@{coalesce(outputs('Find_Manager_of_Last_Approver')?['Body']?['upn'], 'Not Found')})"
+                                          }
+                                        }
+                                      },
+                                      "Find_Manager_of_Last_Approver": {
+                                        "runAfter": {
+                                          "Find_Last_Approver": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "3fda6cb3-90be-4acf-9b56-157248dab93c"
+                                        },
+                                        "type": "Workflow",
+                                        "inputs": {
+                                          "host": {
+                                            "workflowReferenceName": "dcb75fef-35d6-ec11-a7b5-000d3af46350"
+                                          },
+                                          "body": {
+                                            "boolean": true,
+                                            "text": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                            "text_1": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                            "text_2": "@coalesce(first(body('Find_Last_Approver')?['value'])['cat_approverupn'],'')"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "Use_Request_Data": {
+                                    "case": 809060001,
+                                    "actions": {
+                                      "Get_Dynamic_Data_for_Request_Data": {
+                                        "runAfter": {},
+                                        "metadata": {
+                                          "operationMetadataId": "a5a04427-7352-4692-b2ec-41d382b62171"
+                                        },
+                                        "type": "Workflow",
+                                        "inputs": {
+                                          "host": {
+                                            "workflowReferenceName": "c2534955-add4-ec11-a7b5-000d3af46350"
+                                          },
+                                          "body": {
+                                            "text": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                            "boolean": true,
+                                            "text_2": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                            "text_1": "@items('Each_Approver')['cat_businessapproverid']"
+                                          }
+                                        }
+                                      },
+                                      "If_any_dynamic_approver_found": {
+                                        "actions": {
+                                          "Get_Dynamic_Approver_Record": {
+                                            "runAfter": {},
+                                            "metadata": {
+                                              "operationMetadataId": "5b6e4111-e9a6-4717-b494-2a080840e03e"
+                                            },
+                                            "type": "Workflow",
+                                            "inputs": {
+                                              "host": {
+                                                "workflowReferenceName": "dcb75fef-35d6-ec11-a7b5-000d3af46350"
+                                              },
+                                              "body": {
+                                                "boolean": false,
+                                                "text": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                                "text_1": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                                "text_2": "@body('Get_Dynamic_Data_for_Request_Data')?['raw']"
+                                              }
+                                            },
+                                            "description": "Calls child flow that checks if Approver exist in AAD. If exists, checks if already exist in Approvers table. If not, it will automatically create one."
+                                          },
+                                          "Set_ApproverInfo": {
+                                            "runAfter": {
+                                              "Get_Dynamic_Approver_Record": [
+                                                "Succeeded"
+                                              ]
+                                            },
+                                            "metadata": {
+                                              "operationMetadataId": "6ad8cefc-a317-4da4-95cf-5e5dadbb83e4"
+                                            },
+                                            "type": "SetVariable",
+                                            "inputs": {
+                                              "name": "varApproverInfo",
+                                              "value": {
+                                                "approverid": "@{body('Get_Dynamic_Approver_Record')?['approverid']}",
+                                                "upn": "@{body('Get_Dynamic_Approver_Record')?['upn']}",
+                                                "notificationType": "@body('Get_Dynamic_Approver_Record')?['notificationtype']",
+                                                "info": "Dynamic Approver (@{body('Get_Dynamic_Data_for_Request_Data')?['dataname']}) set to @{body('Get_Dynamic_Data_for_Request_Data')?['raw']}"
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "runAfter": {
+                                          "Get_Dynamic_Data_for_Request_Data": [
+                                            "Succeeded"
+                                          ]
+                                        },
+                                        "else": {
+                                          "actions": {
+                                            "Compose_2": {
+                                              "runAfter": {},
+                                              "metadata": {
+                                                "operationMetadataId": "eaed8be7-c1f8-4700-b36b-c331db5c679b"
+                                              },
+                                              "type": "Compose",
+                                              "inputs": "Create approval to default approver. If default approver does not exist, terminate flow with error."
+                                            }
+                                          }
+                                        },
+                                        "expression": {
+                                          "greater": [
+                                            "@length(outputs('Get_Dynamic_Data_for_Request_Data')?['Body']?['value'])",
+                                            0
+                                          ]
+                                        },
+                                        "metadata": {
+                                          "operationMetadataId": "0e02710e-5886-4976-9599-4369123a56c6"
+                                        },
+                                        "type": "If"
+                                      }
+                                    }
+                                  }
+                                },
+                                "default": {
+                                  "actions": {}
+                                },
+                                "expression": "@items('Each_Approver')['cat_dynamicapprovertype']",
+                                "metadata": {
+                                  "operationMetadataId": "dc8da5bb-91d7-43ab-8ddf-05171855a435"
+                                },
+                                "type": "Switch",
+                                "description": "Manager of Initiator (809060000), Manager of [Request data field] (809060002), Manager of Last Approver (809060003)"
+                              }
+                            }
+                          },
+                          "expression": {
+                            "equals": [
+                              "@item()['cat_approvertype']",
+                              809060000
+                            ]
+                          },
+                          "metadata": {
+                            "operationMetadataId": "d6d21101-64c9-4f2c-ba8d-f47e273ffa99"
+                          },
+                          "type": "If"
+                        }
+                      },
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "837dcf59-48bf-4526-947c-39f613509346"
+                      },
+                      "type": "Foreach",
+                      "runtimeConfiguration": {
+                        "concurrency": {
+                          "repetitions": 1
+                        }
+                      }
+                    },
+                    "Update_Node_Instance_Running_Status": {
+                      "runAfter": {
+                        "Each_Approver": [
+                          "Succeeded"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "c12457a3-13f8-407e-9d6e-9f50d60ac81f"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_commondataserviceforapps_1",
+                          "operationId": "UpdateRecord",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                        },
+                        "parameters": {
+                          "entityName": "cat_businessapprovalruntimenodeinstances",
+                          "recordId": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                          "item/cat_instancestatus": 809060001
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    },
+                    "Create_Node_Reminder_Instance": {
+                      "actions": {
+                        "Get_Runtime_Reminder_Node": {
+                          "runAfter": {},
+                          "metadata": {
+                            "operationMetadataId": "41ede19c-b0b6-4ebd-a0bc-455370c79c11"
+                          },
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connectionName": "shared_commondataserviceforapps_1",
+                              "operationId": "ListRecords",
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                            },
+                            "parameters": {
+                              "entityName": "cat_businessapprovalruntimenodereminders",
+                              "$filter": "_cat_node_value eq @{triggerOutputs()?['body/_cat_node_value']}",
+                              "$orderby": "cat_reminderdays desc"
+                            },
+                            "authentication": "@parameters('$authentication')"
+                          }
+                        },
+                        "Runtime_Node_Reminder_Exists": {
+                          "actions": {
+                            "Update_Node_Instance": {
+                              "runAfter": {
+                                "Create_Next_Reminder_Node_Instance": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "aa72bb19-0c06-4778-99e7-e7a2bfefe2a0"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps_1",
+                                  "operationId": "UpdateRecord",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "cat_businessapprovalruntimenodeinstances",
+                                  "recordId": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                  "item/cat_NextReminderNode@odata.bind": "cat_businessapprovalruntimenodereminders(@{outputs('Next_Reminder_Node')?['cat_businessapprovalruntimenodereminderid']})",
+                                  "item/cat_NextReminderNodeInstance@odata.bind": "cat_businessapprovalnodereminderinstances(@{outputs('Create_Next_Reminder_Node_Instance')?['body/cat_businessapprovalnodereminderinstanceid']})"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              },
+                              "description": "Update Next Reminder Node Instance"
+                            },
+                            "Create_Next_Reminder_Node_Instance": {
+                              "runAfter": {
+                                "Next_Reminder_DateTime": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "90368bdf-bcc9-4023-8fe8-8a8869ae27ce"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps_1",
+                                  "operationId": "CreateRecord",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "cat_businessapprovalnodereminderinstances",
+                                  "item/cat_Node@odata.bind": "cat_businessapprovalruntimenodeinstances(@{triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']})",
+                                  "item/cat_NodeReminder@odata.bind": "cat_businessapprovalruntimenodereminders(@{outputs('Next_Reminder_Node')?['cat_businessapprovalruntimenodereminderid']})",
+                                  "item/cat_reminderchannel": "@outputs('Next_Reminder_Node')?['cat_reminderchannel']",
+                                  "item/cat_reminderdatetime": "@outputs('Next_Reminder_DateTime')",
+                                  "item/cat_reminderdays": "@outputs('Next_Reminder_Node')?['cat_reminderdays']",
+                                  "item/cat_remindersent": false,
+                                  "item/cat_remindertext": "@outputs('Next_Reminder_Node')?['cat_remindertext']",
+                                  "item/cat_WorkflowInstance@odata.bind": "cat_businessapprovalworkflows(@{triggerOutputs()?['body/_cat_workflowinstance_value']})"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "If_Node_Due_Date_Data_Type_Equals_Request_Data": {
+                              "actions": {
+                                "Get_Node_Due_Date_": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "4d5902d8-0ed1-4215-8e4a-05aaab2ab445"
+                                  },
+                                  "type": "Workflow",
+                                  "inputs": {
+                                    "host": {
+                                      "workflowReferenceName": "c2534955-add4-ec11-a7b5-000d3af46350"
+                                    },
+                                    "body": {
+                                      "text": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                      "boolean": false,
+                                      "text_2": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                                      "text_1": "@outputs('Get_Runtime_Node_Definition')?['body/_cat_nodeduedaterequestdata_value']"
+                                    }
+                                  }
+                                },
+                                "Set_Node_Due_Date_Request_Data": {
+                                  "runAfter": {
+                                    "Get_Node_Due_Date_": [
+                                      "Succeeded"
+                                    ]
+                                  },
+                                  "metadata": {
+                                    "operationMetadataId": "14b512ce-bf74-411c-aeee-43188f416216"
+                                  },
+                                  "type": "SetVariable",
+                                  "inputs": {
+                                    "name": "Node Due Date",
+                                    "value": "@body('Get_Node_Due_Date_')?['raw']"
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "Next_Reminder_Node": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "else": {
+                                "actions": {
+                                  "Set_Node_Due_Date_Value": {
+                                    "runAfter": {},
+                                    "metadata": {
+                                      "operationMetadataId": "89ab2ffc-c568-421d-9087-895dcef9112f"
+                                    },
+                                    "type": "SetVariable",
+                                    "inputs": {
+                                      "name": "Node Due Date",
+                                      "value": "@triggerOutputs()?['body/cat_nodeduedatevalue']"
+                                    }
+                                  }
+                                }
+                              },
+                              "expression": {
+                                "equals": [
+                                  "@triggerOutputs()?['body/cat_nodeduedatedatatype']",
+                                  809060000
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "ce815ecd-aa74-4ab2-bb63-2fd25afa1db9"
+                              },
+                              "type": "If"
+                            },
+                            "Next_Reminder_Node": {
+                              "runAfter": {},
+                              "metadata": {
+                                "operationMetadataId": "102b0d2b-19d1-4521-9467-36cd446bb005"
+                              },
+                              "type": "Compose",
+                              "inputs": "@first(outputs('Get_Runtime_Reminder_Node')?['body/value'])"
+                            },
+                            "Next_Reminder_DateTime": {
+                              "runAfter": {
+                                "If_Node_Due_Date_Data_Type_Equals_Request_Data": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "919ee2e9-5c9c-4320-9aff-1a6c426e0486"
+                              },
+                              "type": "Compose",
+                              "inputs": "@subtractFromTime(variables('Node Due Date'), outputs('Next_Reminder_Node')?['cat_reminderdays'], 'Day')"
+                            }
+                          },
+                          "runAfter": {
+                            "Get_Runtime_Reminder_Node": [
+                              "Succeeded"
+                            ]
+                          },
+                          "expression": {
+                            "greater": [
+                              "@length(outputs('Get_Runtime_Reminder_Node')?['body/value'])",
+                              0
+                            ]
+                          },
+                          "metadata": {
+                            "operationMetadataId": "5dea7d96-5b4b-4822-a175-d2a87ba92e54"
+                          },
+                          "type": "If"
+                        }
+                      },
+                      "runAfter": {
+                        "Update_Node_Instance_Running_Status": [
+                          "Succeeded"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "0642a5b4-cb2a-4598-b209-c450a2c2c557"
+                      },
+                      "type": "Scope"
+                    }
+                  }
+                },
+                "Go_to_Stage": {
+                  "case": 809060001,
+                  "actions": {
+                    "Check_Node_Condition": {
+                      "actions": {
+                        "Check_If_Has_Condition": {
+                          "actions": {
+                            "Evaluate_Node_Condition": {
+                              "runAfter": {},
+                              "metadata": {
+                                "operationMetadataId": "e1afd173-6fbe-490a-b6ec-8ad219d0a0e9"
+                              },
+                              "type": "Workflow",
+                              "inputs": {
+                                "host": {
+                                  "workflowReferenceName": "a361aa67-04ad-ec11-983e-0022486e1632"
+                                },
+                                "body": {
+                                  "text_1": "Node Instance",
+                                  "text": "@outputs('Get_Runtime_Node_Definition')?['body/cat_businessapprovalruntimenodeid']",
+                                  "text_5": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+                                  "number": "@outputs('Get_Runtime_Node_Definition')?['body/cat_operand']",
+                                  "number_1": "@outputs('Get_Runtime_Node_Definition')?['body/cat_sourcedatatype']",
+                                  "number_2": 2,
+                                  "text_3": "@if(equals(outputs('Get_Runtime_Node_Definition')?['body/_cat_sourcedata_value']\r\n,null),'', outputs('Get_Runtime_Node_Definition')?['body/_cat_sourcedata_value'])"
+                                }
+                              },
+                              "description": "Node condition can only support If/Else with default path as 2 (Else Path) if no condition is met."
+                            },
+                            "Set_Go_to_Stage_Id_based_on_condition": {
+                              "runAfter": {
+                                "Evaluate_Node_Condition": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "28f8b3d9-641d-43dc-972f-797c43c6a68a"
+                              },
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "varGotoStageId",
+                                "value": "@{first(outputs('Evaluate_Node_Condition')?['Body'])?['stageid']}"
+                              }
+                            }
+                          },
+                          "runAfter": {},
+                          "else": {
+                            "actions": {
+                              "Set_Go_to_Stage_Id_-_no_condition": {
+                                "runAfter": {},
+                                "metadata": {
+                                  "operationMetadataId": "d6e3955a-34a3-447f-aa08-cbc74f75dbda"
+                                },
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "varGotoStageId",
+                                  "value": "@outputs('Get_Runtime_Node_Definition')?['body/_cat_gotostage_value']"
+                                }
+                              }
+                            }
+                          },
+                          "expression": {
+                            "equals": [
+                              "@outputs('Get_Runtime_Node_Definition')?['body/cat_nodecondition']",
+                              809060001
+                            ]
+                          },
+                          "metadata": {
+                            "operationMetadataId": "d9a364dd-4a53-45ed-ab54-9d6f982811a9"
+                          },
+                          "type": "If",
+                          "description": "Node Condition: None (809060000), If/Else (809060001)"
+                        },
+                        "Update_Node_Instance_to_complete": {
+                          "runAfter": {
+                            "Check_If_Has_Condition": [
+                              "Succeeded"
+                            ]
+                          },
+                          "metadata": {
+                            "operationMetadataId": "62927c44-deb7-4291-978d-acbe8c799df8"
+                          },
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connectionName": "shared_commondataserviceforapps_1",
+                              "operationId": "UpdateRecord",
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                            },
+                            "parameters": {
+                              "entityName": "cat_businessapprovalruntimenodeinstances",
+                              "recordId": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                              "item/cat_instancestatus": 809060002,
+                              "item/cat_end": "@utcNow()",
+                              "item/cat_gotostageinstanceid": "@variables('varGotoStageId')"
+                            },
+                            "authentication": "@parameters('$authentication')"
+                          }
+                        },
+                        "Check_if_GoToStage_variable_is_not_empty": {
+                          "actions": {
+                            "Update_Stage_Instance_to_complete_as_Node_Rule": {
+                              "runAfter": {},
+                              "metadata": {
+                                "operationMetadataId": "ad33c662-3adb-4bea-be38-ff494df09f62"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps_1",
+                                  "operationId": "UpdateRecord",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "cat_businessapprovalruntimestageinstances",
+                                  "recordId": "@triggerOutputs()?['body/_cat_stageinstance_value']",
+                                  "item/cat_end": "@utcNow()",
+                                  "item/cat_GotoStage@odata.bind": "cat_businessapprovalruntimestageinstances(@{variables('varGotoStageId')})",
+                                  "item/cat_instancestatus": 809060002
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            }
+                          },
+                          "runAfter": {
+                            "Check_If_Has_Condition": [
+                              "Succeeded"
+                            ]
+                          },
+                          "expression": {
+                            "not": {
+                              "equals": [
+                                "@empty(variables('varGotoStageId'))",
+                                "@true"
+                              ]
+                            }
+                          },
+                          "metadata": {
+                            "operationMetadataId": "bd4cda89-180f-4f37-bfd4-8e006f621b98"
+                          },
+                          "type": "If"
+                        }
+                      },
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "417a0c62-0c88-4111-ba05-98969826326f"
+                      },
+                      "type": "Scope"
+                    }
+                  }
+                },
+                "End_Workflow": {
+                  "case": 809060002,
+                  "actions": {
+                    "Update_Node_Instance_with_selected_Instance_Status": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "52610bb5-971b-40ac-a047-f12106ac3966"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_commondataserviceforapps_1",
+                          "operationId": "UpdateRecord",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                        },
+                        "parameters": {
+                          "entityName": "cat_businessapprovalruntimenodeinstances",
+                          "recordId": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+                          "item/cat_instancestatus": "@outputs('Get_Runtime_Node_Definition')?['body/cat_instancestatus']",
+                          "item/cat_end": "@utcNow()"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    },
+                    "Update_Stage_Instance_with_selected_Instance_Status": {
+                      "runAfter": {
+                        "Update_Node_Instance_with_selected_Instance_Status": [
+                          "Succeeded"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "cf2f758a-2ac6-4356-9d26-6c1ed4e6492a"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_commondataserviceforapps_1",
+                          "operationId": "UpdateRecord",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                        },
+                        "parameters": {
+                          "entityName": "cat_businessapprovalruntimestageinstances",
+                          "recordId": "@outputs('Update_Node_Instance_with_selected_Instance_Status')?['body/_cat_stageinstance_value']",
+                          "item/cat_end": "@utcNow()",
+                          "item/cat_endworkflow": true,
+                          "item/cat_instancestatus": "@outputs('Get_Runtime_Node_Definition')?['body/cat_instancestatus']"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    },
+                    "Update_Workflow_Instance_with_selected_Instance_Status": {
+                      "runAfter": {
+                        "Update_Stage_Instance_with_selected_Instance_Status": [
+                          "Succeeded"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "57e184be-a5f3-49fc-bea7-dae02932bdcb"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_commondataserviceforapps_1",
+                          "operationId": "UpdateRecord",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                        },
+                        "parameters": {
+                          "entityName": "cat_businessapprovalworkflows",
+                          "recordId": "@outputs('Update_Node_Instance_with_selected_Instance_Status')?['body/_cat_workflowinstance_value']",
+                          "item/cat_instancestatus": "@outputs('Get_Runtime_Node_Definition')?['body/cat_instancestatus']"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    }
+                  }
+                }
+              },
+              "default": {
+                "actions": {}
+              },
+              "expression": "@outputs('Get_Runtime_Node_Definition')?['body/cat_nodetype']",
+              "metadata": {
+                "operationMetadataId": "4c891bb0-9e1d-4d15-a7c5-33f9ae620083"
+              },
+              "type": "Switch",
+              "description": "Node Type : Approval (809,060,000), Go to Stage (809,060,001), Wait (809,060,002), Terminate (809,060,003)"
+            }
+          },
+          "runAfter": {
+            "Get_Runtime_Node_Definition": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a608b9fb-4dbe-4c1d-9ade-f5e8c0c63f23"
+          },
+          "type": "Scope"
+        },
+        "Update_Node_Instance_with_Error": {
+          "runAfter": {
+            "Create_Approval_Instances": [
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4a147062-1689-4f37-8b8f-251e8c2f226e"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "UpdateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "cat_businessapprovalruntimenodeinstances",
+              "recordId": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+              "item/cat_instancestatus": 809060006
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Log_exception": {
+          "runAfter": {
+            "Update_Node_Instance_with_Error": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9458cb05-8979-428f-9684-5284965bb7f7"
+          },
+          "type": "Workflow",
+          "inputs": {
+            "host": {
+              "workflowReferenceName": "613b8c18-5ad4-ec11-a7b5-000d3af4ac06"
+            },
+            "body": {
+              "text": "@triggerOutputs()?['body/cat_nodenamevalue']",
+              "text_1": "@triggerOutputs()?['body/cat_businessapprovalruntimenodeinstanceid']",
+              "text_2": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+              "text_3": "Other",
+              "text_5": "@workflow()['tags']['flowDisplayName']",
+              "text_4": "Create approval instance failed."
+            }
+          }
+        },
+        "Run_a_Child_Flow": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "4e9a0ab5-b4d2-49b2-9c50-3b006b56005b"
+          },
+          "type": "Workflow",
+          "inputs": {
+            "host": {
+              "workflowReferenceName": "613b8c18-5ad4-ec11-a7b5-000d3af4ac06"
+            },
+            "body": {
+              "text": "Node | @{triggerOutputs()?['body/cat_nodenamevalue']}",
+              "text_1": "@triggerOutputs()?['body/_cat_node_value']",
+              "text_2": "@triggerOutputs()?['body/_cat_workflowinstance_value']",
+              "text_3": "Information",
+              "text_5": "@workflow()['tags']['flowDisplayName']",
+              "text_4": "https://make.powerautomate.com/environments/@{workflow()['tags/environmentName']}/flows/@{workflow()['name']}/runs/@{workflow()['run/name']}"
+            }
+          }
+        },
+        "varApproverDetails": {
+          "runAfter": {
+            "varGotoStageId": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9e5073e2-cbf8-4c25-8de1-9c3297e86cb2"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "varApproverDetails",
+                "type": "array",
+                "value": [
+                  {
+                    "id": "",
+                    "name": "Approver UPN",
+                    "UPN": "",
+                    "isOOF": ""
+                  },
+                  {
+                    "id": "",
+                    "name": "Delegate UPN",
+                    "UPN": "",
+                    "isOOF": ""
+                  },
+                  {
+                    "id": "",
+                    "name": "Backup Delegate UPN",
+                    "UPN": "",
+                    "isOOF": ""
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "Initialize_Node_Due_Date": {
+          "runAfter": {
+            "varApproverInfo": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4c95c2f0-c765-47f7-9984-ac2972daafdd"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "Node Due Date",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

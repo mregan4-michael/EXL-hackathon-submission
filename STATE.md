@@ -1,8 +1,9 @@
 # STATE (resumability file — keep current)
 
-- Current phase: 0 (skeleton)
+- Current phase: 1 done -> 2 (rule catalogue)
 - Done: tool discovery; Approvals Kit chosen (see DECISIONS ADR-001); schema contract written.
-- Next: pyproject/CI/hooks, then Phase 1 parsers.
+- Next: Phase 2 rule-catalogue builder (deterministic candidates + LLM interpretation, cache/replay, audit).
+- Run parser: `DOTNET_ROOT=$HOME/.dotnet uv run factory parse approvals-kit claims-workbench` (output under factory/out/, gitignored, regenerated).
 - Broken: nothing yet.
 
 ## Environment facts a fresh session needs

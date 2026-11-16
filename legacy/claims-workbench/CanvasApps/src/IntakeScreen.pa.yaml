@@ -1,0 +1,88 @@
+Screens:
+  IntakeScreen:
+    Properties:
+      Fill: =RGBA(245, 245, 245, 1)
+    Children:
+      - txtPolicyNumber:
+          Control: TextInput@0.0.53
+          Properties:
+            HintText: ="PL00000000"
+            X: =40
+            Y: =80
+      - lblPolicyNumberError:
+          Control: Label@2.5.1
+          Properties:
+            Text: |-
+              =If(
+                  !IsBlank(txtPolicyNumber.Text) && (Len(txtPolicyNumber.Text) <> 10 || !StartsWith(txtPolicyNumber.Text, "PL")),
+                  "Policy number must be 10 characters and start with PL",
+                  ""
+              )
+            Color: =RGBA(168, 0, 0, 1)
+      - txtClaimAmount:
+          Control: TextInput@0.0.53
+          Properties:
+            Format: =TextFormat.Number
+      - dpPolicyStart:
+          Control: DatePicker@0.0.46
+      - dpPolicyEnd:
+          Control: DatePicker@0.0.46
+      - dpIncidentDate:
+          Control: DatePicker@0.0.46
+      - dpNotifiedDate:
+          Control: DatePicker@0.0.46
+      - lblCoverError:
+          Control: Label@2.5.1
+          Properties:
+            Text: |-
+              =If(
+                  dpIncidentDate.SelectedDate < dpPolicyStart.SelectedDate || dpIncidentDate.SelectedDate > dpPolicyEnd.SelectedDate,
+                  "Incident date is outside the policy period",
+                  ""
+              )
+      - lblDateOrderError:
+          Control: Label@2.5.1
+          Properties:
+            Text: =If(dpIncidentDate.SelectedDate > dpNotifiedDate.SelectedDate, "Incident date cannot be after the notification date", "")
+      - lblLateNotification:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Late notification - refer to handler"
+            Visible: =DateDiff(dpIncidentDate.SelectedDate, dpNotifiedDate.SelectedDate, TimeUnit.Days) > 30
+      - ddClaimType:
+          Control: DropDown@0.0.45
+          Properties:
+            Items: =colClaimTypes
+      - ddFault:
+          Control: DropDown@0.0.45
+          Properties:
+            Items: =["At fault", "Non fault", "Split liability"]
+      - txtNcdYears:
+          Control: TextInput@0.0.53
+      - lblNcdAfterClaim:
+          Control: Label@2.5.1
+          Properties:
+            Text: |-
+              =If(
+                  ddFault.Selected.Value = "At fault",
+                  Max(0, Value(txtNcdYears.Text) - 2),
+                  Value(txtNcdYears.Text)
+              )
+      - btnSubmit:
+          Control: Button@0.0.44
+          Properties:
+            Text: ="Submit claim"
+            DisplayMode: |-
+              =If(
+                  IsBlank(txtPolicyNumber.Text) || IsBlank(dpIncidentDate.SelectedDate) || Value(txtClaimAmount.Text) <= 0 || !IsBlank(lblCoverError.Text) && lblCoverError.Text <> "",
+                  DisplayMode.Disabled,
+                  DisplayMode.Edit
+              )
+            OnSelect: |-
+              =Patch(clm_Claims, Defaults(clm_Claims), {
+                  clm_policynumber: txtPolicyNumber.Text,
+                  clm_claimamount: Value(txtClaimAmount.Text),
+                  clm_incidentdate: dpIncidentDate.SelectedDate,
+                  clm_status: "New"
+              });
+              Navigate(TriageScreen, ScreenTransition.Fade)

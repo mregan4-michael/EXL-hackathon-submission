@@ -11,7 +11,7 @@ dist/
 bin/
 obj/
 *.gguf
-factory/out/tmp/
+factory/out/
 .env
 TestResults/
 coverage.xml

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Payment" OriginalName="Payment">clm_Payment</Name>
+  <EntityInfo>
+    <entity Name="clm_Payment">
+      <attributes>
+        <attribute PhysicalName="clm_PaymentId">
+          <Type>primarykey</Type>
+          <Name>clm_paymentid</Name>
+          <RequiredLevel>systemrequired</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Payment" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_ClaimId">
+          <Type>lookup</Type>
+          <Name>clm_claimid</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Claim" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_Amount">
+          <Type>money</Type>
+          <Name>clm_amount</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MinValue>0</MinValue>
+          <MaxValue>1000000</MaxValue>
+          <displaynames>
+            <displayname description="Amount" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_SortCode">
+          <Type>nvarchar</Type>
+          <Name>clm_sortcode</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>8</MaxLength>
+          <displaynames>
+            <displayname description="Payee Sort Code" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_AccountNumber">
+          <Type>nvarchar</Type>
+          <Name>clm_accountnumber</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>8</MaxLength>
+          <displaynames>
+            <displayname description="Payee Account Number" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_ApprovedBy">
+          <Type>nvarchar</Type>
+          <Name>clm_approvedby</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <displaynames>
+            <displayname description="Approved By" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_SecondApprover">
+          <Type>nvarchar</Type>
+          <Name>clm_secondapprover</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <displaynames>
+            <displayname description="Second Approver" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_PayeeChangedOn">
+          <Type>datetime</Type>
+          <Name>clm_payeechangedon</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Payee Details Changed On" languagecode="1033" />
+          </displaynames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>

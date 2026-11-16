@@ -1,0 +1,85 @@
+Screens:
+  TriageScreen:
+    Properties:
+      OnVisible: =Set(gblTriageOpenedAt, Now())
+    Children:
+      - txtPriorClaims:
+          Control: TextInput@0.0.53
+      - chkNoPoliceRef:
+          Control: Checkbox@0.0.30
+          Properties:
+            Text: ="No crime reference number supplied"
+      - chkVulnerable:
+          Control: Checkbox@0.0.30
+          Properties:
+            Text: ="Customer has declared a vulnerability"
+      - dpDateOfBirth:
+          Control: DatePicker@0.0.46
+      - ddContactPref:
+          Control: DropDown@0.0.45
+          Properties:
+            Items: =["Customer", "Third party (Power of Attorney)", "Broker"]
+      - lblAuthority:
+          Control: Label@2.5.1
+          Properties:
+            Text: |-
+              =If(
+                  Value(txtClaimAmount.Text) <= 5000, "Handler",
+                  Value(txtClaimAmount.Text) <= 25000, "TeamLeader",
+                  "ClaimsManager"
+              )
+      - lblFourEyes:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Second approver required"
+            Visible: =Value(txtClaimAmount.Text) > 10000
+      - lblFraudScore:
+          Control: Label@2.5.1
+          Properties:
+            Text: |-
+              =If(DateDiff(dpPolicyStart.SelectedDate, dpIncidentDate.SelectedDate, TimeUnit.Days) < 30, 40, 0)
+              + If(Value(txtPriorClaims.Text) >= 3, 30, 0)
+              + If(DateDiff(dpIncidentDate.SelectedDate, dpNotifiedDate.SelectedDate, TimeUnit.Days) > 30, 20, 0)
+              + If(chkNoPoliceRef.Value && ddClaimType.Selected.Value = "Theft", 10, 0)
+      - lblFraudReferral:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Refer to Special Investigations Unit"
+            Visible: =Value(lblFraudScore.Text) >= 50
+      - lblVulnerable:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Vulnerable customer - follow vulnerable customer procedure"
+            Visible: |-
+              =chkVulnerable.Value
+                  || DateDiff(dpDateOfBirth.SelectedDate, dpNotifiedDate.SelectedDate, TimeUnit.Years) >= 75
+                  || ddContactPref.Selected.Value = "Third party (Power of Attorney)"
+      - lblPriority:
+          Control: Label@2.5.1
+          Properties:
+            Text: |-
+              =If(
+                  lblVulnerable.Visible, "P1",
+                  ddClaimType.Selected.Value = "Injury", "P1",
+                  Value(txtClaimAmount.Text) > 25000, "P2",
+                  "P3"
+              )
+      - lblSlaDays:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Switch(lblPriority.Text, "P1", 2, "P2", 5, 10)
+      - btnAutoDecline:
+          Control: Button@0.0.44
+          Properties:
+            Text: ="Decline claim"
+            DisplayMode: |-
+              =If(
+                  lblVulnerable.Visible || Value(lblFraudScore.Text) >= 50,
+                  DisplayMode.Disabled,
+                  DisplayMode.Edit
+              )
+      - lblOldSurcharge:
+          Control: Label@2.5.1
+          Properties:
+            Visible: =false
+            Text: =If(Value(txtClaimAmount.Text) > 50000, "Apply 5% large-loss handling surcharge", "")

@@ -1,0 +1,13 @@
+Screens:
+  ReviewScreen:
+    Children:
+      - galReferrals:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =SortByColumns(Filter(clm_Claims, clm_status = "Referred" && clm_assignedto = User().Email), "clm_notifieddate", SortOrder.Ascending)
+      - btnReassign:
+          Control: Button@0.0.44
+          Properties:
+            Visible: =gblIsManager
+            OnSelect: |-
+              =Patch(clm_Claims, galReferrals.Selected, {clm_assignedto: cboReassignTo.Selected.Mail})

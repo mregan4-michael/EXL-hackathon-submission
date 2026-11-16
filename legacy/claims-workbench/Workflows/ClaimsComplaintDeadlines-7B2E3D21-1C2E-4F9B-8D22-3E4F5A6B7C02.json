@@ -1,0 +1,139 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {},
+      "triggers": {
+        "Recurrence": {
+          "type": "Recurrence",
+          "recurrence": {
+            "frequency": "Day",
+            "interval": 1,
+            "startTime": "2024-01-01T06:00:00Z",
+            "timeZone": "GMT Standard Time"
+          }
+        }
+      },
+      "actions": {
+        "List_open_complaints": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "clm_complaints",
+              "$filter": "clm_finalresponsesent eq false"
+            }
+          },
+          "runAfter": {}
+        },
+        "Apply_to_each_complaint": {
+          "type": "Foreach",
+          "foreach": "@outputs('List_open_complaints')?['body/value']",
+          "runAfter": {
+            "List_open_complaints": [
+              "Succeeded"
+            ]
+          },
+          "actions": {
+            "Days_open": {
+              "type": "Compose",
+              "inputs": "@div(sub(ticks(utcNow()),ticks(items('Apply_to_each_complaint')?['clm_receivedon'])),864000000000)"
+            },
+            "Check_reminder_window": {
+              "type": "If",
+              "runAfter": {
+                "Days_open": [
+                  "Succeeded"
+                ]
+              },
+              "description": "Remind the handler at week 6.",
+              "expression": {
+                "and": [
+                  {
+                    "greater": [
+                      "@outputs('Days_open')",
+                      40
+                    ]
+                  },
+                  {
+                    "lessOrEquals": [
+                      "@outputs('Days_open')",
+                      56
+                    ]
+                  }
+                ]
+              },
+              "actions": {
+                "Send_reminder": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_office365",
+                      "operationId": "SendEmailV2",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                    },
+                    "parameters": {
+                      "emailMessage/Subject": "Complaint final response due soon"
+                    }
+                  }
+                }
+              },
+              "else": {
+                "actions": {}
+              }
+            },
+            "Check_eight_week_breach": {
+              "type": "If",
+              "runAfter": {
+                "Check_reminder_window": [
+                  "Succeeded"
+                ]
+              },
+              "description": "FCA DISP 1.6: final response within eight weeks.",
+              "expression": {
+                "and": [
+                  {
+                    "greater": [
+                      "@outputs('Days_open')",
+                      56
+                    ]
+                  }
+                ]
+              },
+              "actions": {
+                "Flag_breach": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "UpdateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "clm_complaints",
+                      "recordId": "@items('Apply_to_each_complaint')?['clm_complaintid']",
+                      "item": {
+                        "clm_breached": true
+                      }
+                    }
+                  }
+                }
+              },
+              "else": {
+                "actions": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

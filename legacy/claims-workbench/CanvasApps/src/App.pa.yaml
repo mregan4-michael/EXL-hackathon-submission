@@ -1,0 +1,7 @@
+App:
+  Properties:
+    OnStart: |-
+      =Set(gblUserAuthorityLimit, LookUp(clm_HandlerAuthorities, Email = User().Email).Limit);
+      Set(gblIsManager, User().Email in colManagers.Email);
+      ClearCollect(colClaimTypes, ["Motor", "Home", "Theft", "Injury", "Travel"])
+    Theme: =PowerAppsTheme

@@ -1,0 +1,16 @@
+app_id: approvals-kit
+title: Microsoft Business Approvals Kit (Settings app + Dataverse + cloud flows)
+role: tuning
+source: https://github.com/microsoft/powercat-business-approvals-kit
+commit: 786b456f0643ef2b6d3109f5dc2f71de05a07dc6
+licence: MIT (see LICENSE in this folder)
+vendored: >
+  Subset of BusinessApprovalKit/SolutionPackage/src: Entities/*/Entity.xml and Formulas,
+  Workflows, OptionSets, environment variable definitions, Other/Solution.xml, and the
+  Settings canvas app (cat_settings_3ada8_DocumentUri.msapp) unpacked to CanvasApps/cat_settings.
+canvas:
+  - path: CanvasApps/cat_settings
+    format: msapp_json
+flows: Workflows
+entities: Entities
+roles: null

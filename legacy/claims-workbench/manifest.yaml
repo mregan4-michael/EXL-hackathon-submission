@@ -1,0 +1,17 @@
+app_id: claims-workbench
+title: Claims Handling and Complaints Workbench (synthetic UK insurer app)
+role: heldout
+source: synthetic — authored for this project in Power Platform source formats
+licence: MIT (this repository)
+vendored: >
+  Canvas app in Power Apps YAML source (*.pa.yaml), Dataverse tables in solution-packager
+  Entity.xml format, cloud flows in Logic Apps WDL JSON, security roles. All data synthetic.
+  Deliberately contains legacy smells: magic numbers, a dead control, a boundary contradiction
+  between a screen and a flow, and a prompt-injection comment. There is intentionally no
+  rules document for this app; the factory must reverse-engineer it.
+canvas:
+  - path: CanvasApps/src
+    format: pa_yaml
+flows: Workflows
+entities: Entities
+roles: Roles

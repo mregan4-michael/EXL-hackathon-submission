@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Claim" OriginalName="Claim">clm_Claim</Name>
+  <EntityInfo>
+    <entity Name="clm_Claim">
+      <attributes>
+        <attribute PhysicalName="clm_ClaimId">
+          <Type>primarykey</Type>
+          <Name>clm_claimid</Name>
+          <RequiredLevel>systemrequired</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Claim" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_PolicyNumber">
+          <Type>nvarchar</Type>
+          <Name>clm_policynumber</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>10</MaxLength>
+          <displaynames>
+            <displayname description="Policy Number" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_ClaimAmount">
+          <Type>money</Type>
+          <Name>clm_claimamount</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MinValue>0</MinValue>
+          <MaxValue>10000000</MaxValue>
+          <displaynames>
+            <displayname description="Claim Amount" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_IncidentDate">
+          <Type>datetime</Type>
+          <Name>clm_incidentdate</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Incident Date" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_NotifiedDate">
+          <Type>datetime</Type>
+          <Name>clm_notifieddate</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Notified Date" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_ClaimType">
+          <Type>nvarchar</Type>
+          <Name>clm_claimtype</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>20</MaxLength>
+          <displaynames>
+            <displayname description="Claim Type" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_Status">
+          <Type>nvarchar</Type>
+          <Name>clm_status</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>20</MaxLength>
+          <displaynames>
+            <displayname description="Status" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_FraudScore">
+          <Type>int</Type>
+          <Name>clm_fraudscore</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MinValue>0</MinValue>
+          <MaxValue>100</MaxValue>
+          <displaynames>
+            <displayname description="Fraud Score" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_AssignedTo">
+          <Type>nvarchar</Type>
+          <Name>clm_assignedto</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <displaynames>
+            <displayname description="Assigned To" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_CustomerId">
+          <Type>lookup</Type>
+          <Name>clm_customerid</Name>
+          <RequiredLevel>required</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <displaynames>
+            <displayname description="Customer" languagecode="1033" />
+          </displaynames>
+        </attribute>
+        <attribute PhysicalName="clm_PriorClaims">
+          <Type>int</Type>
+          <Name>clm_priorclaims</Name>
+          <RequiredLevel>none</RequiredLevel>
+          <IsCustomField>1</IsCustomField>
+          <MinValue>0</MinValue>
+          <MaxValue>50</MaxValue>
+          <displaynames>
+            <displayname description="Prior Claims (12 months)" languagecode="1033" />
+          </displaynames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>
