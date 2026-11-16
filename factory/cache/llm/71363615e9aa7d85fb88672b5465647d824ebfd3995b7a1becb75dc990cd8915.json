@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 113,
+ "content": "{\"statement\": \"If the selected claim type is 'Motor' and the vehicle age is greater than 5 years, the betterment amount is calculated as the cost of parts multiplied by a factor of 0.5 for the first 5 years and then by a decreasing factor for each additional year up to a maximum of 0.1. The result is rounded to 2 decimal places. Otherwise, the betterment amount is 0.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 437,
+ "seconds": 16.853
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 88,
+ "content": "{\"statement\": \"The condition sets varCondition to the value of stageid if text_1 is 'Stage Instance', otherwise it sets it to the value of _cat_gotostage_value from the Apply_to_each items. The effect is to set a variable varCondition with a stageid and path based on the condition.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 500,
+ "seconds": 12.7
+}

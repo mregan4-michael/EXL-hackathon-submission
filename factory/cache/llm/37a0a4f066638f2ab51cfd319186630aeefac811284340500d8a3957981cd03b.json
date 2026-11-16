@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 79,
+ "content": "{\"statement\": \"The cat_PathIndex column in the cat_BusinessApprovalNode table must have a value between 1 and 2,147,480,000 (inclusive). If the value is outside this range, the system will reject the approval.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 397,
+ "seconds": 8.942
+}

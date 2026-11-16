@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\n \"statement\": \"The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If true, the effect is to set the output to 'If_no_more_running_instances'.\",\n \"category\": \"validation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 485,
+ "seconds": 11.182
+}

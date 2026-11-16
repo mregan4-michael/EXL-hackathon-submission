@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 63,
+ "content": "{\"statement\": \"The business approval runtime node value is calculated based on the business approval runtime node and the node name value. If the node name value is not valid, it will return an error.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 0.95}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 431,
+ "seconds": 9.067
+}

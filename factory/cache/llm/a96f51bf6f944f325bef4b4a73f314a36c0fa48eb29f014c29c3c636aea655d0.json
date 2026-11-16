@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 58,
+ "content": "{\"statement\": \"Prevents the execution of the 'If_Time_Out_not_updated_today' action if the 'cat_timeoutupdate' input is processed more than once in a day.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 460,
+ "seconds": 7.962
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 82,
+ "content": "{\n \"statement\": \"The condition is that the cat_Version must be required and must fall within the range of 1 to 2,147,480,000. The effect is that if the condition is not met, the system will not allow further processing.\",\n \"category\": \"validation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 397,
+ "seconds": 9.425
+}

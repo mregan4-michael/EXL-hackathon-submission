@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 65,
+ "content": "{\"statement\": \"If the 'Notification Type' is not blank or an error, it checks if the value matches any in the 'Business Approver Notification Type' list and sets the default selected item accordingly.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 413,
+ "seconds": 8.343
+}

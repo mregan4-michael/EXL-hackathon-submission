@@ -1,0 +1,62 @@
+{
+  "app_id": "approvals-kit",
+  "run_id": "bed317c6dfda2db2",
+  "candidates": 170,
+  "rules": 158,
+  "rejected_by_model": [
+    {
+      "candidate_id": "778906c6b698",
+      "path": "App.OnStart"
+    },
+    {
+      "candidate_id": "b718f34c0844",
+      "path": "scrSettingsNew/lblDelegateError_1.Visible"
+    },
+    {
+      "candidate_id": "f1e1a8c58912",
+      "path": "cat_BusinessApprovalCondition.cat_conditionvaluedisplay"
+    },
+    {
+      "candidate_id": "a4b77c66d001",
+      "path": "cat_BusinessApprovalRuntimeCondition.cat_conditionvaluedisplay"
+    },
+    {
+      "candidate_id": "841d5e370a53",
+      "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_path"
+    },
+    {
+      "candidate_id": "28eaf4763901",
+      "path": "cat_BusinessApprovalRuntimeStageInstance.cat_order"
+    },
+    {
+      "candidate_id": "8c6643cec3ea",
+      "path": "cat_BusinessApprovalRuntimeStageInstance.cat_stagenamevalue"
+    },
+    {
+      "candidate_id": "969fad9e7590",
+      "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value"
+    },
+    {
+      "candidate_id": "0c4c8a2b0eb7",
+      "path": "BACoreDailyCalculateApprovalTimeouts/triggers/Daily_Run"
+    },
+    {
+      "candidate_id": "86a9396ff68f",
+      "path": "BACoreSendReminder/actions/Condition"
+    },
+    {
+      "candidate_id": "2d7cef20b3d4",
+      "path": "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists"
+    },
+    {
+      "candidate_id": "3e22fc4c2478",
+      "path": "BACoreSyncApproverOOF/triggers/Recurrence"
+    }
+  ],
+  "llm": {
+    "calls": 170,
+    "cache_hits": 170,
+    "tokens": 0,
+    "seconds": 0.0
+  }
+}

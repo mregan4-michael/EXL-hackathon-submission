@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 110,
+ "content": "{\"statement\": \"The condition checks if the node type is 'Approval'. If true, it sets the output to 809060000. If the node type is 'Go_to_Stage', it sets the output to 809060001. If the node type is 'End_Workflow', it sets the output to 809060002.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 542,
+ "seconds": 28.88
+}

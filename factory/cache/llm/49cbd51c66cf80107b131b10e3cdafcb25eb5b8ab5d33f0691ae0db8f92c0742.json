@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 81,
+ "content": "{\"statement\": \"The rule checks if the dynamic approver type is either 809060002 (Manager of Request Data Field) or 809060001 (Use Request Data Field). If either condition is met, the rule passes.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 536,
+ "seconds": 16.454
+}

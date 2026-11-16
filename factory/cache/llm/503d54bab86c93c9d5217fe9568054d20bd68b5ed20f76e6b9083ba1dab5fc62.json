@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"The workflow sets a recurrence schedule to run every day at midnight (24 hours interval) starting from April 11, 2022. This is a calculation to determine the schedule.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 433,
+ "seconds": 7.126
+}

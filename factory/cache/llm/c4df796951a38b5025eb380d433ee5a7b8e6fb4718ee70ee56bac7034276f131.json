@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 82,
+ "content": "{\n \"statement\": \"The application sets the themeing and default theme, stores them in AppTheme and DefaultTheme respectively, converts AppTheme to AppThemeJson, clears colSelectedApprovalDelegate and colSelectedBackupDelegate, and adds _mySettings.Backup Delegate to colSelectedBackupDelegate.\",\n \"category\": \"state_transition\",\n \"is_business_rule\": false,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 1016,
+ "seconds": 26.361
+}

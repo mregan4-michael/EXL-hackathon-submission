@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 91,
+ "content": "{\"statement\": \"The condition is if the value of lblPriority.Text is 'P1', then lblSlaDays.Text is set to 2 days; if the value is 'P2', then lblSlaDays.Text is set to 5 days; otherwise, lblSlaDays.Text is set to 10 days.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 385,
+ "seconds": 12.115
+}

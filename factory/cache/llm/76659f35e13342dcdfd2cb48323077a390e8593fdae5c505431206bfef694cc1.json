@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 64,
+ "content": "{\"statement\": \"The workflow triggers recurrence every day at 06:00 AM GMT Standard Time starting from January 1, 2024. The effect is to schedule the recurrence.\", \"category\": \"state_transition\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 441,
+ "seconds": 9.736
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 97,
+ "content": "{\"statement\": \"If the number of days between the agreed payment date and the paid date is more than 14, then calculate the late interest by rounding the product of net settlement value, 8%, and the difference between the days over 14, divided by 365, to two decimal places. Otherwise, the late interest is 0.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 468,
+ "seconds": 18.078
+}

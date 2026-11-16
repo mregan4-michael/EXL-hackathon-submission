@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 72,
+ "content": "{\"statement\": \"The condition is if the checkbox is checked. If it is checked, the label is set to 'SettingsLoc.cbxOutOfOfficeEnabledLbl', otherwise it is set to 'SettingsLoc.cbxOutOfOfficeDisabledLbl'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 412,
+ "seconds": 9.291
+}

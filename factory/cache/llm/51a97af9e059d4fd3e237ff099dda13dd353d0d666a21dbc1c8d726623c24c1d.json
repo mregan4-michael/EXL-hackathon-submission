@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 75,
+ "content": "{\"statement\": \"The code checks the value of 'body/clm_claimtype' from the input 'Get_claim'. If it is 'Injury', it routes to 'Injury'. If it is 'Theft', it routes to 'Theft'.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 440,
+ "seconds": 5.517
+}

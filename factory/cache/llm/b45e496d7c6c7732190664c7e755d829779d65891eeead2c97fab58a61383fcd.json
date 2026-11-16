@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 146,
+ "content": "{\"statement\": \"The rule sets the lblExcess.Text label based on the selected ddClaimType value. If ddClaimType is 'Motor', lblExcess.Text is set to 250. If ddClaimType is 'Home', lblExcess.Text is set to 100. If ddClaimType is 'Theft', lblExcess.Text is set to 350. If ddClaimType is 'Injury', lblExcess.Text is set to 0. If ddClaimType is any other value, lblExcess.Text is set to 500.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 464,
+ "seconds": 19.683
+}

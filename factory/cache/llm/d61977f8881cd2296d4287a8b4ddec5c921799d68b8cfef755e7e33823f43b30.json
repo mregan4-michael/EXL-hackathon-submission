@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 84,
+ "content": "{\"statement\": \"The business approval version (cat_BusinessApprovalPublishedWorkflow.cat_version) is calculated based on the business approval version (cat_businessapprovalversion). If the cat_businessapprovalversion is 0, the cat_version will be 0; otherwise, it will be the cat_businessapprovalversion.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 396,
+ "seconds": 9.611
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 97,
+ "content": "{\"statement\": \"The rule checks the value of the 'cat_dynamicapprovertype' field and assigns it to different managers based on predefined cases. If the value matches 'Manager_of_Initiator', 'Manager_of_Request_Data', or 'Manager_of_Last_Approver', it assigns the corresponding manager ID. If none match, it assigns 'Use_Request_Data'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 591,
+ "seconds": 18.828
+}

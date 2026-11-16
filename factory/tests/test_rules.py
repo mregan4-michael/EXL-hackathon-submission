@@ -131,3 +131,10 @@ def test_replay_makes_zero_network_calls(tmp_path: Path) -> None:
     assert audit[-1]["cache_hit"] is True and audit[-1]["prompt_hash"] == h
     for key in ("model", "temperature", "prompt_tokens", "duration_s", "cost_usd", "ts"):
         assert key in audit[-1]
+
+
+def test_committed_cache_replays_claims_catalogue(claims: dict[str, Any], tmp_path: Path) -> None:
+    llm = LLMClient(audit_path=tmp_path / "a.jsonl", stage="t", replay=True)
+    cat, report = catalogue.build_catalogue(claims, llm, "interpret.v1", workers=2)
+    assert report["llm"]["cache_hits"] == report["llm"]["calls"] == report["candidates"]
+    assert len(cat["rules"]) >= 25

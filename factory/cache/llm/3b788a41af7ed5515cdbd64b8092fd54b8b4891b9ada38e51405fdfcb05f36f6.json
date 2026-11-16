@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 90,
+ "content": "{\"statement\": \"The condition is when the cat_order calculated column is triggered. The threshold values are not explicitly defined in the code, but the effect is that the cat_order column is recalculated based on the cat_businessapprovalruntimenode and cat_businessapprovalruntimenodeinstance entities. This is a calculation business rule.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 413,
+ "seconds": 10.893
+}

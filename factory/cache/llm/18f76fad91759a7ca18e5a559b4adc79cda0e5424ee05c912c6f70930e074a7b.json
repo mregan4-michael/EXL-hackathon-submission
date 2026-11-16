@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"The condition checks if the length of the 'body/value' array from the 'Get_All_Running_Approval_Instances_for_the_Node' output is greater than 0. If true, the condition is met.\", \"category\": \"validation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 433,
+ "seconds": 10.135
+}

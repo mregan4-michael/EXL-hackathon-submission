@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 113,
+ "content": "{\"statement\": \"The business approval runtime stage's sourcedatanamevalue is calculated based on cat_businessapprovalruntimedata, cat_businessapprovalruntimestage, and cat_name. If the value is 0, it is set to 'Not Started'; if it is 1, it is set to 'In Progress'; if it is 2, it is set to 'Completed'; otherwise, it is set to 'Cancelled'.\", \"category\": \"state_transition\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 435,
+ "seconds": 13.666
+}

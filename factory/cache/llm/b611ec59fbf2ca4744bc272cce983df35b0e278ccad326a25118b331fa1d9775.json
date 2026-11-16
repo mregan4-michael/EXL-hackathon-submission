@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"The ClaimsHandler role grants read, write, and create permissions for Claim objects to users, and read permissions for Complaint objects to BusinessUnit objects. The threshold values are specific permissions granted to different types of users and objects.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 397,
+ "seconds": 9.862
+}

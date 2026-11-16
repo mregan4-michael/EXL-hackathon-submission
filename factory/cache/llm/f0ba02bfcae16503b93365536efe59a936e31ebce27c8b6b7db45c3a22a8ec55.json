@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 85,
+ "content": "{\"statement\": \"The cat_TimeOut column in the cat_BusinessApprovalRuntimeNode table should have a value between 0 and 2.14748e+09 (2,147,480,000). Any value outside this range will trigger an error.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 403,
+ "seconds": 10.493
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"The policy number displayed in the lblPolicyNumberError.Text field must be exactly 10 characters long and start with 'PL'. If the policy number is blank or does not meet these criteria, an error message is displayed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 417,
+ "seconds": 9.565
+}

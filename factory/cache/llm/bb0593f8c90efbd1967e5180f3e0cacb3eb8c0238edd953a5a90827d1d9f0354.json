@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 83,
+ "content": "{\"statement\": \"The label 'Authority' will display 'Handler' if the claim amount is $5,000 or less, 'TeamLeader' if the claim amount is between $5,001 and $25,000, and 'ClaimsManager' otherwise.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 407,
+ "seconds": 17.626
+}

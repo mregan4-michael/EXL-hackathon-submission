@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 59,
+ "content": "{\"statement\": \"The condition checks if the length of the variable 'varDelegate' is greater than 0. If it is, the action 'If_delegate_exists' is triggered.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 413,
+ "seconds": 10.333
+}

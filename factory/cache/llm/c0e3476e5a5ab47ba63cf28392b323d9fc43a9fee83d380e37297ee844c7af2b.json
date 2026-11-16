@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 66,
+ "content": "{\"statement\": \"If the People Picker Approval Delegate has selected someone and that person is not the user's own UPN, then set the label delegate error message. Otherwise, do not set the label delegate error message.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 447,
+ "seconds": 10.522
+}

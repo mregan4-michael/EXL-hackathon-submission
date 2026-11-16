@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 64,
+ "content": "{\"statement\": \"This rule clears the collection colSelectedApprovalDelegate if the SelectedPeople field is not blank or contains an error. It adds all items from the SelectedPeople field to colSelectedApprovalDelegate.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 402,
+ "seconds": 7.754
+}

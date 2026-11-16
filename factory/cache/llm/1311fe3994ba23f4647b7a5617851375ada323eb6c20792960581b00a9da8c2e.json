@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 85,
+ "content": "{\"statement\": \"The condition is when the value of cat_order is calculated based on the cat_businessapprovalruntimestage and cat_businessapprovalruntimestageinstance. The threshold values are the parameters used in the calculation, and the effect is the result of the calculation which is assigned to cat_order.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 411,
+ "seconds": 8.823
+}

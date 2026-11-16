@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 80,
+ "content": "{\"statement\": \"The label 'lblComplaintBreach' is hidden if the checkbox 'chkFinalResponseSent' is not checked and the difference in days between the selected dates in 'dpComplaintReceived' and 'dpAsOf' is greater than 56 days.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 422,
+ "seconds": 15.509
+}

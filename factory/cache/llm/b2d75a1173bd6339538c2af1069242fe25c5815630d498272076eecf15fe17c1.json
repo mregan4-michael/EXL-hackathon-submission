@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 132,
+ "content": "{\"statement\": \"The condition checks the value of the 'body/cat_reminderchannel' field from the 'Get_Existing_Node_Reminder_Instance_record' output. If it is 'Email', the threshold is 809060000; if it is 'Teams', the threshold is 809060001; and if it is 'Email_+_Teams', the threshold is 809060002. The effect is to switch based on the threshold values.\", \n \"category\": \"authorisation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 476,
+ "seconds": 15.529
+}

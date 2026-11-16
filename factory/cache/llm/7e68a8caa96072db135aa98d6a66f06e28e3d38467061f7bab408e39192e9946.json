@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 88,
+ "content": "{\"statement\": \"The condition checks if the runtime node definition rule is either 809,060,002 (Out of Office) or 809,060,003 (Time-out or Out of Office). If true, the rule is considered as an OOF condition.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 590,
+ "seconds": 18.931
+}

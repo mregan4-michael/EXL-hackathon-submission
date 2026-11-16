@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 50,
+ "content": "{\"statement\": \"If the value of body/_cat_gotostage_value is not null, the rule exists check will be performed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 448,
+ "seconds": 10.063
+}

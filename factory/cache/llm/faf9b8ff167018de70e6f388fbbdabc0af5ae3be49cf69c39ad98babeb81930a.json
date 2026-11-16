@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 82,
+ "content": "{\"statement\": \"The condition is that the value of the 'Order' field must be between 1 and 2.14748e+09 (2.14748 billion). If the value is outside this range, the business rule will trigger an effect.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 394,
+ "seconds": 9.87
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"Sorts the galReferrals.Items by clm_notifieddate in ascending order, filtering claims with status 'Referred' and assigned to the current user. The threshold is the current user's email.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 425,
+ "seconds": 7.402
+}

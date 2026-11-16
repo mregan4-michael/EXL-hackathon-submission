@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"If the value of chkVatRegistered is true, then set lblVatRecoverable to the rounded value of lblNetSettlement divided by 6, otherwise set it to 0.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 402,
+ "seconds": 9.4
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 61,
+ "content": "{\"statement\": \"If the value returned by the 'Get_Next_Node' action does not match the '_cat_nodeduedaterequestdata_value' field, the condition is met.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 492,
+ "seconds": 12.0
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"The condition checks if the difference in days between the current date and the Out Of Office Check Days parameter is greater than the value of the Out Of Office Check Days parameter. If true, the condition is met.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 460,
+ "seconds": 10.617
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 92,
+ "content": "{\"statement\": \"The rule checks if the selected item is 'Back'. If not, it sets _isBusy to true and updates the context with the first delegate. It also checks for backup delegates and updates the context accordingly. If there are no errors, it saves the settings and notifies the user. Otherwise, it shows an error message.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 992,
+ "seconds": 15.511
+}

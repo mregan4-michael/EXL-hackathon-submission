@@ -1,0 +1,22 @@
+{
+  "app_id": "claims-workbench",
+  "run_id": "2a4c1c373f62c20c",
+  "candidates": 46,
+  "rules": 44,
+  "rejected_by_model": [
+    {
+      "candidate_id": "c7942b770606",
+      "path": "ReviewScreen/galReferrals.Items"
+    },
+    {
+      "candidate_id": "fe41285e4495",
+      "path": "ClaimsComplaintDeadlines/triggers/Recurrence"
+    }
+  ],
+  "llm": {
+    "calls": 46,
+    "cache_hits": 46,
+    "tokens": 0,
+    "seconds": 0.0
+  }
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 69,
+ "content": "{\"statement\": \"The condition is to look up a Business Approval Work Profile based on the name provided. The threshold values are the provided name, and the effect is to return the DefaultSelectedItems of the found work profile.\", \n \"category\": \"authorisation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 405,
+ "seconds": 8.099
+}

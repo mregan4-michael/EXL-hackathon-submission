@@ -13,3 +13,4 @@
 - Approvals Kit source: `git clone https://github.com/microsoft/powercat-business-approvals-kit` @ 786b456f0643ef2b6d3109f5dc2f71de05a07dc6 (MIT). Vendored subset under `legacy/approvals-kit/`.
 - Power Fx: NuGet Microsoft.PowerFx.Interpreter 1.8.1 (verified parse + eval of If/Switch/With/Filter/DateAdd/DateDiff/Round).
 - Phase 2 branch: devin/phase2-catalogue (stacked on PR #2). Ground truth frozen: experiments/ground-truth/approvals-kit.json (124 locations), GROUNDTRUTH.lock.
+- Phase 2: `DOTNET_ROOT=$HOME/.dotnet uv run factory analyse approvals-kit claims-workbench [--replay]`. LLM cache in factory/cache/llm (committed; replay needs no model). Catalogues copied to artefacts/<app>/.

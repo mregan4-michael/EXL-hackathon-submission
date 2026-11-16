@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 66,
+ "content": "{\"statement\": \"The condition value display calculates based on cat_businessapprovalruntimecondition, cat_businessapprovalruntimedata, cat_conditiondata, cat_conditionvalue, and cat_name. The effect is not specified.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 429,
+ "seconds": 7.356
+}

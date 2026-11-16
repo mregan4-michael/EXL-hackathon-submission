@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 83,
+ "content": "{\"statement\": \"The condition is that the 'cat_Order' value must be required and within the range of 1 to 2,147,480,000. The effect is that if the condition is not met, the system will not allow the record to proceed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 395,
+ "seconds": 9.522
+}

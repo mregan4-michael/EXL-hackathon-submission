@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"The business approval node calculates the value of cat_sourcedatanamevalue based on cat_businessapprovaldata, cat_businessapprovalnode, and cat_name. If the calculation fails, the value remains unchanged.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 422,
+ "seconds": 9.78
+}

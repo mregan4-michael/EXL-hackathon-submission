@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 81,
+ "content": "{\"statement\": \"If the node status is in the category 'cat_businessapprovalruntimenodeinstance' and the message is 3, and the filter condition 'cat_gotostageinstanceid' is null, then execute the flow trigger 'When_Node_Status_Changed'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 428,
+ "seconds": 12.568
+}

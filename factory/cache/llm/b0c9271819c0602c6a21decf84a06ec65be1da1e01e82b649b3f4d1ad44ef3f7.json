@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 59,
+ "content": "{\"statement\": \"If the text input 'txtClaimAmount.Text' is greater than 10000, then the label 'lblFourEyes.Visible' is shown.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 375,
+ "seconds": 12.926
+}
