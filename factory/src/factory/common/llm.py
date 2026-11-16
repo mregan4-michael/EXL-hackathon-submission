@@ -64,8 +64,12 @@ class Breaker:
             self.opened_at = time.monotonic()
 
 
-def prompt_hash(model: str, temperature: float, messages: list[dict[str, str]]) -> str:
-    blob = json.dumps({"m": model, "t": temperature, "msgs": messages}, sort_keys=True)
+def prompt_hash(
+    model: str, temperature: float, messages: list[dict[str, str]], max_tokens: int
+) -> str:
+    blob = json.dumps(
+        {"m": model, "t": temperature, "n": max_tokens, "msgs": messages}, sort_keys=True
+    )
     return hashlib.sha256(blob.encode()).hexdigest()
 
 
@@ -83,7 +87,9 @@ class LLMClient:
     )
 
     def chat(self, messages: list[dict[str, str]], prompt_version: str) -> str:
-        h = prompt_hash(self.config.model, self.config.temperature, messages)
+        h = prompt_hash(
+            self.config.model, self.config.temperature, messages, self.config.max_tokens
+        )
         cached = self.cache_dir / f"{h}.json"
         if cached.exists():
             rec: dict[str, Any] = json.loads(cached.read_text())

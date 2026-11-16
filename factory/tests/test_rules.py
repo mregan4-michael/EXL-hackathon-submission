@@ -123,7 +123,7 @@ def test_replay_makes_zero_network_calls(tmp_path: Path) -> None:
     llm = LLMClient(audit_path=tmp_path / "a.jsonl", stage="t", replay=True, cache_dir=tmp_path)
     with pytest.raises(ReplayMissError):
         llm.chat(msgs, "v")
-    h = prompt_hash(llm.config.model, llm.config.temperature, msgs)
+    h = prompt_hash(llm.config.model, llm.config.temperature, msgs, llm.config.max_tokens)
     rec = {"content": "cached", "model": "m", "prompt_tokens": 3, "completion_tokens": 1}
     (tmp_path / f"{h}.json").write_text(json.dumps(rec))
     assert llm.chat(msgs, "v") == "cached"
