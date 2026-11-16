@@ -279,7 +279,13 @@ def mutation(fx: fxhost.FxHost, e: Entry, rows: list[dict[str, Any]]) -> dict[st
 
 # ---------------------------------------------------------------- report
 def _load(app: str) -> tuple[dict[str, Any], dict[str, Any]]:
-    model = json.loads((OUT / app / "legacy-model.json").read_text())
+    path = OUT / app / "legacy-model.json"
+    if not path.exists():  # deterministic, so a clean checkout can run parity directly
+        from factory.analyse.parse import parse_app, write_model
+
+        with fxhost.FxHost() as fx:
+            write_model(parse_app(app, fx))
+    model = json.loads(path.read_text())
     catalogue = json.loads((REPO_ROOT / "artefacts" / app / "rule-catalogue.json").read_text())
     return model, catalogue
 
