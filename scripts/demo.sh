@@ -23,7 +23,7 @@ else
   echo "docker unavailable: running the API directly with dotnet (UI not started)"
   DOTNET=${DOTNET:-$(command -v dotnet || echo "$HOME/.dotnet/dotnet")}
   data=$(mktemp -d)
-  Store__Path="$data" "$DOTNET" run --project "generated/$APP/src/Api/Factory.Api.csproj" >/tmp/factory-api.log 2>&1 &
+  Identity__Mode=demo Store__Path="$data" "$DOTNET" run --project "generated/$APP/src/Api/Factory.Api.csproj" >/tmp/factory-api.log 2>&1 &
   trap 'kill $! 2>/dev/null || true' EXIT
   UI="(not started)"
 fi

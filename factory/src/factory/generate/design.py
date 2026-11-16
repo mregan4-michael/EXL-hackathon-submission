@@ -390,10 +390,13 @@ def openapi(app_id: str, containers: list[dict[str, Any]], screens: list[str]) -
             "schemas": schemas,
             "securitySchemes": {
                 "demoRole": {"type": "apiKey", "in": "header", "name": "X-Demo-User",
-                             "description": "Offline demo identity. Azure: Entra ID bearer token."}
+                             "description": "Offline only (Identity:Mode=demo)."},
+                "entra": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT",
+                          "description": "Azure: Entra ID token validated by Container Apps "
+                                         "built-in auth; app role = legacy security role."}
             },
         },  # fmt: skip
-        "security": [{"demoRole": []}],
+        "security": [{"entra": []}, {"demoRole": []}],
         "paths": dict(sorted(paths.items())),
     }
 

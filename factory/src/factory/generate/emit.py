@@ -352,6 +352,7 @@ services:
   api:
     build: {{ context: ./src, dockerfile: Api/Dockerfile }}
     environment:
+      Identity__Mode: demo
       Store__Kind: file
     ports: ["8080:8080"]
     volumes: ["api-data:/data"]
@@ -368,6 +369,7 @@ services:
     profiles: [cosmos]
     build: {{ context: ./src, dockerfile: Api/Dockerfile }}
     environment:
+      Identity__Mode: demo
       Store__Kind: cosmos
       Store__Emulator: "true"
       Store__Database: {app_id}

@@ -3093,11 +3093,20 @@
         "type": "apiKey",
         "in": "header",
         "name": "X-Demo-User",
-        "description": "Offline demo identity. Azure: Entra ID bearer token."
+        "description": "Offline only (Identity:Mode=demo)."
+      },
+      "entra": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Azure: Entra ID token validated by Container Apps built-in auth; app role = legacy security role."
       }
     }
   },
   "security": [
+    {
+      "entra": []
+    },
     {
       "demoRole": []
     }

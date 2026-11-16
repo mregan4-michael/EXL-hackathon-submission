@@ -16,6 +16,7 @@ public sealed class HostFactory : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(Microsoft.AspNetCore.Hosting.IWebHostBuilder builder)
     {
+        builder.UseSetting("Identity:Mode", "demo");
         builder.UseSetting("Store:Kind", "file");
         builder.UseSetting("Store:Path", _data);
         builder.UseSetting("Seed:Path", Path.Combine(AppContext.BaseDirectory, "seed.json"));
@@ -142,5 +143,36 @@ public sealed class GeneratedAppTests(HostFactory host) : IClassFixture<HostFact
                 using var res = await client.SendAsync(Post($"/api/{c.EntitySet}", u!["email"]!.GetValue<string>(), new { }));
                 Assert.Equal(HttpStatusCode.MethodNotAllowed, res.StatusCode);
             }
+    }
+
+    [Fact]
+    public void Outside_demo_mode_the_demo_header_is_ignored()
+    {
+        var dir = new UserDirectory(new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build());
+        var role = App.Roles.Keys.Order(StringComparer.Ordinal).FirstOrDefault() ?? "none";
+        dir.Users.Add(new DemoUser("seeded@example.test", role, "bu"));
+        var http = new Microsoft.AspNetCore.Http.DefaultHttpContext();
+        http.Request.Headers["X-Demo-User"] = "seeded@example.test";
+        Assert.False(dir.Demo);
+        Assert.Null(dir.Resolve(http));
+    }
+
+    [Fact]
+    public void Entra_principal_maps_its_app_role_to_a_legacy_role()
+    {
+        static string Principal(params (string Typ, string Val)[] claims) => Convert.ToBase64String(
+            System.Text.Encoding.UTF8.GetBytes(new JsonObject
+            {
+                ["auth_typ"] = "aad",
+                ["claims"] = new JsonArray(claims.Select(c => (JsonNode)new JsonObject { ["typ"] = c.Typ, ["val"] = c.Val }).ToArray()),
+            }.ToJsonString()));
+        foreach (var role in App.Roles.Keys)
+        {
+            var u = UserDirectory.FromPrincipal(Principal(("preferred_username", "a@example.test"), ("roles", role)));
+            Assert.Equal(role, u?.Role);
+        }
+        Assert.Null(UserDirectory.FromPrincipal(Principal(("preferred_username", "a@example.test"), ("roles", "NotALegacyRole"))));
+        Assert.Null(UserDirectory.FromPrincipal(Principal(("roles", App.Roles.Keys.FirstOrDefault() ?? "x"))));
+        Assert.Null(UserDirectory.FromPrincipal("not base64!"));
     }
 }

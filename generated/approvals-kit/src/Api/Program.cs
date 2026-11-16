@@ -40,7 +40,8 @@ app.MapGet("/openapi.json", () => Results.File(Path.Combine(AppContext.BaseDirec
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok", app = App.Id }));
 
-app.MapGet("/api/demo/users", (UserDirectory d) => d.Users.Select(u => new { u.Email, u.Role, u.BusinessUnit }));
+app.MapGet("/api/demo/users", (UserDirectory d) =>
+    d.Demo ? Results.Ok(d.Users.Select(u => new { u.Email, u.Role, u.BusinessUnit })) : Results.NotFound());
 
 foreach (var c in App.Containers)
 {
@@ -171,13 +172,43 @@ public sealed record ActionRequest(Dictionary<string, JsonElement>? Inputs, Dict
 
 public sealed record DemoUser(string Email, string Role, string BusinessUnit);
 
-/// <summary>Offline demo identity: X-Demo-User names a seeded user. In Azure this is the
-/// Entra ID token (email + app-role claims); the RBAC checks below are unchanged.</summary>
-public sealed class UserDirectory
+/// <summary>Who is calling. Identity:Mode=demo (offline only) trusts X-Demo-User naming a
+/// seeded user. Any other value, including unset, ignores that header and requires the principal
+/// that Azure Container Apps built-in authentication injects as X-MS-CLIENT-PRINCIPAL after it
+/// has validated the Entra ID token (the platform drops client-supplied copies of the header).
+/// The Entra app role must name a legacy security role; the RBAC checks are unchanged.</summary>
+public sealed class UserDirectory(IConfiguration cfg)
 {
+    public const string PrincipalHeader = "X-MS-CLIENT-PRINCIPAL";
+    public bool Demo { get; } = string.Equals(cfg["Identity:Mode"], "demo", StringComparison.OrdinalIgnoreCase);
     public List<DemoUser> Users { get; } = new();
-    public DemoUser? Resolve(HttpContext http) =>
-        Users.FirstOrDefault(u => string.Equals(u.Email, http.Request.Headers["X-Demo-User"].ToString(), StringComparison.OrdinalIgnoreCase));
+
+    public DemoUser? Resolve(HttpContext http) => Demo
+        ? Users.FirstOrDefault(u => string.Equals(u.Email, http.Request.Headers["X-Demo-User"].ToString(), StringComparison.OrdinalIgnoreCase))
+        : FromPrincipal(http.Request.Headers[PrincipalHeader].ToString());
+
+    public static DemoUser? FromPrincipal(string header)
+    {
+        if (string.IsNullOrEmpty(header)) return null;
+        JsonObject? p;
+        try
+        {
+            p = JsonNode.Parse(Convert.FromBase64String(header)) as JsonObject;
+        }
+        catch (FormatException) { return null; }
+        catch (JsonException) { return null; }
+        if (p?["claims"] is not JsonArray arr) return null;
+        var claims = arr.OfType<JsonObject>()
+            .Select(c => (Typ: c["typ"]?.ToString() ?? "", Val: c["val"]?.ToString() ?? ""))
+            .ToList();
+        string? Claim(params string[] types) =>
+            claims.Where(c => types.Contains(c.Typ) && c.Val.Length > 0).Select(c => c.Val).FirstOrDefault();
+        var roleTyp = p["role_typ"]?.ToString() ?? "roles";
+        var email = Claim("preferred_username", "email", "upn");
+        var role = claims.Where(c => c.Typ == roleTyp || c.Typ == "roles").Select(c => c.Val)
+            .Where(App.Roles.ContainsKey).Order(StringComparer.Ordinal).FirstOrDefault();
+        return email is null || role is null ? null : new DemoUser(email, role, Claim("businessUnit") ?? "");
+    }
 }
 
 public static class Correlation
