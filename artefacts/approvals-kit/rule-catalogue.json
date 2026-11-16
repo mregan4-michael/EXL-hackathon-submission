@@ -10,7 +10,7 @@
     {
       "id": "BR-001",
       "candidate_id": "38d6a54eedb5",
-      "statement": "The condition checks if _myUPN is blank. If true, it sets _myUPN to the userPrincipalName from the Office365Users.MyProfileV2 function. Then, it sets _mySettings to the first record in the Business Approvers table where the Approver Id matches _myUPN.",
+      "statement": "The condition is if _myUPN is blank, then set _myUPN to the userPrincipalName of the Office365Users.MyProfileV2 function. If _myUPN is not blank, then set _mySettings to the first record in the Business Approvers table where Approver Id matches _myUPN.",
       "category": "authorisation",
       "formula": "If(IsBlank(_myUPN), Set(_myUPN, Office365Users.MyProfileV2({'$select':\"userPrincipalName\"}).userPrincipalName));\r\nSet(_mySettings, LookUp('Business Approvers', 'Approver Id' = _myUPN))",
       "formula_language": "powerfx",
@@ -24,7 +24,8 @@
       ],
       "inputs": [
         "Approver Id",
-        "Business Approvers"
+        "Business Approvers",
+        "_myUPN"
       ],
       "outputs": [
         "scrSettings.OnVisible",
@@ -54,7 +55,7 @@
     {
       "id": "BR-002",
       "candidate_id": "583773f0df82",
-      "statement": "The condition is when the selected item key is 'Save'. The threshold values are the count of selected items in cboApproverDelegate and the existence of delegates. The effect is to save new approvers if they do not exist, notify success or error, and reset controls if there are errors.",
+      "statement": "The condition is if the selected item key is 'Save'. If so, it sets _isBusy to true and checks if there are any delegates selected. If there are, it patches the Business Approvers table to add new delegates as approvers if they don't already exist. It also checks for errors in the Business Approvers table and notifies the user accordingly. If there are no errors, it notifies the user that settings have been saved successfully. The effect is to save the settings and reset the controls if the item key is not 'Save'.",
       "category": "authorisation",
       "formula": "Switch(Self.Selected.ItemKey,\r\n    \"Save\",\r\n    Set(_isBusy, true);\r\n    //first delegate\r\n    If(CountRows(cboApproverDelegate.SelectedItems)>0,\r\n        With({ \r\n                del1: LookUp('Business Approvers', 'Approver Id' = cboApproverDelegate.Selected.UserPrincipalName),\r\n                del2: LookUp('Business Approvers', 'Approver Id' = cboApproverBackupDelegate.Selected.UserPrincipalName)\r\n            },\r\n            \r\n            //save delegates as new approvers if does not exist\r\n            //first delegate\r\n            Patch('Business Approvers', Coalesce(_mySettings, Defaults('Business Approvers')),\r\n            {\r\n                Delegate: If(IsBlank(del1), Patch('Business Approvers', Defaults('Business Approvers'), \r\n                    {\r\n                        'Approver Id': cboApproverDelegate.Selected.UserPrincipalName,\r\n                        Name: cboApproverDelegate.Selected.DisplayName, 'Approver Type': 'Business Approver Type'.User\r\n                    }), del1\r\n                ),\r\n                'Backup Delegate': If(CountRows(cboApproverBackupDelegate.SelectedItems)>0,\r\n                    If(IsBlank(del2), Patch('Business Approvers', Defaults('Business Approvers'), \r\n                        {\r\n                            'Approver Id': cboApproverBackupDelegate.Selected.UserPrincipalName,\r\n                            Name: cboApproverBackupDelegate.Selected.DisplayName, 'Approver Type': 'Business Approver Type'.User\r\n                        }), del2\r\n                    ),Blank()\r\n                ),\r\n                'Notification Type': ddlPreferredNotification.Selected.Value, 'Work Profile': ddlWorkProfile.Selected,\r\n                'Approver Type': 'Business Approver Type'.User,\r\n                'Is Out of Office':cboOutOfOffice.Value\r\n            });\r\n        )\r\n    );\r\n    //error check\r\n    If(\r\n        !IsEmpty(Errors('Business Approvers')),\r\n        Notify(Concat(Errors('Business Approvers'), Column&\": \"&Message),\r\n            NotificationType.Error\r\n        ),\r\n        Notify(\"Settings saved successfully.\", \r\n        NotificationType.Success\r\n        )\r\n    );    \r\n    Set(_isBusy, false),\r\n    \"Reset\",\r\n    Set(_mySettings, LookUp('Business Approvers', 'Approver Id' = _myUPN));\r\n    Reset(cboApproverBackupDelegate);Reset(cboApproverDelegate);Reset(ddlPreferredNotification);Reset(ddlWorkProfile);Reset(cboOutOfOffice)\r\n)",
       "formula_language": "powerfx",
@@ -74,6 +75,7 @@
         "Message",
         "NotificationType.Error",
         "NotificationType.Success",
+        "_mySettings",
         "_myUPN",
         "cboApproverBackupDelegate",
         "cboApproverBackupDelegate.Selected.DisplayName",
@@ -180,7 +182,7 @@
     {
       "id": "BR-004",
       "candidate_id": "3776ef885906",
-      "statement": "The condition is if the count of selected delegates in cboApproverDelegate is greater than 0. If true, it checks if the first delegate exists in Business Approvers. If not, it adds the first delegate as a new Business Approver. It also checks if the backup delegate exists in Business Approvers. If the backup delegate exists, it adds the backup delegate as a new Business Approver. If the backup delegate does not exist, it adds the backup delegate as a new Business Approver. If there are errors in Business Approvers, it notifies with an error message. Otherwise, it notifies with a success message. The effect is to save the settings and reset the delegates and notification dropdowns.",
+      "statement": "The condition is if the count of selected delegates in the cboApproverDelegate is greater than zero. If true, it checks if the first delegate does not exist in the Business Approvers table and patches it with the selected user's details. It also checks if the backup delegate does not exist and patches it with the selected user's details. If there are errors in the Business Approvers table, it notifies with an error message. Otherwise, it saves the settings successfully and resets the controls.",
       "category": "authorisation",
       "formula": "Switch(MenuItem,\r\n    \"Save\",\r\n    Set(_isBusy, true);\r\n    //first delegate\r\n    If(CountRows(cboApproverDelegate.SelectedItems)>0,\r\n        With({ \r\n                del1: LookUp('Business Approvers', 'Approver Id' = cboApproverDelegate.Selected.UserPrincipalName),\r\n                del2: LookUp('Business Approvers', 'Approver Id' = cboApproverBackupDelegate.Selected.UserPrincipalName)\r\n            },\r\n            \r\n            //save delegates as new approvers if does not exist\r\n            //first delegate\r\n            Patch('Business Approvers', Coalesce(_mySettings, Defaults('Business Approvers')),\r\n            {\r\n                Delegate: If(IsBlank(del1), Patch('Business Approvers', Defaults('Business Approvers'), \r\n                    {\r\n                        'Approver Id': cboApproverDelegate.Selected.UserPrincipalName,\r\n                        Name: cboApproverDelegate.Selected.DisplayName, 'Approver Type': 'Business Approver Type'.User\r\n                    }), del1\r\n                ),\r\n                'Backup Delegate': If(CountRows(cboApproverBackupDelegate.SelectedItems)>0,\r\n                    If(IsBlank(del2), Patch('Business Approvers', Defaults('Business Approvers'), \r\n                        {\r\n                            'Approver Id': cboApproverBackupDelegate.Selected.UserPrincipalName,\r\n                            Name: cboApproverBackupDelegate.Selected.DisplayName, 'Approver Type': 'Business Approver Type'.User\r\n                        }), del2\r\n                    ),Blank()\r\n                ),\r\n                'Notification Type': ddlPreferredNotification.Selected.Value, 'Work Profile': ddlWorkProfile.Selected,\r\n                'Approver Type': 'Business Approver Type'.User,\r\n                'Is Out of Office':cboOutOfOffice.Value\r\n            });\r\n        )\r\n    );\r\n    //error check\r\n    If(\r\n        !IsEmpty(Errors('Business Approvers')),\r\n        Notify(Concat(Errors('Business Approvers'), Column&\": \"&Message),\r\n            NotificationType.Error\r\n        ),\r\n        Notify(\"Settings saved successfully.\", \r\n        NotificationType.Success\r\n        )\r\n    );    \r\n    Set(_isBusy, false),\r\n    \"Reset\",\r\n    Set(_mySettings, LookUp('Business Approvers', 'Approver Id' = _myUPN));\r\n    Reset(cboApproverBackupDelegate);Reset(cboApproverDelegate);Reset(ddlPreferredNotification);Reset(ddlWorkProfile);Reset(cboOutOfOffice)\r\n)",
       "formula_language": "powerfx",
@@ -201,6 +203,7 @@
         "Message",
         "NotificationType.Error",
         "NotificationType.Success",
+        "_mySettings",
         "_myUPN",
         "cboApproverBackupDelegate",
         "cboApproverBackupDelegate.Selected.DisplayName",
@@ -680,7 +683,7 @@
     {
       "id": "BR-015",
       "candidate_id": "465dd89ff6d9",
-      "statement": "If the _myUPN is blank, it sets _myUPN to the userPrincipalName of the Office365Users.MyProfileV2. If there is a valid Delegate in _mySettings, it clears and collects colSelectedApprovalDelegate with the details of the Delegate from Office365Users.SearchUserV2. If there is a valid Backup Delegate in _mySettings, it clears and collects colSelectedBackupDelegate with the details of the Backup Delegate from Office365Users.SearchUserV2.",
+      "statement": "If _myUPN is blank, set _myUPN to the userPrincipalName of the Office365Users.MyProfileV2. If _mySettings.Delegate is not blank or has no errors, clear collect colSelectedApprovalDelegate with the details of the user found by Office365Users.SearchUserV2. If _mySettings.'Backup Delegate' is not blank or has no errors, clear collect colSelectedBackupDelegate with the details of the user found by Office365Users.SearchUserV2.",
       "category": "authorisation",
       "formula": "If(IsBlank(_myUPN), Set(_myUPN, Office365Users.MyProfileV2({'$select':\"userPrincipalName\"}).userPrincipalName));\r\nSet(_mySettings, LookUp('Business Approvers', 'Approver Id' = _myUPN));\r\n\r\n\r\nIf(!IsBlankOrError(_mySettings.Delegate),\r\nClearCollect(\r\n    colSelectedApprovalDelegate,\r\n    AddColumns(\r\n    Office365Users.SearchUserV2({searchTerm: _mySettings.Delegate.'Approver Id', top:1 }).value,\r\n    \"PersonaKey\", UserPrincipalName, \r\n    \"PersonaName\", DisplayName,\r\n    \"PersonaRole\", JobTitle\r\n)));\r\n\r\n\r\nIf(!IsBlankOrError(_mySettings.'Backup Delegate'),\r\nClearCollect(\r\n    colSelectedBackupDelegate,\r\n    AddColumns(\r\n    Office365Users.SearchUserV2({searchTerm: _mySettings.'Backup Delegate'.'Approver Id', top:1 }).value,\r\n    \"PersonaKey\", UserPrincipalName, \r\n    \"PersonaName\", DisplayName,\r\n    \"PersonaRole\", JobTitle\r\n)));\r\n",
       "formula_language": "powerfx",
@@ -701,7 +704,8 @@
         "_mySettings.Backup Delegate",
         "_mySettings.Backup Delegate.Approver Id",
         "_mySettings.Delegate",
-        "_mySettings.Delegate.Approver Id"
+        "_mySettings.Delegate.Approver Id",
+        "_myUPN"
       ],
       "outputs": [
         "scrSettingsNew.OnVisible",
@@ -741,7 +745,7 @@
     {
       "id": "BR-016",
       "candidate_id": "fb6fa45f6d4a",
-      "statement": "The rule saves settings and delegates based on selected items. It checks if there are approval and backup delegates, updates the 'Business Approvers' table, and notifies the user with an error or success message.",
+      "statement": "The application checks if the selected item is 'Back'. If not, it sets _isBusy to true and updates the context with the first delegate. It also checks for backup delegates and updates the context accordingly. If there are no errors, it saves the settings; otherwise, it notifies the user with an error message.",
       "category": "authorisation",
       "formula": "Switch(\n    Self.Selected.ItemKey,\n    \"Back\",\n    Back(),\n    \"Save\",\n    Set(\n        _isBusy,\n        true\n    );\n    //first delegate\nIf(\n        CountRows(colSelectedApprovalDelegate) > 0,\n        UpdateContext(\n            {\n                del1: LookUp(\n                    'Business Approvers',\n                    'Approver Id' = First(colSelectedApprovalDelegate).PersonaKey\n                )\n            }\n        ));\nIf(\n        CountRows(colSelectedBackupDelegate) > 0,\n        UpdateContext(\n            {\n                del2: LookUp(\n                    'Business Approvers',\n                    'Approver Id' = First(colSelectedBackupDelegate).PersonaKey\n                )\n            }\n        ));\n        Patch(\n            'Business Approvers',\n            Coalesce(\n                _mySettings,\n                Defaults('Business Approvers')\n            ),\n            {\n                 Name: _myUPN,\n                'Approver Id':_myUPN,\n                Delegate: If(\n                    IsBlank(del1),\n                    Patch(\n                        'Business Approvers',\n                        Defaults('Business Approvers'),\n                        {\n                            'Approver Id': First(colSelectedApprovalDelegate).PersonaKey,\n                            Name: First(colSelectedApprovalDelegate).PersonaName,\n                            'Approver Type': 'Business Approver Type'.User\n                        }\n                    ),\n                    del1\n                ),\n                'Backup Delegate': If(\n                    CountRows(colSelectedBackupDelegate) > 0,\n                    If(\n                        IsBlank(del2),\n                        Patch(\n                            'Business Approvers',\n                            Defaults('Business Approvers'),\n                            {\n                                'Approver Id': First(colSelectedBackupDelegate).PersonaKey,\n                                Name: First(colSelectedBackupDelegate).PersonaName,\n                                'Approver Type': 'Business Approver Type'.User\n                            }\n                        ),\n                        del2\n                    ),\n                    Blank()\n                ),\n                'Notification Type': cmbxlPreferredNotification.Selected.Value,\n                'Work Profile': cmbxWorkProfile.Selected,\n                'Approver Type': 'Business Approver Type'.User,\n                'Is Out of Office': cbxOutOfOffice.Checked\n            }\n        );\n//error check\n        If(\n            !IsEmpty(Errors('Business Approvers')),\n            Notify(\n                Concat(\n                    Errors('Business Approvers'),\n                    Column & \": \" & Message\n                ),\n                NotificationType.Error\n            ),\n            Notify(\n               SettingsLoc.settingsSaveMsg ,//\"Settings saved successfully.\"\n                NotificationType.Success\n            )\n        );\n    Set(\n        _isBusy,\n        false\n    );,\n    \"Reset\",\n    Set(\n        _mySettings,\n        LookUp(\n            'Business Approvers',\n            'Approver Id' = _myUPN\n        )\n    );\n    ClearCollect(\n        colSelectedApprovalDelegate,\n        Blank()\n    );\n    ClearCollect(\n        colSelectedBackupDelegate,\n        Blank()\n    );\n    Reset(cmbxlPreferredNotification);\n    Reset(cmbxWorkProfile);\n    Reset(cbxOutOfOffice)\n)",
       "formula_language": "powerfx",
@@ -762,6 +766,7 @@
         "NotificationType.Error",
         "NotificationType.Success",
         "SettingsLoc.settingsSaveMsg",
+        "_mySettings",
         "_myUPN",
         "cbxOutOfOffice",
         "cbxOutOfOffice.Checked",
@@ -769,6 +774,8 @@
         "cmbxWorkProfile.Selected",
         "cmbxlPreferredNotification",
         "cmbxlPreferredNotification.Selected.Value",
+        "colSelectedApprovalDelegate",
+        "colSelectedBackupDelegate",
         "del1",
         "del2"
       ],
@@ -6585,6 +6592,66 @@
     ],
     "edges": [
       {
+        "from": "BR-001",
+        "to": "BR-002",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-001",
+        "to": "BR-004",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-001",
+        "to": "BR-006",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-001",
+        "to": "BR-010",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-001",
+        "to": "BR-015",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-001",
+        "to": "BR-016",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-001",
+        "to": "BR-018",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-001",
+        "to": "BR-020",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-002",
+        "to": "BR-004",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-002",
+        "to": "BR-016",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-004",
+        "to": "BR-002",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-004",
+        "to": "BR-016",
+        "kind": "reads"
+      },
+      {
         "from": "BR-007",
         "to": "BR-003",
         "kind": "reads"
@@ -6592,6 +6659,11 @@
       {
         "from": "BR-011",
         "to": "BR-003",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-015",
+        "to": "BR-001",
         "kind": "reads"
       },
       {
@@ -6627,6 +6699,26 @@
       {
         "from": "BR-015",
         "to": "BR-020",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-016",
+        "to": "BR-002",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-016",
+        "to": "BR-004",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-017",
+        "to": "BR-016",
+        "kind": "reads"
+      },
+      {
+        "from": "BR-019",
+        "to": "BR-016",
         "kind": "reads"
       },
       {
