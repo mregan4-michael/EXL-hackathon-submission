@@ -136,6 +136,17 @@ def _cmd_experiment(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_evidence(args: argparse.Namespace) -> int:
+    from factory.evidence import dashboard, review, trace
+
+    for app in review.APPS:
+        trace.write(app)
+    review.write()
+    dashboard.write()
+    print("artefacts/*/traceability-matrix.{json,html}, HUMAN_REVIEW.md, dashboard/index.html")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="factory", description=__doc__)
     parser.add_argument("--version", action="version", version=f"factory {__version__}")
@@ -171,6 +182,8 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("--hypothesis", default="")
     e.add_argument("--replay", action="store_true")
     e.set_defaults(func=_cmd_experiment)
+    ev = sub.add_parser("evidence", help="traceability matrices, review queue, dashboard")
+    ev.set_defaults(func=_cmd_evidence)
     return parser
 
 

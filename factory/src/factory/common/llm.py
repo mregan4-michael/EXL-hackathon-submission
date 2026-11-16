@@ -89,6 +89,7 @@ class LLMClient:
             "tokens": 0,
             "seconds": 0.0,
             "tokens_incl_replay": 0,
+            "ms_incl_replay": 0,
         }
     )
 
@@ -173,6 +174,7 @@ class LLMClient:
         with self._lock:
             self.stats["calls"] += 1
             self.stats["tokens_incl_replay"] += tokens
+            self.stats["ms_incl_replay"] += round(float(rec.get("seconds", 0.0)) * 1000)
             if cache_hit:
                 self.stats["cache_hits"] += 1
             else:
