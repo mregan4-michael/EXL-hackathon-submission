@@ -9,10 +9,10 @@ the *legacy* formula; subject: the generated C# `Formula.Eval` (same code path a
 | Oracle drift vs frozen expectations | 0 |
 | Compiled formulas | 1748 |
 | pass / fail / unproven | 1464 / 0 / 284 |
-| Rule-linked formulas passing | 0 / 5 |
+| Rule-linked formulas passing | 0 / 4 |
 | Formulas not compiled (routed, no code) | 494 |
 | Mutation score (oracle mutants killed by the test set) | 13 / 13 (1.0) over 505 formulas |
-| Rules executed / scenario / unproven / failed | 0 / 0 / 150 / 0 of 150 |
+| Rules executed / scenario / unproven / failed | 0 / 0 / 158 / 0 of 158 |
 
 Unproven formulas by reason:
 
@@ -41,61 +41,61 @@ end-to-end journey check; **unproven** = no executed or scenario evidence (reaso
 | BR-008 | unproven | unproven | 0/1 | unsupported (function With): routed to scenario/unproven evidence, no code generated |
 | BR-009 | unproven | unproven | 0/1 | unsupported (function CountRows): routed to scenario/unproven evidence, no code generated |
 | BR-010 | unproven | unproven | 0/1 | unsupported (function With): routed to scenario/unproven evidence, no code generated |
-| BR-011 | unproven | unproven | 0/1 |  |
-| BR-012 | unproven | unproven | 0/1 | unsupported (non-boolean condition of type str): routed to scenario/unproven evidence, no code generated |
+| BR-011 | unproven | unproven | 0/1 | unsupported (non-boolean condition of type str): routed to scenario/unproven evidence, no code generated |
+| BR-012 | unproven | unproven | 0/1 | data query: served by the list endpoint; filter/sort is a scenario-tested gap |
 | BR-013 | unproven | unproven | 0/1 | data query: served by the list endpoint; filter/sort is a scenario-tested gap |
-| BR-014 | unproven | unproven | 0/1 | data query: served by the list endpoint; filter/sort is a scenario-tested gap |
-| BR-015 | unproven | scenario | 0/1 | unsupported (behaviour property): routed to scenario/unproven evidence, no code generated |
-| BR-016 | unproven | scenario | 0/1 | action: generated as an action endpoint (guard + RBAC + persist) |
-| BR-017 | unproven | scenario | 0/1 | unsupported (behaviour property): routed to scenario/unproven evidence, no code generated |
-| BR-018 | unproven | unproven | 0/1 | unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated |
+| BR-014 | unproven | scenario | 0/1 | unsupported (behaviour property): routed to scenario/unproven evidence, no code generated |
+| BR-015 | unproven | scenario | 0/1 | action: generated as an action endpoint (guard + RBAC + persist) |
+| BR-016 | unproven | scenario | 0/1 | unsupported (behaviour property): routed to scenario/unproven evidence, no code generated |
+| BR-017 | unproven | unproven | 0/1 | unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated |
+| BR-018 | unproven | unproven | 0/1 |  |
 | BR-019 | unproven | scenario | 0/1 | unsupported (behaviour property): routed to scenario/unproven evidence, no code generated |
 | BR-020 | unproven | unproven | 0/1 | unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated |
-| BR-021 | unproven | unproven | 0/1 |  |
-| BR-022 | unproven | unproven | 0/1 | unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated |
-| BR-023 | unproven | unproven | 0/1 |  |
-| BR-024 | unproven | unproven | 0/1 | unsupported (node Table): routed to scenario/unproven evidence, no code generated |
+| BR-021 | unproven | unproven | 0/1 | unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated |
+| BR-022 | unproven | unproven | 0/1 |  |
+| BR-023 | unproven | unproven | 0/1 | unsupported (node Table): routed to scenario/unproven evidence, no code generated |
+| BR-024 | unproven | unproven | 0/1 | data query: served by the list endpoint; filter/sort is a scenario-tested gap |
 | BR-025 | unproven | unproven | 0/1 | data query: served by the list endpoint; filter/sort is a scenario-tested gap |
-| BR-026 | unproven | unproven | 0/1 | data query: served by the list endpoint; filter/sort is a scenario-tested gap |
-| BR-027 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
+| BR-026 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
+| BR-027 | unproven | scenario | 0/1 | no generated formula or journey check |
 | BR-028 | unproven | scenario | 0/1 | no generated formula or journey check |
 | BR-029 | unproven | scenario | 0/1 | no generated formula or journey check |
 | BR-030 | unproven | scenario | 0/1 | no generated formula or journey check |
 | BR-031 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-032 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-033 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-034 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-034 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-035 | unproven | scenario | 0/1 | no generated formula or journey check |
-| BR-036 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-037 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-038 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-036 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-037 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-038 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-039 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-040 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
+| BR-040 | unproven | scenario | 0/1 | no generated formula or journey check |
 | BR-041 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-042 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-043 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-042 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-043 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-044 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-045 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-046 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-047 | unproven | scenario | 0/1 | no generated formula or journey check |
 | BR-048 | unproven | scenario | 0/1 | no generated formula or journey check |
-| BR-049 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-050 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-051 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-049 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-050 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-051 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-052 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-053 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-053 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-054 | unproven | scenario | 0/1 | no generated formula or journey check |
 | BR-055 | unproven | scenario | 0/1 | no generated formula or journey check |
-| BR-056 | unproven | scenario | 0/1 | no generated formula or journey check |
-| BR-057 | unproven | scenario | 0/1 | no generated formula or journey check |
-| BR-058 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
-| BR-059 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
-| BR-060 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
-| BR-061 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
-| BR-062 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
-| BR-063 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
-| BR-064 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
-| BR-065 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-056 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
+| BR-057 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
+| BR-058 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-059 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
+| BR-060 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-061 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-062 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-063 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-064 | unproven | scenario | 0/1 | no generated formula or journey check |
+| BR-065 | unproven | scenario | 0/1 | no generated formula or journey check |
 | BR-066 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
 | BR-067 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
 | BR-068 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
@@ -181,3 +181,11 @@ end-to-end journey check; **unproven** = no executed or scenario evidence (reaso
 | BR-148 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
 | BR-149 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
 | BR-150 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-151 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-152 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-153 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-154 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-155 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-156 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-157 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-158 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |

@@ -7689,8 +7689,7 @@
             "line": 5990
           },
           "rules": {
-            "Text": "BR-010",
-            "Visible": "BR-011"
+            "Text": "BR-010"
           }
         },
         {
@@ -7732,7 +7731,7 @@
             "line": 7487
           },
           "rules": {
-            "Text": "BR-012"
+            "Text": "BR-011"
           }
         },
         {
@@ -7754,7 +7753,7 @@
             "line": 8207
           },
           "rules": {
-            "Items": "BR-013"
+            "Items": "BR-012"
           }
         },
         {
@@ -7873,7 +7872,7 @@
             "line": 12287
           },
           "rules": {
-            "Items": "BR-014"
+            "Items": "BR-013"
           }
         },
         {
@@ -7950,7 +7949,7 @@
             "line": 914
           },
           "rules": {
-            "OnSelect": "BR-016"
+            "OnSelect": "BR-015"
           }
         },
         {
@@ -8042,7 +8041,7 @@
             "line": 3399
           },
           "rules": {
-            "OnChange": "BR-017"
+            "OnChange": "BR-016"
           }
         },
         {
@@ -8054,7 +8053,8 @@
             "line": 3686
           },
           "rules": {
-            "Text": "BR-018"
+            "Text": "BR-017",
+            "Visible": "BR-018"
           }
         },
         {
@@ -8088,8 +8088,7 @@
             "line": 4700
           },
           "rules": {
-            "Text": "BR-020",
-            "Visible": "BR-021"
+            "Text": "BR-020"
           }
         },
         {
@@ -8111,7 +8110,7 @@
             "line": 5434
           },
           "rules": {
-            "DefaultSelectedItems": "BR-022"
+            "DefaultSelectedItems": "BR-021"
           }
         },
         {
@@ -8143,7 +8142,7 @@
             "line": 6027
           },
           "rules": {
-            "Label": "BR-023"
+            "Label": "BR-022"
           }
         },
         {
@@ -8165,8 +8164,8 @@
             "line": 6574
           },
           "rules": {
-            "DefaultSelectedItems": "BR-024",
-            "Items": "BR-025"
+            "DefaultSelectedItems": "BR-023",
+            "Items": "BR-024"
           }
         },
         {
@@ -8315,7 +8314,7 @@
             "line": 10806
           },
           "rules": {
-            "Items": "BR-026"
+            "Items": "BR-025"
           }
         },
         {
@@ -15834,7 +15833,7 @@
       {
         "output": "cbxOutOfOffice.Label",
         "screen": "scrSettingsNew",
-        "rule_id": "BR-023",
+        "rule_id": "BR-022",
         "method": "Rules.scrSettingsNew_cbxOutOfOffice_Label",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6061"
       },
@@ -16982,7 +16981,7 @@
       {
         "output": "lblBackupDelegateError_1.Visible",
         "screen": "scrSettingsNew",
-        "rule_id": "BR-021",
+        "rule_id": null,
         "method": "Rules.scrSettingsNew_lblBackupDelegateError_1_Visible",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:4960"
       },
@@ -17213,7 +17212,7 @@
       {
         "output": "lblDelegateError_1.Visible",
         "screen": "scrSettingsNew",
-        "rule_id": null,
+        "rule_id": "BR-018",
         "method": "Rules.scrSettingsNew_lblDelegateError_1_Visible",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3946"
       },
@@ -23079,7 +23078,7 @@
       {
         "output": "lblBackupDelegateError.Visible",
         "screen": "scrSettings",
-        "rule_id": "BR-011",
+        "rule_id": null,
         "method": "Rules.scrSettings_lblBackupDelegateError_Visible",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:6250"
       },
@@ -26232,7 +26231,7 @@
       {
         "path": "scrSettings/cboOutOfOffice.Text",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:7519",
-        "rule_id": "BR-012",
+        "rule_id": "BR-011",
         "disposition": "unsupported (non-boolean condition of type str): routed to scenario/unproven evidence, no code generated"
       },
       {
@@ -26364,7 +26363,7 @@
       {
         "path": "scrSettings/ddlWorkProfile.Items",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:8239",
-        "rule_id": "BR-013",
+        "rule_id": "BR-012",
         "disposition": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
       },
       {
@@ -27060,7 +27059,7 @@
       {
         "path": "scrSettings/galPublicHolidays.Items",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:12325",
-        "rule_id": "BR-014",
+        "rule_id": "BR-013",
         "disposition": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
       },
       {
@@ -27156,7 +27155,7 @@
       {
         "path": "scrSettingsNew/scrSettingsNew.OnVisible",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:83",
-        "rule_id": "BR-015",
+        "rule_id": "BR-014",
         "disposition": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
       },
       {
@@ -27204,7 +27203,7 @@
       {
         "path": "scrSettingsNew/ck_CommandBar_1.OnSelect",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:1002",
-        "rule_id": "BR-016",
+        "rule_id": "BR-015",
         "disposition": "action: generated as an action endpoint (guard + RBAC + persist)"
       },
       {
@@ -27384,13 +27383,13 @@
       {
         "path": "scrSettingsNew/ck_PeoplePicker_ApprovalDelegate.OnChange",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3584",
-        "rule_id": "BR-017",
+        "rule_id": "BR-016",
         "disposition": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
       },
       {
         "path": "scrSettingsNew/lblDelegateError_1.Text",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3724",
-        "rule_id": "BR-018",
+        "rule_id": "BR-017",
         "disposition": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
       },
       {
@@ -27558,7 +27557,7 @@
       {
         "path": "scrSettingsNew/cmbxlPreferredNotification.DefaultSelectedItems",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:5468",
-        "rule_id": "BR-022",
+        "rule_id": "BR-021",
         "disposition": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
       },
       {
@@ -27642,13 +27641,13 @@
       {
         "path": "scrSettingsNew/cmbxWorkProfile.DefaultSelectedItems",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6608",
-        "rule_id": "BR-024",
+        "rule_id": "BR-023",
         "disposition": "unsupported (node Table): routed to scenario/unproven evidence, no code generated"
       },
       {
         "path": "scrSettingsNew/cmbxWorkProfile.Items",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6614",
-        "rule_id": "BR-025",
+        "rule_id": "BR-024",
         "disposition": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
       },
       {
@@ -28236,7 +28235,7 @@
       {
         "path": "scrSettingsNew/galPublicHolidays_1.Items",
         "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:10844",
-        "rule_id": "BR-026",
+        "rule_id": "BR-025",
         "disposition": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
       },
       {

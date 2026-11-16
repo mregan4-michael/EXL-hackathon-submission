@@ -23,7 +23,10 @@ test:
 	$(UV) run pytest --cov=factory --cov-report=term
 
 factory:
-	$(UV) run factory run --all --replay
+	$(UV) run factory analyse approvals-kit claims-workbench --replay
+	$(UV) run factory generate approvals-kit claims-workbench
+	$(UV) run factory parity --all
+	$(UV) run factory evidence
 
 parity:
 	$(UV) run factory parity --all

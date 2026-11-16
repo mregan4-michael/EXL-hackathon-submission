@@ -13301,7 +13301,7 @@
   },
   "formulas": {
     "pass": 1464,
-    "rule_linked": 5,
+    "rule_linked": 4,
     "rule_linked_pass": 0,
     "total": 1748,
     "unproven": 284
@@ -13333,7 +13333,7 @@
           "reason": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "The condition is if _myUPN is blank, then set _myUPN to the userPrincipalName of the Office365Users.MyProfileV2 function. If _myUPN is not blank, then set _mySettings to the first record in the Business Approvers table where Approver Id matches _myUPN."
+      "statement": "The condition is if _myUPN is blank. If it is, then set _myUPN to the userPrincipalName from the Office365Users.MyProfileV2 function. Then set _mySettings to the first record in the Business Approvers table where the Approver Id matches _myUPN."
     },
     {
       "class": "unproven",
@@ -13347,7 +13347,7 @@
           "reason": "action: generated as an action endpoint (guard + RBAC + persist)"
         }
       ],
-      "statement": "The condition is if the selected item key is 'Save'. If so, it sets _isBusy to true and checks if there are any delegates selected. If there are, it patches the Business Approvers table to add new delegates as approvers if they don't already exist. It also checks for errors in the Business Approvers table and notifies the user accordingly. If there are no errors, it notifies the user that settings have been saved successfully. The effect is to save the settings and reset the controls if the item key is not 'Save'."
+      "statement": "The condition is if the selected item key is 'Save'. If so, it sets _isBusy to true and checks if there are delegates selected. If there are, it patches the Business Approvers table to add new delegates as approvers if they don't already exist. It also handles error checking and notifying the user. The effect is to save the settings and reset the controls if the save is successful."
     },
     {
       "class": "unproven",
@@ -13361,7 +13361,7 @@
           "reason": "unsupported (node Table): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "If either the lblDelegateError is visible or the lblBackupDelegateError is visible, then the 'Save' button is disabled."
+      "statement": "If either the lblDelegateError or lblBackupDelegateError is visible, then the 'Save' button is disabled."
     },
     {
       "class": "unproven",
@@ -13375,7 +13375,7 @@
           "reason": "unsupported (node VariadicOp): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "The condition is if the count of selected delegates in the cboApproverDelegate is greater than zero. If true, it checks if the first delegate does not exist in the Business Approvers table and patches it with the selected user's details. It also checks if the backup delegate does not exist and patches it with the selected user's details. If there are errors in the Business Approvers table, it notifies with an error message. Otherwise, it saves the settings successfully and resets the controls."
+      "statement": "The condition is if the count of selected delegates in cboApproverDelegate is greater than 0. If true, it checks if the first delegate does not exist in Business Approvers. If it does not exist, it adds the delegate with Approver Type as 'Business Approver Type'.User'. It also checks if the backup delegate does not exist and adds it if it does not exist. If there are multiple backup delegates, it adds the first one. If there is an error in Business Approvers, it notifies with error message. Otherwise, it notifies with success message. The effect is to set _isBusy to false, reset the controls, and look up the current user's settings."
     },
     {
       "class": "unproven",
@@ -13389,7 +13389,7 @@
           "reason": "unsupported (function With): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "The condition is that the Delegate field is not blank and contains an Approver Id. If true, it searches for a user in Office365 with the specified Approver Id. The effect is to populate the cboApproverDelegate.DefaultSelectedItems with the found user."
+      "statement": "The condition is that if the Delegate field is not blank, it searches for a user in Office365 with the Approver Id from the Delegate field. The effect is to populate the cboApproverDelegate.DefaultSelectedItems with the found user."
     },
     {
       "class": "unproven",
@@ -13402,7 +13402,7 @@
           "path": "scrSettings/lblDelegateError.Text"
         }
       ],
-      "statement": "The condition is that if the selected delegate's UPN matches the user's UPN, then the label 'lblDelegateError' will display the message 'You cannot be your own delegate.'"
+      "statement": "The condition checks if the selected delegate's UPN matches the user's UPN. If they match, it displays a message saying 'You cannot be your own delegate.'"
     },
     {
       "class": "unproven",
@@ -13415,7 +13415,7 @@
           "path": "scrSettings/lblDelegateError.Visible"
         }
       ],
-      "statement": "The label 'lblDelegateError' is hidden if the text it contains is empty. Otherwise, it is visible."
+      "statement": "The label 'lblDelegateError' is visible if the length of the text in the current record is greater than zero. This rule is used for validation purposes."
     },
     {
       "class": "unproven",
@@ -13429,7 +13429,7 @@
           "reason": "unsupported (function With): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "The condition is if the 'Backup Delegate' is not blank, then search for a user by their 'Approver Id'. The threshold values are the 'Backup Delegate' and 'Approver Id'. The effect is to set the 'cboApproverBackupDelegate.DefaultSelectedItems' to the result of the search."
+      "statement": "The condition checks if the 'Backup Delegate' is set and if so, it searches for a user by their 'Approver Id'. The threshold values are the 'Backup Delegate' setting and the 'Approver Id' of the delegate. The effect is to return the user found by the search if the delegate is set."
     },
     {
       "class": "unproven",
@@ -13443,7 +13443,7 @@
           "reason": "unsupported (function CountRows): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "The condition checks if the number of selected items in cboApproverDelegate is zero. If true, it sets DisplayMode to Disabled; otherwise, it sets it to Edit."
+      "statement": "The condition checks if the selected items in cboApproverDelegate are empty. If they are, it sets the DisplayMode to Disabled; otherwise, it sets it to Edit."
     },
     {
       "class": "unproven",
@@ -13457,7 +13457,7 @@
           "reason": "unsupported (function With): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "If the selected user in cboApproverBackupDelegate is not the same as _myUPN, and the count of selected users in cboApproverDelegate is greater than 0, then display 'You cannot be your own backup delegate.' Otherwise, display 'Delegates cannot be the same person.'"
+      "statement": "The text checks if the selected delegate is the same as the user's UPN or if the selected delegate is the same as any delegate in the selected list. If either condition is met, it displays an error message."
     },
     {
       "class": "unproven",
@@ -13467,10 +13467,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "scrSettings/lblBackupDelegateError.Visible"
+          "path": "scrSettings/cboOutOfOffice.Text",
+          "reason": "unsupported (non-boolean condition of type str): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "The label 'lblBackupDelegateError' is visible if the length of its text is greater than zero. This rule applies to the label in the 'scrSettings' section of the 'cat_settings' canvas app."
+      "statement": "The control's text property is set to 'Enabled' if the value is 'Enabled', otherwise it is set to 'Disabled'."
     },
     {
       "class": "unproven",
@@ -13480,11 +13481,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "scrSettings/cboOutOfOffice.Text",
-          "reason": "unsupported (non-boolean condition of type str): routed to scenario/unproven evidence, no code generated"
+          "path": "scrSettings/ddlWorkProfile.Items",
+          "reason": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
         }
       ],
-      "statement": "The control 'cboOutOfOffice.Text' will be set to 'Enabled' if its value is 'Enabled', otherwise it will be set to 'Disabled'."
+      "statement": "The condition filters Business Approval Work Profiles based on the Active Business Approval Work Profiles view. The threshold values are 'Business Approval Work Profiles' and 'Business Approval Work Profiles (Views).Active Business Approval Work Profiles'. The effect is to select items from the 'ddlWorkProfile.Items' control."
     },
     {
       "class": "unproven",
@@ -13494,25 +13495,25 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "scrSettings/ddlWorkProfile.Items",
-          "reason": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
-        }
-      ],
-      "statement": "The condition is to filter Business Approval Work Profiles based on the 'Active Business Approval Work Profiles' view. The threshold values are 'Business Approval Work Profiles' and 'Business Approval Work Profiles (Views).Active Business Approval Work Profiles'. The effect is to return the items from the 'ddlWorkProfile.Items' control."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "unproven",
-      "id": "BR-014",
-      "locations": [
-        {
-          "evidence": "unproven",
           "path": "scrSettings/galPublicHolidays.Items",
           "reason": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
         }
       ],
-      "statement": "The condition is that the 'Hols.Date' must be greater than or equal to today's date, and the 'Hols.Calendar.'Business Approval Holiday Calendar' must match the selected holiday calendar. The effect is sorting the 'galPublicHolidays.Items' by 'cat_date' in ascending order."
+      "statement": "The condition sorts public holidays by date in ascending order, considering the selected holiday calendar and only including holidays on or after today. The effect is to display the sorted list of public holidays."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-014",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "scrSettingsNew/scrSettingsNew.OnVisible",
+          "reason": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
+        }
+      ],
+      "statement": "The script checks if the userPrincipalName is blank. If it is, it sets the _myUPN to the userPrincipalName from the Office365Users.MyProfileV2. If the _mySettings.Delegate or _mySettings.'Backup Delegate' is not blank or has no errors, it collects the approver or backup approver details from the Office365Users.SearchUserV2 and adds them to the respective collections. This script decides the approvers and backup approvers based on the user's details."
     },
     {
       "class": "unproven",
@@ -13522,11 +13523,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "scrSettingsNew/scrSettingsNew.OnVisible",
-          "reason": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
+          "path": "scrSettingsNew/ck_CommandBar_1.OnSelect",
+          "reason": "action: generated as an action endpoint (guard + RBAC + persist)"
         }
       ],
-      "statement": "If _myUPN is blank, set _myUPN to the userPrincipalName of the Office365Users.MyProfileV2. If _mySettings.Delegate is not blank or has no errors, clear collect colSelectedApprovalDelegate with the details of the user found by Office365Users.SearchUserV2. If _mySettings.'Backup Delegate' is not blank or has no errors, clear collect colSelectedBackupDelegate with the details of the user found by Office365Users.SearchUserV2."
+      "statement": "The condition is selecting 'Save' and checking if there are delegates to update. If there are delegates, it updates the Business Approvers record with the approver and backup approver details. If there are errors, it notifies with an error message; otherwise, it notifies with a success message."
     },
     {
       "class": "unproven",
@@ -13536,25 +13537,25 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "scrSettingsNew/ck_CommandBar_1.OnSelect",
-          "reason": "action: generated as an action endpoint (guard + RBAC + persist)"
-        }
-      ],
-      "statement": "The application checks if the selected item is 'Back'. If not, it sets _isBusy to true and updates the context with the first delegate. It also checks for backup delegates and updates the context accordingly. If there are no errors, it saves the settings; otherwise, it notifies the user with an error message."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-017",
-      "locations": [
-        {
-          "evidence": "unproven",
           "path": "scrSettingsNew/ck_PeoplePicker_ApprovalDelegate.OnChange",
           "reason": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "This rule clears a collection named colSelectedApprovalDelegate with the values of Self.SelectedPeople if Self.SelectedPeople is not blank or an error. If Self.SelectedPeople is blank or an error, the collection remains unchanged."
+      "statement": "This rule clears a collection named colSelectedApprovalDelegate with the selected people from the People Picker control if the selected people are not blank or contain errors. It ensures that the approval delegate is set based on the selected people."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "unproven",
+      "id": "BR-017",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "scrSettingsNew/lblDelegateError_1.Text",
+          "reason": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
+        }
+      ],
+      "statement": "If the selected delegate in the People Picker is not blank and is not the same as the user's UPN, then set the delegate error message. Otherwise, do nothing."
     },
     {
       "class": "unproven",
@@ -13564,11 +13565,10 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "scrSettingsNew/lblDelegateError_1.Text",
-          "reason": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
+          "path": "scrSettingsNew/lblDelegateError_1.Visible"
         }
       ],
-      "statement": "If the selected delegate in the approval process is not empty and the selected delegate's PersonaKey matches the user's UPN, then set the label 'lblDelegateError_1.Text' to the error message 'SettingsLoc.lblDelegateErrorMsg'."
+      "statement": "The visibility of the label 'lblDelegateError_1' is determined by whether the text input field is not empty. If the field contains any text, the label is visible; otherwise, it is hidden."
     },
     {
       "class": "unproven",
@@ -13582,7 +13582,7 @@
           "reason": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "This rule clears a collection named colSelectedBackupDelegate if the SelectedPeople field is not blank or contains an error. Otherwise, it does nothing."
+      "statement": "This rule clears a collection named colSelectedBackupDelegate with the selected people if the selected people are not blank or have no errors. It ensures the collection is updated with the selected people."
     },
     {
       "class": "unproven",
@@ -13596,7 +13596,7 @@
           "reason": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "If the selected backup delegate is not the same as the approval delegate and the selected backup delegate is not an empty value, then set the label text to either 'You cannot be your own backup delegate.' or 'Delegates cannot be the same person.' based on the selected backup delegate's key."
+      "statement": "If both the approval delegate and backup delegate selections are not empty, it checks if the selected backup delegate is the same as the approver's UPN or if they are different. If so, it sets the error message based on the selected condition."
     },
     {
       "class": "unproven",
@@ -13606,30 +13606,17 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "scrSettingsNew/lblBackupDelegateError_1.Visible"
+          "path": "scrSettingsNew/cmbxlPreferredNotification.DefaultSelectedItems",
+          "reason": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "The label lblBackupDelegateError_1 is visible if the length of its text is greater than zero. This rule is used for validation purposes."
+      "statement": "The condition checks if the 'Notification Type' is not blank or an error, and if so, it looks up the 'Business Approver Notification Type' choices to find the corresponding value. The effect is to set the 'cmbxlPreferredNotification.DefaultSelectedItems' to the found value."
     },
     {
       "class": "unproven",
       "covered": 0,
       "declared": "unproven",
       "id": "BR-022",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "scrSettingsNew/cmbxlPreferredNotification.DefaultSelectedItems",
-          "reason": "unsupported (function IsBlankOrError): routed to scenario/unproven evidence, no code generated"
-        }
-      ],
-      "statement": "If the 'Notification Type' is not blank or an error, it checks if the value matches any in the 'Business Approver Notification Type' list. If it does, it selects the corresponding item in the 'cmbxlPreferredNotification.DefaultSelectedItems' control."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "unproven",
-      "id": "BR-023",
       "locations": [
         {
           "evidence": "unproven",
@@ -13642,7 +13629,7 @@
       "class": "unproven",
       "covered": 0,
       "declared": "unproven",
-      "id": "BR-024",
+      "id": "BR-023",
       "locations": [
         {
           "evidence": "unproven",
@@ -13650,7 +13637,21 @@
           "reason": "unsupported (node Table): routed to scenario/unproven evidence, no code generated"
         }
       ],
-      "statement": "The condition is that the lookup result matches the name of the business approval work profile. The threshold values are the name of the work profile, and the effect is to set the DefaultSelectedItems control to the lookup result."
+      "statement": "The condition checks if a work profile with a specific name exists in the 'Business Approval Work Profiles' collection. If found, it selects the default work profile. The effect is to determine the default work profile based on the provided name."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "unproven",
+      "id": "BR-024",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "scrSettingsNew/cmbxWorkProfile.Items",
+          "reason": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
+        }
+      ],
+      "statement": "The condition filters Business Approval Work Profiles based on the 'Active Business Approval Work Profiles' view. The threshold values are 'Business Approval Work Profiles' and 'Business Approval Work Profiles (Views).Active Business Approval Work Profiles'. The effect is to select items from the 'cmbxWorkProfile.Items' control."
     },
     {
       "class": "unproven",
@@ -13660,25 +13661,25 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "scrSettingsNew/cmbxWorkProfile.Items",
-          "reason": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
-        }
-      ],
-      "statement": "The condition is to filter Business Approval Work Profiles based on the 'Active Business Approval Work Profiles' view. The threshold values are 'Business Approval Work Profiles' and 'Business Approval Work Profiles (Views).Active Business Approval Work Profiles'. The effect is to return the 'cmbxWorkProfile.Items'."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "unproven",
-      "id": "BR-026",
-      "locations": [
-        {
-          "evidence": "unproven",
           "path": "scrSettingsNew/galPublicHolidays_1.Items",
           "reason": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
         }
       ],
-      "statement": "The condition is that the holiday calendar selected in the work profile must match the business approval holiday calendar and the holiday date must be on or after today. The effect is sorting the public holidays by date in ascending order."
+      "statement": "The condition sorts business approval public holidays by date starting from today, considering the holiday calendar selected in the work profile. The effect is to display holidays in ascending order of date."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-026",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "cat_BusinessApprovalCondition.cat_PathIndex",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+        }
+      ],
+      "statement": "The condition checks if the Path Index is within the range of 1 to 2,147,480,436. If the Path Index is outside this range, it is considered invalid."
     },
     {
       "class": "unproven",
@@ -13688,11 +13689,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalCondition.cat_PathIndex",
-          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+          "path": "cat_BusinessApprovalCondition.cat_branchdisplay",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition checks if the value of cat_PathIndex is within the range of 1 to 2.14748e+09. If the value is outside this range, it triggers an error."
+      "statement": "The condition for cat_branchdisplay is based on cat_businessapprovalcondition, cat_businessapprovalstage, cat_conditionvaluedisplay, and cat_stagecondition. This condition decides the display of the cat_branchdisplay column in the Business Approval Condition entity."
     },
     {
       "class": "unproven",
@@ -13702,11 +13703,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalCondition.cat_branchdisplay",
+          "path": "cat_BusinessApprovalCondition.cat_conditionvaluedisplay",
           "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition checks if the business approval condition, business approval stage, condition value display, and stage condition are met. If any of these are not met, the display is hidden."
+      "statement": "The condition checks if a business approval condition is met based on the approval data, condition data, and condition value. It determines whether a record exists and if the condition value is met, then it displays the condition value in the calculated column."
     },
     {
       "class": "unproven",
@@ -13720,7 +13721,7 @@
           "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition checks if the node name value is valid based on the business approval condition, business approval node, and name. If the node name value is valid, it returns the node name value; otherwise, it returns an empty string."
+      "statement": "The condition checks if a node name value exists in a business approval condition and node. If the condition is met, the value is calculated and used. This could be used for routing, delegating, or other workflow decisions."
     },
     {
       "class": "unproven",
@@ -13734,7 +13735,7 @@
           "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition checks if the current stage name matches 'stagenamevalue'. If it does, the stage is considered valid; otherwise, it is invalid. The threshold is the exact match of 'stagenamevalue' in the current stage name."
+      "statement": "The condition checks if the current stage name matches 'stagenamevalue' in the business approval stage. If true, it triggers the business approval condition. The effect is to evaluate the business approval condition based on the current stage name."
     },
     {
       "class": "unproven",
@@ -13744,11 +13745,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalNode.cat_PathIndex",
+          "path": "cat_BusinessApprovalNode.cat_GoToPaths",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The Path Index column in the cat_BusinessApprovalNode table can only have values between 1 and 2,147,480,000, inclusive. Any value outside this range will be considered invalid."
+      "statement": "The condition checks the first 5 entries of the cat_GoToPaths table column to determine if the record should be routed to a specific path. If the first 5 entries are empty, the record is not routed."
     },
     {
       "class": "unproven",
@@ -13758,11 +13759,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalNode.cat_RowIndex",
+          "path": "cat_BusinessApprovalNode.cat_PathIndex",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000. If the condition is met, the value is allowed to proceed."
+      "statement": "The condition is that the value of cat_PathIndex must be within the range of 1 to 2,147,480,447. If the value is outside this range, the business rule will prevent the record from being processed."
     },
     {
       "class": "unproven",
@@ -13772,11 +13773,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalNode.cat_TimeOut",
+          "path": "cat_BusinessApprovalNode.cat_RowIndex",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The cat_TimeOut column in the cat_BusinessApprovalNode table can only have values between 0 and 2.14748e+09 (2 billion). Any value outside this range will be considered invalid."
+      "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000. If the cat_RowIndex is not a valid number or falls outside this range, the condition fails."
     },
     {
       "class": "unproven",
@@ -13786,11 +13787,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalNode.cat_sourcedatanamevalue",
-          "reason": "no generated formula or journey check"
+          "path": "cat_BusinessApprovalNode.cat_TimeOut",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The business approval node calculates the value of cat_sourcedatanamevalue based on cat_businessapprovaldata, cat_businessapprovalnode, and cat_name. If the calculation fails, the value remains unchanged."
+      "statement": "The Time Out field must be a positive number less than or equal to 2.14748e+09. If the value is less than 0, it is considered invalid."
     },
     {
       "class": "unproven",
@@ -13800,11 +13801,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalNode.cat_stagenamevalue",
+          "path": "cat_BusinessApprovalNode.cat_processnamevalue",
           "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The business approval node's stagenamevalue is calculated based on the business approval node, business approval stage, and name. If any of these values are null, the stagenamevalue will also be null."
+      "statement": "The condition is that the process name value is calculated based on the business approval node, business approval process, and name. The effect is to set the cat_processnamevalue column to this calculated value."
     },
     {
       "class": "unproven",
@@ -13814,11 +13815,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalNodeReminder.cat_ReminderDays",
-          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+          "path": "cat_BusinessApprovalNode.cat_sourcedatanamevalue",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The reminder days must be a positive integer between 0 and 2,147,480,000, inclusive. If the reminder days are not within this range, the system will not allow the record to be saved."
+      "statement": "The condition is when the data source 'cat_businessapprovaldata' matches the business approval node 'cat_businessapprovalnode' and the name 'cat_name' matches 'cat_sourcedata'. The effect is to set the calculated column 'cat_sourcedatanamevalue' to the value of 'cat_businessapprovaldata'."
     },
     {
       "class": "unproven",
@@ -13828,11 +13829,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalNodeReminderInstance.cat_ReminderDays",
-          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+          "path": "cat_BusinessApprovalNode.cat_stagenamevalue",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The reminder days column in the cat_BusinessApprovalNodeReminderInstance table can have values between 0 and 2,147,480,000 (inclusive). Any value outside this range will be considered invalid."
+      "statement": "The condition is that the value of cat_stagenamevalue is determined by the cat_businessapprovalnode, cat_businessapprovalstage, and cat_name columns. The effect is to set the value of cat_stagenamevalue based on these columns."
     },
     {
       "class": "unproven",
@@ -13842,11 +13843,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalPublishedWorkflow.cat_version",
-          "reason": "no generated formula or journey check"
+          "path": "cat_BusinessApprovalNodeReminder.cat_ReminderDays",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The business approval version (cat_version) is calculated based on the business approval version (cat_businessapprovalversion). If the cat_businessapprovalversion is greater than 10, the cat_version is set to 1; otherwise, it remains 0."
+      "statement": "The reminder days must be a positive number and less than or equal to 2,147,480,000. If the reminder days are not a valid number, the system will not allow the record to be saved."
     },
     {
       "class": "unproven",
@@ -13856,11 +13857,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeCondition.cat_PathIndex",
+          "path": "cat_BusinessApprovalNodeReminderInstance.cat_ReminderDays",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The condition is that the value of cat_PathIndex must be between 1 and 2,147,480,439 (inclusive). If the value is outside this range, the effect is that the runtime condition is invalid."
+      "statement": "The reminder days field must be a positive number and less than or equal to 2,147,480,000. If the value is less than 0, it will be set to 0."
     },
     {
       "class": "unproven",
@@ -13870,11 +13871,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeNode.cat_PathIndex",
-          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+          "path": "cat_BusinessApprovalPublishedWorkflow.cat_version",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition is that the cat_PathIndex must be a valid number between 1 and 2,147,480,000. If it is not, the business rule will prevent the operation."
+      "statement": "The condition is that the cat_version should match the result of the cat_businessapprovalpublishedworkflow function with the cat_businessapprovalversion parameter. The threshold values are the result of the function, and the effect is setting the cat_version column to this result."
     },
     {
       "class": "unproven",
@@ -13884,11 +13885,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeNode.cat_RowIndex",
+          "path": "cat_BusinessApprovalRuntimeCondition.cat_PathIndex",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000. If the cat_RowIndex is not within this range, the system will not allow the row to proceed."
+      "statement": "The condition is that the Path Index must be within the range of 1 to 2,147,480,439. If the Path Index is outside this range, the business rule will not be satisfied."
     },
     {
       "class": "unproven",
@@ -13898,11 +13899,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeNode.cat_TimeOut",
-          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+          "path": "cat_BusinessApprovalRuntimeCondition.cat_conditionvaluedisplay",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The cat_TimeOut column in the cat_BusinessApprovalRuntimeNode table can only have values between 0 and 2.14748e+09 (2,147,480,000). Any value outside this range will be considered invalid."
+      "statement": "The condition value display formula checks the business approval runtime condition, runtime data, condition data, condition value, and name to determine the display value. It decides the approval routing, approver, or delegate selection based on the business rules."
     },
     {
       "class": "unproven",
@@ -13912,11 +13913,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_nodenamevalue",
-          "reason": "no generated formula or journey check"
+          "path": "cat_BusinessApprovalRuntimeNode.cat_GoToPaths",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The business approval runtime node value is calculated based on the business approval runtime node and the node name. If the value is less than 0, it is set to 0; otherwise, it remains unchanged."
+      "statement": "The condition checks the first 5 entries of the cat_GoToPaths table column to determine the routing path for a business approval. It decides whether to route the approval based on the first 5 entries, which could be a validation or routing decision."
     },
     {
       "class": "unproven",
@@ -13926,11 +13927,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeNodeReminder.cat_ReminderDays",
+          "path": "cat_BusinessApprovalRuntimeNode.cat_PathIndex",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The condition is that the value of cat_ReminderDays must be a number between 0 and 2,147,480,000 (inclusive). If the value is outside this range, the system will not allow the reminder days to be set."
+      "statement": "The condition is that cat_PathIndex must be a positive integer between 1 and 2,147,480,000, and it must be required. If the condition is not met, the system will not proceed."
     },
     {
       "class": "unproven",
@@ -13940,11 +13941,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeStage.cat_Order",
+          "path": "cat_BusinessApprovalRuntimeNode.cat_RowIndex",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The Order entity must have a value between 1 and 2.14748e+09 (2.14748 billion) to be valid. If the value is outside this range, the entity is considered invalid."
+      "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000. If the cat_RowIndex is not within this range, the system will reject it."
     },
     {
       "class": "unproven",
@@ -13954,11 +13955,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeStage.cat_Paths",
+          "path": "cat_BusinessApprovalRuntimeNode.cat_TimeOut",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The condition is that the 'cat_Paths' column must have a value between 1 and 5, inclusive. If the value is outside this range, the business approval runtime stage will not be valid."
+      "statement": "The Time Out field must be a positive number less than or equal to 2.14748e+09. This field decides when a workflow step should timeout, affecting the approval process."
     },
     {
       "class": "unproven",
@@ -13968,11 +13969,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeStage.cat_sourcedatanamevalue",
+          "path": "cat_BusinessApprovalRuntimeNode.cat_sourcedatanamevalue",
           "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition is when the runtime stage is 'cat_businessapprovalruntimestage' and the name is 'cat_name'. If the sourcedata value is not null, the effect is to set the cat_sourcedatanamevalue to the sourcedata value. Otherwise, it remains null."
+      "statement": "The condition checks if the data exists in the Business Approval Runtime Data and Business Approval Runtime Node tables, and if so, it calculates the value of cat_sourcedatanamevalue. The threshold values are the existence of data in the specified tables, and the effect is to calculate the value of cat_sourcedatanamevalue."
     },
     {
       "class": "unproven",
@@ -13982,11 +13983,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalRuntimeStageInstance.cat_order",
+          "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_nodenamevalue",
           "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition is when the value of cat_businessapprovalruntimestage is equal to the value of cat_businessapprovalruntimestageinstance. The effect is to set the value of cat_order to the result of the cat_businessapprovalruntimestage function. This is a calculation business rule."
+      "statement": "The condition is when the node name value equals the calculation of the business approval runtime node, the business approval runtime node instance, and the node name. The effect is to set the node name value to this calculated value."
     },
     {
       "class": "unproven",
@@ -13996,11 +13997,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalStage.cat_Order",
-          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+          "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_order",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition is that the value in the cat_Order column must be required and must be within the range of 1 to 2.14748e+09. If the condition is not met, the effect is that the record is not valid."
+      "statement": "The condition is when the cat_order value is calculated based on cat_businessapprovalruntimenode, cat_businessapprovalruntimenodeinstance, and cat_rowindex. The threshold values are the inputs and the effect is the output cat_order."
     },
     {
       "class": "unproven",
@@ -14010,11 +14011,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalStage.cat_Paths",
-          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+          "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_path",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition is that the 'cat_Paths' column must have a value between 1 and 5, inclusive. If the value is outside this range, the business approval stage is invalid."
+      "statement": "The condition is when the path index is valid and the business approval runtime node instance exists. The effect is to calculate the path based on the business approval runtime node and instance."
     },
     {
       "class": "unproven",
@@ -14024,11 +14025,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalStage.cat_sourcedatanamevalue",
-          "reason": "no generated formula or journey check"
+          "path": "cat_BusinessApprovalRuntimeNodeReminder.cat_ReminderDays",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The business approval stage's sourcedatanamevalue is calculated based on cat_businessapprovaldata, cat_businessapprovalstage, cat_name, cat_sourcedata, and cat_sourcedatatype. If any of these values are missing or invalid, the sourcedatanamevalue will be null."
+      "statement": "The reminder days must be a positive number and less than or equal to 2,147,480,000. If the reminder days are not a valid number, the system will not allow the record to be saved."
     },
     {
       "class": "unproven",
@@ -14038,11 +14039,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalVersion.cat_Version",
+          "path": "cat_BusinessApprovalRuntimeStage.cat_Order",
           "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The version field must have a value between 1 and 2,147,480,000, inclusive. If the value is outside this range, the system will not allow the record to be saved."
+      "statement": "The condition is that the Order ID must be within the range of 1 to 2.14748e+09. The effect is that records outside this range are considered invalid and may not be processed."
     },
     {
       "class": "unproven",
@@ -14052,11 +14053,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalVersion.cat_defaultapproverdisplayname",
-          "reason": "no generated formula or journey check"
+          "path": "cat_BusinessApprovalRuntimeStage.cat_Paths",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The default approver display name is calculated based on the business approval version, business approver, and name. If any of these values are null, the default approver display name will also be null."
+      "statement": "The condition is that the 'cat_Paths' table must have at least 1 and at most 5 rows. If it has fewer than 1 or more than 5 rows, the condition fails."
     },
     {
       "class": "unproven",
@@ -14066,11 +14067,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalVersion.cat_defaultapproveremail",
+          "path": "cat_BusinessApprovalRuntimeStageInstance.cat_order",
           "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The default approver email is calculated based on the cat_approverid, cat_businessapprovalversion, and cat_businessapprover columns. If any of these columns have null values, the default approver email will be null."
+      "statement": "The calculated column 'cat_order' in the form of 'cat_BusinessApprovalRuntimeStageInstance' depends on the value of 'cat_businessapprovalruntimestage' and 'cat_businessapprovalruntimestageinstance'. The effect is that 'cat_order' is set to the value of 'cat_businessapprovalruntimestage' if 'cat_businessapprovalruntimestageinstance' is not null."
     },
     {
       "class": "unproven",
@@ -14080,11 +14081,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprovalWorkflow.cat_version",
+          "path": "cat_BusinessApprovalRuntimeStageInstance.cat_stagenamevalue",
           "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The business approval workflow version (cat_version) is calculated based on the business approval version (cat_businessapprovalversion) and the business approval workflow (cat_businessapprovalworkflow). If the workflow or version changes, the version will update accordingly."
+      "statement": "The condition checks if the current stage name value of a business approval runtime stage instance matches the name of the business approval runtime stage. If true, it sets the cat_stagenamevalue column to the name of the business approval runtime stage. This is a business rule as it decides the approval routing and workflow."
     },
     {
       "class": "unproven",
@@ -14094,11 +14095,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprover.cat_backupdelegateid",
-          "reason": "no generated formula or journey check"
+          "path": "cat_BusinessApprovalStage.cat_Order",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The calculated column 'cat_BusinessApprover.cat_backupdelegateid' determines the value based on the 'cat_approverid', 'cat_backupdelegate', and 'cat_businessapprover' columns. If any of these columns have a value of 0, the calculated column will also have a value of 0."
+      "statement": "The condition is that the 'cat_Order' entity must exist and its value must be between 1 and 2.14748e+09 (inclusive). If the condition is not met, the system will not proceed with the approval process."
     },
     {
       "class": "unproven",
@@ -14108,11 +14109,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "cat_BusinessApprover.cat_delegateid",
-          "reason": "no generated formula or journey check"
+          "path": "cat_BusinessApprovalStage.cat_Paths",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "The business approver's delegate ID is calculated based on the approver ID, business approver, and delegate. If any of these values are null, the result will also be null."
+      "statement": "The condition is that the 'cat_Paths' column must have a value between 1 and 5, inclusive. This determines whether the business approval stage can proceed."
     },
     {
       "class": "unproven",
@@ -14122,11 +14123,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreApprovalTime-out/triggers/Running_Approval_Instance_Time-Out_Counter_has_reached_0",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+          "path": "cat_BusinessApprovalStage.cat_sourcedatanamevalue",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "This business rule triggers when a business approval instance has a message of 3 and the cat_timeoutcounter is 0 and the cat_instancestatus is 809060001. The rule is designed to handle timeout scenarios."
+      "statement": "The condition is when the business approval data, business approval stage, name, source data, and source data type all match. The effect is to calculate the value of the sourcedatanamevalue column based on these matching criteria."
     },
     {
       "class": "unproven",
@@ -14136,11 +14137,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreApprovalTime-out/actions/varDelegate",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+          "path": "cat_BusinessApprovalVersion.cat_Version",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
         }
       ],
-      "statement": "If the delegate is marked as out of office (isoutofoffice), the system uses the backup delegate's ID instead of the primary delegate's ID. Otherwise, it uses the primary delegate's ID."
+      "statement": "The version number must be a positive integer between 1 and 2,147,480,741 (inclusive). If the version number is missing or invalid, the system will not allow the record to proceed."
     },
     {
       "class": "unproven",
@@ -14150,11 +14151,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreApprovalTime-out/actions/If_no_delegates",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+          "path": "cat_BusinessApprovalVersion.cat_defaultapproverdisplayname",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "If the variable 'varDelegate' is null, the workflow will proceed to the 'If_no_delegates' action."
+      "statement": "The default approver display name is calculated based on the business approval version, business approver, and name. This rule determines who the approver should be based on the business context."
     },
     {
       "class": "unproven",
@@ -14164,11 +14165,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreApprovalTime-out/actions/If_delegate_exists",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+          "path": "cat_BusinessApprovalVersion.cat_defaultapproveremail",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition checks if the length of the variable 'varDelegate' is greater than 0. If it is, the action 'If_delegate_exists' is triggered."
+      "statement": "The default approver email is calculated based on the approver ID and the business approval version. If the business approval version has a business approver, the default approver email is set; otherwise, it remains empty."
     },
     {
       "class": "unproven",
@@ -14178,11 +14179,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreApproverOOF/triggers/When_Approver_is_OOF",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+          "path": "cat_BusinessApprovalWorkflow.cat_version",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "This rule checks if the message is 3 and if the cat_isoutofoffice filter is true, and triggers the 'When_Approver_is_OOF' workflow if both conditions are met."
+      "statement": "The cat_version calculated column in the cat_BusinessApprovalWorkflow entity checks if the cat_businessapprovalversion exists in the cat_businessapprovalworkflow. If it does, cat_version is set to the value of cat_businessapprovalversion; otherwise, it remains null."
     },
     {
       "class": "unproven",
@@ -14192,11 +14193,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreCascadeProcessStatus/triggers/When_Process_Status_is_changed",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+          "path": "cat_BusinessApprover.cat_backupdelegateid",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The condition checks if the business approval process category has a message of 3 and a statecode filter. If true, the process status is changed."
+      "statement": "The calculated column 'cat_BusinessApprover.cat_backupdelegateid' determines the backup delegate ID by selecting a delegate from 'cat_approverid' based on the 'cat_backupdelegate' value. This decision affects the workflow routing and approval process."
     },
     {
       "class": "unproven",
@@ -14206,11 +14207,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreCascadePublishingActivation/triggers/When_a_row_is_added,_modified_or_deleted",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+          "path": "cat_BusinessApprover.cat_delegateid",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "This rule checks if the 'statecode' of a 'cat_businessapprovalversion' message is 3. If true, it triggers the 'When_a_row_is_added,_modified_or_deleted' action."
+      "statement": "The formula calculates the cat_delegateid based on cat_approverid, cat_businessapprover, and cat_delegate. It decides the delegate based on business rules."
     },
     {
       "class": "unproven",
@@ -14220,11 +14221,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+          "path": "cat_BusinessApprover.cat_displayname",
+          "reason": "no generated formula or journey check"
         }
       ],
-      "statement": "The rule checks if the input number_1 equals 809060000. If true, it proceeds to the next node. Otherwise, it stops."
+      "statement": "The calculated column 'cat_BusinessApprover.cat_displayname' retrieves the name from 'cat_businessapprovaldata' based on the dynamic approver type and the approver's name. This condition decides the approval routing and the approver or delegate selection."
     },
     {
       "class": "unproven",
@@ -14234,11 +14235,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data/actions/Condition",
+          "path": "BACoreApprovalTime-out/triggers/Running_Approval_Instance_Time-Out_Counter_has_reached_0",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if both conditions are true. If they are, the rule proceeds. Otherwise, it stops."
+      "statement": "The condition is that the message is 3, and the cat_timeoutcounter is 0 and the cat_instancestatus is 809060001. If these conditions are met, the trigger will run."
     },
     {
       "class": "unproven",
@@ -14248,11 +14249,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data/actions/Condition/actions/Set_variable",
+          "path": "BACoreApprovalTime-out/actions/varDelegate",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule sets the variable 'varSourceData' to the value of 'value' from the 'Get_Dynamic_Data' action if the type is '809060001', otherwise it concatenates the value with quotes. If the 'raw' field is not empty, it uses the 'raw' field; otherwise, it uses the 'default' field."
+      "statement": "If the delegate is marked as out of office, the workflow uses the backup delegate instead. Otherwise, it selects the regular delegate."
     },
     {
       "class": "unproven",
@@ -14262,11 +14263,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome",
+          "path": "BACoreApprovalTime-out/actions/If_no_delegates",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if the number_1 input equals 8,090,600,01. If true, it proceeds."
+      "statement": "The condition checks if the variable 'varDelegate' is null. If it is, the effect is to set the output 'If_no_delegates' to true."
     },
     {
       "class": "unproven",
@@ -14276,11 +14277,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome/actions/Apply_to_each/actions/Condition_4",
+          "path": "BACoreApprovalTime-out/actions/If_delegate_exists",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if the value in the 'cat_conditionvalue' field of each item in the 'Apply_to_each' array is equal to the 'value' variable. If they are not equal, the rule's outcome is affected."
+      "statement": "The condition checks if the delegate variable has a non-empty value. If the delegate variable is empty, the workflow will not proceed."
     },
     {
       "class": "unproven",
@@ -14290,11 +14291,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome/actions/Apply_to_each/actions/Condition_4/actions/Set_varCondition",
+          "path": "BACoreApproverOOF/triggers/When_Approver_is_OOF",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if 'text_1' is 'Stage Instance'. If true, it sets the variable 'varConditions' with the stage ID from the 'Apply_to_each' items, otherwise it sets the variable with the 'cat_pathindex' from the 'Apply_to_each' items. This ensures the correct stage ID is used based on the current stage instance."
+      "statement": "The condition is that the message should be 3 and the cat_isoutofoffice should be true for the approver to be considered out of office."
     },
     {
       "class": "unproven",
@@ -14304,11 +14305,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildEvaluateRule/actions/If_Comparison_Operands",
+          "path": "BACoreCascadeProcessStatus/triggers/When_Process_Status_is_changed",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the number in the trigger body is less than or equal to 8,090,600, the condition is met. Otherwise, the condition is not met."
+      "statement": "The condition checks if the business approval process has a message with a value of 3 and a statecode filter. If true, it triggers the workflow."
     },
     {
       "class": "unproven",
@@ -14318,11 +14319,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildEvaluateRule/actions/If_Comparison_Operands/actions/Found_Condition",
+          "path": "BACoreCascadePublishingActivation/triggers/When_a_row_is_added,_modified_or_deleted",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the XPath_Selection outputs have a length greater than zero, the condition is met. If so, the Found_Condition is found."
+      "statement": "The condition checks if the statecode of a business approval version is 3, and it applies a filter. If the statecode is 3, the row is considered for addition, modification, or deletion."
     },
     {
       "class": "unproven",
@@ -14332,11 +14333,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetDefaultSettings/actions/If_found_settings",
+          "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'body/value' from the 'Get_Settings' output is exactly 1. If true, the 'If_found_settings' action is executed."
+      "statement": "The condition checks if the value of number_1 in the trigger body is equal to 809060000. If true, it proceeds to the next node. This is a validation rule to ensure the correct input value."
     },
     {
       "class": "unproven",
@@ -14346,11 +14347,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value/actions/If_Manager_Lookup",
+          "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data/actions/Condition",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the input parameter 'boolean' is true, the workflow will proceed. Otherwise, it will not execute."
+      "statement": "The condition checks if both @true values are equal. If true, it proceeds with the workflow. This is a validation check to ensure certain conditions are met before proceeding."
     },
     {
       "class": "unproven",
@@ -14360,11 +14361,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value/actions/Lookup_UPN/actions/If_Approver_is_not_found",
+          "path": "BACoreChildEvaluateRule/actions/Get_Source_Data/actions/If_uses_Source_Data/actions/Condition/actions/Set_variable",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the length of the 'body/value' field from the 'Get_Approver_and_Delegates' output is zero, then the condition is met. If so, the system will proceed to check if the approver is not found."
+      "statement": "The condition checks if the type of data from 'Get_Dynamic_Data' is '809060001'. If true, it uses the value directly. Otherwise, it concatenates the value with quotes. This decision affects how the data is processed."
     },
     {
       "class": "unproven",
@@ -14374,11 +14375,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver",
+          "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the input parameter 'boolean' is true, the action will be executed. Otherwise, it will not."
+      "statement": "The condition checks if the value of number_1 is equal to 809060001. If true, it proceeds with the action. This is a validation rule to ensure the data type matches the expected value."
     },
     {
       "class": "unproven",
@@ -14388,11 +14389,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/actions/If_has_data",
+          "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome/actions/Apply_to_each/actions/Condition_4",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the length of the 'body/value' in the output of 'Get_Dynamic_Approver_Data' is greater than 0, then the condition is met. If the condition is met, the output 'If_has_data' is generated."
+      "statement": "The condition checks if the value of 'cat_conditionvalue' in the current item of 'Apply_to_each' is equal to the value of 'value' stored in the variable 'varSourceData'. If they are equal, the condition passes."
     },
     {
       "class": "unproven",
@@ -14402,11 +14403,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/actions/If_has_data/else/actions/Do_we_wait_for_Dynamic_Approver_Data",
+          "path": "BACoreChildEvaluateRule/actions/If_Source_Data_Type_Is_Previous_Node_Outcome/actions/Apply_to_each/actions/Condition_4/actions/Set_varCondition",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the value of the 'WaitOnNoApprover' setting from the 'Get_Default_Setting' action is true, then proceed to the 'Do_we_wait_for_Dynamic_Approver_Data' action."
+      "statement": "The condition checks if the value of 'text_1' is 'Stage Instance'. If it is, it sets the stage ID to the value of '_cat_gotostage_value' from the 'Apply_to_each' items, otherwise it sets the stage ID to the value of 'cat_pathindex'. This condition decides the routing of the workflow based on the current stage instance."
     },
     {
       "class": "unproven",
@@ -14416,11 +14417,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/else/actions/If_has_instance_data",
+          "path": "BACoreChildEvaluateRule/actions/If_Comparison_Operands",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the length of the 'body/value' in the output of 'Get_Instance_Data' is greater than 0, then proceed with the next action."
+      "statement": "If the number in the trigger body is less than 8,090,600,060, the condition is met. This decides the approval routing or workflow decision."
     },
     {
       "class": "unproven",
@@ -14430,11 +14431,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists",
+          "path": "BACoreChildEvaluateRule/actions/If_Comparison_Operands/actions/Found_Condition",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the 'approver' field in the 'User_Details' output is not empty. If it is not empty, the condition is considered false."
+      "statement": "The condition checks if the XPath_Selection outputs have a length greater than zero, which means the XPath selection found at least one element. If true, it proceeds to evaluate the condition further."
     },
     {
       "class": "unproven",
@@ -14444,11 +14445,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists/actions/Check_status_and_if_Current_Date_falls_between_start_and_end_date",
+          "path": "BACoreChildGetDefaultSettings/actions/If_found_settings",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the status is not disabled and the current date falls between the start and end date, and the date difference is greater than the out of office check days. If all conditions are met, the workflow proceeds."
+      "statement": "The condition checks if the output of 'Get_Settings' has exactly one item in its 'body/value' array. If true, it proceeds to the 'If_found_settings' action."
     },
     {
       "class": "unproven",
@@ -14458,11 +14459,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists/actions/Condition",
+          "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value/actions/If_Manager_Lookup",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the difference in days between the current date and a specified date is greater than the number of Out of Office Check Days, the condition is met."
+      "statement": "If the input parameter 'boolean' is true, then the action will proceed. Otherwise, it will not."
     },
     {
       "class": "unproven",
@@ -14472,11 +14473,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildLogRuns/actions/If_Information",
+          "path": "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value/actions/Lookup_UPN/actions/If_Approver_is_not_found",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the input text_3 is equal to 'Information', the condition is met and the action is triggered. Otherwise, the action is not triggered."
+      "statement": "If the length of the 'body/value' from the 'Get_Approver_and_Delegates' output is zero, then the condition is met. This decides whether the 'If_Approver_is_not_found' action should be triggered."
     },
     {
       "class": "unproven",
@@ -14486,11 +14487,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreChildLogRuns/actions/If_Information/else/actions/Exception_Type",
+          "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of 'text_3' in the trigger body is 'Data not found', 'Approver not found', or 'Object not found'. If it matches 'Data not found', it sets 'Exception_Type' to 'Data not found'. If it matches 'Approver not found', it sets 'Exception_Type' to 'Approver not found'. If it matches 'Object not found', it sets 'Exception_Type' to 'Object not found'."
+      "statement": "If the input parameter 'boolean' is true, the workflow action will proceed. Otherwise, it will not."
     },
     {
       "class": "unproven",
@@ -14500,11 +14501,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today",
+          "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/actions/If_has_data",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule prevents double decrement if the 'cat_timeoutupdate' is executed more than once a day by checking if the first part of the split of 'cat_timeoutupdate' (which is the date) is not equal to the first part of the split of the current UTC time. If they are not equal, the decrement is prevented."
+      "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Dynamic_Approver_Data' is greater than 0. If true, it proceeds to the next action."
     },
     {
       "class": "unproven",
@@ -14514,11 +14515,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days",
+          "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/actions/If_has_data/else/actions/Do_we_wait_for_Dynamic_Approver_Data",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the TimeOut Mode is set to Business Days (809060000). If true, it requires a calculation based on Work Profile and holidays."
+      "statement": "The condition checks if the value of 'WaitOnNoApprover' from the 'Get_Default_Setting' body is true. If true, it proceeds to 'Do_we_wait_for_Dynamic_Approver_Data'."
     },
     {
       "class": "unproven",
@@ -14528,11 +14529,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACorePublishProcess/triggers/When_new_Process_Version_is_Published",
+          "path": "BACoreChildGetDynamicDataInstance/actions/If_this_is_a_dynamic_approver/else/actions/If_has_instance_data",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the business approval version category has a message of 1 and if the publishing status is 809060000. If both conditions are met, the process version is published."
+      "statement": "If the length of the 'body/value' from the 'Get_Instance_Data' output is greater than 0, then proceed with the next action. This rule checks if instance data exists before proceeding."
     },
     {
       "class": "unproven",
@@ -14542,11 +14543,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACorePublishProcess/actions/Publish_Version/actions/Copy_Stage/actions/Each_Stage/actions/Copy_Nodes/actions/Each_Node/actions/Each_Approver/actions/If_Dynamic_Approver_Type_uses_Request_Data",
+          "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if the dynamic approver type is either 809,060,002 or 809,060,001. If true, the workflow continues; otherwise, it stops."
+      "statement": "The condition checks if the Approver UPN is not empty. If the Approver UPN is not empty, the condition is true."
     },
     {
       "class": "unproven",
@@ -14556,11 +14557,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACorePublishProcess/actions/Publish_Version/actions/Copy_Stage/actions/Each_Stage/actions/Copy_Nodes/actions/Each_Node/actions/Each_Approver/actions/If_Dynamic_Approver_Type_uses_Request_Data/actions/If_Mapping_Does_not_Exist",
+          "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists/actions/Check_status_and_if_Current_Date_falls_between_start_and_end_date",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the 'body/value' of the 'Check_if_mapping_already_exist' output is empty. If it is, the rule proceeds to the next action."
+      "statement": "The condition checks if the status is not 'Disabled' and if the current date falls between the start date and end date, and if the date difference is greater than the Out Of Office Check Days. If all conditions are met, the action proceeds."
     },
     {
       "class": "unproven",
@@ -14570,11 +14571,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACorePublishProcess/actions/Publish_is_Successful/actions/Condition",
+          "path": "BACoreChildGetUserMailboxSettings/actions/Each_User/actions/If_Approver_UPN_exists/actions/Condition",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the output of the trigger 'body/cat_activateonpublish' is true. If it is, the process continues; otherwise, it stops."
+      "statement": "The condition checks if the difference in days is greater than the Out Of Office Check Days. If true, it evaluates to true; otherwise, it evaluates to false."
     },
     {
       "class": "unproven",
@@ -14584,11 +14585,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-InitializeWorkflowQueue/actions/Apply_to_each_/actions/Condition_2",
+          "path": "BACoreChildLogRuns/actions/If_Information",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of 'id' in the 'Apply_to_each_' items is equal to 'additionalinformation'. If true, the condition is met."
+      "statement": "The condition is that the input 'text_3' must be equal to 'Information'. If this condition is met, the action proceeds."
     },
     {
       "class": "unproven",
@@ -14598,11 +14599,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-InitializeWorkflowQueue/actions/Apply_to_each_/actions/Condition_3",
+          "path": "BACoreChildLogRuns/actions/If_Information/else/actions/Exception_Type",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of the 'id' input is equal to 'Requested By'. If true, the condition is met."
+      "statement": "The condition checks if the input 'text_3' is either 'Data not found', 'Approver not found', or 'Object not found'. If 'Data not found', it sets 'Exception_Type' to 'Data not found'. If 'Approver not found', it sets 'Exception_Type' to 'Approver not found'. If 'Object not found', it sets 'Exception_Type' to 'Object not found'."
     },
     {
       "class": "unproven",
@@ -14612,11 +14613,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-InitializeWorkflowQueue/actions/Apply_to_each_/actions/Condition_4",
+          "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of the 'id' field in the 'Apply_to_each_' items is equal to the 'externalreference'. If they match, the condition is considered true."
+      "statement": "Prevents decrementing the timeout if the same approval instance is processed more than once a day, based on the timestamp comparison."
     },
     {
       "class": "unproven",
@@ -14626,11 +14627,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartApproval/actions/If_no_Custom_Responses",
+          "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the 'body/cat_customresponses' field is empty. If it is, the rule triggers the 'If_no_Custom_Responses' action."
+      "statement": "The condition checks if the timeout mode is set to Business Days (809060000). If true, it requires a calculation based on the Work Profile and holidays."
     },
     {
       "class": "unproven",
@@ -14640,11 +14641,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartApproval/actions/If_Approval_not_completed",
+          "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days/actions/If_Today_is_Working_day_and_not_holiday",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the variable 'varApprovalCompleted' is false. If it is, the action 'If_Approval_not_completed' is executed."
+      "statement": "The condition checks if the current day is a working day and not a holiday, and if there are no holidays in the list. If both conditions are met, the action proceeds."
     },
     {
       "class": "unproven",
@@ -14654,11 +14655,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartApproval/actions/If_Approval_not_completed/actions/Set_override_approver_for_cancellation/actions/If_Not_Cancellation",
+          "path": "BACorePublishProcess/triggers/When_new_Process_Version_is_Published",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the output 'Wait_on_Override' contains a 'body/cat_iscancellation' value. If it does not, the rule sets the output to 'If_Not_Cancellation'."
+      "statement": "The condition checks if the business approval version category has a message of 1 and the publishing status is 809060000. If true, it triggers the workflow."
     },
     {
       "class": "unproven",
@@ -14668,11 +14669,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type",
+          "path": "BACorePublishProcess/actions/Publish_Version/actions/Copy_Stage/actions/Each_Stage/actions/Copy_Nodes/actions/Each_Node/actions/Each_Approver/actions/If_Dynamic_Approver_Type_uses_Request_Data",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the node type is 'Approval'. If true, it sets the output to 809060000. If false, it sets the output to 809060001. If the node type is 'End_Workflow', it sets the output to 809060002."
+      "statement": "The condition checks if the value of cat_dynamicapprovertype is either 809060002 or 809060001. If true, it proceeds to the next step in the workflow."
     },
     {
       "class": "unproven",
@@ -14682,11 +14683,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)",
+          "path": "BACorePublishProcess/actions/Publish_Version/actions/Copy_Stage/actions/Each_Stage/actions/Copy_Nodes/actions/Each_Node/actions/Each_Approver/actions/If_Dynamic_Approver_Type_uses_Request_Data/actions/If_Mapping_Does_not_Exist",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of cat_approvertype is exactly 8,090,600,000. If true, the approval process continues; otherwise, it stops."
+      "statement": "The condition checks if the length of the 'body/value' in the output of 'Check_if_mapping_already_exist' is zero. If it is, the effect is to set the output to 'If_Mapping_Does_not_Exist'."
     },
     {
       "class": "unproven",
@@ -14696,11 +14697,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF",
+          "path": "BACorePublishProcess/actions/Publish_is_Successful/actions/Condition",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the node delegation rule is either Out of Office (809,060,002) or Time-out or Out of Office (809,060,003). If the condition is met, the workflow proceeds."
+      "statement": "The condition checks if the output of the trigger 'body/cat_activateonpublish' is true. If it is, the condition is satisfied."
     },
     {
       "class": "unproven",
@@ -14710,11 +14711,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF/actions/If_First_Not_OOF_found",
+          "path": "BACoreRuntime-InitializeWorkflowQueue/actions/Apply_to_each_/actions/Condition_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if there is at least one 'id' in the 'First_Not_OOF' output. If there is, the rule passes; otherwise, it fails."
+      "statement": "The condition checks if the 'id' of each item in the 'Apply_to_each_' array matches the 'additionalinformation' field. If they match, the condition is true."
     },
     {
       "class": "unproven",
@@ -14724,17 +14725,115 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF/actions/If_First_Not_OOF_found/else/actions/If_Manager_found",
+          "path": "BACoreRuntime-InitializeWorkflowQueue/actions/Apply_to_each_/actions/Condition_3",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, the approval process continues; otherwise, it stops."
+      "statement": "The condition checks if the 'id' in the 'Apply_to_each_' items matches the 'Requested By' field. If true, the workflow continues; otherwise, it stops."
     },
     {
       "class": "unproven",
       "covered": 0,
       "declared": "scenario",
       "id": "BR-102",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreRuntime-InitializeWorkflowQueue/actions/Apply_to_each_/actions/Condition_4",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the 'id' of the current item in the 'Apply_to_each_' loop matches the 'externalreference'. If true, the workflow continues; otherwise, it stops."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-103",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreRuntime-StartApproval/actions/If_no_Custom_Responses",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the length of the 'body/cat_customresponses' output is zero, meaning no custom responses exist. If true, it triggers the 'If_no_Custom_Responses' action."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-104",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreRuntime-StartApproval/actions/If_Approval_not_completed",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the variable 'varApprovalCompleted' is false. If it is, the workflow action 'If_Approval_not_completed' is executed."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-105",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreRuntime-StartApproval/actions/If_Approval_not_completed/actions/Set_override_approver_for_cancellation/actions/If_Not_Cancellation",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "If the output of the 'Wait_on_Override' action contains a 'body/cat_iscancellation' key set to false, the condition is met. This decides whether the approval process can proceed without cancellation."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-106",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the node type is 'Approval'. If it is, the workflow proceeds to stage 809060000. If not, it proceeds to stage 809060001. If the node type is 'End_Workflow', the workflow terminates."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-107",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the value of cat_approvertype is exactly 8,090,600,000. If true, it proceeds to the next step in the approval workflow."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-108",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/actions/If_Node_Rule_checks_for_OOF",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the node delegation rule is either Out of Office (809,060,002) or Time-out or Out of Office (809,060,003). If the condition is met, the approval process will proceed to the next step."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-109",
       "locations": [
         {
           "evidence": "unproven",
@@ -14748,7 +14847,7 @@
       "class": "unproven",
       "covered": 0,
       "declared": "scenario",
-      "id": "BR-103",
+      "id": "BR-110",
       "locations": [
         {
           "evidence": "unproven",
@@ -14756,105 +14855,7 @@
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, the approval process continues; otherwise, it stops."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-104",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
-        }
-      ],
-      "statement": "The condition checks if the node delegation rule is either Out of Office (809,060,002) or Time-out or Out of Office (809,060,003). If the condition is met, the approval process continues."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-105",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/Check_If_Enable_O365_Mailbox_Settings_is_true_2",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
-        }
-      ],
-      "statement": "The condition checks if the value of the parameter 'Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)' is true. If it is, the effect is to proceed with the next action."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-106",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/If_First_Not_OOF_found_2",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
-        }
-      ],
-      "statement": "If the length of the 'id' in the output 'First_Not_OOF_2' is greater than 0, then proceed with the next action."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-107",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/If_First_Not_OOF_found_2/else/actions/If_Manager_found_2",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
-        }
-      ],
-      "statement": "The rule checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, it proceeds to the next rule; otherwise, it returns 'If_Manager_found_2'."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-108",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
-        }
-      ],
-      "statement": "The rule checks the value of the 'cat_dynamicapprovertype' field and assigns it to the appropriate manager based on predefined cases. If the value is 'Manager_of_Initiator', 'Manager_of_Request_Data', or 'Manager_of_Last_Approver', it assigns the corresponding manager ID. Otherwise, it assigns 'Use_Request_Data'."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-109",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval/cases/Manager_of_Request_Data/actions/If_dynamic_approver_found",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
-        }
-      ],
-      "statement": "The condition checks if the length of the dynamic approver data is greater than zero. If it is, the approval process continues; otherwise, it stops."
-    },
-    {
-      "class": "unproven",
-      "covered": 0,
-      "declared": "scenario",
-      "id": "BR-110",
-      "locations": [
-        {
-          "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval/cases/Use_Request_Data/actions/If_any_dynamic_approver_found",
-          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
-        }
-      ],
-      "statement": "The condition checks if the length of the 'value' in the 'Body' of the output from 'Get_Dynamic_Data_for_Request_Data' is greater than 0. If true, it means there are dynamic approvers found in the request data."
+      "statement": "The condition checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, it proceeds to check if an approver is found. This is a validation to ensure that there is at least one approver before proceeding."
     },
     {
       "class": "unproven",
@@ -14864,11 +14865,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists/actions/If_Node_Due_Date_Data_Type_Equals_Request_Data",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of the 'body/cat_nodeduedatedatatype' field in the trigger outputs is equal to 809060000. If true, the effect is to proceed with the action."
+      "statement": "The condition checks if the node delegation rule is either Out of Office (809,060,002) or Time-out or Out of Office (809,060,003). If true, the approval process will route to the next approver or delegate."
     },
     {
       "class": "unproven",
@@ -14878,11 +14879,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Go_to_Stage/actions/Check_Node_Condition/actions/Check_If_Has_Condition",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/Check_If_Enable_O365_Mailbox_Settings_is_true_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the runtime node definition contains 'If/Else' (809060001). If it does, the condition is met and the workflow proceeds to the next stage."
+      "statement": "The condition checks if the parameter 'Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)' is true. If it is, the effect is to proceed with the next step in the workflow."
     },
     {
       "class": "unproven",
@@ -14892,11 +14893,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Go_to_Stage/actions/Check_Node_Condition/actions/Check_if_GoToStage_variable_is_not_empty",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/If_First_Not_OOF_found_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the variable 'varGotoStageId' is not empty, the workflow will proceed. Otherwise, it will stop."
+      "statement": "The condition checks if the length of the 'id' from the 'First_Not_OOF_2' output is greater than 0. If true, it proceeds to the next step; otherwise, it stops."
     },
     {
       "class": "unproven",
@@ -14906,11 +14907,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartStage/actions/If_No_Conditions",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/If_Approver_found/actions/If_Node_Rule_checks_for_OOF_2/actions/If_First_Not_OOF_found_2/else/actions/If_Manager_found_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if the 'cat_stagecondition' value from the runtime stage definition is 809060000. If true, it proceeds to the 'If_No_Conditions' action."
+      "statement": "The condition checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, it proceeds to check if a manager has been found. This is a business rule as it decides the next step in the approval workflow."
     },
     {
       "class": "unproven",
@@ -14920,11 +14921,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartStage/actions/Each_Path/actions/If_exactly_1_node_found",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if exactly one node is found in the stage. If more than one node is found, the rule fails."
+      "statement": "The condition checks if the value of 'cat_dynamicapprovertype' is 'Manager_of_Initiator', 'Manager_of_Request_Data', 'Manager_of_Last_Approver', or 'Use_Request_Data'. If it matches 'Manager_of_Initiator', it sets 'Manager_Lookup_Approval' to 809060000; if it matches 'Manager_of_Request_Data', it sets 'Manager_Lookup_Approval' to 809060002; if it matches 'Manager_of_Last_Approver', it sets 'Manager_Lookup_Approval' to 809060003; otherwise, it sets 'Manager_Lookup_Approval' to 809060001. This decision affects the approval routing based on the initiator, request data, and last approver."
     },
     {
       "class": "unproven",
@@ -14934,11 +14935,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartStage/actions/Each_Path/actions/If_exactly_1_node_found/actions/Condition",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval/cases/Manager_of_Request_Data/actions/If_dynamic_approver_found",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of '_cat_nodeduedaterequestdata_value' from the first node in the stage is not null. If it is null, the condition is considered true."
+      "statement": "The condition checks if the length of the dynamic approver data is greater than zero. If it is, the approval process continues; otherwise, it looks for a manager to approve the request."
     },
     {
       "class": "unproven",
@@ -14948,11 +14949,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-StartWorkflow/actions/If_exactly_1_stage_found",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Each_Approver/actions/If_Approver_Type_=_User_(809,060,000)/else/actions/Manager_Lookup_Approval/cases/Use_Request_Data/actions/If_any_dynamic_approver_found",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if there is exactly one stage found. If there is, the workflow continues; otherwise, it stops."
+      "statement": "The condition checks if the length of the 'value' in the 'Body' of the 'Get_Dynamic_Data_for_Request_Data' output is greater than 0. If true, it means there are dynamic approvers found, which is a business rule for determining approval routing."
     },
     {
       "class": "unproven",
@@ -14962,11 +14963,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateApproval/triggers/When_Approval_Instance_is_updated",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the business approval instance has a message with a value of 3 and the instance status is filtered. If true, the workflow triggers."
+      "statement": "The condition checks if the length of the 'body/value' from the 'Get_Runtime_Reminder_Node' output is greater than 0, which means a reminder node exists. If true, it proceeds with creating a reminder instance. This decision affects whether a reminder is created based on the existence of a reminder node."
     },
     {
       "class": "unproven",
@@ -14976,11 +14977,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists/actions/If_Node_Due_Date_Data_Type_Equals_Request_Data",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of `@triggerOutputs()?['body/cat_instancestatus']` is one of the specified instance statuses: Completed (809,060,002), Suspended (809,060,003), Canceled (809,060,004), Timed Out (809,060,005), or Error (809,060,006). If it matches, the value 809060002 is assigned to the output."
+      "statement": "The condition checks if the value of 'body/cat_nodeduedatedatatype' is equal to 809060000. If true, it proceeds with the approval reminder creation."
     },
     {
       "class": "unproven",
@@ -14990,11 +14991,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Go_to_Stage/actions/Check_Node_Condition/actions/Check_If_Has_Condition",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks the value of 'body/cat_outcome' from the trigger outputs. If it is 'Approve', it proceeds to 'Approve'. If it is 'Reject', it proceeds to 'Reject'."
+      "statement": "The condition checks if the node condition is 'If/Else' (809060001). If the condition is met, the flow proceeds to the next step."
     },
     {
       "class": "unproven",
@@ -15004,11 +15005,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Approve/actions/If_Approval_Type_is_Single_Response",
+          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Go_to_Stage/actions/Check_Node_Condition/actions/Check_if_GoToStage_variable_is_not_empty",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if the approval type is either 809060001 (Approve/Reject - First) or 809060003 (Custom - First). If true, the approval is processed."
+      "statement": "The condition checks if the variable 'varGotoStageId' is not empty. If it is empty, the action will not proceed."
     },
     {
       "class": "unproven",
@@ -15018,11 +15019,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Approve/actions/If_Approval_Type_is_Single_Response/else/actions/If_no_more_running_instances",
+          "path": "BACoreRuntime-StartStage/actions/If_No_Conditions",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If true, the effect is to proceed to the 'If_no_more_running_instances' case."
+      "statement": "The condition checks if the 'cat_stagecondition' value from the runtime stage definition is 809060000. If true, it proceeds to the 'If_No_Conditions' action."
     },
     {
       "class": "unproven",
@@ -15032,11 +15033,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Reject/actions/If_Approval_Type_is_Single_Response_2",
+          "path": "BACoreRuntime-StartStage/actions/Each_Path/actions/If_exactly_1_node_found",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the approval type is either 809060001 or 809060003. If true, the approval is rejected."
+      "statement": "The condition checks if exactly one node is found in the stage. If one node is found, the workflow continues; otherwise, it stops."
     },
     {
       "class": "unproven",
@@ -15046,11 +15047,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Reject/actions/If_Approval_Type_is_Single_Response_2/else/actions/If_no_more_running_instances_2",
+          "path": "BACoreRuntime-StartStage/actions/Each_Path/actions/If_exactly_1_node_found/actions/Condition",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If it is, the effect is to proceed to the 'If_no_more_running_instances_2' action."
+      "statement": "The condition checks if the value of the first node in the stage is not equal to null. If it is not null, the workflow will proceed; otherwise, it will not."
     },
     {
       "class": "unproven",
@@ -15060,11 +15061,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition",
+          "path": "BACoreRuntime-StartWorkflow/actions/If_exactly_1_stage_found",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the 'cat_approvaltype' in the trigger outputs is either 809060001 or 809060003. If true, the action proceeds; otherwise, it is skipped."
+      "statement": "The condition checks if exactly one stage is found. If exactly one stage is found, the workflow continues. Otherwise, it stops."
     },
     {
       "class": "unproven",
@@ -15074,11 +15075,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/else/actions/If_no_more_running_instances_4",
+          "path": "BACoreRuntime-UpdateApproval/triggers/When_Approval_Instance_is_updated",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero, the condition is met. If so, the action proceeds."
+      "statement": "The condition checks if the business approval instance has a message with a value of 3 and the instance status is filtered. If both conditions are met, the workflow triggers."
     },
     {
       "class": "unproven",
@@ -15088,11 +15089,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/triggers/When_Node_Status_Changed",
+          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the node status is in the category 'cat_businessapprovalruntimenodeinstance' and the message is 3, and the filter condition 'cat_gotostageinstanceid' is null, then execute the flow trigger 'When_Node_Status_Changed'."
+      "statement": "The condition checks if the value of the 'cat_instancestatus' field in the trigger outputs is 'Completed_(809060002)', and if so, sets the output to 809060002. This is a business rule as it decides the status of the instance."
     },
     {
       "class": "unproven",
@@ -15102,11 +15103,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type",
+          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of `@triggerOutputs()?['body/cat_instancestatus']` is either 'Completed_(809060002)' or 'Canceled_(809060004)', and if so, sets the output to the corresponding numeric value (809060002 or 809060004)."
+      "statement": "The condition checks the value of the 'body/cat_outcome' output from the trigger. If it is 'Approve', the workflow will proceed to 'Approve'. If it is 'Reject', the workflow will proceed to 'Reject'."
     },
     {
       "class": "unproven",
@@ -15116,11 +15117,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found",
+          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Approve/actions/If_Approval_Type_is_Single_Response",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'body/value' from the 'Get_Next_Node' action is zero. If it is, the effect is to set the output to 'If_no_node_found'."
+      "statement": "The condition checks if the approval type is either 809060001 (Approve/Reject - First) or 809060003 (Custom - First). If true, the approval proceeds. This condition decides the approval routing."
     },
     {
       "class": "unproven",
@@ -15130,11 +15131,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/actions/If_no_more_running_node_instances",
+          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Approve/actions/If_Approval_Type_is_Single_Response/else/actions/If_no_more_running_instances",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the body/value from the Get_any_other_running_Node_Instances action is zero, indicating no more running node instances. If true, the instance is considered completed."
+      "statement": "The condition checks if the length of the 'body/value' from the 'Get_Other_Approval_Instances' output is zero, which means there are no more running instances. If true, the approval process proceeds."
     },
     {
       "class": "unproven",
@@ -15144,11 +15145,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/else/actions/If_Node_Type_is_not_equal_End_Workflow_2",
+          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Reject/actions/If_Approval_Type_is_Single_Response_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the node type is not equal to 809060002. If true, it proceeds to the next action."
+      "statement": "The condition checks if the approval type is either 809060001 or 809060003. If true, the approval will proceed to the next step; otherwise, it will reject the approval."
     },
     {
       "class": "unproven",
@@ -15158,11 +15159,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/else/actions/If_Node_Type_is_not_equal_End_Workflow_2/actions/Condition",
+          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/cases/Reject/actions/If_Approval_Type_is_Single_Response_2/else/actions/If_no_more_running_instances_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the value of the 'Get_Next_Node' action is not equal to null and the value of '_cat_nodeduedaterequestdata_value' is not equal to null, then the condition is met."
+      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero, which means there are no more running instances. If true, the approval process moves to the next step."
     },
     {
       "class": "unproven",
@@ -15172,11 +15173,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2",
+          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Next_Node_2' is zero. If it is, the action 'If_no_node_found_2' is triggered."
+      "statement": "The condition checks if the 'cat_approvaltype' field in the trigger outputs is either 809060001 or 809060003. If true, the workflow will proceed; otherwise, it will not."
     },
     {
       "class": "unproven",
@@ -15186,11 +15187,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/actions/If_no_more_running_node_instances_2",
+          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/actions/If_no_more_running_instances_3",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_any_other_running_Node_Instances_2' output is zero. If true, it proceeds to the 'If_no_more_running_node_instances_2' action."
+      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If it is, the condition is true, otherwise false. This determines if there are no more running approval instances."
     },
     {
       "class": "unproven",
@@ -15200,11 +15201,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage",
+          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/else/actions/If_no_more_running_instances_4",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the next node's type is 'GoToStage' (809060001) and its source data type is 'Previous Node Outcome' (809060001). If both conditions are met, the flow continues."
+      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If it is, the effect is to proceed to the next step in the workflow."
     },
     {
       "class": "unproven",
@@ -15214,11 +15215,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage/actions/If_Node_Type_is_not_equal_End_Workflow",
+          "path": "BACoreRuntime-UpdateNodeInstance/triggers/When_Node_Status_Changed",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of 'body/cat_nodetype' is not equal to 809060002. If true, the workflow proceeds to the next node; otherwise, it returns the output 'If_Node_Type_is_not_equal_End_Workflow'."
+      "statement": "The condition checks if the node status changed message is 3 and if the filter for cat_gotostageinstanceid is null. If both conditions are met, the trigger is fired."
     },
     {
       "class": "unproven",
@@ -15228,11 +15229,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage/else/actions/If_no_more_running_node_instances_3",
+          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/actions/If_no_more_running_node_instances",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if there are no more running node instances. If true, the effect is to end the current stage instance."
+      "statement": "The condition checks if there are no running node instances. If there are no running node instances, the instance is considered completed."
     },
     {
       "class": "unproven",
@@ -15242,11 +15243,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateStageInstance/triggers/When_Stage_Instance_is_Updated",
+          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/else/actions/If_Node_Type_is_not_equal_End_Workflow_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the business approval runtime stage instance has a message count of 3 and a filter for instance status. If both conditions are met, it triggers the 'When_Stage_Instance_is_Updated' workflow."
+      "statement": "The condition checks if the node type is not equal to 809060002. If true, it proceeds to the next action."
     },
     {
       "class": "unproven",
@@ -15256,11 +15257,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_if_Go_To_Stage_rule_exists",
+          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Completed_(809060002)/actions/If_no_node_found/else/actions/If_Node_Type_is_not_equal_End_Workflow_2/actions/Condition",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the value of body/_cat_gotostage_value is not null, the rule exists and the workflow continues. Otherwise, the rule does not exist and the workflow stops."
+      "statement": "The condition checks if the value of the 'Get_Next_Node' action is not equal to '_cat_nodeduedaterequestdata_value'. If they are not equal, the workflow will proceed to the next step."
     },
     {
       "class": "unproven",
@@ -15270,11 +15271,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status",
+          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the value of `@triggerOutputs()?['body/cat_instancestatus']` is either 'Completed_(809060002)' or 'Cancelled_(809060004)', and if so, sets the output to the corresponding numeric value (809060002 or 809060004)."
+      "statement": "The condition checks if the length of the 'body/value' from the 'Get_Next_Node_2' output is zero, which determines if a node was found. If no node is found, the workflow proceeds to the 'If_no_node_found_2' action."
     },
     {
       "class": "unproven",
@@ -15284,11 +15285,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Completed_(809060002)/actions/If_No_more_stages",
+          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/actions/If_no_more_running_node_instances_2",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the length of the 'body/value' from the 'Get_Next_Stage' output is zero, the condition is met. If so, the workflow proceeds to the 'If_No_more_stages' action."
+      "statement": "The condition checks if there are no running node instances. If there are no running node instances, the instance is considered canceled."
     },
     {
       "class": "unproven",
@@ -15298,11 +15299,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Completed_(809060002)/actions/If_No_more_stages/else/actions/If_End_Workflow_is_not_True",
+          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the output of the trigger is not equal to true, then the condition is met. This means if the value of 'body/cat_endworkflow' is anything other than true, the condition is satisfied."
+      "statement": "If the next node's type is GoToStage and the source data type is Previous Node Outcome, the condition is met. This decides the routing or action to be taken next in the workflow."
     },
     {
       "class": "unproven",
@@ -15312,11 +15313,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2",
+          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage/actions/If_Node_Type_is_not_equal_End_Workflow",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Next_Stage_2' is zero. If it is, the effect is to proceed to the 'If_No_more_stages_2' action."
+      "statement": "If the node type in the input body is not equal to 809060002, the condition is met. This decides whether to proceed to the next node or end the workflow."
     },
     {
       "class": "unproven",
@@ -15326,11 +15327,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2/else/actions/If_Source_Data_Type_is_Previous_Node_Outcome",
+          "path": "BACoreRuntime-UpdateNodeInstance/actions/Check_Instance_Status_Type/cases/Canceled_(809060004)/actions/If_no_node_found_2/else/actions/If_next_node_NodeType_is_GoToStage/else/actions/If_no_more_running_node_instances_3",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the source data type from the next stage is 809060001. If true, the effect is to proceed to the next stage; otherwise, it stops."
+      "statement": "The condition checks if there are no running node instances. If there are none, it proceeds to the next step. This decision affects the workflow by determining if the current stage instance can end."
     },
     {
       "class": "unproven",
@@ -15340,11 +15341,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2/else/actions/If_Source_Data_Type_is_Previous_Node_Outcome/actions/If_End_Workflow_is_not_True_2",
+          "path": "BACoreRuntime-UpdateStageInstance/triggers/When_Stage_Instance_is_Updated",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "If the output of the trigger is not equal to true, then the workflow will continue."
+      "statement": "The condition checks if the message is 3 and the filter is cat_instancestatus, deciding the approval routing for the Stage Instance update. It applies to business approval runtime stage instance updates."
     },
     {
       "class": "unproven",
@@ -15354,11 +15355,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreSendReminder/triggers/When_a_row_is_added,_modified_or_deleted",
+          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_if_Go_To_Stage_rule_exists",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the message is 3 and if the _cat_nextremindernode_value is not null. If both conditions are met, it triggers the flow."
+      "statement": "The condition checks if the value of _cat_gotostage_value from the trigger outputs is not null. If it is null, the rule does not exist and the action fails."
     },
     {
       "class": "unproven",
@@ -15368,11 +15369,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreSendReminder/actions/Condition",
+          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks if the length of the 'body/value' array from the output of 'Get_All_Running_Approval_Instances_for_the_Node' is greater than 0. If true, the condition is met."
+      "statement": "The condition checks if the value of the 'cat_instancestatus' field in the trigger outputs is 'Completed_(809060002)' or 'Cancelled_(809060004)', and if so, sets the output to the corresponding numeric value (809060002 or 809060004)."
     },
     {
       "class": "unproven",
@@ -15382,11 +15383,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreSendReminder/actions/Condition/actions/Each_Approver/actions/Switch",
+          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Completed_(809060002)/actions/If_No_more_stages",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The condition checks the value of the 'body/cat_reminderchannel' field from the 'Get_Existing_Node_Reminder_Instance_record' output. If it is 'Email', the switch will use the value 809060000; if it is 'Teams', the value 809060001; and if it is 'Email_+_Teams', the value 809060002."
+      "statement": "The condition checks if the length of the 'body/value' from the 'Get_Next_Stage' output is zero, which means there are no more stages. If true, the instance status is marked as 'Completed'."
     },
     {
       "class": "unproven",
@@ -15396,11 +15397,11 @@
       "locations": [
         {
           "evidence": "unproven",
-          "path": "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists/actions/If_Node_Due_Date_Data_Type_Equals_Request_Data",
+          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Completed_(809060002)/actions/If_No_more_stages/else/actions/If_End_Workflow_is_not_True",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "The rule checks if the value of 'body/cat_nodeduedatedatatype' is equal to 809060000. If true, the workflow proceeds; otherwise, it stops."
+      "statement": "If the output of the trigger 'body/cat_endworkflow' is not equal to true, then the condition is considered as a business rule that decides whether the workflow should proceed or not."
     },
     {
       "class": "unproven",
@@ -15410,16 +15411,128 @@
       "locations": [
         {
           "evidence": "unproven",
+          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the length of the 'body/value' from the 'Get_Next_Stage_2' output is zero, which means there are no more stages in the workflow. If true, the instance status is set to 'Cancelled'."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-151",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2/else/actions/If_Source_Data_Type_is_Previous_Node_Outcome",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the source data type is 'Previous Node Outcome' and if it matches '809060001'. If true, the workflow proceeds; otherwise, it does not."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-152",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreRuntime-UpdateStageInstance/actions/Check_Instance_Status/cases/Cancelled_(809060004)/actions/If_No_more_stages_2/else/actions/If_Source_Data_Type_is_Previous_Node_Outcome/actions/If_End_Workflow_is_not_True_2",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "If the output of the trigger is not 'body/cat_endworkflow', then the condition is met. This could be used to decide if the workflow should continue or end based on the source data type."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-153",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreSendReminder/triggers/When_a_row_is_added,_modified_or_deleted",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the message is 3 and the filter for _cat_nextremindernode_value is not null. This condition decides whether a reminder node is triggered based on the message and the value of _cat_nextremindernode_value."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-154",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreSendReminder/actions/Condition",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if there are any running approval instances. If there are at least one, the condition evaluates to true; otherwise, it evaluates to false."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-155",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreSendReminder/actions/Condition/actions/Each_Approver/actions/Switch",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks the value of the 'cat_reminderchannel' field in the record fetched by 'Get_Existing_Node_Reminder_Instance_record'. If it is 'Email', the switch selects case 809060000; if it is 'Teams', case 809060001; and if it is 'Email_+_Teams', case 809060002. This determines the channel for sending a reminder."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-156",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Next_Runtime_Reminder_Node' is greater than 0, which determines if a reminder node exists. If the length is greater than 0, the reminder node exists and the workflow continues."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-157",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists/actions/If_Node_Due_Date_Data_Type_Equals_Request_Data",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The condition checks if the value of 'cat_nodeduedatedatatype' in the trigger outputs is equal to 809060000. If true, it proceeds with the workflow."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-158",
+      "locations": [
+        {
+          "evidence": "unproven",
           "path": "BACoreUpdateActivePublishedWorkflow/triggers/Update_Published_Workflow_when_a_version_is_activated",
           "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
         }
       ],
-      "statement": "This rule checks if the business approval version category has a message of 3 and the state code is 0. If true, it updates the workflow when a version is activated."
+      "statement": "The condition checks if the business approval version category has a message of 3 and the statecode is 0. If true, it triggers the workflow."
     }
   ],
   "rules": {
-    "total": 150,
-    "unproven": 150
+    "total": 158,
+    "unproven": 158
   },
   "unproven_reasons": {
     "oracle cannot evaluate in a canvas-free host: Incompatible types for comparison. These types can't be compared: Text, Decimal.)": 1,

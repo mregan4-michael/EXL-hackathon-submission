@@ -2336,7 +2336,7 @@ public static class Rules
         (decimal?)32m;
 
     /// <summary>cbxOutOfOffice.Label on scrSettingsNew</summary>
-    /// Rule: BR-023; source: legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6061
+    /// Rule: BR-022; source: legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6061
     /// Power Fx: //If(Self.Checked,"Enabled","Disabled") If(Self.Checked,SettingsLoc.cbxOutOfOfficeEnabledLbl,SettingsLoc.cbxOutOfOfficeDisabledLbl)
     public static string? scrSettingsNew_cbxOutOfOffice_Label(bool? Self_Checked, string? SettingsLoc_cbxOutOfOfficeDisabledLbl, string? SettingsLoc_cbxOutOfOfficeEnabledLbl) =>
         (Fx.B(Self_Checked) ? (string?)(SettingsLoc_cbxOutOfOfficeEnabledLbl) : (string?)(SettingsLoc_cbxOutOfOfficeDisabledLbl));
@@ -3320,7 +3320,7 @@ public static class Rules
         VerticalAlign_Middle;
 
     /// <summary>lblBackupDelegateError_1.Visible on scrSettingsNew</summary>
-    /// Rule: BR-021; source: legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:4960
+    /// Rule: none; source: legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:4960
     /// Power Fx: Len(Self.Text) &gt; 0
     public static bool? scrSettingsNew_lblBackupDelegateError_1_Visible(string? Self_Text) =>
         Fx.Gt(Fx.Len(Self_Text), (decimal?)0m);
@@ -3518,7 +3518,7 @@ public static class Rules
         VerticalAlign_Middle;
 
     /// <summary>lblDelegateError_1.Visible on scrSettingsNew</summary>
-    /// Rule: none; source: legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3946
+    /// Rule: BR-018; source: legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3946
     /// Power Fx: If(Len(Self.Text) &gt; 0,true,false)
     public static bool? scrSettingsNew_lblDelegateError_1_Visible(string? Self_Text) =>
         (Fx.B(Fx.Gt(Fx.Len(Self_Text), (decimal?)0m)) ? (bool?)((bool?)true) : (bool?)((bool?)false));
@@ -8546,7 +8546,7 @@ public static class Rules
         VerticalAlign_Middle;
 
     /// <summary>lblBackupDelegateError.Visible on scrSettings</summary>
-    /// Rule: BR-011; source: legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:6250
+    /// Rule: none; source: legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:6250
     /// Power Fx: Len(Self.Text) &gt; 0
     public static bool? scrSettings_lblBackupDelegateError_Visible(string? Self_Text) =>
         Fx.Gt(Fx.Len(Self_Text), (decimal?)0m);

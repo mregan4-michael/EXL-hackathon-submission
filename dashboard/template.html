@@ -52,7 +52,7 @@ for(const a of D.apps){
     card("m","MEASURED","failed parity",e.failed,a.sources.evidence),
     card("m","MEASURED","human review queue","<a href='../HUMAN_REVIEW.md'>"+a.review_queue+"</a>","HUMAN_REVIEW.md"),
     card("m","MEASURED","frozen parity cases (oracle drift "+a.oracle_drift+")",a.frozen_cases,a.sources.evidence),
-    card("m","MEASURED","compiled formulas pass / fail / unproven",a.formulas.pass+" / "+(a.formulas.fail||0)+" / "+a.formulas.unproven,a.sources.evidence),
+    card("m","MEASURED","compiled formulas pass / fail / unproven",a.formulas.pass+" / "+a.formulas.fail+" / "+a.formulas.unproven,a.sources.evidence),
     card("m","MEASURED","mutants killed",a.mutation.killed+" / "+a.mutation.total,a.sources.evidence),
     card("m","MEASURED","LLM calls / tokens (local Qwen2.5-3B, $0)",a.llm_calls+" / "+a.llm_tokens.toLocaleString(),a.sources.llm),
     card("m","MEASURED","LLM compute seconds (sum over calls, CPU)",a.llm_seconds,a.sources.llm),
@@ -75,14 +75,14 @@ const A={};const ag=document.getElementById("assume");
 for(const a of D.assumptions){A[a.key]=a.value;
   ag.insertAdjacentHTML("beforeend",`<div class="card a"><span class="tag">ASSUMPTION</span><label>${a.label}<br><input type=number step=any id="as_${a.key}" value="${a.value}"></label><small>${a.why}</small></div>`);}
 const mean=f=>D.apps.reduce((s,a)=>s+f(a),0)/D.apps.length;
-const M={rules:mean(a=>a.rules),review:mean(a=>a.review_queue/a.rules),unproven:mean(a=>a.evidence.unproven/a.rules),untargeted:mean(a=>1-a.auto_migrated/a.rules)};
+const M={rules:mean(a=>a.rules),review:mean(a=>a.review_queue/a.rules),unproven:mean(a=>a.migrated_unproven/a.rules),untargeted:mean(a=>1-a.auto_migrated/a.rules)};
 function recompute(){
   for(const k in A)A[k]=parseFloat(document.getElementById("as_"+k).value)||0;
   const perApp=(M.rules*M.review*A.review_min+M.rules*M.unproven*A.unproven_min+M.rules*M.untargeted*A.manual_min)/60+A.fixed_days*A.hours_week/5;
   const total=perApp*A.apps,cap=A.engineers*A.hours_week*A.weeks,weeks=total/(A.engineers*A.hours_week);
   document.getElementById("proj").innerHTML=[
     card("m","MEASURED (mean of 2 apps)","rules per app",M.rules.toFixed(0),"artefacts/*/rule-catalogue.json"),
-    card("m","MEASURED (mean of 2 apps)","review / unproven / untargeted rate",(100*M.review).toFixed(0)+"% / "+(100*M.unproven).toFixed(0)+"% / "+(100*M.untargeted).toFixed(0)+"%","HUMAN_REVIEW.md, parity reports, traceability matrices"),
+    card("m","MEASURED (mean of 2 apps)","review / migrated-but-unproven / not migrated rate",(100*M.review).toFixed(0)+"% / "+(100*M.unproven).toFixed(0)+"% / "+(100*M.untargeted).toFixed(0)+"%","HUMAN_REVIEW.md, parity reports, traceability matrices"),
     card("p","PROJECTION","human hours per app",perApp.toFixed(0)),
     card("p","PROJECTION","estate human hours",total.toFixed(0)),
     card("p","PROJECTION","weeks needed with this team",weeks.toFixed(1)+(weeks<=A.weeks?" (fits)":" (does NOT fit)")),

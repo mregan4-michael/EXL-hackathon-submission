@@ -36,7 +36,7 @@ end-to-end journey check; **unproven** = no executed or scenario evidence (reaso
 | BR-009 | executed | executed_oracle | 1/1 |  |
 | BR-010 | executed | executed_oracle | 1/1 |  |
 | BR-011 | executed | executed_oracle | 1/1 |  |
-| BR-012 | executed | executed_oracle | 1/1 |  |
+| BR-012 | unproven | unproven | 0/1 | data query: served by the list endpoint; filter/sort is a scenario-tested gap |
 | BR-013 | executed | executed_oracle | 1/1 |  |
 | BR-014 | executed | executed_oracle | 1/1 |  |
 | BR-015 | executed | executed_oracle | 1/1 |  |
@@ -51,17 +51,17 @@ end-to-end journey check; **unproven** = no executed or scenario evidence (reaso
 | BR-024 | executed | executed_oracle | 1/1 |  |
 | BR-025 | executed | executed_oracle | 1/1 |  |
 | BR-026 | executed | executed_oracle | 1/1 |  |
-| BR-027 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
+| BR-027 | executed | executed_oracle | 1/1 |  |
 | BR-028 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-029 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-030 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-031 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
 | BR-032 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
-| BR-033 | scenario | scenario | 1/1 |  |
-| BR-034 | unproven | scenario | 0/1 | security role: generated RBAC table; no journey check exercises this role |
+| BR-033 | unproven | scenario | 0/1 | Dataverse column constraint: emitted as container field metadata, no executable check |
+| BR-034 | scenario | scenario | 1/1 |  |
 | BR-035 | unproven | scenario | 0/1 | security role: generated RBAC table; no journey check exercises this role |
 | BR-036 | unproven | scenario | 0/1 | security role: generated RBAC table; no journey check exercises this role |
-| BR-037 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
+| BR-037 | unproven | scenario | 0/1 | security role: generated RBAC table; no journey check exercises this role |
 | BR-038 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
 | BR-039 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |
 | BR-040 | unproven | scenario | 0/1 | Power Automate flow: not generated (Durable Functions hosting decision only) |

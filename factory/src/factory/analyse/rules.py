@@ -34,7 +34,7 @@ POLICIES = {
         Policy("candidates.v3", fairness_words=True, consistency_check=True),
     )
 }
-POLICY_VERSION = "candidates.v1"
+POLICY_VERSION = "candidates.v2"  # promoted by it1-fairness-words (ADR-014)
 
 PURE_FX = {
     "If", "Switch", "Value", "Round", "RoundUp", "RoundDown", "Max", "Min", "Abs", "DateDiff",

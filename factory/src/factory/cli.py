@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+import shutil
 import sys
 
 from factory import __version__
@@ -35,7 +36,7 @@ def _cmd_analyse(args: argparse.Namespace) -> int:
     from factory.analyse.parse import parse_app, write_model
     from factory.common.fxhost import FxHost
     from factory.common.llm import LLMClient
-    from factory.common.paths import OUT
+    from factory.common.paths import OUT, REPO_ROOT
 
     for app in args.app:
         model_path = OUT / app / "legacy-model.json"
@@ -52,6 +53,10 @@ def _cmd_analyse(args: argparse.Namespace) -> int:
             policy_version=args.policy or rules.POLICY_VERSION,
         )
         path = write(app, catalogue, report)
+        published = REPO_ROOT / "artefacts" / app
+        published.mkdir(parents=True, exist_ok=True)
+        for name in ("rule-catalogue.json", "analysis-report.json"):
+            shutil.copyfile(path.parent / name, published / name)
         review = sum(1 for r in catalogue["rules"] if r["flags"]["needs_human_review"])
         print(
             f"{app}: {report['candidates']} candidates -> {report['rules']} rules "
@@ -157,7 +162,7 @@ def build_parser() -> argparse.ArgumentParser:
     a = sub.add_parser("analyse", help="build rule-catalogue.json from parsed models")
     a.add_argument("app", nargs="+")
     a.add_argument("--replay", action="store_true", help="cache only; fail on any cache miss")
-    a.add_argument("--prompt", default="interpret.v1")
+    a.add_argument("--prompt", default="interpret.v2")
     a.add_argument("--workers", type=int, default=4)
     a.add_argument("--policy", default=None, help="candidate policy version (default: current)")
     a.set_defaults(func=_cmd_analyse)

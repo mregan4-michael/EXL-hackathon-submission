@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Migration Factory: evidence dashboard</title>
+<style>
+body{font:14px system-ui,sans-serif;margin:24px;color:#1b1b1b;max-width:1200px}
+h1{margin:0 0 4px}h2{margin-top:28px}
+.legend span{display:inline-block;padding:2px 8px;margin-right:8px;border-radius:3px;font-size:12px}
+.m{background:#e6f4ea;border:2px solid #1e7d32}.a{background:#fff4e0;border:2px dashed #e67700}
+.p{background:#f1e6ff;border:2px dotted #6a1b9a}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.card{padding:10px;border-radius:4px}.card b{font-size:22px;display:block}
+.card small{color:#555;display:block;word-break:break-all}
+.tag{font-size:10px;font-weight:700;letter-spacing:.05em}
+table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:4px 8px;text-align:left}
+input{width:80px}
+</style>
+<h1>Agentic Power Platform Migration Factory: evidence</h1>
+<p>Every <b>measured</b> figure is read from a committed run artefact (source file shown). <b>Assumptions</b> are editable. <b>Projections</b> are computed from both and are not measurements.</p>
+<p class="legend"><span class="m">MEASURED (artefact)</span><span class="a">ASSUMPTION (editable)</span><span class="p">PROJECTION (computed)</span></p>
+<div id="apps"></div>
+<h2>Self-improvement: tuning vs held-out score</h2>
+<div id="chart"></div>
+<p><small>Source: experiments/runs/*.json, experiments/leaderboard.md. Held-out = claims-workbench (aggregate score only, never used for a decision).</small></p>
+<h2>Effort model: 30-app estate</h2>
+<p>Per-app rates below are the <b>measured</b> mean of the two migrated apps; the other inputs are <b>assumptions</b>. Change any input to recompute.</p>
+<div class="grid" id="assume"></div>
+<div class="grid" id="proj" style="margin-top:10px"></div>
+<h2>Client-trackable success metrics</h2>
+<table>
+<tr><th>Metric</th><th>Definition</th><th>This run</th></tr>
+<tr><td>Parity rate</td><td>rules with executed-oracle or scenario evidence / all rules</td><td id="k1"></td></tr>
+<tr><td>Human review hours per app</td><td>review queue × minutes per item (assumption)</td><td id="k2"></td></tr>
+<tr><td>Defect escape rate</td><td>production defects traced to a BR-xxx that had passing parity / rules migrated</td><td>not measurable before go-live</td></tr>
+<tr><td>Cycle time per app</td><td>factory run start → parity report committed</td><td id="k4"></td></tr>
+</table>
+<script>
+const D={
+ "apps": [
+  {
+   "app": "claims-workbench",
+   "rules": 45,
+   "candidates": 46,
+   "auto_migrated": 25,
+   "evidence": {
+    "executed": 25,
+    "scenario": 2,
+    "unproven": 18,
+    "failed": 0
+   },
+   "migrated_unproven": 0,
+   "review_queue": 18,
+   "llm_calls": 46,
+   "llm_tokens": 27332,
+   "llm_seconds": 471.5,
+   "frozen_cases": 1209,
+   "oracle_drift": 0,
+   "formulas": {
+    "pass": 45,
+    "fail": 0,
+    "unproven": 0
+   },
+   "mutation": {
+    "formulas": 29,
+    "killed": 88,
+    "score": 0.8381,
+    "total": 105
+   },
+   "score": 0.6648,
+   "sources": {
+    "rules": "artefacts/claims-workbench/rule-catalogue.json",
+    "evidence": "parity/reports/claims-workbench/parity-report.json",
+    "llm": "artefacts/claims-workbench/analysis-report.json",
+    "auto_migrated": "artefacts/claims-workbench/traceability-matrix.json"
+   }
+  },
+  {
+   "app": "approvals-kit",
+   "rules": 158,
+   "candidates": 170,
+   "auto_migrated": 4,
+   "evidence": {
+    "executed": 0,
+    "scenario": 0,
+    "unproven": 158,
+    "failed": 0
+   },
+   "migrated_unproven": 4,
+   "review_queue": 17,
+   "llm_calls": 170,
+   "llm_tokens": 106771,
+   "llm_seconds": 2115.1,
+   "frozen_cases": 6773,
+   "oracle_drift": 0,
+   "formulas": {
+    "pass": 1464,
+    "fail": 0,
+    "unproven": 284
+   },
+   "mutation": {
+    "formulas": 505,
+    "killed": 13,
+    "score": 1.0,
+    "total": 13
+   },
+   "score": 0.5144,
+   "sources": {
+    "rules": "artefacts/approvals-kit/rule-catalogue.json",
+    "evidence": "parity/reports/approvals-kit/parity-report.json",
+    "llm": "artefacts/approvals-kit/analysis-report.json",
+    "auto_migrated": "artefacts/approvals-kit/traceability-matrix.json"
+   }
+  }
+ ],
+ "leaderboard": [
+  {
+   "name": "it0-baseline",
+   "tuning": 0.4919,
+   "heldout": 0.6793,
+   "decision": "baseline"
+  },
+  {
+   "name": "it1-fairness-words",
+   "tuning": 0.5129,
+   "heldout": 0.6793,
+   "decision": "kept"
+  },
+  {
+   "name": "it2-consistency-check",
+   "tuning": 0.5059,
+   "heldout": 0.6627,
+   "decision": "reverted"
+  },
+  {
+   "name": "it3-interpret-workflow-rules",
+   "tuning": 0.5144,
+   "heldout": 0.6648,
+   "decision": "kept"
+  }
+ ],
+ "assumptions": [
+  {
+   "key": "apps",
+   "label": "Apps in estate",
+   "value": 30,
+   "why": "client brief"
+  },
+  {
+   "key": "weeks",
+   "label": "Window (weeks)",
+   "value": 12,
+   "why": "client brief: 2-3 months"
+  },
+  {
+   "key": "engineers",
+   "label": "Engineers on the programme",
+   "value": 6,
+   "why": "assumed"
+  },
+  {
+   "key": "hours_week",
+   "label": "Productive hours / engineer / week",
+   "value": 30,
+   "why": "assumed"
+  },
+  {
+   "key": "review_min",
+   "label": "Minutes per human-review item",
+   "value": 20,
+   "why": "assumed"
+  },
+  {
+   "key": "unproven_min",
+   "label": "Minutes to write a scenario check for a migrated but unproven rule",
+   "value": 45,
+   "why": "assumed"
+  },
+  {
+   "key": "manual_min",
+   "label": "Minutes to hand-migrate a rule the factory did not target",
+   "value": 90,
+   "why": "assumed"
+  },
+  {
+   "key": "fixed_days",
+   "label": "Fixed days per app (integration, data migration, UAT)",
+   "value": 8,
+   "why": "assumed"
+  }
+ ]
+};
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!==undefined)e.innerHTML=h;return e};
+const card=(cls,tag,label,val,src)=>`<div class="card ${cls}"><span class="tag">${tag}</span><b>${val}</b>${label}${src?`<small>${src}</small>`:""}</div>`;
+const pct=(a,b)=>b?(100*a/b).toFixed(1)+"%":"n/a";
+const apps=document.getElementById("apps");
+for(const a of D.apps){
+  const s=el("section");s.appendChild(el("h2","",a.app));
+  const g=el("div","grid");const e=a.evidence;
+  g.innerHTML=[
+    card("m","MEASURED","rules discovered (of "+a.candidates+" candidates)",a.rules,a.sources.rules),
+    card("m","MEASURED","auto-migrated (every source location has a generated target)",pct(a.auto_migrated,a.rules)+" ("+a.auto_migrated+")",a.sources.auto_migrated),
+    card("m","MEASURED","proven by executed Power Fx oracle",pct(e.executed,a.rules)+" ("+e.executed+")",a.sources.evidence),
+    card("m","MEASURED","proven by named scenario check",pct(e.scenario,a.rules)+" ("+e.scenario+")",a.sources.evidence),
+    card("m","MEASURED","UNPROVEN",pct(e.unproven,a.rules)+" ("+e.unproven+")",a.sources.evidence),
+    card("m","MEASURED","failed parity",e.failed,a.sources.evidence),
+    card("m","MEASURED","human review queue","<a href='../HUMAN_REVIEW.md'>"+a.review_queue+"</a>","HUMAN_REVIEW.md"),
+    card("m","MEASURED","frozen parity cases (oracle drift "+a.oracle_drift+")",a.frozen_cases,a.sources.evidence),
+    card("m","MEASURED","compiled formulas pass / fail / unproven",a.formulas.pass+" / "+a.formulas.fail+" / "+a.formulas.unproven,a.sources.evidence),
+    card("m","MEASURED","mutants killed",a.mutation.killed+" / "+a.mutation.total,a.sources.evidence),
+    card("m","MEASURED","LLM calls / tokens (local Qwen2.5-3B, $0)",a.llm_calls+" / "+a.llm_tokens.toLocaleString(),a.sources.llm),
+    card("m","MEASURED","LLM compute seconds (sum over calls, CPU)",a.llm_seconds,a.sources.llm),
+    card("m","MEASURED","objective score (docs/scoring.md)",a.score,"score.py"),
+  ].join("");
+  s.appendChild(g);apps.appendChild(s);
+}
+// chart
+const L=D.leaderboard,W=640,H=220,P=40;const ys=L.flatMap(r=>[r.tuning,r.heldout]);
+const lo=Math.min(...ys)-0.02,hi=Math.max(...ys)+0.02;
+const x=i=>P+i*(W-2*P)/Math.max(1,L.length-1),y=v=>H-P-(v-lo)/(hi-lo)*(H-2*P);
+const line=(k,c)=>`<polyline fill=none stroke=${c} stroke-width=2 points="${L.map((r,i)=>x(i)+","+y(r[k])).join(" ")}"/>`+L.map((r,i)=>`<circle cx=${x(i)} cy=${y(r[k])} r=4 fill=${r.decision==="reverted"?"#fff":c} stroke=${c} stroke-width=2><title>${r.name}: ${r[k]} (${r.decision})</title></circle>`).join("");
+document.getElementById("chart").innerHTML=`<svg width=${W} height=${H} role=img aria-label="tuning vs held-out">`+
+ L.map((r,i)=>`<text x=${x(i)} y=${H-12} font-size=10 text-anchor=middle>${r.name.split("-")[0]} ${r.decision}</text>`).join("")+
+ `<text x=4 y=${y(hi-0.02)} font-size=10>${(hi-0.02).toFixed(3)}</text><text x=4 y=${y(lo+0.02)} font-size=10>${(lo+0.02).toFixed(3)}</text>`+
+ line("tuning","#1565c0")+line("heldout","#2e7d32")+
+ `<text x=${W-150} y=16 fill=#1565c0 font-size=12>tuning (approvals-kit)</text><text x=${W-150} y=30 fill=#2e7d32 font-size=12>held-out (claims-workbench)</text></svg><br><small>Hollow points = reverted hypotheses.</small>`;
+// effort model
+const A={};const ag=document.getElementById("assume");
+for(const a of D.assumptions){A[a.key]=a.value;
+  ag.insertAdjacentHTML("beforeend",`<div class="card a"><span class="tag">ASSUMPTION</span><label>${a.label}<br><input type=number step=any id="as_${a.key}" value="${a.value}"></label><small>${a.why}</small></div>`);}
+const mean=f=>D.apps.reduce((s,a)=>s+f(a),0)/D.apps.length;
+const M={rules:mean(a=>a.rules),review:mean(a=>a.review_queue/a.rules),unproven:mean(a=>a.migrated_unproven/a.rules),untargeted:mean(a=>1-a.auto_migrated/a.rules)};
+function recompute(){
+  for(const k in A)A[k]=parseFloat(document.getElementById("as_"+k).value)||0;
+  const perApp=(M.rules*M.review*A.review_min+M.rules*M.unproven*A.unproven_min+M.rules*M.untargeted*A.manual_min)/60+A.fixed_days*A.hours_week/5;
+  const total=perApp*A.apps,cap=A.engineers*A.hours_week*A.weeks,weeks=total/(A.engineers*A.hours_week);
+  document.getElementById("proj").innerHTML=[
+    card("m","MEASURED (mean of 2 apps)","rules per app",M.rules.toFixed(0),"artefacts/*/rule-catalogue.json"),
+    card("m","MEASURED (mean of 2 apps)","review / migrated-but-unproven / not migrated rate",(100*M.review).toFixed(0)+"% / "+(100*M.unproven).toFixed(0)+"% / "+(100*M.untargeted).toFixed(0)+"%","HUMAN_REVIEW.md, parity reports, traceability matrices"),
+    card("p","PROJECTION","human hours per app",perApp.toFixed(0)),
+    card("p","PROJECTION","estate human hours",total.toFixed(0)),
+    card("p","PROJECTION","weeks needed with this team",weeks.toFixed(1)+(weeks<=A.weeks?" (fits)":" (does NOT fit)")),
+    card("p","PROJECTION","capacity in window (hours)",cap.toFixed(0)),
+  ].join("");
+  const a0=D.apps[0];
+  document.getElementById("k1").textContent=D.apps.map(a=>a.app+": "+pct(a.evidence.executed+a.evidence.scenario,a.rules)).join("; ");
+  document.getElementById("k2").textContent=D.apps.map(a=>a.app+": "+(a.review_queue*A.review_min/60).toFixed(1)+" h (projection)").join("; ");
+  document.getElementById("k4").textContent=D.apps.map(a=>a.app+": "+a.llm_seconds+" s LLM compute (measured), plus parse/generate/parity").join("; ");
+}
+document.querySelectorAll("input").forEach(i=>i.addEventListener("input",recompute));recompute();
+</script>
+</html>

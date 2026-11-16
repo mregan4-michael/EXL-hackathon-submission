@@ -494,8 +494,7 @@ export const app: AppDefinition = {
           "type": "label",
           "widget": "label",
           "rules": {
-            "Text": "BR-010",
-            "Visible": "BR-011"
+            "Text": "BR-010"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:5990",
           "computed": [
@@ -654,7 +653,7 @@ export const app: AppDefinition = {
           "type": "checkbox",
           "widget": "checkbox",
           "rules": {
-            "Text": "BR-012"
+            "Text": "BR-011"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:7487",
           "computed": [
@@ -730,7 +729,7 @@ export const app: AppDefinition = {
           "type": "dropdown",
           "widget": "select",
           "rules": {
-            "Items": "BR-013"
+            "Items": "BR-012"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:8207",
           "computed": [
@@ -1126,7 +1125,7 @@ export const app: AppDefinition = {
           "type": "gallery",
           "widget": "label",
           "rules": {
-            "Items": "BR-014"
+            "Items": "BR-013"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:12287",
           "computed": [
@@ -1323,7 +1322,7 @@ export const app: AppDefinition = {
           "type": "cat_PowerCAT.CommandBar",
           "widget": "label",
           "rules": {
-            "OnSelect": "BR-016"
+            "OnSelect": "BR-015"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:914",
           "computed": [
@@ -1609,7 +1608,7 @@ export const app: AppDefinition = {
           "type": "cat_PowerCAT.PeoplePicker",
           "widget": "label",
           "rules": {
-            "OnChange": "BR-017"
+            "OnChange": "BR-016"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3399",
           "computed": [
@@ -1631,7 +1630,8 @@ export const app: AppDefinition = {
           "type": "label",
           "widget": "label",
           "rules": {
-            "Text": "BR-018"
+            "Text": "BR-017",
+            "Visible": "BR-018"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:3686",
           "computed": [
@@ -1739,8 +1739,7 @@ export const app: AppDefinition = {
           "type": "label",
           "widget": "label",
           "rules": {
-            "Text": "BR-020",
-            "Visible": "BR-021"
+            "Text": "BR-020"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:4700",
           "computed": [
@@ -1826,7 +1825,7 @@ export const app: AppDefinition = {
           "type": "Microsoft_CoreControls_ComboBox",
           "widget": "select",
           "rules": {
-            "DefaultSelectedItems": "BR-022"
+            "DefaultSelectedItems": "BR-021"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:5434",
           "computed": [
@@ -1904,7 +1903,7 @@ export const app: AppDefinition = {
           "type": "Microsoft_CoreControls_Checkbox",
           "widget": "checkbox",
           "rules": {
-            "Label": "BR-023"
+            "Label": "BR-022"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6027",
           "computed": [
@@ -1967,8 +1966,8 @@ export const app: AppDefinition = {
           "type": "Microsoft_CoreControls_ComboBox",
           "widget": "select",
           "rules": {
-            "DefaultSelectedItems": "BR-024",
-            "Items": "BR-025"
+            "DefaultSelectedItems": "BR-023",
+            "Items": "BR-024"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:6574",
           "computed": [
@@ -2416,7 +2415,7 @@ export const app: AppDefinition = {
           "type": "gallery",
           "widget": "label",
           "rules": {
-            "Items": "BR-026"
+            "Items": "BR-025"
           },
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:10806",
           "computed": [

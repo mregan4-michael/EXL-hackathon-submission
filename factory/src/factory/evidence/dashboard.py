@@ -19,7 +19,8 @@ ASSUMPTIONS: list[dict[str, Any]] = [
     {"key": "hours_week", "label": "Productive hours / engineer / week", "value": 30,
      "why": "assumed"},
     {"key": "review_min", "label": "Minutes per human-review item", "value": 20, "why": "assumed"},
-    {"key": "unproven_min", "label": "Minutes to write a scenario check for an unproven rule",
+    {"key": "unproven_min",
+     "label": "Minutes to write a scenario check for a migrated but unproven rule",
      "value": 45, "why": "assumed"},
     {"key": "manual_min", "label": "Minutes to hand-migrate a rule the factory did not target",
      "value": 90, "why": "assumed"},
@@ -40,13 +41,16 @@ def measured(app: str) -> dict[str, Any]:
         "candidates": a["analysis"]["candidates"],
         "auto_migrated": sum(r["auto_migrated"] for r in m["rules"]),
         "evidence": {k: ev.get(k, 0) for k in ("executed", "scenario", "unproven", "failed")},
+        "migrated_unproven": sum(
+            r["auto_migrated"] and r["evidence"] == "unproven" for r in m["rules"]
+        ),
         "review_queue": len(queue(app)),
         "llm_calls": llm["calls"],
         "llm_tokens": llm["tokens_incl_replay"],
         "llm_seconds": round(llm["ms_incl_replay"] / 1000, 1),
         "frozen_cases": a["parity"]["frozen_cases"],
         "oracle_drift": a["parity"]["oracle_drift"],
-        "formulas": a["parity"]["formulas"],
+        "formulas": {k: a["parity"]["formulas"].get(k, 0) for k in ("pass", "fail", "unproven")},
         "mutation": a["parity"]["mutation"],
         "score": score.score_committed(app)["score"],
         "sources": {
