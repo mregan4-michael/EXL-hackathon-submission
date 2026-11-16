@@ -1,7 +1,7 @@
 # STATE (resumability file — keep current)
 
-- Current phase: 6 done -> 7 (clean-clone verification, WAKE_UP.md)
-- Branch: devin/phase5-improve (stacked on devin/phase4-parity). PRs #1–#5 open, unmerged (Q4).
+- Current phase: 7 done. All phases complete; read WAKE_UP.md. PRs #1–#6 open, unmerged.
+- Branch: devin/phase5-improve (PR #6, stacked on devin/phase4-parity).
 - Defaults: prompt `interpret.v2`, candidate policy `candidates.v2` (ADR-014).
 - Regenerate everything: `make factory` (analyse --replay -> generate -> parity -> evidence). Experiments: `make improve`.
 - Broken: see KNOWN_FAILURES.md.
