@@ -24,6 +24,7 @@ PURE_FX = {
     "Lower", "Upper", "Trim", "Mod", "Sum", "Coalesce", "Left", "Right", "Mid", "Concatenate",
 }  # fmt: skip
 SIDE_EFFECT_FX = {"Patch", "Set", "Navigate", "Notify", "Collect", "ClearCollect", "Remove", "Back"}
+NUMBER = re.compile(r"(?<![\w.+-])-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?(?![\w.])")
 ASSIGN_FX = {"Set", "Collect", "ClearCollect"}
 INJECTION = re.compile(
     r"ignore (all )?(previous|prior|above) instructions|\bAI (reviewer|assistant|model)\b|"
