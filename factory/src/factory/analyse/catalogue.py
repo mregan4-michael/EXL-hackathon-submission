@@ -51,8 +51,12 @@ def build_messages(system: str, f: rules.Facts) -> list[dict[str, str]]:
         "language": s["language"],
         "inputs": f.inputs[:20],
         "outputs": f.outputs,
-        "description": s.get("description", ""),
     }
+    desc = s.get("description", "")[:MAX_SOURCE_CHARS].replace(
+        "</legacy_source", "<\\/legacy_source"
+    )
+    if desc:
+        src = f"// description: {desc}\n{src}"
     user = (
         f"Deterministic facts (trusted):\n{json.dumps(facts, indent=1)}\n\n"
         f'<legacy_source id="{f.candidate_id}">\n{src}\n</legacy_source id="{f.candidate_id}">\n\n'

@@ -236,7 +236,7 @@ def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
         pii=pii,
         fairness=bool(FAIRNESS.search(text)),
         dead_code=dead,
-        injection_suspected=bool(INJECTION.search(formula)),
+        injection_suspected=bool(INJECTION.search(formula + "\n" + site.get("description", ""))),
         oracle=oracle,
         atoms=atoms,
     )
