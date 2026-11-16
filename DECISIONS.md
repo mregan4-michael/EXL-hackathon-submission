@@ -71,3 +71,8 @@ Each ADR: context, options considered, choice, consequence. Written for a reader
 - **Keep rule.** Kept iff tuning score > parent's tuning score, else reverted. Computed, not chosen. The held-out score never influences a decision.
 - **Critic.** `factory experiment critique <run>` sends the aggregate tuning failure summary to the local model with `prompts/improve/critic.v1.md` and records its one-change proposal. The 3B model's proposals are generic, so hypotheses were written by me from the same aggregate summary; both are recorded (`experiments/runs/*.critique.json`).
 - **Reproducibility.** Every run's LLM calls are in the content-addressed cache. `make improve` replays every run, fails if any score moves, and regenerates `experiments/leaderboard.md`.
+
+## ADR-014 Promote the kept configuration despite a held-out decline
+Context: it1 (`candidates.v2`) and it3 (`interpret.v2`) were kept on the tuning score (0.4919 → 0.5129 → 0.5144). it3 raised tuning recall from 115/124 to 117/124, but the held-out aggregate fell from 0.6793 to 0.6648.
+Decision: follow the pre-registered protocol. Keep/revert is decided on the tuning score, so `interpret.v2` + `candidates.v2` become the defaults and every committed artefact is regenerated from them. The held-out decline is printed in the leaderboard row and in `WAKE_UP.md`, not hidden. I did not open held-out per-rule results to explain it, because that would turn the held-out app into a tuning set.
+Consequence: the it3 tuning gain (+0.0015) is small and did not generalise. A future protocol should require a held-out non-regression gate before promotion (recorded in IDEAS.md).

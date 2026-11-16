@@ -11,9 +11,9 @@
      "source": "legacy/claims-workbench/CanvasApps/src/App.pa.yaml:3",
      "path": "App.OnStart",
      "target": {
-      "kind": "no generated target",
-      "code": "",
-      "symbol": ""
+      "kind": "session globals",
+      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
+      "symbol": "App.Globals"
      },
      "parity_cases": 0,
      "formula_status": null
@@ -26,7 +26,7 @@
    ],
    "needs_human_review": false,
    "review_reasons": [],
-   "auto_migrated": false
+   "auto_migrated": true
   },
   {
    "id": "BR-002",
@@ -838,9 +838,9 @@
      "source": "legacy/claims-workbench/Roles/Auditor.xml:2",
      "path": "Auditor",
      "target": {
-      "kind": "no generated target",
-      "code": "",
-      "symbol": ""
+      "kind": "RBAC privilege table",
+      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
+      "symbol": "App.Roles[Auditor]"
      },
      "parity_cases": 0,
      "formula_status": null
@@ -854,7 +854,7 @@
    ],
    "needs_human_review": false,
    "review_reasons": [],
-   "auto_migrated": false
+   "auto_migrated": true
   },
   {
    "id": "BR-035",
@@ -866,9 +866,9 @@
      "source": "legacy/claims-workbench/Roles/ClaimsHandler.xml:2",
      "path": "ClaimsHandler",
      "target": {
-      "kind": "no generated target",
-      "code": "",
-      "symbol": ""
+      "kind": "RBAC privilege table",
+      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
+      "symbol": "App.Roles[ClaimsHandler]"
      },
      "parity_cases": 0,
      "formula_status": null
@@ -878,7 +878,7 @@
    "scenario_checks": [],
    "needs_human_review": false,
    "review_reasons": [],
-   "auto_migrated": false
+   "auto_migrated": true
   },
   {
    "id": "BR-036",
@@ -890,9 +890,9 @@
      "source": "legacy/claims-workbench/Roles/ClaimsManager.xml:2",
      "path": "ClaimsManager",
      "target": {
-      "kind": "no generated target",
-      "code": "",
-      "symbol": ""
+      "kind": "RBAC privilege table",
+      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
+      "symbol": "App.Roles[ClaimsManager]"
      },
      "parity_cases": 0,
      "formula_status": null
@@ -902,7 +902,7 @@
    "scenario_checks": [],
    "needs_human_review": false,
    "review_reasons": [],
-   "auto_migrated": false
+   "auto_migrated": true
   },
   {
    "id": "BR-037",
@@ -914,9 +914,9 @@
      "source": "legacy/claims-workbench/Roles/TeamLeader.xml:2",
      "path": "TeamLeader",
      "target": {
-      "kind": "no generated target",
-      "code": "",
-      "symbol": ""
+      "kind": "RBAC privilege table",
+      "code": "generated/claims-workbench/src/Domain/Generated/App.g.cs",
+      "symbol": "App.Roles[TeamLeader]"
      },
      "parity_cases": 0,
      "formula_status": null
@@ -926,7 +926,7 @@
    "scenario_checks": [],
    "needs_human_review": false,
    "review_reasons": [],
-   "auto_migrated": false
+   "auto_migrated": true
   },
   {
    "id": "BR-038",

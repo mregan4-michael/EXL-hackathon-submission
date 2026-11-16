@@ -43,6 +43,11 @@ def _targets(design: dict[str, Any]) -> dict[str, dict[str, str]]:
             "code": f"generated/{design['app_id']}/src/Api/Program.cs",
             "symbol": f"{a['screen']}/{a['control']}",
         }
+    app_cs = f"generated/{design['app_id']}/src/Domain/Generated/App.g.cs"
+    for role in design["rbac"]:
+        out[role] = {"kind": "RBAC privilege table", "code": app_cs, "symbol": f"App.Roles[{role}]"}
+    if design["session_globals"]:
+        out["App.OnStart"] = {"kind": "session globals", "code": app_cs, "symbol": "App.Globals"}
     for n in g["not_compiled"]:
         out.setdefault(n["path"], {"kind": "not compiled", "code": "", "symbol": n["disposition"]})
     for fl in design["flows"]:

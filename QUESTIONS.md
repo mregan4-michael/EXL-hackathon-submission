@@ -15,3 +15,6 @@ Parsing the roles shows no `prvCreateclm_Claim` grant, so intake (`IntakeScreen/
 ## Q6 How do Azure users sign in to the generated UI?
 Outside `Identity:Mode=demo` the API ignores `X-Demo-User` and trusts only the Entra principal that Container Apps built-in auth injects (`X-MS-CLIENT-PRINCIPAL`); Entra app roles must be named after the legacy security roles and the token must carry a `businessUnit` claim (absent = no BusinessUnit-scoped rows, fail closed).
 **Picked:** secure the API now; the generated React UI still only has the offline demo-user picker. Browser sign-in for Azure (MSAL.js token acquisition, or a Static Web Apps linked backend) is **not implemented** and must be added before any Azure deployment.
+
+## Q7 Promote it3 when its held-out score fell?
+**Picked:** yes, because the pre-registered rule decides on tuning only (ADR-014). The decline is shown in the leaderboard and WAKE_UP.md. If you prefer a held-out non-regression gate, revert the defaults to `interpret.v1` (`factory/src/factory/cli.py`) and run `make factory`.
