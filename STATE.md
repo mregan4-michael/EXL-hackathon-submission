@@ -1,17 +1,14 @@
 # STATE (resumability file — keep current)
 
-- Current phase: 3 done (PR pending) -> 4 (parity)
-- Done: tool discovery; Approvals Kit chosen (see DECISIONS ADR-001); schema contract written.
-- Next: Phase 4 parity harness (Power Fx oracle vs generated C#).
-- Phase 3: `uv run factory generate <app>` -> generated/<app>/ (committed; CI fails on drift). `make demo` runs the compose journey. Branch devin/phase3-generate stacked on devin/phase2-catalogue.
-- Run parser: `DOTNET_ROOT=$HOME/.dotnet uv run factory parse approvals-kit claims-workbench` (output under factory/out/, gitignored, regenerated).
-- Broken: nothing yet.
+- Current phase: 6 done -> 7 (clean-clone verification, WAKE_UP.md)
+- Branch: devin/phase5-improve (stacked on devin/phase4-parity). PRs #1–#5 open, unmerged (Q4).
+- Defaults: prompt `interpret.v2`, candidate policy `candidates.v2` (ADR-014).
+- Regenerate everything: `make factory` (analyse --replay -> generate -> parity -> evidence). Experiments: `make improve`.
+- Broken: see KNOWN_FAILURES.md.
 
 ## Environment facts a fresh session needs
-- .NET 8 SDK: `~/.dotnet/dotnet` (installed via dotnet-install.sh, channel 8.0).
-- Local LLM: llama.cpp b12428 `~/tools/llama/llama-b12428/llama-server -m ~/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf -c 8192 --port 8089 -t 8`
-  (measured on this VM: ~17.6 tok/s generation, ~97 tok/s prompt). `make llm` starts it.
-- Approvals Kit source: `git clone https://github.com/microsoft/powercat-business-approvals-kit` @ 786b456f0643ef2b6d3109f5dc2f71de05a07dc6 (MIT). Vendored subset under `legacy/approvals-kit/`.
-- Power Fx: NuGet Microsoft.PowerFx.Interpreter 1.8.1 (verified parse + eval of If/Switch/With/Filter/DateAdd/DateDiff/Round).
-- Phase 2 branch: devin/phase2-catalogue (stacked on PR #2). Ground truth frozen: experiments/ground-truth/approvals-kit.json (124 locations), GROUNDTRUTH.lock.
-- Phase 2: `DOTNET_ROOT=$HOME/.dotnet uv run factory analyse approvals-kit claims-workbench [--replay]`. LLM cache in factory/cache/llm (committed; replay needs no model). Catalogues copied to artefacts/<app>/.
+- .NET 8 SDK: `~/.dotnet/dotnet`; export `PATH=$HOME/.dotnet:$PATH DOTNET_ROOT=$HOME/.dotnet`.
+- Local LLM: `make llm` (llama.cpp b12428, Qwen2.5-3B Q4_K_M, port 8089; ~3 s per rule call on this VM).
+- Approvals Kit source: microsoft/powercat-business-approvals-kit @ 786b456f0643ef2b6d3109f5dc2f71de05a07dc6 (MIT), vendored subset in `legacy/approvals-kit/`.
+- LLM cache `factory/cache/llm/` is committed; replay needs no model.
+- Architecture SVG: `npx -y @mermaid-js/mermaid-cli@11.4.2 -p <puppeteer.json with chrome path> -i arch.mmd -o docs/architecture.svg`.
