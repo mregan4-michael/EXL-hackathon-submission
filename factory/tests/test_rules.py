@@ -195,3 +195,21 @@ def test_assigned_variable_is_still_read_when_read() -> None:
     ast = {"k": "Call", "fn": "Set", "args": [x, plus_one]}
     assert rules._reads(ast) == {"x"}
     assert rules._reads({"k": "Call", "fn": "Set", "args": [x, {"k": "NumLit", "v": 1}]}) == set()
+
+
+def test_every_writer_of_a_variable_links_to_its_readers() -> None:
+    from types import SimpleNamespace
+    from typing import cast
+
+    def fact(path: str, inputs: list[str], outputs: list[str]) -> rules.Facts:
+        site = {"kind": "canvas_property", "path": path, "screen": path.split("/")[0]}
+        return cast(rules.Facts, SimpleNamespace(site=site, inputs=inputs, outputs=outputs))
+
+    kept = [
+        ({"id": "W1"}, fact("A/scr.OnVisible", [], ["_myUPN"])),
+        ({"id": "W2"}, fact("B/scr.OnVisible", [], ["_myUPN"])),
+        ({"id": "R"}, fact("A/lbl.Text", ["_myUPN"], ["lbl.Text"])),
+    ]
+    g = catalogue._graph("app", kept)
+    reads = {(e["from"], e["to"]) for e in g["edges"] if e["kind"] == "reads"}
+    assert reads == {("W1", "R"), ("W2", "R")}
