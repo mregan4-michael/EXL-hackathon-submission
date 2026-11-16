@@ -233,7 +233,12 @@ def facts_for(site: dict[str, Any], dead_controls: set[str]) -> Facts:
         else:
             inputs = [site["path"]]
             outputs = [site["path"]]
-            numbers = [float(x) for x in re.findall(r"(?<![\w.])-?\d+(?:\.\d+)?(?![\w.])", formula)]
+            numbers = [
+                float(x)
+                for x in re.findall(
+                    r"(?<![\w.+-])-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?(?![\w.])", formula
+                )
+            ]
             reason = "Platform-enforced Dataverse metadata; proved by an API validation scenario."
         oracle = {"proof_type": "scenario", "reason": reason}
     text = " ".join(inputs + outputs + [site["path"]])
