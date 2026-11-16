@@ -87,3 +87,21 @@ def test_claims_workbench_parity_has_no_mismatch_or_drift() -> None:
     assert rep["formulas"].get("fail", 0) == 0
     assert rep["formulas"]["pass"] >= 25
     assert rep["mutation"]["killed"] > 0
+
+
+def test_testset_lock_rejects_edited_testset(tmp_path, monkeypatch):
+    from factory.parity import harness
+
+    ts = tmp_path / "testset"
+    ts.mkdir()
+    (ts / "x.jsonl").write_text('{"case": 0}\n')
+    monkeypatch.setattr(harness, "PARITY", tmp_path)
+    monkeypatch.setattr(harness, "LOCK", ts / "TESTSET.lock")
+    import hashlib
+
+    good = hashlib.sha256((ts / "x.jsonl").read_bytes()).hexdigest()
+    (ts / "TESTSET.lock").write_text(f"{good}  x.jsonl\n")
+    harness.verify_lock("x")
+    (ts / "x.jsonl").write_text('{"case": 1}\n')
+    with pytest.raises(SystemExit, match="does not match TESTSET.lock"):
+        harness.verify_lock("x")

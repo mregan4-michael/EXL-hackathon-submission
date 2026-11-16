@@ -11,6 +11,7 @@ run:    re-evaluate the frozen set with the oracle (drift check), evaluate it wi
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 import re
 import subprocess
@@ -32,6 +33,7 @@ PARITY = REPO_ROOT / "parity"
 # every report. DisplayMode is a canvas enum (string-valued). Canvas IsMatch defaults to
 # MatchOptions.Complete; Microsoft.PowerFx.Interpreter 1.8.1 defaults to Contains.
 CANVAS_ENUMS = {"DisplayMode": {"Edit": "Edit", "Disabled": "Disabled", "View": "View"}}
+LOCK = PARITY / "testset" / "TESTSET.lock"
 HOST_SHIMS = [
     "DisplayMode enum bound as a record of its string values",
     "two-argument IsMatch made explicit as IsMatch(text, pattern, MatchOptions.Complete)",
@@ -194,13 +196,32 @@ def freeze(app: str) -> Path:
     path = PARITY / "testset" / f"{app}.jsonl"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("".join(json.dumps(r, sort_keys=True) + "\n" for r in rows))
+    lock = _lock_entries()
+    lock[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+    LOCK.write_text("".join(f"{h}  {n}\n" for n, h in sorted(lock.items())))
     return path
+
+
+def _lock_entries() -> dict[str, str]:
+    if not LOCK.exists():
+        return {}
+    return {n: h for h, n in (x.split() for x in LOCK.read_text().splitlines() if x)}
+
+
+def verify_lock(app: str) -> None:
+    """The frozen test set is immutable outside `--freeze`; TESTSET.lock pins its bytes."""
+    path = PARITY / "testset" / f"{app}.jsonl"
+    want = _lock_entries().get(path.name)
+    got = hashlib.sha256(path.read_bytes()).hexdigest()
+    if want != got:
+        raise SystemExit(f"{path.name}: sha256 {got} does not match TESTSET.lock ({want})")
 
 
 def load_testset(app: str) -> list[dict[str, Any]]:
     path = PARITY / "testset" / f"{app}.jsonl"
     if not path.exists():
         return []
+    verify_lock(app)
     return [json.loads(x, parse_float=Decimal) for x in path.read_text().splitlines() if x]
 
 
@@ -548,3 +569,53 @@ def _write(app: str, rep: dict[str, Any], es: list[Entry]) -> None:
         lines += ["", "## Surviving mutants (test-set blind spots or equivalent mutants)", ""]
         lines += [f"- `{p}`: {', '.join(sv)}" for p, sv in surv]
     (d / "parity-report.md").write_text("\n".join(lines) + "\n")
+    (d / "parity-report.html").write_text(_html(rep))
+
+
+_CLS = {"executed": "#1b7f3b", "scenario": "#1f5fa8", "unproven": "#8a6d00", "failed": "#b3261e"}
+
+
+def _html(rep: dict[str, Any]) -> str:
+    e = html.escape
+    f, m, rl = rep["formulas"], rep["mutation"], rep["rules"]
+    summary = [
+        ("Frozen test cases", rep["frozen_cases"]),
+        ("Oracle drift vs frozen expectations", rep["oracle_drift"]),
+        ("Compiled formulas pass / fail / unproven",
+         f"{f.get('pass', 0)} / {f.get('fail', 0)} / {f.get('unproven', 0)} of {f['total']}"),
+        ("Formulas not compiled (routed, no code)", rep["not_compiled"]),
+        ("Mutation score", f"{m['killed']} / {m['total']} over {m['formulas']} formulas"),
+        *[(f"Rules {k}", rl.get(k, 0)) for k in _CLS],
+    ]  # fmt: skip
+    rows = "".join(f"<tr><th>{e(k)}</th><td>{e(str(v))}</td></tr>" for k, v in summary)
+    rules = "".join(
+        f"<tr><td>{e(r['id'])}</td><td style='color:{_CLS[r['class']]}'><b>{r['class']}</b></td>"
+        f"<td>{e(r['statement'])}</td><td>{r['covered']}/{len(r['locations'])}</td><td>"
+        + e("; ".join(sorted({x["reason"] for x in r["locations"] if "reason" in x})))
+        + "</td></tr>"
+        for r in rep["rule_evidence"]
+    )
+    forms = "".join(
+        f"<tr><td><code>{e(p)}</code></td><td>{s['status']}</td>"
+        f"<td>{e(gen.dumps(s.get('cases', {})))}</td>"
+        f"<td>{e(', '.join(s.get('mutation', {}).get('survived', [])) or s.get('reason', ''))}"
+        "</td></tr>"
+        for p, s in rep["formula_results"].items()
+    )
+    reasons = "".join(f"<li>{n} x {e(r)}</li>" for r, n in rep["unproven_reasons"].items())
+    return (
+        "<!doctype html><html lang=en><meta charset=utf-8>"
+        f"<title>Parity report: {e(rep['app'])}</title><style>"
+        "body{font:14px system-ui,sans-serif;margin:2rem;max-width:1200px}"
+        "table{border-collapse:collapse;margin:1rem 0}td,th{border:1px solid #ccc;"
+        "padding:4px 8px;text-align:left;vertical-align:top}code{font-size:12px}</style>"
+        f"<h1>Parity report: {e(rep['app'])}</h1><p>Oracle: {e(rep['oracle'])} evaluating the "
+        "<em>legacy</em> formula. Subject: generated C# <code>Formula.Eval</code> (the API code "
+        "path). Every number is measured by <code>factory parity</code>; nothing is estimated."
+        f"</p><table>{rows}</table><p>Host shims: {e('; '.join(rep['host_shims']))}.</p>"
+        f"<h2>Unproven formulas by reason</h2><ul>{reasons}</ul>"
+        "<h2>Rules</h2><table><tr><th>Rule</th><th>Evidence</th><th>Statement</th>"
+        f"<th>Covered</th><th>Gap</th></tr>{rules}</table>"
+        "<h2>Formulas</h2><table><tr><th>Path</th><th>Status</th><th>Cases</th>"
+        f"<th>Surviving mutants / reason</th></tr>{forms}</table></html>\n"
+    )
