@@ -9,6 +9,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app .
 ENV Seed__Path=/app/seed.json Store__Path=/data
+# Named volumes inherit this ownership, so the non-root user can write the file store.
+RUN mkdir -p /data && chown $APP_UID /data
 USER $APP_UID
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "Factory.Api.dll"]
