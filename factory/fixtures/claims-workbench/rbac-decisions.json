@@ -1,0 +1,15 @@
+{
+  "_comment": "Migration decisions that change legacy privileges. Each needs business sign-off before go-live. The generator applies them on top of the parsed Dataverse roles and records each in design.json (rbac_decisions) so the change is visible, not silent.",
+  "decisions": [
+    {
+      "id": "RBAC-001",
+      "role": "ClaimsHandler",
+      "table": "clm_Claim",
+      "privilege": "Create",
+      "depth": "User",
+      "finding": "No legacy role grants prvCreateclm_Claim, so IntakeScreen/btnSubmit can only succeed for System Administrators in the source environment. The intake screen is clearly designed for handlers.",
+      "decision": "Grant ClaimsHandler Create on clm_Claim at User depth (own records), matching the existing handler Read/Write depth.",
+      "status": "proposed: awaiting business sign-off (QUESTIONS.md Q5)"
+    }
+  ]
+}

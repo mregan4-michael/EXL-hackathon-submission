@@ -1,0 +1,24 @@
+{
+  "_comment": "Synthetic demo data only. No real customers, policies or people. Users map to the four legacy Dataverse security roles.",
+  "users": [
+    { "email": "hana.handler@example.test", "role": "ClaimsHandler", "businessUnit": "Motor" },
+    { "email": "tom.leader@example.test", "role": "TeamLeader", "businessUnit": "Motor" },
+    { "email": "maya.manager@example.test", "role": "ClaimsManager", "businessUnit": "Claims" },
+    { "email": "ari.auditor@example.test", "role": "Auditor", "businessUnit": "Audit" }
+  ],
+  "rows": {
+    "clm_HandlerAuthority": [
+      { "id": "auth-hana", "clm_HandlerAuthorityId": "auth-hana", "clm_Email": "hana.handler@example.test", "clm_Limit": 5000, "_owner": "maya.manager@example.test", "_businessUnit": "Claims" },
+      { "id": "auth-tom", "clm_HandlerAuthorityId": "auth-tom", "clm_Email": "tom.leader@example.test", "clm_Limit": 25000, "_owner": "maya.manager@example.test", "_businessUnit": "Claims" },
+      { "id": "auth-maya", "clm_HandlerAuthorityId": "auth-maya", "clm_Email": "maya.manager@example.test", "clm_Limit": 100000, "_owner": "maya.manager@example.test", "_businessUnit": "Claims" }
+    ],
+    "clm_Customer": [
+      { "id": "cust-001", "clm_CustomerId": "cust-001", "clm_FullName": "Synthetic Customer One", "clm_Email": "customer.one@example.test", "clm_DateOfBirth": "1958-04-02", "clm_VulnerabilityFlag": false, "_owner": "hana.handler@example.test", "_businessUnit": "Motor" },
+      { "id": "cust-002", "clm_CustomerId": "cust-002", "clm_FullName": "Synthetic Customer Two", "clm_Email": "customer.two@example.test", "clm_DateOfBirth": "1990-11-20", "clm_VulnerabilityFlag": false, "_owner": "hana.handler@example.test", "_businessUnit": "Motor" }
+    ],
+    "clm_Claim": [
+      { "id": "clm-1001", "clm_ClaimId": "clm-1001", "clm_PolicyNumber": "POL-100200", "clm_ClaimAmount": 3200, "clm_IncidentDate": "2026-10-01", "clm_NotifiedDate": "2026-10-03", "clm_ClaimType": "Motor", "clm_Status": "New", "clm_CustomerId": "cust-001", "clm_AssignedTo": "hana.handler@example.test", "_owner": "hana.handler@example.test", "_businessUnit": "Motor" },
+      { "id": "clm-1002", "clm_ClaimId": "clm-1002", "clm_PolicyNumber": "POL-100877", "clm_ClaimAmount": 18500, "clm_IncidentDate": "2026-09-14", "clm_NotifiedDate": "2026-10-20", "clm_ClaimType": "Theft", "clm_Status": "Referred", "clm_CustomerId": "cust-002", "clm_AssignedTo": "hana.handler@example.test", "_owner": "tom.leader@example.test", "_businessUnit": "Motor" }
+    ]
+  }
+}

@@ -75,6 +75,17 @@ class Flow:
 
 
 @dataclass
+class Control:
+    """One canvas control, including those with no formulas (pure inputs)."""
+
+    screen: str
+    name: str
+    type: str
+    file: str
+    line: int
+
+
+@dataclass
 class LegacyModel:
     app_id: str
     source: str
@@ -82,6 +93,7 @@ class LegacyModel:
     tables: list[Table] = field(default_factory=list)
     flows: list[Flow] = field(default_factory=list)
     screens: list[str] = field(default_factory=list)
+    controls: list[Control] = field(default_factory=list)
     data_sources: list[str] = field(default_factory=list)
 
     def to_json(self) -> dict[str, Any]:

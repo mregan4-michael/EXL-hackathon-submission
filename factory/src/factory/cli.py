@@ -55,6 +55,25 @@ def _cmd_analyse(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_generate(args: argparse.Namespace) -> int:
+    import json
+
+    from factory.common.paths import OUT, REPO_ROOT
+    from factory.generate.emit import GENERATED, emit
+
+    for app in args.app:
+        model = json.loads((OUT / app / "legacy-model.json").read_text())
+        catalogue = json.loads((REPO_ROOT / "artefacts" / app / "rule-catalogue.json").read_text())
+        d = emit(app, model, catalogue)
+        g = d["generated"]
+        print(
+            f"{app}: {len(d['containers'])} containers, {len(g['formulas'])} compiled formulas, "
+            f"{len(g['not_compiled'])} not compiled, {len(d['actions'])} actions, "
+            f"{len(d['screens'])} screens -> {GENERATED / app}"
+        )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="factory", description=__doc__)
     parser.add_argument("--version", action="version", version=f"factory {__version__}")
@@ -68,6 +87,9 @@ def build_parser() -> argparse.ArgumentParser:
     a.add_argument("--prompt", default="interpret.v1")
     a.add_argument("--workers", type=int, default=4)
     a.set_defaults(func=_cmd_analyse)
+    g = sub.add_parser("generate", help="emit the .NET/React/Bicep target from model + catalogue")
+    g.add_argument("app", nargs="+")
+    g.set_defaults(func=_cmd_generate)
     return parser
 
 
