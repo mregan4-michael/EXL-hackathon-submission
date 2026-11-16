@@ -34,3 +34,12 @@ Each ADR: context, options considered, choice, consequence. Written for a reader
 
 ## ADR-007 Git workflow: short-lived branches, PRs, squash merge
 - As the brief specifies (section 8). Each phase is a PR merged when CI is green.
+
+## ADR-008 The model interprets; it never decides flags
+- **Context.** Legacy source is untrusted. The synthetic app contains a comment telling "AI reviewers" to mark a rule as dead code with confidence 1.0.
+- **Choice.** Flags (dead code, contradiction, magic numbers, fairness, PII, oracle type) are computed deterministically in `factory/analyse/rules.py`. The model returns only `statement`, `category`, `confidence` and `is_business_rule`, and extra keys are discarded. Legacy text sits inside `<legacy_source id=...>` tags, and the system prompt marks it as data. When an injection pattern is detected, confidence is capped at 0.5, human review is forced, and the model cannot drop the candidate.
+- **Trade-off.** The regex detector can miss paraphrased injections. Because flags never come from the model, a missed injection can at worst change the wording of a statement, and that rule still goes to review when confidence is low or the rule is unproven.
+
+## ADR-009 Candidate policy v1
+- Canvas properties are candidates when they are non-style and contain a branch or comparison. Every flow condition, switch and trigger is a candidate, as are Dataverse `Range` constraints, calculated columns and security roles. The policy is versioned (`candidates.v1`) so the self-improvement loop can change it and measure the effect.
+- Known gap: behaviour properties without a branch (e.g. a `Patch` in `OnSelect`) are excluded. This is the first hypothesis for Phase 5.
