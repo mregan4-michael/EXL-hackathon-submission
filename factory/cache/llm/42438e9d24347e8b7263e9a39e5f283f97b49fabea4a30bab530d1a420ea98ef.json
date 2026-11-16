@@ -1,7 +1,0 @@
-{
- "completion_tokens": 76,
- "content": "{\"statement\": \"The business rule calculates the value of cat_sourcedatanamevalue based on cat_businessapprovalruntimedata, cat_businessapprovalruntimenode, and cat_name. If the calculated value exceeds a certain threshold, it triggers an action.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 433,
- "seconds": 10.114
-}

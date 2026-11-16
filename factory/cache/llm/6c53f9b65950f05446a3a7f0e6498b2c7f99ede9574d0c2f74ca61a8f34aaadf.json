@@ -1,7 +1,0 @@
-{
- "completion_tokens": 92,
- "content": "{\"statement\": \"If the selected backup delegate is not the same as the approval delegate and both delegates have been selected, then set the error message to 'Delegates cannot be the same person.' if the selected backup delegate is the same as the user's UPN, otherwise set the error message to 'You cannot be your own backup delegate.'\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 583,
- "seconds": 12.714
-}

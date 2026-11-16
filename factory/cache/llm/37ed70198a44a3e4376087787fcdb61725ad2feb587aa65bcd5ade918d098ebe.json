@@ -1,7 +1,0 @@
-{
- "completion_tokens": 76,
- "content": "{\"statement\": \"The rule checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, it proceeds to the next rule; otherwise, it returns 'If_Manager_found_2'.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 507,
- "seconds": 15.035
-}

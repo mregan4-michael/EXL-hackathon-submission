@@ -1,7 +1,0 @@
-{
- "completion_tokens": 82,
- "content": "{\"statement\": \"The business approval stage's sourcedatanamevalue is calculated based on cat_businessapprovaldata, cat_businessapprovalstage, cat_name, cat_sourcedata, and cat_sourcedatatype. If any of these values are missing or invalid, the sourcedatanamevalue will be null.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 425,
- "seconds": 9.632
-}

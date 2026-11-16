@@ -1,7 +1,0 @@
-{
- "completion_tokens": 114,
- "content": "{\n \"statement\": \"The script sets gblUserAuthorityLimit to the limit of the first record in clm_HandlerAuthorities where the email matches the current user's email. It also sets gblIsManager to true if the current user's email is in the colManagers.Email list. It then clears the collection colClaimTypes to include the types 'Motor', 'Home', 'Theft', 'Injury', and 'Travel'.\",\n \"category\": \"authorisation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 450,
- "seconds": 19.815
-}

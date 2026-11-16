@@ -1,7 +1,0 @@
-{
- "completion_tokens": 80,
- "content": "{\"statement\": \"The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000, inclusive. If the condition is met, the effect is that the cat_RowIndex is validated and can proceed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 407,
- "seconds": 9.927
-}

@@ -1,7 +1,0 @@
-{
- "completion_tokens": 81,
- "content": "{\"statement\": \"The business approver's delegate ID is calculated based on their own ID and the business approver's ID. If the business approver's ID is 0, the delegate ID is also 0. Otherwise, the delegate ID is the business approver's ID.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 398,
- "seconds": 8.573
-}

@@ -1,7 +1,0 @@
-{
- "completion_tokens": 59,
- "content": "{\"statement\": \"The rule checks if the node type is not equal to 809060002. If true, it proceeds to the next action.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 481,
- "seconds": 10.029
-}

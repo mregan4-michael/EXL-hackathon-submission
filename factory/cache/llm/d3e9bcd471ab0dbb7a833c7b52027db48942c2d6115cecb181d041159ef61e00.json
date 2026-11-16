@@ -1,7 +1,0 @@
-{
- "completion_tokens": 59,
- "content": "{\"statement\": \"If the output of the trigger is not equal to true, the condition is met. If this condition is met, the workflow will proceed to the next action.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 481,
- "seconds": 7.626
-}

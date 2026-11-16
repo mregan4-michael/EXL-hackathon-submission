@@ -1,7 +1,0 @@
-{
- "completion_tokens": 72,
- "content": "{\"statement\": \"The condition is that the value of cat_processnamevalue is calculated using cat_businessapprovalnode, cat_businessapprovalprocess, and cat_name. The effect is to set the value of cat_processnamevalue based on these inputs.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 405,
- "seconds": 9.004
-}

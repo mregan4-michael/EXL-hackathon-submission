@@ -1,7 +1,0 @@
-{
- "completion_tokens": 57,
- "content": "{\"statement\": \"If the value of 'body/cat_nodetype' is not equal to 809060002, the condition is met.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 493,
- "seconds": 9.344
-}

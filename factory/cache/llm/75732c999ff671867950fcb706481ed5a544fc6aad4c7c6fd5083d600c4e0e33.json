@@ -1,7 +1,0 @@
-{
- "completion_tokens": 60,
- "content": "{\"statement\": \"This rule triggers when a new claim payment row is added or modified, and the claim amount is greater than zero. If the condition is met, the rule will proceed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 415,
- "seconds": 9.593
-}

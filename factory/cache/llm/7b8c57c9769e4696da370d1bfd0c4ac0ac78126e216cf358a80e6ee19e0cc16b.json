@@ -1,7 +1,0 @@
-{
- "completion_tokens": 64,
- "content": "{\"statement\": \"The condition checks if the business approval condition, business approval stage, condition value display, and stage condition are met. If any of these conditions are not met, the display will not show.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 407,
- "seconds": 8.597
-}

@@ -1,7 +1,0 @@
-{
- "completion_tokens": 68,
- "content": "{\"statement\": \"This rule ensures that if the selected people are not blank or contain errors, they are collected and stored in the colSelectedBackupDelegate. If the selected people are blank or contain errors, nothing is collected.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 404,
- "seconds": 10.185
-}

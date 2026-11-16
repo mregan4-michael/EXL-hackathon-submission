@@ -1,7 +1,0 @@
-{
- "completion_tokens": 68,
- "content": "{\"statement\": \"If the delegate is out of office (isoutofoffice is true), the backup delegate's business approver ID is used. Otherwise, the regular delegate's business approver ID is used.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 532,
- "seconds": 11.666
-}

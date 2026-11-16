@@ -1,7 +1,0 @@
-{
- "completion_tokens": 143,
- "content": "{\"statement\": \"The score is calculated based on the number of days between the incident date and the policy start date, the number of prior claims, and the days between the incident date and the notified date. If the days between the incident and notified dates are more than 30, a score of 20 is added. If there are 3 or more prior claims, a score of 30 is added. If the incident was reported as theft and no police reference was provided, an additional score of 10 is added. The final score is the sum of these conditions.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 525,
- "seconds": 21.765
-}

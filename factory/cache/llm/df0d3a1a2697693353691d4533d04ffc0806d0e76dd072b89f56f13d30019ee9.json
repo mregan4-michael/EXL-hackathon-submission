@@ -1,7 +1,0 @@
-{
- "completion_tokens": 90,
- "content": "{\"statement\": \"The rule sets the variable 'varSourceData' to the value of 'value' from 'Get_Dynamic_Data' if the type is '809060001', otherwise it concatenates the value with quotes. If 'Get_Dynamic_Data' is empty, it uses the default value.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 550,
- "seconds": 17.555
-}

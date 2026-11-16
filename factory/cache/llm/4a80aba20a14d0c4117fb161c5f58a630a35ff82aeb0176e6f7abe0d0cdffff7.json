@@ -1,7 +1,0 @@
-{
- "completion_tokens": 62,
- "content": "{\"statement\": \"The condition checks if the customer has a welfare flag set to true. If true, the customer is referred for further review. Otherwise, the process is auto-declined.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 450,
- "seconds": 8.011
-}

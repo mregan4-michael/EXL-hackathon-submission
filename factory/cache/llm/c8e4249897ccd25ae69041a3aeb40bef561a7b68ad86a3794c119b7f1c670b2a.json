@@ -1,7 +1,0 @@
-{
- "completion_tokens": 71,
- "content": "{\"statement\": \"The reminder days must be a positive integer between 0 and 2,147,480,000. If the reminder days are outside this range, the system will reject the reminder days value.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 409,
- "seconds": 9.622
-}

@@ -1,7 +1,0 @@
-{
- "completion_tokens": 78,
- "content": "{\"statement\": \"The rule checks if the status is not disabled and if the current date falls between the start and end date, and if the date difference is greater than the Out Of Office Check Days. If any of these conditions are not met, the rule will not proceed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 636,
- "seconds": 14.012
-}

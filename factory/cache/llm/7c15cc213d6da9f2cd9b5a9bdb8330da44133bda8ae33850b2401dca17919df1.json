@@ -1,7 +1,0 @@
-{
- "completion_tokens": 103,
- "content": "{\"statement\": \"The label 'lblSummaryResolution' is visible if the complaint has been resolved to satisfaction and the difference in days between the complaint receipt date and the resolution date is 3 days or less. This condition is checked by the formula 'chkResolvedToSatisfaction.Value && DateDiff(dpComplaintReceived.SelectedDate, dpResolvedDate.SelectedDate, TimeUnit.Days) <= 3'.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 420,
- "seconds": 17.983
-}

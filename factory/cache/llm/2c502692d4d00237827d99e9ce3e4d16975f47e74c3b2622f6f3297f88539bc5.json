@@ -1,7 +1,0 @@
-{
- "completion_tokens": 69,
- "content": "{\"statement\": \"The TeamLeader role grants read, write, create, approve, and write access to claims and complaint records within the same business unit. This affects the visibility and permissions of TeamLeader users in the claims workbench.\", \"category\": \"visibility\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 409,
- "seconds": 10.002
-}

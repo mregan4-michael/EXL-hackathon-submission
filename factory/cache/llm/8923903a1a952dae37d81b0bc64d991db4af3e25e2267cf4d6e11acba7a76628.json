@@ -1,7 +1,0 @@
-{
- "completion_tokens": 55,
- "content": "{\"statement\": \"The label 'Incident date cannot be after the notification date' will be displayed if the selected incident date is later than the selected notification date.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 406,
- "seconds": 8.609
-}

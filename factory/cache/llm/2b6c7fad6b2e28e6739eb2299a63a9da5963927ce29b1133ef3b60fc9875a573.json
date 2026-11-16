@@ -1,7 +1,0 @@
-{
- "completion_tokens": 55,
- "content": "{\"statement\": \"The rule checks if there are any dynamic approvers found in the request data. If there are, the rule proceeds; otherwise, it stops.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 508,
- "seconds": 9.459
-}

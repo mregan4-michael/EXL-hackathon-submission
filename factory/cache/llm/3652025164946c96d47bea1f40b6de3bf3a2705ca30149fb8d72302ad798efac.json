@@ -1,7 +1,0 @@
-{
- "completion_tokens": 78,
- "content": "{\"statement\": \"The condition is when the cat_pathindex is not null. If it is null, the cat_path is set to null. The threshold value is cat_pathindex not being null. The effect is to set cat_path to null if cat_pathindex is null.\", \"category\": \"validation\", \"is_business_rule\": false, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 417,
- "seconds": 8.8
-}

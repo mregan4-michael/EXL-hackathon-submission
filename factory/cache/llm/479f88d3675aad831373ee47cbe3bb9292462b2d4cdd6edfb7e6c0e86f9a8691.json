@@ -1,7 +1,0 @@
-{
- "completion_tokens": 56,
- "content": "{\"statement\": \"The control 'cboOutOfOffice.Text' will display 'Enabled' if the value is 'Enabled', otherwise it will display 'Disabled'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 365,
- "seconds": 9.446
-}

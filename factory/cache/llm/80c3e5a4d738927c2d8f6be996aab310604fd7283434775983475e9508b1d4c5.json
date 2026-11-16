@@ -1,7 +1,0 @@
-{
- "completion_tokens": 73,
- "content": "{\"statement\": \"This rule checks if the business approval version category has a message of 1 and if the publishing status is 809060000, then it triggers the 'When_new_Process_Version_is_Published' event.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 423,
- "seconds": 14.547
-}

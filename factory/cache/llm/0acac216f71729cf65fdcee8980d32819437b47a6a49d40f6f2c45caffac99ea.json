@@ -1,7 +1,0 @@
-{
- "completion_tokens": 43,
- "content": "{\"statement\": \"If there are no more running node instances, the current stage instance will end.\", \"category\": \"state_transition\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 501,
- "seconds": 5.753
-}

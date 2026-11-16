@@ -1,7 +1,0 @@
-{
- "completion_tokens": 71,
- "content": "{\"statement\": \"The condition is that the first 5 characters of the 'cat_GoToPaths' column must be within a specific range. The threshold values are the first 5 characters, and the effect is to validate these characters.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 396,
- "seconds": 8.647
-}

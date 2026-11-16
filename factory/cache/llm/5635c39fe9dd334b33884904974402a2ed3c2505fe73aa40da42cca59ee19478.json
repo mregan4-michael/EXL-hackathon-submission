@@ -1,7 +1,0 @@
-{
- "completion_tokens": 104,
- "content": "{\"statement\": \"The condition checks if the value of the 'body/cat_instancestatus' output is 'Completed_(809060002)' or 'Cancelled_(809060004)', and if true, sets the output to the corresponding threshold value (809060002 or 809060004).\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 539,
- "seconds": 16.22
-}

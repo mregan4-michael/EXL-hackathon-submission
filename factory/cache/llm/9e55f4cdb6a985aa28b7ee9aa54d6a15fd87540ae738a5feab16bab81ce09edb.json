@@ -1,7 +1,0 @@
-{
- "completion_tokens": 74,
- "content": "{\"statement\": \"If the length of the 'body/value' field from the 'Get_Approver_and_Delegates' output is zero, then the condition is met. If so, the workflow will proceed to check if the approver is not found.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 458,
- "seconds": 11.102
-}

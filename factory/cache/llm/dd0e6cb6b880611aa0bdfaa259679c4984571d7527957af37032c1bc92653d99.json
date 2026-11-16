@@ -1,7 +1,0 @@
-{
- "completion_tokens": 72,
- "content": "{\"statement\": \"The condition checks if the 'cat_approvaltype' in the trigger outputs is either 809060001 or 809060003. If true, the condition is met.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 477,
- "seconds": 8.779
-}

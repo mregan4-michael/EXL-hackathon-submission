@@ -1,7 +1,0 @@
-{
- "completion_tokens": 58,
- "content": "{\"statement\": \"The label 'lblDelegateError' will be visible only if the text input is not empty. If the input text is empty, the label will be hidden.\", \"category\": \"visibility\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 364,
- "seconds": 7.123
-}

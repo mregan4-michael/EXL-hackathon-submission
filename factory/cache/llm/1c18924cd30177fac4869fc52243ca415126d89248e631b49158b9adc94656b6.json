@@ -1,7 +1,0 @@
-{
- "completion_tokens": 86,
- "content": "{\"statement\": \"The condition is to filter Business Approval Work Profiles based on the 'Active Business Approval Work Profiles' view. The threshold values are 'Business Approval Work Profiles' and 'Business Approval Work Profiles (Views).Active Business Approval Work Profiles'. The effect is to return the 'ddlWorkProfile.Items'.\", \n \"category\": \"validation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 399,
- "seconds": 16.615
-}

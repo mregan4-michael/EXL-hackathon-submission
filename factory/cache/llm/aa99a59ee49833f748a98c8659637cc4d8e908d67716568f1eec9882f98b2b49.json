@@ -1,7 +1,0 @@
-{
- "completion_tokens": 66,
- "content": "{\"statement\": \"The condition is that the 'cat_Paths' column must have a value between 1 and 5, inclusive. If the value is outside this range, the business rule will prevent the action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 392,
- "seconds": 8.42
-}

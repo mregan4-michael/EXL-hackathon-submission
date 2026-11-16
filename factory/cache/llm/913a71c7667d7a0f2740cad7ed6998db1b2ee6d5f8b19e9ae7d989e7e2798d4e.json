@@ -1,7 +1,0 @@
-{
- "completion_tokens": 68,
- "content": "{\"statement\": \"The button displays as disabled if either the 'lblVulnerable.Visible' label is shown or the 'lblFraudScore.Text' value is 50 or higher. Otherwise, it displays as editable.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 418,
- "seconds": 8.394
-}

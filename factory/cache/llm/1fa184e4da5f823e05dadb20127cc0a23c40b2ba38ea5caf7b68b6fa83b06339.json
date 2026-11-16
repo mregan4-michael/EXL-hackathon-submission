@@ -1,7 +1,0 @@
-{
- "completion_tokens": 64,
- "content": "{\"statement\": \"The Auditor role has read access to all claim, payment, and complaint records. If a user is assigned the Auditor role, they can read any claim, payment, or complaint record.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 381,
- "seconds": 9.276
-}

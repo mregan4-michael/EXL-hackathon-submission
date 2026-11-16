@@ -1,7 +1,0 @@
-{
- "completion_tokens": 85,
- "content": "{\"statement\": \"The condition is that the value in the cat_ReminderDays column must be a positive number and less than or equal to 2,147,480,000. If the value is not within this range, the business rule will prevent the record from being saved.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 412,
- "seconds": 10.841
-}

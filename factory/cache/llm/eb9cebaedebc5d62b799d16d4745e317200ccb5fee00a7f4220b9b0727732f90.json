@@ -1,7 +1,0 @@
-{
- "completion_tokens": 84,
- "content": "{\"statement\": \"The condition checks if the 'cat_sourcedatatype' value from the 'Get_Next_Stage_2' output is equal to 809060001. If true, the flow proceeds to the next action; otherwise, it continues to the else branch.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 501,
- "seconds": 12.153
-}

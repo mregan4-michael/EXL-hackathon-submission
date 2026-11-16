@@ -1,7 +1,0 @@
-{
- "completion_tokens": 71,
- "content": "{\"statement\": \"The label 'lblVulnerable' is visible if the user is 75 years or older, or if they have a 'Third party (Power of Attorney)' preference for contact, regardless of their date of birth.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 440,
- "seconds": 9.201
-}

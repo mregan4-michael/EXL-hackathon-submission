@@ -1,7 +1,0 @@
-{
- "completion_tokens": 76,
- "content": "{\"statement\": \"This business rule triggers when a business approval instance has a message of 3 and the cat_timeoutcounter is 0 and the cat_instancestatus is 809060001. The rule is designed to handle a timeout scenario.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 444,
- "seconds": 10.316
-}

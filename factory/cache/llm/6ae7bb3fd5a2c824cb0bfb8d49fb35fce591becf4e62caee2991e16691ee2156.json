@@ -1,7 +1,0 @@
-{
- "completion_tokens": 52,
- "content": "{\"statement\": \"The rule checks if exactly one node is found in the stage. If more than one node is found, the action is skipped.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 447,
- "seconds": 7.926
-}

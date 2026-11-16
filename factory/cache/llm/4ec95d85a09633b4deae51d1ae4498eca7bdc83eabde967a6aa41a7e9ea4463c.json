@@ -1,7 +1,0 @@
-{
- "completion_tokens": 64,
- "content": "{\"statement\": \"The payment is held if the payee changed in the last 30 days, as determined by the current time minus the payee change time being greater than 30 days.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 467,
- "seconds": 6.899
-}

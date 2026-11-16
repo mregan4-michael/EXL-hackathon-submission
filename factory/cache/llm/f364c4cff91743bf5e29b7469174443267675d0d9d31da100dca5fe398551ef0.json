@@ -1,7 +1,0 @@
-{
- "completion_tokens": 54,
- "content": "{\"statement\": \"If the selected approver's UPN matches the user's UPN, then display the message 'You cannot be your own delegate.'\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 399,
- "seconds": 6.666
-}

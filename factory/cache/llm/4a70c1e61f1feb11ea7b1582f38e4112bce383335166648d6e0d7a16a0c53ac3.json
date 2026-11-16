@@ -1,7 +1,0 @@
-{
- "completion_tokens": 65,
- "content": "{\"statement\": \"The condition is that the value of lblFraudScore.Text must be greater than or equal to 50. If this condition is met, lblFraudReferral.Visible will be shown.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 382,
- "seconds": 9.568
-}

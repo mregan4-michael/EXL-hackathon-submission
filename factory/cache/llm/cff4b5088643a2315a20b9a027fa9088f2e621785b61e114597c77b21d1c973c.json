@@ -1,7 +1,0 @@
-{
- "completion_tokens": 101,
- "content": "{\"statement\": \"The rule checks if _myUPN is blank. If it is, it sets _myUPN to the userPrincipalName from the Office365Users.MyProfileV2 function. Then, it sets _mySettings to the first record in the Business Approvers table where the Approver Id matches _myUPN. This rule is for authorisation.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 437,
- "seconds": 29.74
-}

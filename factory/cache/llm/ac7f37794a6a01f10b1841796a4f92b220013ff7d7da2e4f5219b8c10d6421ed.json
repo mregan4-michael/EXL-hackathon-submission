@@ -1,7 +1,0 @@
-{
- "completion_tokens": 63,
- "content": "{\"statement\": \"The condition checks if the node condition is 'If/Else' (809060001). If true, the workflow proceeds; otherwise, it stops.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 506,
- "seconds": 9.726
-}

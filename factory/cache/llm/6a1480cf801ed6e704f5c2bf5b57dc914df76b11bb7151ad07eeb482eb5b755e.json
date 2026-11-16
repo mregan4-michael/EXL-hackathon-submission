@@ -1,7 +1,0 @@
-{
- "completion_tokens": 51,
- "content": "{\"statement\": \"If the variable 'varGotoStageId' is not empty, the workflow will proceed. Otherwise, it will stop.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 464,
- "seconds": 7.496
-}

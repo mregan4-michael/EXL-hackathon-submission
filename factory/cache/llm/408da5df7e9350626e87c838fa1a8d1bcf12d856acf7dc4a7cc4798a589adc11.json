@@ -1,7 +1,0 @@
-{
- "completion_tokens": 75,
- "content": "{\"statement\": \"The business approval version's default approver email is calculated based on the cat_approverid, cat_businessapprovalversion, and cat_businessapprover. If any of these values are null, the default approver email will also be null.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 0.95}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 412,
- "seconds": 8.931
-}

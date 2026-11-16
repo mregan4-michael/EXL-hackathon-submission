@@ -1,7 +1,0 @@
-{
- "completion_tokens": 68,
- "content": "{\"statement\": \"The condition checks if the value of cat_PathIndex is within the range of 1 to 2,147,480,447. If not, it will trigger an effect.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 399,
- "seconds": 9.86
-}

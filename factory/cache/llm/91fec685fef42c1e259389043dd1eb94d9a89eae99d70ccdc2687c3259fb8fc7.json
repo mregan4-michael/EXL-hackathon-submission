@@ -1,7 +1,0 @@
-{
- "completion_tokens": 66,
- "content": "{\"statement\": \"The condition is that the value in the cat_Paths column must be required and must be within the range of 1 to 5. If not, the effect is that the data is invalid.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 394,
- "seconds": 8.658
-}

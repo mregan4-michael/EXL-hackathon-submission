@@ -1,7 +1,0 @@
-{
- "completion_tokens": 57,
- "content": "{\"statement\": \"This rule checks if the business approval runtime stage instance message is 3 and the filter for instance status is met. If so, it triggers the workflow.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 428,
- "seconds": 10.49
-}

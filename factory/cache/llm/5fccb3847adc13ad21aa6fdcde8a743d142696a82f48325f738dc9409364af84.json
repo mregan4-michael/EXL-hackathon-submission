@@ -1,7 +1,0 @@
-{
- "completion_tokens": 54,
- "content": "{\"statement\": \"The condition checks if the output of the 'body/cat_activateonpublish' is true. If it is, the action is considered successful.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 415,
- "seconds": 12.33
-}

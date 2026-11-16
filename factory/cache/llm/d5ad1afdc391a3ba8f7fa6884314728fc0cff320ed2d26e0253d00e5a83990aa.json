@@ -1,7 +1,0 @@
-{
- "completion_tokens": 119,
- "content": "{\"statement\": \"The condition checks if the value of 'text_3' is 'Data not found', 'Approver not found', or 'Object not found'. If it matches 'Data not found', it sets 'Exception_Type' to 'Data not found'. If it matches 'Approver not found', it sets 'Exception_Type' to 'Approver not found'. If it matches 'Object not found', it sets 'Exception_Type' to 'Object not found'.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 444,
- "seconds": 16.118
-}

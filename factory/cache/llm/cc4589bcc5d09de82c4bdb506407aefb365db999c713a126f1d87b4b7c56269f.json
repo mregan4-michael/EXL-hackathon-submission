@@ -1,7 +1,0 @@
-{
- "completion_tokens": 74,
- "content": "{\n \"statement\": \"This business rule sorts the 'Business Approval Public Holidays' table by the 'cat_date' column in ascending order, filtering for records where the 'Holiday Calendar' matches the selected calendar and the 'Date' is today or later.\",\n \"category\": \"routing\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 465,
- "seconds": 9.517
-}

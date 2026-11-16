@@ -1,7 +1,0 @@
-{
- "completion_tokens": 75,
- "content": "{\"statement\": \"The condition checks if the current day is a working day according to the Work Profile Days and if there are no holidays. If both conditions are met, the value is set to 'If_Today_is_Working_day_and_not_holiday'.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 510,
- "seconds": 13.848
-}

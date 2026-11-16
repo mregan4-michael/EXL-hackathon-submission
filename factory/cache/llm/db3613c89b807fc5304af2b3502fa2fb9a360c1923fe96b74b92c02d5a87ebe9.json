@@ -1,7 +1,0 @@
-{
- "completion_tokens": 55,
- "content": "{\"statement\": \"The Fraud Score must be between 0 and 100. If the Fraud Score is outside this range, it will be considered invalid.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 392,
- "seconds": 9.084
-}

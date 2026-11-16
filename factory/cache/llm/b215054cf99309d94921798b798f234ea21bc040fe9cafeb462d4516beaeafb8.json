@@ -1,7 +1,0 @@
-{
- "completion_tokens": 54,
- "content": "{\"statement\": \"This rule checks if the 'body/cat_customresponses' field is empty. If it is, the workflow proceeds; otherwise, it stops.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 426,
- "seconds": 16.985
-}

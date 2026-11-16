@@ -1,7 +1,0 @@
-{
- "completion_tokens": 71,
- "content": "{\"statement\": \"The business approver's display name is calculated based on the business approval data, business approver, dynamic approver type, and name. If any of these inputs are missing or invalid, the display name will be empty.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 408,
- "seconds": 9.868
-}

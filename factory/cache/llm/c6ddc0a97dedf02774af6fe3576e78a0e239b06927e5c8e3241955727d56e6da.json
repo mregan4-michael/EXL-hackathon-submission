@@ -1,7 +1,0 @@
-{
- "completion_tokens": 59,
- "content": "{\"statement\": \"This rule sets a daily recurrence starting from May 9, 2022, at midnight. It does not involve any thresholds or effects on business rules.\", \"category\": \"deadline\", \"is_business_rule\": false, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 429,
- "seconds": 8.157
-}

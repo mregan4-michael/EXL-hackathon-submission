@@ -1,7 +1,0 @@
-{
- "completion_tokens": 56,
- "content": "{\"statement\": \"If the output of 'Wait_on_Override' contains 'body/cat_iscancellation', the condition is false. Otherwise, the condition is true.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 447,
- "seconds": 19.1
-}

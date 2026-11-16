@@ -1,7 +1,0 @@
-{
- "completion_tokens": 64,
- "content": "{\"statement\": \"The condition checks if the value of the 'id' field in the 'Apply_to_each_' items matches the 'externalreference' value. If they match, the condition is considered true.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
- "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
- "prompt_tokens": 421,
- "seconds": 16.977
-}
