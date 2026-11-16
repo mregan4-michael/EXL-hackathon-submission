@@ -30,6 +30,7 @@ export function App() {
   const [ev, setEv] = useState<Evaluation>({ values: {}, errors: {} });
   const [rows, setRows] = useState<Record<string, Row[]>>({});
   const [selected, setSelected] = useState<Record<string, string>>({});
+  const [ctx, setCtx] = useState<Record<string, string>>({});
   const [log, setLog] = useState<{ ok: boolean; text: string }[]>([]);
 
   const def = useMemo(() => app.screens.find((s) => s.screen === screen), [screen]);
@@ -75,12 +76,24 @@ export function App() {
   const visible = (c: ControlDef) => !c.computed.includes("Visible") || prop(c, "Visible") === true;
   const disabled = (c: ControlDef) => c.computed.includes("DisplayMode") && prop(c, "DisplayMode") !== "Edit";
 
+  /** Value a selected record supplies for a column the legacy formula does not set:
+   * the column itself, or the record's id when the column is a lookup to that table. */
+  function fromSelection(f: string): Json | undefined {
+    for (const [t, id] of Object.entries(selected)) {
+      const r = rows[t]?.find((x) => x["id"] === id);
+      if (!r) continue;
+      if (r[f] !== undefined) return r[f];
+      if (f.toLowerCase() === `${t}Id`.toLowerCase()) return r["id"];
+    }
+    return undefined;
+  }
+
   async function run(a: ActionDef) {
     const rowId = a.operation === "Create" ? null : (selected[a.table] ?? null);
-    const row = rows[a.table]?.find((r) => r["id"] === rowId);
     const context: Record<string, Json> = {};
     for (const f of a.contextFields) {
-      const v = row?.[f];
+      const typed = ctx[`${a.control}.${f}`];
+      const v = typed !== undefined && typed !== "" ? typed : fromSelection(f);
       if (v !== undefined) context[f] = v;
     }
     try {
@@ -178,6 +191,25 @@ export function App() {
             </div>
           ))}
           {(def?.controls ?? []).filter(isInput).map(control)}
+          {actions.filter((a) => a.contextFields.length > 0).map((a) => (
+            <fieldset key={a.control}>
+              <legend>{`${a.control}: required ${a.table} columns the legacy formula does not set`}</legend>
+              {a.contextFields.map((f) => {
+                const id = `ctx-${a.control}-${f}`;
+                return (
+                  <div className="field" key={f}>
+                    <label htmlFor={id}>{f}</label>
+                    <input
+                      id={id}
+                      value={ctx[`${a.control}.${f}`] ?? ""}
+                      placeholder={show(fromSelection(f))}
+                      onChange={(e) => setCtx((s) => ({ ...s, [`${a.control}.${f}`]: e.target.value }))}
+                    />
+                  </div>
+                );
+              })}
+            </fieldset>
+          ))}
           {(def?.controls ?? []).filter((c) => !isInput(c)).map(control)}
         </section>
         <section>
