@@ -136,3 +136,19 @@ def test_failed_journey_check_outranks_passing_formula(monkeypatch):
     rep = harness._report("claims-workbench", {"rules": [rule]}, [], {p: {"status": "pass"}}, 0, 0)
     assert rep["rule_evidence"][0]["class"] == "failed"
     assert rep["rule_evidence"][0]["locations"][0]["checks"] == ["submit gate"]
+
+
+def test_parity_check_fails_on_failed_rules(monkeypatch):
+    from factory import cli
+    from factory.parity import harness
+
+    rep = {
+        "frozen_cases": 1,
+        "oracle_drift": 0,
+        "formulas": {"pass": 1},
+        "mutation": {"killed": 0, "total": 0},
+        "rules": {"failed": 1},
+    }
+    monkeypatch.setattr(harness, "run", lambda app: rep)
+    assert cli.main(["parity", "claims-workbench", "--check"]) == 1
+    assert cli.main(["parity", "claims-workbench"]) == 0
