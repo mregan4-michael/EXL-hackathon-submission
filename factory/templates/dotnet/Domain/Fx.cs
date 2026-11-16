@@ -33,14 +33,15 @@ public static class Fx
     public static string? Text(bool? b) => b is null ? null : (b.Value ? "true" : "false");
     public static string? Text(DateTime? d) => d?.ToString("M/d/yyyy", CultureInfo.InvariantCulture);
 
-    public static decimal? Add(decimal? a, decimal? b) => a is null && b is null ? null : N(a) + N(b);
-    public static decimal? Mul(decimal? a, decimal? b) => a is null && b is null ? null : N(a) * N(b);
+    // Arithmetic coerces blank to 0 even when both operands are blank (Blank() + Blank() = 0).
+    public static decimal? Add(decimal? a, decimal? b) => N(a) + N(b);
+    public static decimal? Mul(decimal? a, decimal? b) => N(a) * N(b);
     public static decimal? Div(decimal? a, decimal? b)
     {
         if (N(b) == 0m) throw new FxException("Div: division by zero");
-        return a is null && b is null ? null : N(a) / N(b);
+        return N(a) / N(b);
     }
-    public static decimal? Neg(decimal? a) => a is null ? null : -a.Value;
+    public static decimal? Neg(decimal? a) => -N(a);
     public static decimal? Abs(decimal? a) => a is null ? null : Math.Abs(a.Value);
 
     public static bool? Gt(decimal? a, decimal? b) => N(a) > N(b);
@@ -50,7 +51,7 @@ public static class Fx
     public static bool? Eq(decimal? a, decimal? b) => a == b;
     public static bool? Ne(decimal? a, decimal? b) => a != b;
 
-    private static DateTime D(DateTime? d) => d ?? new DateTime(1899, 12, 30);
+    private static DateTime D(DateTime? d) => d ?? Epoch;
     public static bool? Gt(DateTime? a, DateTime? b) => D(a) > D(b);
     public static bool? Ge(DateTime? a, DateTime? b) => D(a) >= D(b);
     public static bool? Lt(DateTime? a, DateTime? b) => D(a) < D(b);
@@ -88,15 +89,18 @@ public static class Fx
     public static decimal? Min(params decimal?[] xs) => xs.Any(x => x is not null) ? xs.Where(x => x is not null).Min() : null;
     public static decimal? Sum(params decimal?[] xs) => xs.Any(x => x is not null) ? xs.Sum(x => N(x)) : null;
 
+    // Power Fx coerces a blank date to its epoch (1899-12-30) in date arithmetic, not to blank.
+    private static readonly DateTime Epoch = new(1899, 12, 30, 0, 0, 0, DateTimeKind.Utc);
+
     public static decimal? DateDiff(DateTime? a, DateTime? b, TimeUnit unit)
     {
-        if (a is null || b is null) return null;
-        var (x, y) = (a.Value, b.Value);
+        var (x, y) = (a ?? Epoch, b ?? Epoch);
+        var months = (y.Year - x.Year) * 12 + y.Month - x.Month;
         return unit switch
         {
             TimeUnit.Days => (decimal)(y.Date - x.Date).TotalDays,
-            TimeUnit.Months => (y.Year - x.Year) * 12 + y.Month - x.Month,
-            TimeUnit.Quarters => ((y.Year - x.Year) * 12 + y.Month - x.Month) / 3,
+            TimeUnit.Months => months,
+            TimeUnit.Quarters => (y.Year - x.Year) * 4 + (y.Month - 1) / 3 - (x.Month - 1) / 3,
             TimeUnit.Years => y.Year - x.Year,
             TimeUnit.Hours => (decimal)Math.Truncate((y - x).TotalHours),
             TimeUnit.Minutes => (decimal)Math.Truncate((y - x).TotalMinutes),
@@ -107,18 +111,19 @@ public static class Fx
 
     public static DateTime? DateAdd(DateTime? d, decimal? n, TimeUnit unit)
     {
-        if (d is null) return null;
-        var k = (int)N(n);
+        var x = d ?? Epoch;
+        var k = (int)Math.Truncate(N(n));
         return unit switch
         {
-            TimeUnit.Days => d.Value.AddDays(k),
-            TimeUnit.Months => d.Value.AddMonths(k),
-            TimeUnit.Quarters => d.Value.AddMonths(3 * k),
-            TimeUnit.Years => d.Value.AddYears(k),
-            TimeUnit.Hours => d.Value.AddHours(k),
-            TimeUnit.Minutes => d.Value.AddMinutes(k),
-            TimeUnit.Seconds => d.Value.AddSeconds(k),
-            _ => d.Value.AddMilliseconds(k),
+            // Fractional days move the time of day, so a date lands on the floor.
+            TimeUnit.Days => x.AddDays((double)Math.Floor(N(n))),
+            TimeUnit.Months => x.AddMonths(k),
+            TimeUnit.Quarters => x.AddMonths(3 * k),
+            TimeUnit.Years => x.AddYears(k),
+            TimeUnit.Hours => x.AddHours(k),
+            TimeUnit.Minutes => x.AddMinutes(k),
+            TimeUnit.Seconds => x.AddSeconds(k),
+            _ => x.AddMilliseconds(k),
         };
     }
 }

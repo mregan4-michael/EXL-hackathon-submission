@@ -50,6 +50,7 @@ internal static class FxHost
     public static JsonObject Eval(string formula, JsonObject? vars)
     {
         var cfg = new PowerFxConfig();
+        cfg.EnableRegExFunctions();
         var engine = new RecalcEngine(cfg);
         if (vars != null)
             foreach (var (name, v) in vars)

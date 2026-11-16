@@ -30,7 +30,7 @@ fi
 for _ in $(seq 1 60); do curl -sf http://localhost:8080/health >/dev/null && break; sleep 1; done
 
 step "5/5 core journey: intake -> triage -> settlement -> payment -> role refusal"
-python3 scripts/journey.py
+mkdir -p parity/scenarios && python3 scripts/journey.py --record parity/scenarios/claims-workbench.json
 step "done"
 echo "API http://localhost:8080/openapi.json   UI $UI"
 if [[ "${KEEP:-0}" == "1" ]]; then trap - EXIT; echo "KEEP=1: target left running"; fi

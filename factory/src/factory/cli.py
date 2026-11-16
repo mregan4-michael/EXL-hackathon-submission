@@ -74,6 +74,29 @@ def _cmd_generate(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_parity(args: argparse.Namespace) -> int:
+    from factory.parity import harness
+
+    bad = 0
+    apps = args.app or (["claims-workbench", "approvals-kit"] if args.all else [])
+    if not apps:
+        raise SystemExit("factory parity: name an app or pass --all")
+    for app in apps:
+        if args.freeze:
+            print(f"{app}: froze {harness.freeze(app)}")
+        rep = harness.run(app)
+        f, m, r = rep["formulas"], rep["mutation"], rep["rules"]
+        print(
+            f"{app}: {rep['frozen_cases']} cases, drift {rep['oracle_drift']}; formulas "
+            f"pass {f.get('pass', 0)} fail {f.get('fail', 0)} unproven {f.get('unproven', 0)}; "
+            f"mutation {m['killed']}/{m['total']}; rules executed {r.get('executed', 0)} "
+            f"scenario {r.get('scenario', 0)} unproven {r.get('unproven', 0)} "
+            f"failed {r.get('failed', 0)}"
+        )
+        bad += rep["oracle_drift"] + (f.get("fail", 0) if args.check else 0)
+    return 1 if bad else 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="factory", description=__doc__)
     parser.add_argument("--version", action="version", version=f"factory {__version__}")
@@ -90,6 +113,12 @@ def build_parser() -> argparse.ArgumentParser:
     g = sub.add_parser("generate", help="emit the .NET/React/Bicep target from model + catalogue")
     g.add_argument("app", nargs="+")
     g.set_defaults(func=_cmd_generate)
+    q = sub.add_parser("parity", help="differential parity of generated C# vs the Power Fx oracle")
+    q.add_argument("app", nargs="*")
+    q.add_argument("--all", action="store_true")
+    q.add_argument("--freeze", action="store_true", help="(re)build the frozen test set first")
+    q.add_argument("--check", action="store_true", help="exit non-zero on any mismatch")
+    q.set_defaults(func=_cmd_parity)
     return parser
 
 

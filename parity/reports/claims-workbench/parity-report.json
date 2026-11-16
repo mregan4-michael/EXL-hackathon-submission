@@ -1,0 +1,1085 @@
+{
+  "app": "claims-workbench",
+  "formula_results": {
+    "ComplaintScreen/dpFinalResponseDue.DefaultDate": {
+      "cases": {
+        "agree": 7
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 1,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "ComplaintScreen/dpFinalResponseDue.DisplayMode": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "ComplaintScreen/lblComplaintBreach.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "ComplaintScreen/lblComplaintBreach.Visible": {
+      "cases": {
+        "agree": 43
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "ComplaintScreen/lblComplaintRoute.Text": {
+      "cases": {
+        "agree": 21
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 2,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "ComplaintScreen/lblRedress.Text": {
+      "cases": {
+        "agree": 93
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 4,
+        "survived": [
+          "150 -> 151 @127",
+          "2 -> 3 @202",
+          "75 -> 76 @242"
+        ]
+      },
+      "status": "pass"
+    },
+    "ComplaintScreen/lblSummaryResolution.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "ComplaintScreen/lblSummaryResolution.Visible": {
+      "cases": {
+        "agree": 44
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 1,
+        "survived": [
+          "<= -> < @121",
+          "3 -> 4 @125"
+        ]
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/btnSubmit.DisplayMode": {
+      "cases": {
+        "agree": 73
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 7,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/btnSubmit.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/lblCoverError.Text": {
+      "cases": {
+        "agree": 20
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/lblDateOrderError.Text": {
+      "cases": {
+        "agree": 9
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 1,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/lblLateNotification.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/lblLateNotification.Visible": {
+      "cases": {
+        "agree": 29
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 2,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/lblNcdAfterClaim.Text": {
+      "cases": {
+        "agree": 44
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 2,
+        "survived": [
+          "2 -> 3 @82"
+        ]
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/lblPolicyNumberError.Text": {
+      "cases": {
+        "agree": 13
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": [
+          "10 -> 11 @72"
+        ]
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/txtClaimAmount.Format": {
+      "cases": {
+        "agree": 6
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 0,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/txtPolicyNumber.HintText": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/txtPolicyNumber.X": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "IntakeScreen/txtPolicyNumber.Y": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "ReviewScreen/btnReassign.Visible": {
+      "cases": {
+        "agree": 4
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 0,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "SettlementScreen/btnApprovePayment.DisplayMode": {
+      "cases": {
+        "agree": 62
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "SettlementScreen/btnApprovePayment.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "SettlementScreen/lblBetterment.Text": {
+      "cases": {
+        "agree": 119
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": [
+          "> -> >= @73",
+          "5 -> 6 @76",
+          "0.5 -> 1.5 @120",
+          "5 -> 6 @154",
+          "0.1 -> 1.1 @159",
+          "2 -> 3 @165"
+        ]
+      },
+      "status": "pass"
+    },
+    "SettlementScreen/lblExcess.Text": {
+      "cases": {
+        "agree": 29
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 5,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "SettlementScreen/lblLateInterest.Text": {
+      "cases": {
+        "agree": 90
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 5,
+        "survived": [
+          "> -> >= @83",
+          "14 -> 15 @86"
+        ]
+      },
+      "status": "pass"
+    },
+    "SettlementScreen/lblNetSettlement.Text": {
+      "cases": {
+        "agree": 54
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 1,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "SettlementScreen/lblSortCodeError.Text": {
+      "cases": {
+        "agree": 8
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 1,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "SettlementScreen/lblVatRecoverable.Text": {
+      "cases": {
+        "agree": 29
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "TriageScreen/btnAutoDecline.DisplayMode": {
+      "cases": {
+        "agree": 22
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "TriageScreen/btnAutoDecline.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "TriageScreen/chkNoPoliceRef.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "TriageScreen/chkVulnerable.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblAuthority.Text": {
+      "cases": {
+        "agree": 19
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 4,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblFourEyes.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblFourEyes.Visible": {
+      "cases": {
+        "agree": 11
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 2,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblFraudReferral.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblFraudReferral.Visible": {
+      "cases": {
+        "agree": 11
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 2,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblFraudScore.Text": {
+      "cases": {
+        "agree": 160
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 16,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblOldSurcharge.Text": {
+      "cases": {
+        "agree": 12
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 2,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblOldSurcharge.Visible": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblPriority.Text": {
+      "cases": {
+        "agree": 66
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblSlaDays.Text": {
+      "cases": {
+        "agree": 22
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": []
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblVulnerable.Text": {
+      "cases": {
+        "agree": 1
+      },
+      "status": "pass"
+    },
+    "TriageScreen/lblVulnerable.Visible": {
+      "cases": {
+        "agree": 73
+      },
+      "mutation": {
+        "invalid": 0,
+        "killed": 3,
+        "survived": [
+          ">= -> > @108",
+          "75 -> 76 @112"
+        ]
+      },
+      "status": "pass"
+    }
+  },
+  "formulas": {
+    "pass": 45,
+    "rule_linked": 25,
+    "rule_linked_pass": 25,
+    "total": 45
+  },
+  "frozen_cases": 1209,
+  "host_shims": [
+    "DisplayMode enum bound as a record of its string values",
+    "two-argument IsMatch made explicit as IsMatch(text, pattern, MatchOptions.Complete)"
+  ],
+  "mutation": {
+    "formulas": 29,
+    "killed": 88,
+    "score": 0.8381,
+    "total": 105
+  },
+  "not_compiled": 12,
+  "oracle": "Microsoft.PowerFx.Interpreter 1.8.1 (tools/fxhost)",
+  "oracle_drift": 0,
+  "rule_evidence": [
+    {
+      "class": "scenario",
+      "covered": 1,
+      "declared": "scenario",
+      "id": "BR-001",
+      "locations": [
+        {
+          "checks": [
+            "approve enabled within authority limit (BR-017)",
+            "over-authority payment refused (guard re-evaluated server-side)"
+          ],
+          "evidence": "scenario",
+          "path": "App.OnStart"
+        }
+      ],
+      "statement": "The script sets gblUserAuthorityLimit to the limit of the first record in clm_HandlerAuthorities where the email matches the current user's email. It also sets gblIsManager to true if the current user's email is in the colManagers.Email list. Finally, it collects a list of claim types into colClaimTypes."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-002",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "ComplaintScreen/lblSummaryResolution.Visible"
+        }
+      ],
+      "statement": "The label 'lblSummaryResolution' is visible if the complaint is resolved to satisfaction and the difference in days between the complaint receipt date and the resolution date is 3 days or less. This condition is checked by the formula 'chkResolvedToSatisfaction.Value && DateDiff(dpComplaintReceived.SelectedDate, dpResolvedDate.SelectedDate, TimeUnit.Days) <= 3'."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-003",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "ComplaintScreen/lblComplaintBreach.Visible"
+        }
+      ],
+      "statement": "The label 'lblComplaintBreach' is hidden if the checkbox 'chkFinalResponseSent' is not checked and the difference in days between the dates selected in 'dpComplaintReceived' and 'dpAsOf' is greater than 56. This condition is used to determine when a complaint breach label should be visible."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-004",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "ComplaintScreen/lblRedress.Text"
+        }
+      ],
+      "statement": "If the selected complaint outcome is 'Upheld', the redress label is set to the financial loss plus an additional 150 if distress inconvenience is checked. If the selected complaint outcome is 'Partially upheld', the redress label is set to half the financial loss plus an additional 75 if distress inconvenience is checked. Otherwise, the redress label is set to 0."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-005",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "ComplaintScreen/lblComplaintRoute.Text"
+        }
+      ],
+      "statement": "The condition is if either chkVulnerable.Value is true or ddChannel.Selected.Value is 'Regulator', then the output is 'Escalated', otherwise 'Standard'."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-006",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "IntakeScreen/lblPolicyNumberError.Text"
+        }
+      ],
+      "statement": "If the policy number is not blank and either it is not exactly 10 characters long or it does not start with 'PL', then display 'Policy number must be 10 characters and start with PL'. Otherwise, display nothing."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-007",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "IntakeScreen/lblCoverError.Text"
+        }
+      ],
+      "statement": "If the incident date is not within the policy period (between policy start and end dates), it displays a warning message. The policy period is defined by the policy start and end dates."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-008",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "IntakeScreen/lblDateOrderError.Text"
+        }
+      ],
+      "statement": "The label 'lblDateOrderError.Text' will display the message 'Incident date cannot be after the notification date' if the selected incident date is later than the selected notification date."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-009",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "IntakeScreen/lblLateNotification.Visible"
+        }
+      ],
+      "statement": "If the difference between the selected incident date and notified date is more than 30 days, then the label 'lblLateNotification' will be visible."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-010",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "IntakeScreen/lblNcdAfterClaim.Text"
+        }
+      ],
+      "statement": "If the selected fault status is 'At fault', the label will display the maximum of 0 and the number of years entered minus 2, otherwise it will display the number of years entered. The threshold is 2 years."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-011",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "IntakeScreen/btnSubmit.DisplayMode"
+        }
+      ],
+      "statement": "The button displays as disabled if the policy number is blank, the incident date is blank, the claim amount is less than or equal to zero, or if there is a cover error message. Otherwise, it displays as editable."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-012",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "SettlementScreen/lblExcess.Text"
+        }
+      ],
+      "statement": "The rule sets the lblExcess.Text label based on the selected ddClaimType value. If ddClaimType is 'Motor', lblExcess.Text is set to 250. If ddClaimType is 'Home', lblExcess.Text is set to 100. If ddClaimType is 'Theft', lblExcess.Text is set to 350. If ddClaimType is 'Injury', lblExcess.Text is set to 0. If ddClaimType is any other value, lblExcess.Text is set to 500."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-013",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "SettlementScreen/lblVatRecoverable.Text"
+        }
+      ],
+      "statement": "The label 'lblVatRecoverable.Text' displays the vat recoverable amount, calculated as the net settlement divided by 6, rounded to two decimal places if the vat registered checkbox is checked, otherwise it displays 0. The threshold value is the net settlement amount in lblNetSettlement.Text, and the effect is to display the calculated vat recoverable amount."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-014",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "SettlementScreen/lblBetterment.Text"
+        }
+      ],
+      "statement": "If the selected claim type is 'Motor' and the vehicle age is greater than 5 years, then the betterment amount is calculated as the cost of parts multiplied by a factor of 0.5 for the first 5 years and then by a decreasing factor for each additional year up to a maximum of 0.1, rounded to 2 decimal places. Otherwise, the betterment amount is 0."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-015",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "SettlementScreen/lblSortCodeError.Text"
+        }
+      ],
+      "statement": "If the payee sort code is not blank and does not match the format of 00-00-00, then display the error message 'Sort code must be in the format 00-00-00'."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-016",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "SettlementScreen/lblLateInterest.Text"
+        }
+      ],
+      "statement": "If the number of days between the agreed payment date and the paid date is more than 14, then calculate the late interest as the net settlement amount multiplied by 8% and divided by 365, then subtract 14 from the days and round the result to two decimal places. Otherwise, the late interest is 0."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-017",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "SettlementScreen/btnApprovePayment.DisplayMode"
+        }
+      ],
+      "statement": "The payment approval button displays as Edit mode if the claim amount is less than or equal to the user authority limit and there is no fraud referral label and the sort code error label is empty. Otherwise, it displays as Disabled mode."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-018",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "TriageScreen/lblAuthority.Text"
+        }
+      ],
+      "statement": "The application checks the claim amount in the 'txtClaimAmount.Text' field. If the claim amount is less than or equal to 5000, it assigns the claim to 'Handler'. If the claim amount is between 5000 and 25000, it assigns the claim to 'TeamLeader'. Otherwise, it assigns the claim to 'ClaimsManager'."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-019",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "TriageScreen/lblFourEyes.Visible"
+        }
+      ],
+      "statement": "If the text input 'txtClaimAmount.Text' contains a value greater than 10000, then the label 'lblFourEyes.Visible' is shown. Otherwise, it is hidden."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-020",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "TriageScreen/lblFraudScore.Text"
+        }
+      ],
+      "statement": "The score is 40 if the difference between the policy start date and incident date is less than 30 days, 30 if the number of prior claims is 3 or more, 20 if the difference between the incident date and notified date is more than 30 days, and 10 if there are no police references and the claim type is theft. The score is 0 otherwise."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-021",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "TriageScreen/lblFraudReferral.Visible"
+        }
+      ],
+      "statement": "The label 'lblFraudReferral' is visible if the fraud score is 50 or higher. This rule is used for authorisation purposes."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-022",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "TriageScreen/lblVulnerable.Visible"
+        }
+      ],
+      "statement": "The label 'lblVulnerable' is shown if the user is 75 years or older, or if they have a 'Third party (Power of Attorney)' preference for contact, or if the user's date of birth is more than 75 years before the date they were notified."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-023",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "TriageScreen/lblPriority.Text"
+        }
+      ],
+      "statement": "The label 'P1' is displayed if the 'lblVulnerable' is visible, or if the selected claim type is 'Injury', or if the claim amount is greater than 25000. The label 'P2' is displayed if none of the above conditions are met and the claim amount is 25000 or less. The label 'P3' is displayed if none of the above conditions are met and the claim amount is less than 25000."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-024",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "TriageScreen/lblSlaDays.Text"
+        }
+      ],
+      "statement": "The condition is if the value of lblPriority.Text is 'P1', then lblSlaDays.Text is set to 2 days; if the value is 'P2', then lblSlaDays.Text is set to 5 days; otherwise, lblSlaDays.Text is set to 10 days."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-025",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "TriageScreen/btnAutoDecline.DisplayMode"
+        }
+      ],
+      "statement": "The button displays as disabled if either the 'lblVulnerable.Visible' label is shown or the 'lblFraudScore.Text' value is 50 or higher. Otherwise, it displays in edit mode."
+    },
+    {
+      "class": "executed",
+      "covered": 1,
+      "declared": "executed_oracle",
+      "id": "BR-026",
+      "locations": [
+        {
+          "evidence": "pass",
+          "path": "TriageScreen/lblOldSurcharge.Text"
+        }
+      ],
+      "statement": "If the claim amount is greater than 50000, a 5% surcharge is applied. Otherwise, no surcharge is applied."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-027",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "clm_Claim.clm_ClaimAmount",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+        }
+      ],
+      "statement": "The Claim Amount must be a positive number and not exceed 10 million. Any value below 0 or above 10 million will trigger a validation error."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-028",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "clm_Claim.clm_FraudScore",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+        }
+      ],
+      "statement": "The Fraud Score column in the Claim entity ranges from 0 to 100. If the Fraud Score is outside this range, it is considered invalid."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-029",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "clm_Claim.clm_PriorClaims",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+        }
+      ],
+      "statement": "The condition is that the number of prior claims must be between 0 and 50. If this condition is met, the effect is that the number of prior claims remains unchanged."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-030",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "clm_Complaint.clm_RedressAmount",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+        }
+      ],
+      "statement": "The condition is that the value of clm_Complaint.clm_RedressAmount must be between 0 and 100,000 (inclusive). If the value is outside this range, the effect is that the value is adjusted to be within the range. This is a validation rule."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-031",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "clm_HandlerAuthority.clm_Limit",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+        }
+      ],
+      "statement": "The condition is that the clm_Limit must be required and must be within the range of 0 to 250000. If the condition is not met, the effect is an error or validation failure."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-032",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "clm_Payment.clm_Amount",
+          "reason": "Dataverse column constraint: emitted as container field metadata, no executable check"
+        }
+      ],
+      "statement": "The amount in the clm_Payment.clm_Amount field must be a positive number and must not exceed 1,000,000. If the amount is less than 0 or greater than 1,000,000, the system will reject it."
+    },
+    {
+      "class": "scenario",
+      "covered": 1,
+      "declared": "scenario",
+      "id": "BR-033",
+      "locations": [
+        {
+          "checks": [
+            "Auditor refused claim creation (no prvCreate)",
+            "Auditor refused payment",
+            "Auditor can read payments (Global read)"
+          ],
+          "evidence": "scenario",
+          "path": "Auditor"
+        }
+      ],
+      "statement": "The Auditor role has read access to all claim, payment, and complaint records. If the role is granted, the system will allow read access to these records."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-034",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsHandler",
+          "reason": "security role: generated RBAC table; no journey check exercises this role"
+        }
+      ],
+      "statement": "The ClaimsHandler role grants read, write, and create permissions for Claim objects to users and BusinessUnit-level permissions for Complaint objects. The threshold values are read, write, and create permissions for Claim objects, and BusinessUnit-level permissions for Complaint objects."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-035",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsManager",
+          "reason": "security role: generated RBAC table; no journey check exercises this role"
+        }
+      ],
+      "statement": "The ClaimsManager role grants global read, write, approve, assign, and write complaint permissions to claims data. This rule applies to the ClaimsManager security role."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-036",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "TeamLeader",
+          "reason": "security role: generated RBAC table; no journey check exercises this role"
+        }
+      ],
+      "statement": "The TeamLeader role grants read, write, create, approve, and write access to claims and complaints within the same business unit. If a user is assigned the TeamLeader role, they can access these claims and complaints."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-037",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsComplaintDeadlines/triggers/Recurrence",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "This rule sets a recurrence schedule to run every day at 06:00 UTC on January 1, 2024, and continues indefinitely. It is a business rule as it defines a business deadline."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-038",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsComplaintDeadlines/actions/Apply_to_each_complaint/actions/Check_reminder_window",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "This rule checks if the complaint has been open between 40 and 56 days. If true, it triggers a reminder at week 6."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-039",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsComplaintDeadlines/actions/Apply_to_each_complaint/actions/Check_eight_week_breach",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The rule checks if the Days_open value is greater than or equal to 56 days. If true, it triggers the action 'Check_eight_week_breach'."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-040",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsFraudReferral/triggers/When_a_row_is_added_or_modified",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The rule triggers when a new claim is added or modified, and it checks if the claim's fraud score is 50 or higher. If the condition is met, the rule is triggered."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-041",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsFraudReferral/actions/Check_vulnerable_customer",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The rule checks if the customer has a vulnerability flag set to true. If true, the customer is referred for further review; otherwise, the system auto-declines the claim."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-042",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsPaymentAuthorisation/triggers/When_a_row_is_added_or_modified",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "This rule checks if the claim payment amount is greater than zero. If true, it triggers the workflow. The threshold value is 0."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-043",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsPaymentAuthorisation/actions/Check_four_eyes_threshold",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The rule checks if the claim amount is 10,000 or more. If true, it requires a second approver."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-044",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsPaymentAuthorisation/actions/Check_recent_payee_change",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The payment is held if the payee changed in the last 30 days, as determined by the difference between the current time and the payee change timestamp being less than 30 days."
+    },
+    {
+      "class": "unproven",
+      "covered": 0,
+      "declared": "scenario",
+      "id": "BR-045",
+      "locations": [
+        {
+          "evidence": "unproven",
+          "path": "ClaimsPaymentAuthorisation/actions/Route_by_claim_type",
+          "reason": "Power Automate flow: not generated (Durable Functions hosting decision only)"
+        }
+      ],
+      "statement": "The code switches the value of 'body/clm_claimtype' from 'Injury' or 'Theft' to 'Injury' or 'Theft' respectively. If 'body/clm_claimtype' is 'Injury', it routes to 'Injury'. If 'body/clm_claimtype' is 'Theft', it routes to 'Theft'."
+    }
+  ],
+  "rules": {
+    "executed": 25,
+    "scenario": 2,
+    "total": 45,
+    "unproven": 18
+  },
+  "unproven_reasons": {}
+}
