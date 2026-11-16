@@ -1,6 +1,6 @@
 # STATE (resumability file — keep current)
 
-- Current phase: 1 done -> 2 (rule catalogue)
+- Current phase: 2 done -> 3 (design + generate)
 - Done: tool discovery; Approvals Kit chosen (see DECISIONS ADR-001); schema contract written.
 - Next: Phase 2 rule-catalogue builder (deterministic candidates + LLM interpretation, cache/replay, audit).
 - Run parser: `DOTNET_ROOT=$HOME/.dotnet uv run factory parse approvals-kit claims-workbench` (output under factory/out/, gitignored, regenerated).
