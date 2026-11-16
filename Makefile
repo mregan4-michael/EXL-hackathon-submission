@@ -29,7 +29,7 @@ parity:
 	$(UV) run factory parity --all
 
 improve:
-	$(UV) run factory improve --replay
+	$(UV) run factory experiment replay && $(UV) run factory experiment leaderboard && git diff --exit-code experiments
 
 demo:
 	./scripts/demo.sh
