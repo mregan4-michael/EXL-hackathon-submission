@@ -11,7 +11,7 @@ from typing import Any
 import yaml
 
 from factory.analyse._lines import find_line
-from factory.analyse.model import FormulaSite
+from factory.analyse.model import Control, FormulaSite
 from factory.common.paths import rel
 
 STYLE_PROP = re.compile(
@@ -110,3 +110,42 @@ def _yaml_control(
             for item in val.value:
                 for ckey, cval in _mapping(item):
                     yield from _yaml_control(path, screen, ckey.value, "", cval)
+
+
+def list_controls(app_dir: Path, fmt: str) -> Iterator[Control]:
+    """Every control with its type and source line, whether or not it has formulas."""
+    if fmt == "msapp_json":
+        for path in sorted((app_dir / "Controls").glob("*.json"), key=lambda p: int(p.stem)):
+            top = json.loads(path.read_text(encoding="utf-8-sig"))["TopParent"]
+            stack: list[tuple[dict[str, Any], str]] = [(top, top["Name"])]
+            while stack:
+                ctrl, screen = stack.pop()
+                name = ctrl["Name"]
+                line = find_line(path, (f'"Name": "{name}"',))
+                ctype = ctrl.get("Template", {}).get("Name", "")
+                yield Control(screen, name, ctype, rel(path), line)
+                stack.extend((c, screen) for c in reversed(ctrl.get("Children", [])))
+        return
+    for path in sorted(app_dir.rglob("*.pa.yaml")):
+        root = yaml.compose(path.read_text(encoding="utf-8"))
+        for key, val in _mapping(root) if root is not None else []:
+            if key.value not in ("Screens", "Components"):
+                continue
+            for skey, sval in _mapping(val):
+                yield Control(skey.value, skey.value, "screen", rel(path), skey.start_mark.line + 1)
+                yield from _yaml_children(path, skey.value, sval)
+
+
+def _yaml_children(path: Path, screen: str, node: yaml.Node) -> Iterator[Control]:
+    for key, val in _mapping(node):
+        if key.value != "Children" or not isinstance(val, yaml.SequenceNode):
+            continue
+        for item in val.value:
+            for ckey, cval in _mapping(item):
+                ctype = next(
+                    (v.value.split("@")[0] for k, v in _mapping(cval)
+                     if k.value == "Control" and isinstance(v, yaml.ScalarNode)),
+                    "",
+                )  # fmt: skip
+                yield Control(screen, ckey.value, ctype, rel(path), ckey.start_mark.line + 1)
+                yield from _yaml_children(path, screen, cval)

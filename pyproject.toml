@@ -50,6 +50,8 @@ ignore = ["S101"]
 
 [tool.ruff.lint.per-file-ignores]
 "factory/tests/**" = ["S"]
+# Bicep template text: line length follows the Bicep, not Python.
+"factory/src/factory/generate/infra.py" = ["E501"]
 
 [tool.mypy]
 strict = true

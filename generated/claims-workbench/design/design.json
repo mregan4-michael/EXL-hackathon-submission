@@ -1,0 +1,2303 @@
+{
+  "app_id": "claims-workbench",
+  "containers": [
+    {
+      "table": "clm_Claim",
+      "entity_set": "clm_Claims",
+      "container": "claims",
+      "id_field": "clm_ClaimId",
+      "partition_key": "/clm_CustomerId",
+      "partition_key_rationale": "Required lookup clm_CustomerId is the aggregate parent: the legacy app reads clm_Claim rows by their parent, so those reads stay single-partition, and parent ids are high-cardinality so writes spread evenly.",
+      "fields": [
+        {
+          "name": "clm_ClaimId",
+          "type": "primarykey",
+          "required": true,
+          "pii": "identifier",
+          "retention": "Kept with the record it identifies; pseudonymised when that record is erased.",
+          "indexed": true
+        },
+        {
+          "name": "clm_PolicyNumber",
+          "type": "nvarchar",
+          "required": true,
+          "pii": "identifier",
+          "retention": "Kept with the record it identifies; pseudonymised when that record is erased.",
+          "indexed": true
+        },
+        {
+          "name": "clm_ClaimAmount",
+          "type": "money",
+          "required": true,
+          "pii": "financial",
+          "retention": "Retain 7 years after claim closure for FCA/HMRC record keeping (ASSUMPTION), then erase.",
+          "indexed": true
+        },
+        {
+          "name": "clm_IncidentDate",
+          "type": "datetime",
+          "required": true,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_NotifiedDate",
+          "type": "datetime",
+          "required": true,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_ClaimType",
+          "type": "nvarchar",
+          "required": true,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_Status",
+          "type": "nvarchar",
+          "required": true,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_FraudScore",
+          "type": "int",
+          "required": false,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_AssignedTo",
+          "type": "nvarchar",
+          "required": false,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_CustomerId",
+          "type": "lookup",
+          "required": true,
+          "pii": "identifier",
+          "retention": "Kept with the record it identifies; pseudonymised when that record is erased.",
+          "indexed": true
+        },
+        {
+          "name": "clm_PriorClaims",
+          "type": "int",
+          "required": false,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        }
+      ],
+      "excluded_from_index": []
+    },
+    {
+      "table": "clm_Complaint",
+      "entity_set": "clm_Complaints",
+      "container": "complaints",
+      "id_field": "clm_ComplaintId",
+      "partition_key": "/id",
+      "partition_key_rationale": "No required parent lookup; rows are read by id, so /id gives point reads and uniform distribution. Revisit if a cross-row query pattern appears.",
+      "fields": [
+        {
+          "name": "clm_ComplaintId",
+          "type": "primarykey",
+          "required": true,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_ClaimId",
+          "type": "lookup",
+          "required": false,
+          "pii": "identifier",
+          "retention": "Kept with the record it identifies; pseudonymised when that record is erased.",
+          "indexed": true
+        },
+        {
+          "name": "clm_ReceivedOn",
+          "type": "datetime",
+          "required": true,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_Channel",
+          "type": "nvarchar",
+          "required": true,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_FinalResponseSent",
+          "type": "bit",
+          "required": false,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_Outcome",
+          "type": "nvarchar",
+          "required": false,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_RedressAmount",
+          "type": "money",
+          "required": false,
+          "pii": "financial",
+          "retention": "Retain 7 years after claim closure for FCA/HMRC record keeping (ASSUMPTION), then erase.",
+          "indexed": true
+        }
+      ],
+      "excluded_from_index": []
+    },
+    {
+      "table": "clm_Customer",
+      "entity_set": "clm_Customers",
+      "container": "customers",
+      "id_field": "clm_CustomerId",
+      "partition_key": "/id",
+      "partition_key_rationale": "No required parent lookup; rows are read by id, so /id gives point reads and uniform distribution. Revisit if a cross-row query pattern appears.",
+      "fields": [
+        {
+          "name": "clm_CustomerId",
+          "type": "primarykey",
+          "required": true,
+          "pii": "identifier",
+          "retention": "Kept with the record it identifies; pseudonymised when that record is erased.",
+          "indexed": true
+        },
+        {
+          "name": "clm_FullName",
+          "type": "nvarchar",
+          "required": true,
+          "pii": "personal",
+          "retention": "Erase or pseudonymise on a valid erasure request once no claim is open.",
+          "indexed": true
+        },
+        {
+          "name": "clm_Email",
+          "type": "nvarchar",
+          "required": false,
+          "pii": "contact",
+          "retention": "Erase or pseudonymise on a valid erasure request once no claim is open.",
+          "indexed": true
+        },
+        {
+          "name": "clm_Phone",
+          "type": "nvarchar",
+          "required": false,
+          "pii": "contact",
+          "retention": "Erase or pseudonymise on a valid erasure request once no claim is open.",
+          "indexed": true
+        },
+        {
+          "name": "clm_Address",
+          "type": "nvarchar",
+          "required": false,
+          "pii": "contact",
+          "retention": "Erase or pseudonymise on a valid erasure request once no claim is open.",
+          "indexed": true
+        },
+        {
+          "name": "clm_DateOfBirth",
+          "type": "datetime",
+          "required": false,
+          "pii": "personal",
+          "retention": "Erase or pseudonymise on a valid erasure request once no claim is open.",
+          "indexed": true
+        },
+        {
+          "name": "clm_VulnerabilityFlag",
+          "type": "bit",
+          "required": false,
+          "pii": "special_category",
+          "retention": "Minimise: store only while the claim is open; erase on request unless a legal hold applies (UK GDPR Art. 9; ASSUMPTION, confirm with DPO).",
+          "indexed": false
+        },
+        {
+          "name": "clm_VulnerabilityNotes",
+          "type": "ntext",
+          "required": false,
+          "pii": "special_category",
+          "retention": "Minimise: store only while the claim is open; erase on request unless a legal hold applies (UK GDPR Art. 9; ASSUMPTION, confirm with DPO).",
+          "indexed": false
+        }
+      ],
+      "excluded_from_index": [
+        "clm_VulnerabilityFlag",
+        "clm_VulnerabilityNotes"
+      ]
+    },
+    {
+      "table": "clm_HandlerAuthority",
+      "entity_set": "clm_HandlerAuthorities",
+      "container": "handler-authorities",
+      "id_field": "clm_HandlerAuthorityId",
+      "partition_key": "/id",
+      "partition_key_rationale": "No required parent lookup; rows are read by id, so /id gives point reads and uniform distribution. Revisit if a cross-row query pattern appears.",
+      "fields": [
+        {
+          "name": "clm_HandlerAuthorityId",
+          "type": "primarykey",
+          "required": true,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_Email",
+          "type": "nvarchar",
+          "required": true,
+          "pii": "contact",
+          "retention": "Erase or pseudonymise on a valid erasure request once no claim is open.",
+          "indexed": true
+        },
+        {
+          "name": "clm_Limit",
+          "type": "money",
+          "required": true,
+          "pii": "financial",
+          "retention": "Retain 7 years after claim closure for FCA/HMRC record keeping (ASSUMPTION), then erase.",
+          "indexed": true
+        }
+      ],
+      "excluded_from_index": []
+    },
+    {
+      "table": "clm_Payment",
+      "entity_set": "clm_Payments",
+      "container": "payments",
+      "id_field": "clm_PaymentId",
+      "partition_key": "/clm_ClaimId",
+      "partition_key_rationale": "Required lookup clm_ClaimId is the aggregate parent: the legacy app reads clm_Payment rows by their parent, so those reads stay single-partition, and parent ids are high-cardinality so writes spread evenly.",
+      "fields": [
+        {
+          "name": "clm_PaymentId",
+          "type": "primarykey",
+          "required": true,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_ClaimId",
+          "type": "lookup",
+          "required": true,
+          "pii": "identifier",
+          "retention": "Kept with the record it identifies; pseudonymised when that record is erased.",
+          "indexed": true
+        },
+        {
+          "name": "clm_Amount",
+          "type": "money",
+          "required": true,
+          "pii": "financial",
+          "retention": "Retain 7 years after claim closure for FCA/HMRC record keeping (ASSUMPTION), then erase.",
+          "indexed": true
+        },
+        {
+          "name": "clm_SortCode",
+          "type": "nvarchar",
+          "required": true,
+          "pii": "financial",
+          "retention": "Retain 7 years after claim closure for FCA/HMRC record keeping (ASSUMPTION), then erase.",
+          "indexed": true
+        },
+        {
+          "name": "clm_AccountNumber",
+          "type": "nvarchar",
+          "required": true,
+          "pii": "financial",
+          "retention": "Retain 7 years after claim closure for FCA/HMRC record keeping (ASSUMPTION), then erase.",
+          "indexed": true
+        },
+        {
+          "name": "clm_ApprovedBy",
+          "type": "nvarchar",
+          "required": false,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_SecondApprover",
+          "type": "nvarchar",
+          "required": false,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        },
+        {
+          "name": "clm_PayeeChangedOn",
+          "type": "datetime",
+          "required": false,
+          "pii": null,
+          "retention": null,
+          "indexed": true
+        }
+      ],
+      "excluded_from_index": []
+    }
+  ],
+  "rbac": {
+    "Auditor": {
+      "clm_Claim": {
+        "Read": "Global"
+      },
+      "clm_Complaint": {
+        "Read": "Global"
+      },
+      "clm_Payment": {
+        "Read": "Global"
+      }
+    },
+    "ClaimsHandler": {
+      "clm_Claim": {
+        "Create": "User",
+        "Read": "User",
+        "Write": "User"
+      },
+      "clm_Complaint": {
+        "Read": "BusinessUnit"
+      },
+      "clm_Payment": {
+        "Create": "User"
+      }
+    },
+    "ClaimsManager": {
+      "clm_Claim": {
+        "Assign": "Global",
+        "Read": "Global",
+        "Write": "Global"
+      },
+      "clm_Complaint": {
+        "Write": "Global"
+      },
+      "clm_Payment": {
+        "Approve": "Global"
+      }
+    },
+    "TeamLeader": {
+      "clm_Claim": {
+        "Read": "BusinessUnit",
+        "Write": "BusinessUnit"
+      },
+      "clm_Complaint": {
+        "Write": "BusinessUnit"
+      },
+      "clm_Payment": {
+        "Approve": "BusinessUnit",
+        "Create": "BusinessUnit"
+      }
+    }
+  },
+  "actions": [
+    {
+      "screen": "IntakeScreen",
+      "control": "btnSubmit",
+      "source": {
+        "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+        "line": 81,
+        "path": "IntakeScreen/btnSubmit.OnSelect"
+      },
+      "table": "clm_Claim",
+      "operation": "Create",
+      "guard": "IntakeScreen/btnSubmit.DisplayMode",
+      "row": null,
+      "fields": {
+        "clm_ClaimAmount": {
+          "args": [
+            {
+              "e": 132,
+              "k": "DottedName",
+              "l": {
+                "e": 127,
+                "k": "FirstName",
+                "name": "txtClaimAmount",
+                "s": 113
+              },
+              "name": "Text",
+              "s": 113
+            }
+          ],
+          "e": 133,
+          "fn": "Value",
+          "k": "Call",
+          "s": 107
+        },
+        "clm_IncidentDate": {
+          "e": 184,
+          "k": "DottedName",
+          "l": {
+            "e": 171,
+            "k": "FirstName",
+            "name": "dpIncidentDate",
+            "s": 157
+          },
+          "name": "SelectedDate",
+          "s": 157
+        },
+        "clm_PolicyNumber": {
+          "e": 84,
+          "k": "DottedName",
+          "l": {
+            "e": 79,
+            "k": "FirstName",
+            "name": "txtPolicyNumber",
+            "s": 64
+          },
+          "name": "Text",
+          "s": 64
+        },
+        "clm_Status": {
+          "e": 207,
+          "k": "StrLit",
+          "s": 202,
+          "v": "New"
+        }
+      },
+      "context_fields": [
+        "clm_NotifiedDate",
+        "clm_ClaimType",
+        "clm_CustomerId"
+      ],
+      "navigates_to": [
+        "TriageScreen"
+      ]
+    },
+    {
+      "screen": "ReviewScreen",
+      "control": "btnReassign",
+      "source": {
+        "file": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml",
+        "line": 12,
+        "path": "ReviewScreen/btnReassign.OnSelect"
+      },
+      "table": "clm_Claim",
+      "operation": "Write",
+      "guard": null,
+      "row": "galReferrals.Selected",
+      "fields": {
+        "clm_AssignedTo": {
+          "e": 85,
+          "k": "DottedName",
+          "l": {
+            "e": 80,
+            "k": "DottedName",
+            "l": {
+              "e": 71,
+              "k": "FirstName",
+              "name": "cboReassignTo",
+              "s": 58
+            },
+            "name": "Selected",
+            "s": 58
+          },
+          "name": "Mail",
+          "s": 58
+        }
+      },
+      "context_fields": [],
+      "navigates_to": []
+    },
+    {
+      "screen": "SettlementScreen",
+      "control": "btnApprovePayment",
+      "source": {
+        "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+        "line": 72,
+        "path": "SettlementScreen/btnApprovePayment.OnSelect"
+      },
+      "table": "clm_Payment",
+      "operation": "Create",
+      "guard": "SettlementScreen/btnApprovePayment.DisplayMode",
+      "row": null,
+      "fields": {
+        "clm_Amount": {
+          "args": [
+            {
+              "e": 89,
+              "k": "DottedName",
+              "l": {
+                "e": 84,
+                "k": "FirstName",
+                "name": "lblNetSettlement",
+                "s": 68
+              },
+              "name": "Text",
+              "s": 68
+            }
+          ],
+          "e": 90,
+          "fn": "Value",
+          "k": "Call",
+          "s": 62
+        },
+        "clm_ApprovedBy": {
+          "e": 165,
+          "k": "DottedName",
+          "l": {
+            "args": [],
+            "e": 159,
+            "fn": "User",
+            "k": "Call",
+            "s": 153
+          },
+          "name": "Email",
+          "s": 153
+        },
+        "clm_SortCode": {
+          "e": 131,
+          "k": "DottedName",
+          "l": {
+            "e": 126,
+            "k": "FirstName",
+            "name": "txtPayeeSortCode",
+            "s": 110
+          },
+          "name": "Text",
+          "s": 110
+        }
+      },
+      "context_fields": [
+        "clm_ClaimId",
+        "clm_AccountNumber"
+      ],
+      "navigates_to": []
+    }
+  ],
+  "session_globals": [
+    {
+      "name": "gblUserAuthorityLimit",
+      "source_line": 3,
+      "resolved": true,
+      "table": "clm_HandlerAuthority",
+      "match_column": "clm_Email",
+      "value_column": "clm_Limit"
+    },
+    {
+      "name": "gblIsManager",
+      "source_line": 3,
+      "resolved": false,
+      "reason": "Not a per-user LookUp; supplied as blank (fails closed)."
+    }
+  ],
+  "flows": [
+    {
+      "flow": "ClaimsComplaintDeadlines",
+      "trigger": "Recurrence",
+      "filter": "",
+      "hosting": "Azure Functions (TimerTrigger)",
+      "rationale": "Scheduled batch with no human wait."
+    },
+    {
+      "flow": "ClaimsFraudReferral",
+      "trigger": "OpenApiConnectionWebhook",
+      "filter": "clm_fraudscore ge 50",
+      "hosting": "Azure Functions (Cosmos DB change-feed trigger)",
+      "rationale": "Reacts to clm_claim changes; short, stateless."
+    },
+    {
+      "flow": "ClaimsPaymentAuthorisation",
+      "trigger": "OpenApiConnectionWebhook",
+      "filter": "clm_amount gt 0",
+      "hosting": "Azure Functions (Cosmos DB change-feed trigger)",
+      "rationale": "Reacts to clm_payment changes; short, stateless."
+    }
+  ],
+  "screens": [
+    {
+      "screen": "ComplaintScreen",
+      "controls": [
+        {
+          "name": "dpComplaintReceived",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 4
+          },
+          "rules": {}
+        },
+        {
+          "name": "dpAsOf",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 6
+          },
+          "rules": {}
+        },
+        {
+          "name": "dpResolvedDate",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 8
+          },
+          "rules": {}
+        },
+        {
+          "name": "chkResolvedToSatisfaction",
+          "type": "Checkbox",
+          "widget": "checkbox",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 10
+          },
+          "rules": {}
+        },
+        {
+          "name": "chkFinalResponseSent",
+          "type": "Checkbox",
+          "widget": "checkbox",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 12
+          },
+          "rules": {}
+        },
+        {
+          "name": "ddChannel",
+          "type": "DropDown",
+          "widget": "select",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 14
+          },
+          "rules": {},
+          "options": [
+            "Phone",
+            "Email",
+            "Letter",
+            "Regulator",
+            "Social media"
+          ]
+        },
+        {
+          "name": "ddComplaintOutcome",
+          "type": "DropDown",
+          "widget": "select",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 18
+          },
+          "rules": {},
+          "options": [
+            "Upheld",
+            "Partially upheld",
+            "Not upheld"
+          ]
+        },
+        {
+          "name": "txtFinancialLoss",
+          "type": "TextInput",
+          "widget": "text",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 22
+          },
+          "rules": {}
+        },
+        {
+          "name": "chkDistressInconvenience",
+          "type": "Checkbox",
+          "widget": "checkbox",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 24
+          },
+          "rules": {}
+        },
+        {
+          "name": "dpFinalResponseDue",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 26
+          },
+          "rules": {}
+        },
+        {
+          "name": "lblSummaryResolution",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 31
+          },
+          "rules": {
+            "Visible": "BR-002"
+          }
+        },
+        {
+          "name": "lblComplaintBreach",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 36
+          },
+          "rules": {
+            "Visible": "BR-003"
+          }
+        },
+        {
+          "name": "lblRedress",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 41
+          },
+          "rules": {
+            "Text": "BR-004"
+          }
+        },
+        {
+          "name": "lblComplaintRoute",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml",
+            "line": 51
+          },
+          "rules": {
+            "Text": "BR-005"
+          }
+        }
+      ]
+    },
+    {
+      "screen": "IntakeScreen",
+      "controls": [
+        {
+          "name": "txtPolicyNumber",
+          "type": "TextInput",
+          "widget": "text",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 6
+          },
+          "rules": {}
+        },
+        {
+          "name": "lblPolicyNumberError",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 12
+          },
+          "rules": {
+            "Text": "BR-006"
+          }
+        },
+        {
+          "name": "txtClaimAmount",
+          "type": "TextInput",
+          "widget": "text",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 22
+          },
+          "rules": {}
+        },
+        {
+          "name": "dpPolicyStart",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 26
+          },
+          "rules": {}
+        },
+        {
+          "name": "dpPolicyEnd",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 28
+          },
+          "rules": {}
+        },
+        {
+          "name": "dpIncidentDate",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 30
+          },
+          "rules": {}
+        },
+        {
+          "name": "dpNotifiedDate",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 32
+          },
+          "rules": {}
+        },
+        {
+          "name": "lblCoverError",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 34
+          },
+          "rules": {
+            "Text": "BR-007"
+          }
+        },
+        {
+          "name": "lblDateOrderError",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 43
+          },
+          "rules": {
+            "Text": "BR-008"
+          }
+        },
+        {
+          "name": "lblLateNotification",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 47
+          },
+          "rules": {
+            "Visible": "BR-009"
+          }
+        },
+        {
+          "name": "ddClaimType",
+          "type": "DropDown",
+          "widget": "select",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 52
+          },
+          "rules": {},
+          "options": [
+            "Motor",
+            "Home",
+            "Theft",
+            "Injury",
+            "Travel"
+          ]
+        },
+        {
+          "name": "ddFault",
+          "type": "DropDown",
+          "widget": "select",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 56
+          },
+          "rules": {},
+          "options": [
+            "At fault",
+            "Non fault",
+            "Split liability"
+          ]
+        },
+        {
+          "name": "txtNcdYears",
+          "type": "TextInput",
+          "widget": "text",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 60
+          },
+          "rules": {}
+        },
+        {
+          "name": "lblNcdAfterClaim",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 62
+          },
+          "rules": {
+            "Text": "BR-010"
+          }
+        },
+        {
+          "name": "btnSubmit",
+          "type": "Button",
+          "widget": "button",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml",
+            "line": 71
+          },
+          "rules": {
+            "DisplayMode": "BR-011"
+          },
+          "label": "Submit claim"
+        }
+      ]
+    },
+    {
+      "screen": "ReviewScreen",
+      "controls": [
+        {
+          "name": "galReferrals",
+          "type": "Gallery",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml",
+            "line": 4
+          },
+          "rules": {}
+        },
+        {
+          "name": "btnReassign",
+          "type": "Button",
+          "widget": "button",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml",
+            "line": 8
+          },
+          "rules": {}
+        }
+      ]
+    },
+    {
+      "screen": "SettlementScreen",
+      "controls": [
+        {
+          "name": "txtSumInsured",
+          "type": "TextInput",
+          "widget": "text",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 4
+          },
+          "rules": {}
+        },
+        {
+          "name": "chkVatRegistered",
+          "type": "Checkbox",
+          "widget": "checkbox",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 6
+          },
+          "rules": {}
+        },
+        {
+          "name": "txtVehicleAge",
+          "type": "TextInput",
+          "widget": "text",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 8
+          },
+          "rules": {}
+        },
+        {
+          "name": "txtPartsCost",
+          "type": "TextInput",
+          "widget": "text",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 10
+          },
+          "rules": {}
+        },
+        {
+          "name": "lblExcess",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 12
+          },
+          "rules": {
+            "Text": "BR-012"
+          }
+        },
+        {
+          "name": "lblNetSettlement",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 26
+          },
+          "rules": {}
+        },
+        {
+          "name": "lblVatRecoverable",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 30
+          },
+          "rules": {
+            "Text": "BR-013"
+          }
+        },
+        {
+          "name": "lblBetterment",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 34
+          },
+          "rules": {
+            "Text": "BR-014"
+          }
+        },
+        {
+          "name": "txtPayeeSortCode",
+          "type": "TextInput",
+          "widget": "text",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 43
+          },
+          "rules": {}
+        },
+        {
+          "name": "lblSortCodeError",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 45
+          },
+          "rules": {
+            "Text": "BR-015"
+          }
+        },
+        {
+          "name": "dpAgreedDate",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 49
+          },
+          "rules": {}
+        },
+        {
+          "name": "dpPaidDate",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 51
+          },
+          "rules": {}
+        },
+        {
+          "name": "lblLateInterest",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 53
+          },
+          "rules": {
+            "Text": "BR-016"
+          }
+        },
+        {
+          "name": "btnApprovePayment",
+          "type": "Button",
+          "widget": "button",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml",
+            "line": 62
+          },
+          "rules": {
+            "DisplayMode": "BR-017"
+          },
+          "label": "Approve payment"
+        }
+      ]
+    },
+    {
+      "screen": "TriageScreen",
+      "controls": [
+        {
+          "name": "txtPriorClaims",
+          "type": "TextInput",
+          "widget": "text",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 6
+          },
+          "rules": {}
+        },
+        {
+          "name": "chkNoPoliceRef",
+          "type": "Checkbox",
+          "widget": "checkbox",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 8
+          },
+          "rules": {}
+        },
+        {
+          "name": "chkVulnerable",
+          "type": "Checkbox",
+          "widget": "checkbox",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 12
+          },
+          "rules": {}
+        },
+        {
+          "name": "dpDateOfBirth",
+          "type": "DatePicker",
+          "widget": "date",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 16
+          },
+          "rules": {}
+        },
+        {
+          "name": "ddContactPref",
+          "type": "DropDown",
+          "widget": "select",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 18
+          },
+          "rules": {},
+          "options": [
+            "Customer",
+            "Third party (Power of Attorney)",
+            "Broker"
+          ]
+        },
+        {
+          "name": "lblAuthority",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 22
+          },
+          "rules": {
+            "Text": "BR-018"
+          }
+        },
+        {
+          "name": "lblFourEyes",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 31
+          },
+          "rules": {
+            "Visible": "BR-019"
+          }
+        },
+        {
+          "name": "lblFraudScore",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 36
+          },
+          "rules": {
+            "Text": "BR-020"
+          }
+        },
+        {
+          "name": "lblFraudReferral",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 44
+          },
+          "rules": {
+            "Visible": "BR-021"
+          }
+        },
+        {
+          "name": "lblVulnerable",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 49
+          },
+          "rules": {
+            "Visible": "BR-022"
+          }
+        },
+        {
+          "name": "lblPriority",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 57
+          },
+          "rules": {
+            "Text": "BR-023"
+          }
+        },
+        {
+          "name": "lblSlaDays",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 67
+          },
+          "rules": {
+            "Text": "BR-024"
+          }
+        },
+        {
+          "name": "btnAutoDecline",
+          "type": "Button",
+          "widget": "button",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 71
+          },
+          "rules": {
+            "DisplayMode": "BR-025"
+          },
+          "label": "Decline claim"
+        },
+        {
+          "name": "lblOldSurcharge",
+          "type": "Label",
+          "widget": "label",
+          "source": {
+            "file": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml",
+            "line": 81
+          },
+          "rules": {
+            "Text": "BR-026"
+          }
+        }
+      ]
+    }
+  ],
+  "openapi": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "claims-workbench API (generated)",
+      "version": "1.0.0"
+    },
+    "components": {
+      "schemas": {
+        "clm_Claim": {
+          "type": "object",
+          "required": [
+            "clm_PolicyNumber",
+            "clm_ClaimAmount",
+            "clm_IncidentDate",
+            "clm_NotifiedDate",
+            "clm_ClaimType",
+            "clm_Status",
+            "clm_CustomerId"
+          ],
+          "properties": {
+            "clm_ClaimId": {
+              "type": "string",
+              "x-pii": "identifier"
+            },
+            "clm_PolicyNumber": {
+              "type": "string",
+              "x-pii": "identifier"
+            },
+            "clm_ClaimAmount": {
+              "type": "number",
+              "x-pii": "financial"
+            },
+            "clm_IncidentDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "clm_NotifiedDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "clm_ClaimType": {
+              "type": "string"
+            },
+            "clm_Status": {
+              "type": "string"
+            },
+            "clm_FraudScore": {
+              "type": "integer"
+            },
+            "clm_AssignedTo": {
+              "type": "string"
+            },
+            "clm_CustomerId": {
+              "type": "string",
+              "x-pii": "identifier"
+            },
+            "clm_PriorClaims": {
+              "type": "integer"
+            }
+          }
+        },
+        "clm_Complaint": {
+          "type": "object",
+          "required": [
+            "clm_ReceivedOn",
+            "clm_Channel"
+          ],
+          "properties": {
+            "clm_ComplaintId": {
+              "type": "string"
+            },
+            "clm_ClaimId": {
+              "type": "string",
+              "x-pii": "identifier"
+            },
+            "clm_ReceivedOn": {
+              "type": "string",
+              "format": "date"
+            },
+            "clm_Channel": {
+              "type": "string"
+            },
+            "clm_FinalResponseSent": {
+              "type": "boolean"
+            },
+            "clm_Outcome": {
+              "type": "string"
+            },
+            "clm_RedressAmount": {
+              "type": "number",
+              "x-pii": "financial"
+            }
+          }
+        },
+        "clm_Customer": {
+          "type": "object",
+          "required": [
+            "clm_FullName"
+          ],
+          "properties": {
+            "clm_CustomerId": {
+              "type": "string",
+              "x-pii": "identifier"
+            },
+            "clm_FullName": {
+              "type": "string",
+              "x-pii": "personal"
+            },
+            "clm_Email": {
+              "type": "string",
+              "x-pii": "contact"
+            },
+            "clm_Phone": {
+              "type": "string",
+              "x-pii": "contact"
+            },
+            "clm_Address": {
+              "type": "string",
+              "x-pii": "contact"
+            },
+            "clm_DateOfBirth": {
+              "type": "string",
+              "format": "date",
+              "x-pii": "personal"
+            },
+            "clm_VulnerabilityFlag": {
+              "type": "boolean",
+              "x-pii": "special_category"
+            },
+            "clm_VulnerabilityNotes": {
+              "type": "string",
+              "x-pii": "special_category"
+            }
+          }
+        },
+        "clm_HandlerAuthority": {
+          "type": "object",
+          "required": [
+            "clm_Email",
+            "clm_Limit"
+          ],
+          "properties": {
+            "clm_HandlerAuthorityId": {
+              "type": "string"
+            },
+            "clm_Email": {
+              "type": "string",
+              "x-pii": "contact"
+            },
+            "clm_Limit": {
+              "type": "number",
+              "x-pii": "financial"
+            }
+          }
+        },
+        "clm_Payment": {
+          "type": "object",
+          "required": [
+            "clm_ClaimId",
+            "clm_Amount",
+            "clm_SortCode",
+            "clm_AccountNumber"
+          ],
+          "properties": {
+            "clm_PaymentId": {
+              "type": "string"
+            },
+            "clm_ClaimId": {
+              "type": "string",
+              "x-pii": "identifier"
+            },
+            "clm_Amount": {
+              "type": "number",
+              "x-pii": "financial"
+            },
+            "clm_SortCode": {
+              "type": "string",
+              "x-pii": "financial"
+            },
+            "clm_AccountNumber": {
+              "type": "string",
+              "x-pii": "financial"
+            },
+            "clm_ApprovedBy": {
+              "type": "string"
+            },
+            "clm_SecondApprover": {
+              "type": "string"
+            },
+            "clm_PayeeChangedOn": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "demoRole": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "X-Demo-User",
+          "description": "Offline only (Identity:Mode=demo)."
+        },
+        "entra": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "description": "Azure: Entra ID token validated by Container Apps built-in auth; app role = legacy security role."
+        }
+      }
+    },
+    "security": [
+      {
+        "entra": []
+      },
+      {
+        "demoRole": []
+      }
+    ],
+    "paths": {
+      "/api/clm_Claims": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "list",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/clm_Claim"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/clm_Claims/{id}": {
+        "get": {
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "row",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/clm_Claim"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "not found"
+            }
+          }
+        }
+      },
+      "/api/clm_Complaints": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "list",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/clm_Complaint"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/clm_Complaints/{id}": {
+        "get": {
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "row",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/clm_Complaint"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "not found"
+            }
+          }
+        }
+      },
+      "/api/clm_Customers": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "list",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/clm_Customer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/clm_Customers/{id}": {
+        "get": {
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "row",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/clm_Customer"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "not found"
+            }
+          }
+        }
+      },
+      "/api/clm_HandlerAuthorities": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "list",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/clm_HandlerAuthority"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/clm_HandlerAuthorities/{id}": {
+        "get": {
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "row",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/clm_HandlerAuthority"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "not found"
+            }
+          }
+        }
+      },
+      "/api/clm_Payments": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "list",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/clm_Payment"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/clm_Payments/{id}": {
+        "get": {
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "row",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/clm_Payment"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "not found"
+            }
+          }
+        }
+      },
+      "/api/rules/{ruleId}/evaluate": {
+        "post": {
+          "summary": "Evaluate one generated rule",
+          "parameters": [
+            {
+              "name": "ruleId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "rule value"
+            },
+            "404": {
+              "description": "unknown"
+            }
+          }
+        }
+      },
+      "/api/screens/{screen}/actions/{control}": {
+        "post": {
+          "summary": "Run a legacy button action (guard + RBAC + persist)",
+          "parameters": [
+            {
+              "name": "screen",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "control",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "created"
+            },
+            "403": {
+              "description": "role lacks the Dataverse privilege"
+            },
+            "409": {
+              "description": "legacy DisplayMode guard disables the action"
+            }
+          }
+        }
+      },
+      "/api/screens/{screen}/evaluate": {
+        "post": {
+          "summary": "Evaluate every rule on a screen in dependency order",
+          "parameters": [
+            {
+              "name": "screen",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "ComplaintScreen",
+                  "IntakeScreen",
+                  "ReviewScreen",
+                  "SettlementScreen",
+                  "TriageScreen"
+                ]
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "map of control.property -> value"
+            }
+          }
+        }
+      },
+      "/health": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "ok"
+            }
+          }
+        }
+      }
+    }
+  },
+  "rbac_decisions": [
+    {
+      "id": "RBAC-001",
+      "role": "ClaimsHandler",
+      "table": "clm_Claim",
+      "privilege": "Create",
+      "depth": "User",
+      "finding": "No legacy role grants prvCreateclm_Claim, so IntakeScreen/btnSubmit can only succeed for System Administrators in the source environment. The intake screen is clearly designed for handlers.",
+      "decision": "Grant ClaimsHandler Create on clm_Claim at User depth (own records), matching the existing handler Read/Write depth.",
+      "status": "proposed: awaiting business sign-off (QUESTIONS.md Q5)"
+    }
+  ],
+  "generated": {
+    "formulas": [
+      {
+        "output": "dpFinalResponseDue.DefaultDate",
+        "screen": "ComplaintScreen",
+        "rule_id": null,
+        "method": "Rules.ComplaintScreen_dpFinalResponseDue_DefaultDate",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:29"
+      },
+      {
+        "output": "dpFinalResponseDue.DisplayMode",
+        "screen": "ComplaintScreen",
+        "rule_id": null,
+        "method": "Rules.ComplaintScreen_dpFinalResponseDue_DisplayMode",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:30"
+      },
+      {
+        "output": "lblComplaintBreach.Text",
+        "screen": "ComplaintScreen",
+        "rule_id": null,
+        "method": "Rules.ComplaintScreen_lblComplaintBreach_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:39"
+      },
+      {
+        "output": "lblComplaintBreach.Visible",
+        "screen": "ComplaintScreen",
+        "rule_id": "BR-003",
+        "method": "Rules.ComplaintScreen_lblComplaintBreach_Visible",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:40"
+      },
+      {
+        "output": "lblComplaintRoute.Text",
+        "screen": "ComplaintScreen",
+        "rule_id": "BR-005",
+        "method": "Rules.ComplaintScreen_lblComplaintRoute_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:54"
+      },
+      {
+        "output": "lblRedress.Text",
+        "screen": "ComplaintScreen",
+        "rule_id": "BR-004",
+        "method": "Rules.ComplaintScreen_lblRedress_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:44"
+      },
+      {
+        "output": "lblSummaryResolution.Text",
+        "screen": "ComplaintScreen",
+        "rule_id": null,
+        "method": "Rules.ComplaintScreen_lblSummaryResolution_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:34"
+      },
+      {
+        "output": "lblSummaryResolution.Visible",
+        "screen": "ComplaintScreen",
+        "rule_id": "BR-002",
+        "method": "Rules.ComplaintScreen_lblSummaryResolution_Visible",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:35"
+      },
+      {
+        "output": "lblCoverError.Text",
+        "screen": "IntakeScreen",
+        "rule_id": "BR-007",
+        "method": "Rules.IntakeScreen_lblCoverError_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:37"
+      },
+      {
+        "output": "btnSubmit.DisplayMode",
+        "screen": "IntakeScreen",
+        "rule_id": "BR-011",
+        "method": "Rules.IntakeScreen_btnSubmit_DisplayMode",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:75"
+      },
+      {
+        "output": "btnSubmit.Text",
+        "screen": "IntakeScreen",
+        "rule_id": null,
+        "method": "Rules.IntakeScreen_btnSubmit_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:74"
+      },
+      {
+        "output": "lblDateOrderError.Text",
+        "screen": "IntakeScreen",
+        "rule_id": "BR-008",
+        "method": "Rules.IntakeScreen_lblDateOrderError_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:46"
+      },
+      {
+        "output": "lblLateNotification.Text",
+        "screen": "IntakeScreen",
+        "rule_id": null,
+        "method": "Rules.IntakeScreen_lblLateNotification_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:50"
+      },
+      {
+        "output": "lblLateNotification.Visible",
+        "screen": "IntakeScreen",
+        "rule_id": "BR-009",
+        "method": "Rules.IntakeScreen_lblLateNotification_Visible",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:51"
+      },
+      {
+        "output": "lblNcdAfterClaim.Text",
+        "screen": "IntakeScreen",
+        "rule_id": "BR-010",
+        "method": "Rules.IntakeScreen_lblNcdAfterClaim_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:65"
+      },
+      {
+        "output": "lblPolicyNumberError.Text",
+        "screen": "IntakeScreen",
+        "rule_id": "BR-006",
+        "method": "Rules.IntakeScreen_lblPolicyNumberError_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:15"
+      },
+      {
+        "output": "txtClaimAmount.Format",
+        "screen": "IntakeScreen",
+        "rule_id": null,
+        "method": "Rules.IntakeScreen_txtClaimAmount_Format",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:25"
+      },
+      {
+        "output": "txtPolicyNumber.HintText",
+        "screen": "IntakeScreen",
+        "rule_id": null,
+        "method": "Rules.IntakeScreen_txtPolicyNumber_HintText",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:9"
+      },
+      {
+        "output": "txtPolicyNumber.X",
+        "screen": "IntakeScreen",
+        "rule_id": null,
+        "method": "Rules.IntakeScreen_txtPolicyNumber_X",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:10"
+      },
+      {
+        "output": "txtPolicyNumber.Y",
+        "screen": "IntakeScreen",
+        "rule_id": null,
+        "method": "Rules.IntakeScreen_txtPolicyNumber_Y",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:11"
+      },
+      {
+        "output": "btnReassign.Visible",
+        "screen": "ReviewScreen",
+        "rule_id": null,
+        "method": "Rules.ReviewScreen_btnReassign_Visible",
+        "source": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml:11"
+      },
+      {
+        "output": "lblFraudScore.Text",
+        "screen": "TriageScreen",
+        "rule_id": "BR-020",
+        "method": "Rules.TriageScreen_lblFraudScore_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:39"
+      },
+      {
+        "output": "lblFraudReferral.Visible",
+        "screen": "TriageScreen",
+        "rule_id": "BR-021",
+        "method": "Rules.TriageScreen_lblFraudReferral_Visible",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:48"
+      },
+      {
+        "output": "lblSortCodeError.Text",
+        "screen": "SettlementScreen",
+        "rule_id": "BR-015",
+        "method": "Rules.SettlementScreen_lblSortCodeError_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:48"
+      },
+      {
+        "output": "btnApprovePayment.DisplayMode",
+        "screen": "SettlementScreen",
+        "rule_id": "BR-017",
+        "method": "Rules.SettlementScreen_btnApprovePayment_DisplayMode",
+        "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:66"
+      },
+      {
+        "output": "btnApprovePayment.Text",
+        "screen": "SettlementScreen",
+        "rule_id": null,
+        "method": "Rules.SettlementScreen_btnApprovePayment_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:65"
+      },
+      {
+        "output": "lblBetterment.Text",
+        "screen": "SettlementScreen",
+        "rule_id": "BR-014",
+        "method": "Rules.SettlementScreen_lblBetterment_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:37"
+      },
+      {
+        "output": "lblExcess.Text",
+        "screen": "SettlementScreen",
+        "rule_id": "BR-012",
+        "method": "Rules.SettlementScreen_lblExcess_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:15"
+      },
+      {
+        "output": "lblNetSettlement.Text",
+        "screen": "SettlementScreen",
+        "rule_id": null,
+        "method": "Rules.SettlementScreen_lblNetSettlement_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:29"
+      },
+      {
+        "output": "lblLateInterest.Text",
+        "screen": "SettlementScreen",
+        "rule_id": "BR-016",
+        "method": "Rules.SettlementScreen_lblLateInterest_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:56"
+      },
+      {
+        "output": "lblVatRecoverable.Text",
+        "screen": "SettlementScreen",
+        "rule_id": "BR-013",
+        "method": "Rules.SettlementScreen_lblVatRecoverable_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:33"
+      },
+      {
+        "output": "lblVulnerable.Visible",
+        "screen": "TriageScreen",
+        "rule_id": "BR-022",
+        "method": "Rules.TriageScreen_lblVulnerable_Visible",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:53"
+      },
+      {
+        "output": "btnAutoDecline.DisplayMode",
+        "screen": "TriageScreen",
+        "rule_id": "BR-025",
+        "method": "Rules.TriageScreen_btnAutoDecline_DisplayMode",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:75"
+      },
+      {
+        "output": "btnAutoDecline.Text",
+        "screen": "TriageScreen",
+        "rule_id": null,
+        "method": "Rules.TriageScreen_btnAutoDecline_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:74"
+      },
+      {
+        "output": "chkNoPoliceRef.Text",
+        "screen": "TriageScreen",
+        "rule_id": null,
+        "method": "Rules.TriageScreen_chkNoPoliceRef_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:11"
+      },
+      {
+        "output": "chkVulnerable.Text",
+        "screen": "TriageScreen",
+        "rule_id": null,
+        "method": "Rules.TriageScreen_chkVulnerable_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:15"
+      },
+      {
+        "output": "lblAuthority.Text",
+        "screen": "TriageScreen",
+        "rule_id": "BR-018",
+        "method": "Rules.TriageScreen_lblAuthority_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:25"
+      },
+      {
+        "output": "lblFourEyes.Text",
+        "screen": "TriageScreen",
+        "rule_id": null,
+        "method": "Rules.TriageScreen_lblFourEyes_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:34"
+      },
+      {
+        "output": "lblFourEyes.Visible",
+        "screen": "TriageScreen",
+        "rule_id": "BR-019",
+        "method": "Rules.TriageScreen_lblFourEyes_Visible",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:35"
+      },
+      {
+        "output": "lblFraudReferral.Text",
+        "screen": "TriageScreen",
+        "rule_id": null,
+        "method": "Rules.TriageScreen_lblFraudReferral_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:47"
+      },
+      {
+        "output": "lblOldSurcharge.Text",
+        "screen": "TriageScreen",
+        "rule_id": "BR-026",
+        "method": "Rules.TriageScreen_lblOldSurcharge_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:85"
+      },
+      {
+        "output": "lblOldSurcharge.Visible",
+        "screen": "TriageScreen",
+        "rule_id": null,
+        "method": "Rules.TriageScreen_lblOldSurcharge_Visible",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:84"
+      },
+      {
+        "output": "lblPriority.Text",
+        "screen": "TriageScreen",
+        "rule_id": "BR-023",
+        "method": "Rules.TriageScreen_lblPriority_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:60"
+      },
+      {
+        "output": "lblSlaDays.Text",
+        "screen": "TriageScreen",
+        "rule_id": "BR-024",
+        "method": "Rules.TriageScreen_lblSlaDays_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:70"
+      },
+      {
+        "output": "lblVulnerable.Text",
+        "screen": "TriageScreen",
+        "rule_id": null,
+        "method": "Rules.TriageScreen_lblVulnerable_Text",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:52"
+      }
+    ],
+    "not_compiled": [
+      {
+        "path": "ComplaintScreen/ddChannel.Items",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:17",
+        "rule_id": null,
+        "disposition": "static options: emitted into app.g.ts"
+      },
+      {
+        "path": "ComplaintScreen/ddComplaintOutcome.Items",
+        "source": "legacy/claims-workbench/CanvasApps/src/ComplaintScreen.pa.yaml:21",
+        "rule_id": null,
+        "disposition": "static options: emitted into app.g.ts"
+      },
+      {
+        "path": "IntakeScreen/IntakeScreen.Fill",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:4",
+        "rule_id": null,
+        "disposition": "presentation: styling, not a business rule; React uses its own design tokens"
+      },
+      {
+        "path": "IntakeScreen/lblPolicyNumberError.Color",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:21",
+        "rule_id": null,
+        "disposition": "presentation: styling, not a business rule; React uses its own design tokens"
+      },
+      {
+        "path": "IntakeScreen/ddClaimType.Items",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:55",
+        "rule_id": null,
+        "disposition": "static options: App.OnStart collection literal emitted into app.g.ts"
+      },
+      {
+        "path": "IntakeScreen/ddFault.Items",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:59",
+        "rule_id": null,
+        "disposition": "static options: emitted into app.g.ts"
+      },
+      {
+        "path": "IntakeScreen/btnSubmit.OnSelect",
+        "source": "legacy/claims-workbench/CanvasApps/src/IntakeScreen.pa.yaml:81",
+        "rule_id": null,
+        "disposition": "action: generated as an action endpoint (guard + RBAC + persist)"
+      },
+      {
+        "path": "ReviewScreen/galReferrals.Items",
+        "source": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml:7",
+        "rule_id": null,
+        "disposition": "data query: served by the list endpoint; filter/sort is a scenario-tested gap"
+      },
+      {
+        "path": "ReviewScreen/btnReassign.OnSelect",
+        "source": "legacy/claims-workbench/CanvasApps/src/ReviewScreen.pa.yaml:12",
+        "rule_id": null,
+        "disposition": "action: generated as an action endpoint (guard + RBAC + persist)"
+      },
+      {
+        "path": "SettlementScreen/btnApprovePayment.OnSelect",
+        "source": "legacy/claims-workbench/CanvasApps/src/SettlementScreen.pa.yaml:72",
+        "rule_id": null,
+        "disposition": "action: generated as an action endpoint (guard + RBAC + persist)"
+      },
+      {
+        "path": "TriageScreen/TriageScreen.OnVisible",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:4",
+        "rule_id": null,
+        "disposition": "unsupported (behaviour property): routed to scenario/unproven evidence, no code generated"
+      },
+      {
+        "path": "TriageScreen/ddContactPref.Items",
+        "source": "legacy/claims-workbench/CanvasApps/src/TriageScreen.pa.yaml:21",
+        "rule_id": null,
+        "disposition": "static options: emitted into app.g.ts"
+      }
+    ],
+    "action_fields_not_compiled": []
+  }
+}

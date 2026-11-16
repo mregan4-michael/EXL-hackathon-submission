@@ -1,0 +1,4761 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "approvals-kit API (generated)",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "cat_BusinessApprovalCondition": {
+        "type": "object",
+        "required": [
+          "cat_Process",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BranchDisplay": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalConditionId": {
+            "type": "string"
+          },
+          "cat_ConditionData": {
+            "type": "string"
+          },
+          "cat_ConditionDataType": {
+            "type": "string"
+          },
+          "cat_ConditionValue": {
+            "type": "string"
+          },
+          "cat_ConditionValueDisplay": {
+            "type": "string"
+          },
+          "cat_GoToStage": {
+            "type": "string"
+          },
+          "cat_IsDefault": {
+            "type": "boolean"
+          },
+          "cat_IsParallel": {
+            "type": "boolean"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Node": {
+            "type": "string"
+          },
+          "cat_NodeNameValue": {
+            "type": "string"
+          },
+          "cat_PathIndex": {
+            "type": "integer"
+          },
+          "cat_Process": {
+            "type": "string"
+          },
+          "cat_Stage": {
+            "type": "string"
+          },
+          "cat_StageNameValue": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalData": {
+        "type": "object",
+        "required": [
+          "cat_DataType",
+          "cat_Name",
+          "cat_Process",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalDataId": {
+            "type": "string"
+          },
+          "cat_DataType": {
+            "type": "string"
+          },
+          "cat_DefaultValue": {
+            "type": "string"
+          },
+          "cat_Description": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Process": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalDataInstance": {
+        "type": "object",
+        "required": [
+          "cat_DataValue",
+          "cat_RuntimeData",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalDataInstanceId": {
+            "type": "string"
+          },
+          "cat_DataValue": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_RuntimeData": {
+            "type": "string"
+          },
+          "cat_WorkflowInstance": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalHolidayCalendar": {
+        "type": "object",
+        "required": [
+          "cat_Name",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalHolidayCalendarId": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalInstance": {
+        "type": "object",
+        "required": [
+          "cat_Approver",
+          "cat_InstanceStatus",
+          "cat_NodeInstance",
+          "cat_WorkflowInstance",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_ActionedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_AdditionalInformation": {
+            "type": "string"
+          },
+          "cat_AppovalId": {
+            "type": "string"
+          },
+          "cat_ApprovalType": {
+            "type": "string"
+          },
+          "cat_Approver": {
+            "type": "string"
+          },
+          "cat_ApproverUPN": {
+            "type": "string",
+            "x-pii": "contact"
+          },
+          "cat_BusinessApprovalInstanceId": {
+            "type": "string"
+          },
+          "cat_Comments": {
+            "type": "string"
+          },
+          "cat_CustomResponses": {
+            "type": "string"
+          },
+          "cat_DelegateApprover": {
+            "type": "string"
+          },
+          "cat_DelegatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_Details": {
+            "type": "string"
+          },
+          "cat_InstanceStatus": {
+            "type": "string"
+          },
+          "cat_ItemLink": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Node": {
+            "type": "string"
+          },
+          "cat_NodeInstance": {
+            "type": "string"
+          },
+          "cat_Notification": {
+            "type": "string"
+          },
+          "cat_OriginalApprover": {
+            "type": "string"
+          },
+          "cat_Outcome": {
+            "type": "string"
+          },
+          "cat_OverrideApprover": {
+            "type": "string"
+          },
+          "cat_ProcessVersion": {
+            "type": "string"
+          },
+          "cat_RequestedBy": {
+            "type": "string"
+          },
+          "cat_Stage": {
+            "type": "string"
+          },
+          "cat_Start": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_TimeoutCounter": {
+            "type": "integer"
+          },
+          "cat_TimeoutUpdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_Title": {
+            "type": "string"
+          },
+          "cat_WorkflowInstance": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalInstanceLog": {
+        "type": "object",
+        "required": [
+          "cat_Name",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalInstanceLogId": {
+            "type": "string"
+          },
+          "cat_FlowId": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_RunHistory": {
+            "type": "string"
+          },
+          "cat_WorkflowInstance": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalInstanceOverride": {
+        "type": "object",
+        "required": [
+          "cat_ApprovalInstance",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_ApprovalInstance": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalInstanceOverrideId": {
+            "type": "string"
+          },
+          "cat_IsCancellation": {
+            "type": "boolean"
+          },
+          "cat_IsReassign": {
+            "type": "boolean"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_OverrideApprover": {
+            "type": "string"
+          },
+          "cat_OverrideReason": {
+            "type": "string"
+          },
+          "cat_OverrideStatus": {
+            "type": "string"
+          },
+          "cat_OverrideType": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalNode": {
+        "type": "object",
+        "required": [
+          "cat_Name",
+          "cat_NodeType",
+          "cat_RowIndex",
+          "cat_Stage",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_ApprovalType": {
+            "type": "string"
+          },
+          "cat_Approvers": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalNodeId": {
+            "type": "string"
+          },
+          "cat_CustomResponses": {
+            "type": "string"
+          },
+          "cat_DelegationRule": {
+            "type": "string"
+          },
+          "cat_Description": {
+            "type": "string"
+          },
+          "cat_GoToPaths": {
+            "type": "integer"
+          },
+          "cat_GoToStage": {
+            "type": "string"
+          },
+          "cat_InstanceStatus": {
+            "type": "string"
+          },
+          "cat_Message": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_NextReminderNode": {
+            "type": "string"
+          },
+          "cat_NextReminderRuntimeNode": {
+            "type": "string"
+          },
+          "cat_NodeCondition": {
+            "type": "string"
+          },
+          "cat_NodeDueDateDataType": {
+            "type": "string"
+          },
+          "cat_NodeDueDateRequestData": {
+            "type": "string"
+          },
+          "cat_NodeDueDateValue": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_NodeType": {
+            "type": "string"
+          },
+          "cat_NotificationType": {
+            "type": "string"
+          },
+          "cat_Operand": {
+            "type": "string"
+          },
+          "cat_PathIndex": {
+            "type": "integer"
+          },
+          "cat_Process": {
+            "type": "string"
+          },
+          "cat_ProcessNameValue": {
+            "type": "string"
+          },
+          "cat_RowIndex": {
+            "type": "integer"
+          },
+          "cat_SourceData": {
+            "type": "string"
+          },
+          "cat_SourceDataNameValue": {
+            "type": "string"
+          },
+          "cat_SourceDataType": {
+            "type": "string"
+          },
+          "cat_Stage": {
+            "type": "string"
+          },
+          "cat_StageNameValue": {
+            "type": "string"
+          },
+          "cat_TimeOut": {
+            "type": "integer"
+          },
+          "cat_TimeOutMode": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalNodeReminder": {
+        "type": "object",
+        "required": [
+          "cat_Node",
+          "cat_ReminderDays",
+          "OwnerId",
+          "OwningBusinessUnit",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalNodeReminderId": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Node": {
+            "type": "string"
+          },
+          "cat_Process": {
+            "type": "string"
+          },
+          "cat_ReminderChannel": {
+            "type": "string"
+          },
+          "cat_ReminderDays": {
+            "type": "integer"
+          },
+          "cat_ReminderText": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalNodeReminderInstance": {
+        "type": "object",
+        "required": [
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalNodeReminderInstanceId": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Node": {
+            "type": "string"
+          },
+          "cat_NodeReminder": {
+            "type": "string"
+          },
+          "cat_ReminderChannel": {
+            "type": "string"
+          },
+          "cat_ReminderDatetime": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_ReminderDays": {
+            "type": "integer"
+          },
+          "cat_ReminderSent": {
+            "type": "boolean"
+          },
+          "cat_ReminderText": {
+            "type": "string"
+          },
+          "cat_WorkflowInstance": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalProcess": {
+        "type": "object",
+        "required": [
+          "cat_Name",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalProcessId": {
+            "type": "string"
+          },
+          "cat_BusinessOwner": {
+            "type": "string"
+          },
+          "cat_BusinessOwnerEmail": {
+            "type": "string",
+            "x-pii": "contact"
+          },
+          "cat_Category": {
+            "type": "string"
+          },
+          "cat_DefaultApprover": {
+            "type": "string"
+          },
+          "cat_DefaultApproverDisplayName": {
+            "type": "string",
+            "x-pii": "personal"
+          },
+          "cat_DefaultApproverEmail": {
+            "type": "string",
+            "x-pii": "contact"
+          },
+          "cat_Description": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_SecondaryOwner": {
+            "type": "string"
+          },
+          "cat_SecondaryOwnerEmail": {
+            "type": "string",
+            "x-pii": "contact"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalPublicHolidays": {
+        "type": "object",
+        "required": [
+          "cat_Calendar",
+          "cat_Date",
+          "cat_Name",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalPublicHolidaysId": {
+            "type": "string"
+          },
+          "cat_Calendar": {
+            "type": "string"
+          },
+          "cat_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalPublishedRuntimeData": {
+        "type": "object",
+        "required": [
+          "cat_Name",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalPublishedRuntimeDataId": {
+            "type": "string"
+          },
+          "cat_DataType": {
+            "type": "string"
+          },
+          "cat_DefaultValue": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_RuntimeData": {
+            "type": "string"
+          },
+          "cat_Workflow": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalPublishedWorkflow": {
+        "type": "object",
+        "required": [
+          "cat_Name",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_ActiveVersion": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalPublishedWorkflowId": {
+            "type": "string"
+          },
+          "cat_FriendlyName": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_RuntimeData": {
+            "type": "string"
+          },
+          "cat_Version": {
+            "type": "integer"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalRuntimeCondition": {
+        "type": "object",
+        "required": [
+          "cat_ProcessVersion",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalRuntimeConditionId": {
+            "type": "string"
+          },
+          "cat_ConditionData": {
+            "type": "string"
+          },
+          "cat_ConditionDataType": {
+            "type": "string"
+          },
+          "cat_ConditionValue": {
+            "type": "string"
+          },
+          "cat_ConditionValueDisplay": {
+            "type": "string"
+          },
+          "cat_GoToStage": {
+            "type": "string"
+          },
+          "cat_IsDefault": {
+            "type": "boolean"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Node": {
+            "type": "string"
+          },
+          "cat_PathIndex": {
+            "type": "integer"
+          },
+          "cat_ProcessVersion": {
+            "type": "string"
+          },
+          "cat_Stage": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalRuntimeData": {
+        "type": "object",
+        "required": [
+          "cat_DataType",
+          "cat_DefinitionData",
+          "cat_Name",
+          "cat_ProcessVersion",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalRuntimeDataId": {
+            "type": "string"
+          },
+          "cat_DataType": {
+            "type": "string"
+          },
+          "cat_DefaultValue": {
+            "type": "string"
+          },
+          "cat_DefinitionData": {
+            "type": "string"
+          },
+          "cat_Description": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_ProcessVersion": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalRuntimeException": {
+        "type": "object",
+        "required": [
+          "cat_Name",
+          "cat_WorkflowInstance",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalRuntimeExceptionId": {
+            "type": "string"
+          },
+          "cat_Details": {
+            "type": "string"
+          },
+          "cat_ExceptionStatus": {
+            "type": "string"
+          },
+          "cat_ExceptionType": {
+            "type": "string"
+          },
+          "cat_FlowId": {
+            "type": "string"
+          },
+          "cat_FlowName": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Node": {
+            "type": "string"
+          },
+          "cat_ObjectId": {
+            "type": "string"
+          },
+          "cat_ObjectName": {
+            "type": "string"
+          },
+          "cat_RunHistory": {
+            "type": "string"
+          },
+          "cat_RunId": {
+            "type": "string"
+          },
+          "cat_WorkflowInstance": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalRuntimeInstance": {
+        "type": "object",
+        "required": [
+          "cat_InstanceStatus",
+          "cat_Name",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_AdditionalInformation": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalRuntimeInstanceId": {
+            "type": "string"
+          },
+          "cat_Comments": {
+            "type": "string"
+          },
+          "cat_DelegatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_FlowRun": {
+            "type": "string"
+          },
+          "cat_InstanceStatus": {
+            "type": "string"
+          },
+          "cat_IsDelegated": {
+            "type": "boolean"
+          },
+          "cat_IsTimedOut": {
+            "type": "boolean"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_OriginalInstance": {
+            "type": "string"
+          },
+          "cat_Outcome": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalRuntimeNode": {
+        "type": "object",
+        "required": [
+          "cat_PathIndex",
+          "cat_ProcessVersion",
+          "cat_RowIndex",
+          "cat_Stage",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_ApprovalType": {
+            "type": "string"
+          },
+          "cat_Approvers": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalRuntimeNodeId": {
+            "type": "string"
+          },
+          "cat_CustomResponses": {
+            "type": "string"
+          },
+          "cat_DelegationRule": {
+            "type": "string"
+          },
+          "cat_Description": {
+            "type": "string"
+          },
+          "cat_GoToPaths": {
+            "type": "integer"
+          },
+          "cat_GoToStage": {
+            "type": "string"
+          },
+          "cat_InstanceStatus": {
+            "type": "string"
+          },
+          "cat_Message": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_NextReminderNode": {
+            "type": "string"
+          },
+          "cat_NodeCondition": {
+            "type": "string"
+          },
+          "cat_NodeDueDateDataType": {
+            "type": "string"
+          },
+          "cat_NodeDueDateRequestData": {
+            "type": "string"
+          },
+          "cat_NodeDueDateValue": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_NodeType": {
+            "type": "string"
+          },
+          "cat_NotificationType": {
+            "type": "string"
+          },
+          "cat_Operand": {
+            "type": "string"
+          },
+          "cat_PathIndex": {
+            "type": "integer"
+          },
+          "cat_ProcessVersion": {
+            "type": "string"
+          },
+          "cat_RowIndex": {
+            "type": "integer"
+          },
+          "cat_SourceData": {
+            "type": "string"
+          },
+          "cat_SourceDataNameValue": {
+            "type": "string"
+          },
+          "cat_SourceDataType": {
+            "type": "string"
+          },
+          "cat_Stage": {
+            "type": "string"
+          },
+          "cat_TimeOut": {
+            "type": "integer"
+          },
+          "cat_TimeOutMode": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalRuntimeNodeInstance": {
+        "type": "object",
+        "required": [
+          "cat_InstanceStatus",
+          "cat_Node",
+          "cat_Stage",
+          "cat_StageInstance",
+          "cat_Start",
+          "cat_WorkflowInstance",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_AdditionalInformation": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalRuntimeNodeInstanceId": {
+            "type": "string"
+          },
+          "cat_End": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_GoToStageInstanceId": {
+            "type": "string"
+          },
+          "cat_InstanceStatus": {
+            "type": "string"
+          },
+          "cat_Message": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_NextReminderNode": {
+            "type": "string"
+          },
+          "cat_NextReminderNodeInstance": {
+            "type": "string"
+          },
+          "cat_Node": {
+            "type": "string"
+          },
+          "cat_NodeDueDateDataType": {
+            "type": "string"
+          },
+          "cat_NodeDueDateRequestData": {
+            "type": "string"
+          },
+          "cat_NodeDueDateValue": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_NodeNameValue": {
+            "type": "string"
+          },
+          "cat_NodeType": {
+            "type": "string"
+          },
+          "cat_Order": {
+            "type": "integer"
+          },
+          "cat_Path": {
+            "type": "integer"
+          },
+          "cat_RequestedBy": {
+            "type": "string"
+          },
+          "cat_Stage": {
+            "type": "string"
+          },
+          "cat_StageInstance": {
+            "type": "string"
+          },
+          "cat_Start": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_WorkflowInstance": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalRuntimeNodeReminder": {
+        "type": "object",
+        "required": [
+          "cat_Node",
+          "cat_ProcessVersion",
+          "cat_ReminderDays",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalRuntimeNodeReminderId": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Node": {
+            "type": "string"
+          },
+          "cat_NodeReminder": {
+            "type": "string"
+          },
+          "cat_ProcessVersion": {
+            "type": "string"
+          },
+          "cat_ReminderChannel": {
+            "type": "string"
+          },
+          "cat_ReminderDays": {
+            "type": "integer"
+          },
+          "cat_ReminderText": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalRuntimeStage": {
+        "type": "object",
+        "required": [
+          "cat_Paths",
+          "cat_ProcessVersion",
+          "cat_StageCondition",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalRuntimeStageId": {
+            "type": "string"
+          },
+          "cat_Description": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Operand": {
+            "type": "string"
+          },
+          "cat_Order": {
+            "type": "integer"
+          },
+          "cat_Paths": {
+            "type": "integer"
+          },
+          "cat_ProcessVersion": {
+            "type": "string"
+          },
+          "cat_SourceData": {
+            "type": "string"
+          },
+          "cat_SourceDataNameValue": {
+            "type": "string"
+          },
+          "cat_SourceDataType": {
+            "type": "string"
+          },
+          "cat_StageCondition": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalRuntimeStageInstance": {
+        "type": "object",
+        "required": [
+          "cat_Stage",
+          "cat_Start",
+          "cat_WorkflowInstance",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_AdditionalInformation": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalRuntimeStageInstanceId": {
+            "type": "string"
+          },
+          "cat_End": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_EndWorkflow": {
+            "type": "boolean"
+          },
+          "cat_GotoStage": {
+            "type": "string"
+          },
+          "cat_InstanceStatus": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Order": {
+            "type": "integer"
+          },
+          "cat_ProcessVersion": {
+            "type": "string"
+          },
+          "cat_RequestedBy": {
+            "type": "string"
+          },
+          "cat_Stage": {
+            "type": "string"
+          },
+          "cat_StageNameValue": {
+            "type": "string"
+          },
+          "cat_Start": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_WorkflowInstance": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalSetting": {
+        "type": "object",
+        "required": [
+          "cat_WaitonNoApprover",
+          "cat_WaitonNoData",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalSettingId": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_UseOutlookforOOF": {
+            "type": "boolean"
+          },
+          "cat_WaitonNoApprover": {
+            "type": "boolean"
+          },
+          "cat_WaitonNoData": {
+            "type": "boolean"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalStage": {
+        "type": "object",
+        "required": [
+          "cat_Order",
+          "cat_Paths",
+          "cat_Process",
+          "cat_StageCondition",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalStageId": {
+            "type": "string"
+          },
+          "cat_ConditionText": {
+            "type": "string"
+          },
+          "cat_Description": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Operand": {
+            "type": "string"
+          },
+          "cat_Order": {
+            "type": "integer"
+          },
+          "cat_Paths": {
+            "type": "integer"
+          },
+          "cat_Process": {
+            "type": "string"
+          },
+          "cat_SourceData": {
+            "type": "string"
+          },
+          "cat_SourceDataNameValue": {
+            "type": "string"
+          },
+          "cat_SourceDataType": {
+            "type": "string"
+          },
+          "cat_StageCondition": {
+            "type": "string"
+          },
+          "cat_StageConditionRule": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalVersion": {
+        "type": "object",
+        "required": [
+          "cat_Process",
+          "cat_Version",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_ActivateOnPublish": {
+            "type": "boolean"
+          },
+          "cat_BusinessApprovalVersionId": {
+            "type": "string"
+          },
+          "cat_BusinessOwner": {
+            "type": "string"
+          },
+          "cat_BusinessOwnerEmail": {
+            "type": "string",
+            "x-pii": "contact"
+          },
+          "cat_Category": {
+            "type": "string"
+          },
+          "cat_DefaultApprover": {
+            "type": "string"
+          },
+          "cat_DefaultApproverDisplayName": {
+            "type": "string",
+            "x-pii": "personal"
+          },
+          "cat_DefaultApproverEmail": {
+            "type": "string",
+            "x-pii": "contact"
+          },
+          "cat_Description": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Process": {
+            "type": "string"
+          },
+          "cat_PublishingStatus": {
+            "type": "string"
+          },
+          "cat_SecondaryOwner": {
+            "type": "string"
+          },
+          "cat_SecondaryOwnerEmail": {
+            "type": "string",
+            "x-pii": "contact"
+          },
+          "cat_Version": {
+            "type": "integer"
+          },
+          "cat_VersionComments": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalWorkProfile": {
+        "type": "object",
+        "required": [
+          "cat_Name",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApprovalWorkProfileId": {
+            "type": "string"
+          },
+          "cat_Friday": {
+            "type": "boolean"
+          },
+          "cat_HolidayCalendar": {
+            "type": "string"
+          },
+          "cat_Monday": {
+            "type": "boolean"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_Saturday": {
+            "type": "boolean"
+          },
+          "cat_Sunday": {
+            "type": "boolean"
+          },
+          "cat_Thursday": {
+            "type": "boolean"
+          },
+          "cat_Tuesday": {
+            "type": "boolean"
+          },
+          "cat_Wednesday": {
+            "type": "boolean"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalWorkflow": {
+        "type": "object",
+        "required": [
+          "cat_ProcessVersion",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_AdditionalInformation": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalWorkflowId": {
+            "type": "string"
+          },
+          "cat_CorrelationId": {
+            "type": "string"
+          },
+          "cat_ExternalReference": {
+            "type": "string"
+          },
+          "cat_InstanceStatus": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_ProcessVersion": {
+            "type": "string"
+          },
+          "cat_RequestedBy": {
+            "type": "string"
+          },
+          "cat_Version": {
+            "type": "integer"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprovalWorkflowQueue": {
+        "type": "object",
+        "required": [
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_AdditionalInformation": {
+            "type": "string"
+          },
+          "cat_BusinessApprovalWorkflowQueueId": {
+            "type": "string"
+          },
+          "cat_CorrelationId": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_ProcessId": {
+            "type": "string"
+          },
+          "cat_RuntimeData": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApprover": {
+        "type": "object",
+        "required": [
+          "cat_ApproverId",
+          "cat_ApproverType",
+          "cat_Name",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_ApproverId": {
+            "type": "string",
+            "x-pii": "identifier"
+          },
+          "cat_ApproverType": {
+            "type": "string"
+          },
+          "cat_BackupDelegate": {
+            "type": "string"
+          },
+          "cat_BackupDelegateId": {
+            "type": "string"
+          },
+          "cat_BusinessApproverId": {
+            "type": "string",
+            "x-pii": "identifier"
+          },
+          "cat_Delegate": {
+            "type": "string"
+          },
+          "cat_DelegateId": {
+            "type": "string"
+          },
+          "cat_DisplayName": {
+            "type": "string",
+            "x-pii": "personal"
+          },
+          "cat_DynamicApproverType": {
+            "type": "string"
+          },
+          "cat_IsOutofOffice": {
+            "type": "boolean"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_NotificationType": {
+            "type": "string"
+          },
+          "cat_RequestData": {
+            "type": "string"
+          },
+          "cat_WorkProfile": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApproverDynamicDataMap": {
+        "type": "object",
+        "required": [
+          "cat_DynamicApprover",
+          "cat_RuntimeData",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApproverDynamicDataMapId": {
+            "type": "string"
+          },
+          "cat_DynamicApprover": {
+            "type": "string"
+          },
+          "cat_Name": {
+            "type": "string"
+          },
+          "cat_RuntimeData": {
+            "type": "string"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      },
+      "cat_BusinessApproverOOF": {
+        "type": "object",
+        "required": [
+          "cat_StartDate",
+          "OwnerId",
+          "statecode"
+        ],
+        "properties": {
+          "cat_BusinessApproverOOFId": {
+            "type": "string"
+          },
+          "cat_EndDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_StartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "cat_UserPrincipalName": {
+            "type": "string",
+            "x-pii": "contact"
+          },
+          "CreatedBy": {
+            "type": "string"
+          },
+          "CreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "CreatedOnBehalfBy": {
+            "type": "string"
+          },
+          "ImportSequenceNumber": {
+            "type": "integer"
+          },
+          "ModifiedBy": {
+            "type": "string"
+          },
+          "ModifiedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "ModifiedOnBehalfBy": {
+            "type": "string"
+          },
+          "OverriddenCreatedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "OwnerId": {
+            "type": "string"
+          },
+          "OwningBusinessUnit": {
+            "type": "string"
+          },
+          "OwningTeam": {
+            "type": "string"
+          },
+          "OwningUser": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "string"
+          },
+          "statuscode": {
+            "type": "string"
+          },
+          "TimeZoneRuleVersionNumber": {
+            "type": "integer"
+          },
+          "UTCConversionTimeZoneCode": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "demoRole": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Demo-User",
+        "description": "Offline only (Identity:Mode=demo)."
+      },
+      "entra": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Azure: Entra ID token validated by Container Apps built-in auth; app role = legacy security role."
+      }
+    }
+  },
+  "security": [
+    {
+      "entra": []
+    },
+    {
+      "demoRole": []
+    }
+  ],
+  "paths": {
+    "/api/cat_BusinessApprovalConditions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalCondition"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalConditions/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalCondition"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalDataInstances": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalDataInstance"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalDataInstances/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalDataInstance"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalDatas": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalDatas/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalData"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalHolidayCalendars": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalHolidayCalendar"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalHolidayCalendars/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalHolidayCalendar"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalInstanceLogs": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalInstanceLog"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalInstanceLogs/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalInstanceLog"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalInstanceOverrides": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalInstanceOverride"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalInstanceOverrides/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalInstanceOverride"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalInstances": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalInstance"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalInstances/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalInstance"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalNodeReminderInstances": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalNodeReminderInstance"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalNodeReminderInstances/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalNodeReminderInstance"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalNodeReminders": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalNodeReminder"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalNodeReminders/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalNodeReminder"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalNodes": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalNode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalNodes/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalNode"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalProcess": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalProcess"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalProcess/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalProcess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalPublicHolidays": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalPublicHolidays"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalPublicHolidays/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalPublicHolidays"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalPublishedRuntimeDatas": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalPublishedRuntimeData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalPublishedRuntimeDatas/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalPublishedRuntimeData"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalPublishedWorkflows": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalPublishedWorkflow"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalPublishedWorkflows/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalPublishedWorkflow"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeConditions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeCondition"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeConditions/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeCondition"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeDatas": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeDatas/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeData"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeExceptions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeException"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeExceptions/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeException"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeInstances": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeInstance"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeInstances/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeInstance"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeNodeInstances": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeNodeInstance"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeNodeInstances/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeNodeInstance"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeNodeReminders": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeNodeReminder"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeNodeReminders/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeNodeReminder"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeNodes": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeNode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeNodes/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeNode"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeStageInstances": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeStageInstance"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeStageInstances/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeStageInstance"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeStages": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeStage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalRuntimeStages/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalRuntimeStage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalSettings": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalSetting"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalSettings/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalSetting"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalStages": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalStage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalStages/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalStage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalVersions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalVersion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalVersions/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalVersion"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalWorkProfiles": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalWorkProfile"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalWorkProfiles/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalWorkProfile"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalWorkflowQueues": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalWorkflowQueue"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalWorkflowQueues/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalWorkflowQueue"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalWorkflows": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprovalWorkflow"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovalWorkflows/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprovalWorkflow"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApproverDynamicDataMaps": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApproverDynamicDataMap"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApproverDynamicDataMaps/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApproverDynamicDataMap"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApproverOOFs": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApproverOOF"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApproverOOFs/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApproverOOF"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovers": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cat_BusinessApprover"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cat_BusinessApprovers/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "row",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cat_BusinessApprover"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/api/rules/{ruleId}/evaluate": {
+      "post": {
+        "summary": "Evaluate one generated rule",
+        "parameters": [
+          {
+            "name": "ruleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "rule value"
+          },
+          "404": {
+            "description": "unknown"
+          }
+        }
+      }
+    },
+    "/api/screens/{screen}/actions/{control}": {
+      "post": {
+        "summary": "Run a legacy button action (guard + RBAC + persist)",
+        "parameters": [
+          {
+            "name": "screen",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "control",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "created"
+          },
+          "403": {
+            "description": "role lacks the Dataverse privilege"
+          },
+          "409": {
+            "description": "legacy DisplayMode guard disables the action"
+          }
+        }
+      }
+    },
+    "/api/screens/{screen}/evaluate": {
+      "post": {
+        "summary": "Evaluate every rule on a screen in dependency order",
+        "parameters": [
+          {
+            "name": "screen",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "App",
+                "scrSettings",
+                "scrSettingsNew"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "map of control.property -> value"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  }
+}

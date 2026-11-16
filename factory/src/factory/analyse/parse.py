@@ -31,6 +31,7 @@ def parse_app(app_id: str, fx: FxHost) -> LegacyModel:
             else canvas.parse_pa_yaml(app_dir)
         )
         model.sites.extend(sites)
+        model.controls.extend(canvas.list_controls(app_dir, c["format"]))
     if manifest.get("entities"):
         for entity_dir in sorted((root / manifest["entities"]).iterdir()):
             xml = entity_dir / "Entity.xml"

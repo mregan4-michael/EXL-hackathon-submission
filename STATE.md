@@ -1,8 +1,9 @@
 # STATE (resumability file — keep current)
 
-- Current phase: 2 done -> 3 (design + generate)
+- Current phase: 3 done (PR pending) -> 4 (parity)
 - Done: tool discovery; Approvals Kit chosen (see DECISIONS ADR-001); schema contract written.
-- Next: Phase 2 rule-catalogue builder (deterministic candidates + LLM interpretation, cache/replay, audit).
+- Next: Phase 4 parity harness (Power Fx oracle vs generated C#).
+- Phase 3: `uv run factory generate <app>` -> generated/<app>/ (committed; CI fails on drift). `make demo` runs the compose journey. Branch devin/phase3-generate stacked on devin/phase2-catalogue.
 - Run parser: `DOTNET_ROOT=$HOME/.dotnet uv run factory parse approvals-kit claims-workbench` (output under factory/out/, gitignored, regenerated).
 - Broken: nothing yet.
 

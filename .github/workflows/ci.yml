@@ -53,3 +53,32 @@ jobs:
           version: "0.6.10"
       - run: uv sync --frozen
       - run: uv export --frozen --no-hashes --no-emit-project > /tmp/req.txt && uv run pip-audit --disable-pip --no-deps -r /tmp/req.txt
+  target:
+    needs: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.6.10"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: uv sync --frozen
+      - name: regenerate and fail on drift from the committed target
+        run: |
+          uv run factory parse claims-workbench approvals-kit
+          uv run factory generate claims-workbench approvals-kit
+          git diff --exit-code generated
+      - run: dotnet test generated/claims-workbench/src/Tests/Factory.Tests.csproj
+      - run: dotnet build generated/approvals-kit/src/Api/Factory.Api.csproj
+      - run: cd generated/claims-workbench/web && npm ci && npx tsc --noEmit && npm run build
+      - run: az bicep build --file generated/claims-workbench/infra/main.bicep --stdout > /dev/null
+      - name: core journey through docker compose
+        run: |
+          cd generated/claims-workbench && docker compose up -d --build
+          for _ in $(seq 1 60); do curl -sf localhost:8080/health && break; sleep 1; done
+          cd ../.. && python3 scripts/journey.py
