@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 78,
+ "content": "{\"statement\": \"The SlaDays label is set to 2 days if the Priority label is 'P1', to 5 days if the Priority label is 'P2', and to 10 days otherwise. This rule determines the severity level of a claim.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 477,
+ "seconds": 9.137
+}

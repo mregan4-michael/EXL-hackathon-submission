@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The condition is that the Days_open value must be greater than or equal to 56 days. If this condition is met, the workflow action will proceed. This is a business rule as it determines the approval routing and the validity of a complaint.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 539,
+ "seconds": 11.043
+}

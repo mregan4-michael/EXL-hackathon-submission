@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 74,
+ "content": "{\"statement\": \"The condition checks if the length of the 'body/value' from the 'Get_Next_Node' action is zero, which means there are no nodes to proceed. If true, the flow action 'If_no_node_found' is triggered.\", \"category\": \"validation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 551,
+ "seconds": 11.897
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 64,
+ "content": "{\"statement\": \"This rule clears a collection named colSelectedBackupDelegate with the selected people if the selected people are not blank or have no errors. It ensures the collection is updated with the selected people.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 495,
+ "seconds": 10.034
+}

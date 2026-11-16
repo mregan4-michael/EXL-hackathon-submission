@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 75,
+ "content": "{\"statement\": \"The condition checks if the value of 'cat_conditionvalue' in the current item of 'Apply_to_each' is equal to the value of 'value' stored in the variable 'varSourceData'. If they are equal, the condition passes.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 546,
+ "seconds": 11.383
+}

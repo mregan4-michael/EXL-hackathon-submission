@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 72,
+ "content": "{\"statement\": \"The condition checks if the length of the 'body/value' from the 'Get_Next_Stage' output is zero, which means there are no more stages. If true, the instance status is marked as 'Completed'.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 544,
+ "seconds": 10.866
+}

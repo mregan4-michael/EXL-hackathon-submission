@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 109,
+ "content": "{\"statement\": \"The script sets gblUserAuthorityLimit to the limit of the user's authority found in clm_HandlerAuthorities where the user's email matches. It also sets gblIsManager to true if the user's email is found in colManagers.Email. Finally, it collects a list of claim types ['Motor', 'Home', 'Theft', 'Injury', 'Travel'] into colClaimTypes.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 542,
+ "seconds": 14.564
+}

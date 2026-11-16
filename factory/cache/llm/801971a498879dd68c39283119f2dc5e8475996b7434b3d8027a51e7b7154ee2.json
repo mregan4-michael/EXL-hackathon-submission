@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 138,
+ "content": "{\"statement\": \"The condition is whether ddComplaintOutcome.Selected.Value is 'Upheld' or 'Partially upheld'. If it is 'Upheld', the output is the sum of txtFinancialLoss.Text and an additional 150 if chkDistressInconvenience.Value is true. If it is 'Partially upheld', the output is half of txtFinancialLoss.Text rounded to two decimal places and an additional 75 if chkDistressInconvenience.Value is true. The effect is to set lblRedress.Text to the calculated value.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 563,
+ "seconds": 17.724
+}

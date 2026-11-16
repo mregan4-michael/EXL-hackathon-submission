@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 91,
+ "content": "{\"statement\": \"The priority label is set to 'P1' if the 'Vulnerable' label is visible, or if the selected claim type is 'Injury'. It is set to 'P2' if the claim amount is greater than 25000. Otherwise, it is set to 'P3'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 520,
+ "seconds": 10.231
+}

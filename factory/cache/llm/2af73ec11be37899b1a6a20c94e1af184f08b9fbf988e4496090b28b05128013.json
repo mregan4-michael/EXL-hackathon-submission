@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"This rule clears a collection named colSelectedApprovalDelegate with the selected people from the People Picker control if the selected people are not blank or contain errors. It ensures that the approval delegate is set based on the selected people.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 493,
+ "seconds": 8.65
+}

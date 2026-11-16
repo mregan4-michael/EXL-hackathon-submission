@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 64,
+ "content": "{\"statement\": \"The condition checks if the message is 3 and the filter is cat_instancestatus, deciding the approval routing for the Stage Instance update. It applies to business approval runtime stage instance updates.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 520,
+ "seconds": 10.137
+}

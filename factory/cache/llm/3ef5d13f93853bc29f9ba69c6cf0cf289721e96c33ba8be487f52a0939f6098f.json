@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 77,
+ "content": "{\"statement\": \"The cat_version calculated column in the cat_BusinessApprovalWorkflow entity checks if the cat_businessapprovalversion exists in the cat_businessapprovalworkflow. If it does, cat_version is set to the value of cat_businessapprovalversion; otherwise, it remains null.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 484,
+ "seconds": 13.557
+}

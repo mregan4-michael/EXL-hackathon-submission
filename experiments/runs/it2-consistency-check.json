@@ -1,0 +1,36 @@
+{
+  "config": {
+    "candidates": "candidates.v3",
+    "interpret": "interpret.v1"
+  },
+  "decision": "reverted",
+  "heldout": {
+    "app": "claims-workbench",
+    "score": 0.6627
+  },
+  "hypothesis": "A deterministic check that the plain-English statement repeats each threshold number and strictness from the formula should catch statements that misstate a rule; flagged rules go to human review.",
+  "name": "it2-consistency-check",
+  "parent": "it1-fairness-words",
+  "tuning": {
+    "app": "approvals-kit",
+    "components": {
+      "cost_efficiency": 0.6984,
+      "counts": {
+        "candidates": 170,
+        "evidence": {
+          "unproven": 150
+        },
+        "ground_truth_found": 115,
+        "ground_truth_total": 124,
+        "llm_tokens_incl_replay": 90476,
+        "needs_review": 25,
+        "rules": 150
+      },
+      "executed_oracle_parity_rate": 0.0,
+      "generated_test_pass_rate": 0.8375,
+      "one_minus_human_review_rate": 0.8333,
+      "rule_recall_vs_ground_truth": 0.9274
+    },
+    "score": 0.5059
+  }
+}

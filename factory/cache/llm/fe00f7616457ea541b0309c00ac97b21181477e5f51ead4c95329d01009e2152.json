@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 53,
+ "content": "{\"statement\": \"If the delegate is marked as out of office, the workflow uses the backup delegate instead. Otherwise, it selects the regular delegate.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 627,
+ "seconds": 9.2
+}

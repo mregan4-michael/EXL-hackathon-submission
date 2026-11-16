@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 74,
+ "content": "{\"statement\": \"The condition is that the value of lblFraudScore.Text must be greater than or equal to 50. If this condition is met, lblFraudReferral.Visible is set to true, allowing the referral label to be visible.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 474,
+ "seconds": 8.811
+}

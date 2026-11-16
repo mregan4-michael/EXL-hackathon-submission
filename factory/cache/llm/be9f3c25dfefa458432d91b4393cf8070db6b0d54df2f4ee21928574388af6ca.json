@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"The payment approval button displays as Edit mode if the claim amount is less than or equal to the user authority limit and there is no fraud referral label and no sort code error label. Otherwise, it displays as Disabled mode.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 541,
+ "seconds": 10.245
+}

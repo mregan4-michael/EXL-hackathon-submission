@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 69,
+ "content": "{\"statement\": \"If the node type in the input body is not equal to 809060002, the condition is met. This decides whether to proceed to the next node or end the workflow.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 585,
+ "seconds": 9.936
+}

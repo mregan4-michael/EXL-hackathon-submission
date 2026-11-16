@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The condition checks the value of the 'body/cat_outcome' output from the trigger. If it is 'Approve', the workflow will proceed to 'Approve'. If it is 'Reject', the workflow will proceed to 'Reject'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 577,
+ "seconds": 21.536
+}

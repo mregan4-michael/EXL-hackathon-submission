@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 89,
+ "content": "{\"statement\": \"The condition checks if the value of the parameter 'Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)' is true. If it is, the effect is to set the output 'Check_If_Enable_O365_Mailbox_Settings_is_true' to true.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 614,
+ "seconds": 12.335
+}

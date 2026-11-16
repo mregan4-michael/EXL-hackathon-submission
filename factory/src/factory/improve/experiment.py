@@ -178,6 +178,11 @@ def leaderboard() -> Path:
             moved, delta = [], "—"
             change = f"baseline ({r['config']['interpret']}, {r['config']['candidates']})"
         why = r["hypothesis"] + (" Measured: " + "; ".join(moved) + "." if moved else "")
+        if par and r["decision"] == "kept" and r["heldout"]["score"] < par["heldout"]["score"]:
+            why += (
+                f" **Held-out fell {r['heldout']['score'] - par['heldout']['score']:+.4f}:"
+                " the tuning gain did not generalise to the held-out app.**"
+            )
         lines.append(
             f"| {r['name']} | {change} | {t['score']:.4f} | {delta} | {r['heldout']['score']:.4f} "
             f"| {r['decision']} | {why} |"

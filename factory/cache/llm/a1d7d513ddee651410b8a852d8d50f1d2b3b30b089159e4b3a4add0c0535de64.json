@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"The condition is when the node name value equals the calculation of the business approval runtime node, the business approval runtime node instance, and the node name. The effect is to set the node name value to this calculated value.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 523,
+ "seconds": 8.745
+}

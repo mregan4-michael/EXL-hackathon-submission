@@ -1,0 +1,45 @@
+{
+  "run": "it0-baseline",
+  "prompt": "critic.v1",
+  "summary": {
+    "app": "approvals-kit",
+    "rules": 150,
+    "missed_ground_truth": 9,
+    "missed_because_model_said_not_a_business_rule": 9,
+    "missed_examples": [
+      "cat_BusinessApprovalNode.cat_GoToPaths",
+      "cat_BusinessApprovalRuntimeNode.cat_GoToPaths",
+      "BACoreChildGetDynamicApprover/actions/If_approver_UPN_has_value",
+      "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days/actions/If_Today_is_Working_day_and_not_holiday",
+      "BACoreDailyCalculateApprovalTimeouts/triggers/Daily_Run",
+      "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists",
+      "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/actions/If_no_more_running_instances_3",
+      "BACoreSendReminder/actions/Next_Runtime_Node_Reminder_Exists",
+      "BACoreSyncApproverOOF/triggers/Recurrence"
+    ],
+    "review_reasons": {
+      "fairness_review": 21,
+      "no_executable_oracle": 17,
+      "constant_condition": 1
+    },
+    "components": {
+      "executed_oracle_parity_rate": 0.0,
+      "one_minus_human_review_rate": 0.74,
+      "generated_test_pass_rate": 0.8375,
+      "cost_efficiency": 0.6984,
+      "rule_recall_vs_ground_truth": 0.9274,
+      "counts": {
+        "rules": 150,
+        "candidates": 170,
+        "needs_review": 39,
+        "evidence": {
+          "unproven": 150
+        },
+        "llm_tokens_incl_replay": 90476,
+        "ground_truth_found": 115,
+        "ground_truth_total": 124
+      }
+    }
+  },
+  "proposal": "{\n \"lever\": \"candidate_policy\",\n \"change\": \"Refine the deterministic candidate policy to prioritize rules that are more likely to be business rules based on their structure and context, reducing the risk of misidentifying operational logic as business rules.\",\n \"expected_effect\": \"This change is expected to improve the rule-recall-vs-ground-truth score by reducing false positives, thereby increasing the accuracy of the rule extraction.\",\n \"risk\": \"There is a risk that this change could inadvertently misidentify some operational rules as business rules, leading to a decrease in the executed-oracle-parity-rate score.\"\n}"
+}

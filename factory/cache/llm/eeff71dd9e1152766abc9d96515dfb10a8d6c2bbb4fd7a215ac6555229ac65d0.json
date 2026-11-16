@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 65,
+ "content": "{\"statement\": \"If the next node's type is GoToStage and the source data type is Previous Node Outcome, the condition is met. This decides the routing or action to be taken next in the workflow.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 684,
+ "seconds": 9.202
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 92,
+ "content": "{\"statement\": \"The authority level is determined based on the claim amount. If the claim amount is less than or equal to 5000, the handler is assigned. If the claim amount is between 5000 and 25000, the team leader is assigned. Otherwise, the claims manager is assigned.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 499,
+ "seconds": 12.869
+}

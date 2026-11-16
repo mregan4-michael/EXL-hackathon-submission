@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 135,
+ "content": "{\"statement\": \"The script checks if the userPrincipalName is blank. If it is, it sets the _myUPN to the userPrincipalName from the Office365Users.MyProfileV2. If the _mySettings.Delegate or _mySettings.'Backup Delegate' is not blank or has no errors, it collects the approver or backup approver details from the Office365Users.SearchUserV2 and adds them to the respective collections. This script decides the approvers and backup approvers based on the user's details.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 773,
+ "seconds": 26.557
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"The visibility of the label 'lblDelegateError_1' is determined by whether the text input field is not empty. If the field contains any text, the label is visible; otherwise, it is hidden.\", \"category\": \"visibility\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 467,
+ "seconds": 10.26
+}

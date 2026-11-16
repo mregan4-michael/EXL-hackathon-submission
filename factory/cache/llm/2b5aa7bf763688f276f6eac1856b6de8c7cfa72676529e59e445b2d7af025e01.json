@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"The Time Out field must be a positive number less than or equal to 2.14748e+09. This field decides when a workflow step should timeout, affecting the approval process.\", \"category\": \"deadline\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 498,
+ "seconds": 10.336
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 79,
+ "content": "{\"statement\": \"The condition is that the value of cat_PathIndex must be within the range of 1 to 2,147,480,447. If the value is outside this range, the business rule will prevent the record from being processed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 492,
+ "seconds": 11.759
+}

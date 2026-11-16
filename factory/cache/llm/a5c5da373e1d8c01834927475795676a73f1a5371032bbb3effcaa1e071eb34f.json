@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 57,
+ "content": "{\"statement\": \"The Claim Amount must be a positive number and less than or equal to 10 million. Violating this rule will prevent the claim from being processed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 494,
+ "seconds": 7.002
+}

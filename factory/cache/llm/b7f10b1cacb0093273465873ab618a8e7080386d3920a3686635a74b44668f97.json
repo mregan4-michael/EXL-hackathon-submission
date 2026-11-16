@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 103,
+ "content": "{\"statement\": \"The condition checks if the value of 'text_1' is 'Stage Instance'. If it is, it sets the stage ID to the value of '_cat_gotostage_value' from the 'Apply_to_each' items, otherwise it sets the stage ID to the value of 'cat_pathindex'. This condition decides the routing of the workflow based on the current stage instance.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 592,
+ "seconds": 16.849
+}

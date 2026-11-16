@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 63,
+ "content": "{\"statement\": \"The condition checks if the value of _cat_gotostage_value from the trigger outputs is not null. If it is null, the rule does not exist and the action fails.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 540,
+ "seconds": 10.2
+}

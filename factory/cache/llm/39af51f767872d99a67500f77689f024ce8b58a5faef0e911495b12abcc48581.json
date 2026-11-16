@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 62,
+ "content": "{\"statement\": \"The ClaimsManager role grants global permissions for read, write, approve, assign, and write complaints on claims. This affects the ClaimsManager's ability to manage claim-related activities.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 498,
+ "seconds": 7.684
+}

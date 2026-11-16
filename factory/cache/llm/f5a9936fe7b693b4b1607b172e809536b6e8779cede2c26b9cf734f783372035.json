@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 81,
+ "content": "{\"statement\": \"The condition checks if the type of data from 'Get_Dynamic_Data' is '809060001'. If true, it uses the value directly. Otherwise, it concatenates the value with quotes. This decision affects how the data is processed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 642,
+ "seconds": 14.587
+}

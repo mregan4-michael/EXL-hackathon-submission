@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 64,
+ "content": "{\"statement\": \"If the output of the trigger 'body/cat_endworkflow' is not equal to true, then the condition is considered as a business rule that decides whether the workflow should proceed or not.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 557,
+ "seconds": 8.526
+}

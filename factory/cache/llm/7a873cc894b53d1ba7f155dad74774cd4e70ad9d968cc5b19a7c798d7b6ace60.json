@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 63,
+ "content": "{\"statement\": \"The condition checks if the output of 'Get_Settings' has exactly one item in its 'body/value' array. If true, it proceeds to the 'If_found_settings' action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 514,
+ "seconds": 11.412
+}

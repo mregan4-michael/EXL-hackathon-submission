@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 93,
+ "content": "{\"statement\": \"The condition checks if the 'Backup Delegate' is set and if so, it searches for a user by their 'Approver Id'. The threshold values are the 'Backup Delegate' setting and the 'Approver Id' of the delegate. The effect is to return the user found by the search if the delegate is set.\", \n \"category\": \"authorisation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 521,
+ "seconds": 13.764
+}

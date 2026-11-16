@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The condition is that the value of cat_stagenamevalue is determined by the cat_businessapprovalnode, cat_businessapprovalstage, and cat_name columns. The effect is to set the value of cat_stagenamevalue based on these columns.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 502,
+ "seconds": 8.83
+}

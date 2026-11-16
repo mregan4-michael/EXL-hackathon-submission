@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 77,
+ "content": "{\"statement\": \"The button 'btnSubmit' is disabled if the policy number is blank, the incident date is blank, the claim amount is less than or equal to zero, or if there is a cover error message. Otherwise, the button is in edit mode.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 550,
+ "seconds": 9.509
+}

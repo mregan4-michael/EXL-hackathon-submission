@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 78,
+ "content": "{\"statement\": \"The condition is that if the Delegate field is not blank, it searches for a user in Office365 with the Approver Id from the Delegate field. The effect is to populate the cboApproverDelegate.DefaultSelectedItems with the found user.\", \n \"category\": \"authorisation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 515,
+ "seconds": 8.976
+}

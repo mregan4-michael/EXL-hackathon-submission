@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 69,
+ "content": "{\"statement\": \"The condition is that the friendly name is calculated based on cat_businessapprovalpublishedworkflow, cat_businessapprovalversion, cat_name, and cat_version. The effect is to set the friendly name column in the entity.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 504,
+ "seconds": 9.453
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 79,
+ "content": "{\"statement\": \"The condition is that the 'cat_Order' entity must exist and its value must be between 1 and 2.14748e+09 (inclusive). If the condition is not met, the system will not proceed with the approval process.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 490,
+ "seconds": 12.489
+}

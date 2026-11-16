@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 52,
+ "content": "{\"statement\": \"The condition checks if the delegate variable has a non-empty value. If the delegate variable is empty, the workflow will not proceed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 505,
+ "seconds": 8.795
+}

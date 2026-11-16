@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 65,
+ "content": "{\"statement\": \"The condition checks if there are no running node instances. If there are none, it proceeds to the next step. This decision affects the workflow by determining if the current stage instance can end.\", \"category\": \"state_transition\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 596,
+ "seconds": 8.561
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 59,
+ "content": "{\"statement\": \"The condition is that the message should be 3 and the cat_isoutofoffice should be true for the approver to be considered out of office.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 513,
+ "seconds": 10.175
+}

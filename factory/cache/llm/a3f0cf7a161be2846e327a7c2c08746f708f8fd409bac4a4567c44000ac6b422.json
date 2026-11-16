@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\":\"If both the approval delegate and backup delegate selections are not empty, it checks if the selected backup delegate is the same as the approver's UPN or if they are different. If so, it sets the error message based on the selected condition.\",\"category\":\"validation\",\"is_business_rule\":true,\"confidence\":1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 675,
+ "seconds": 11.299
+}

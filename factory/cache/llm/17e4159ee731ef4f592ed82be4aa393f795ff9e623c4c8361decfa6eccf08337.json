@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 89,
+ "content": "{\"statement\": \"The condition checks if the length of the 'body/value' from the 'Get_Runtime_Reminder_Node' output is greater than 0, which means a reminder node exists. If true, it proceeds with creating a reminder instance. This decision affects whether a reminder is created based on the existence of a reminder node.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 548,
+ "seconds": 11.569
+}

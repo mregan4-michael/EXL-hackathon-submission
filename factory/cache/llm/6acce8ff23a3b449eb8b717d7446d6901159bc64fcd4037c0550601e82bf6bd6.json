@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"The condition is that the claim fraud score must be 50 or higher when a new claim or modification is added. If the claim fraud score is less than 50, the trigger does not apply.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 512,
+ "seconds": 9.843
+}

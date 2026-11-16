@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 104,
+ "content": "{\"statement\": \"The Late Interest label is set to the calculated interest amount if the difference between the agreed and paid dates is more than 14 days, otherwise it is set to 0. The interest amount is calculated as the net settlement amount multiplied by 8% and then by the number of days over 14, divided by 365, rounded to 2 decimal places.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 560,
+ "seconds": 12.22
+}

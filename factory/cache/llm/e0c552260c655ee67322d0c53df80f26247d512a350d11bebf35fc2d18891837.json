@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 89,
+ "content": "{\"statement\": \"The condition checks if the current stage name value of a business approval runtime stage instance matches the name of the business approval runtime stage. If true, it sets the cat_stagenamevalue column to the name of the business approval runtime stage. This is a business rule as it decides the approval routing and workflow.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 517,
+ "seconds": 16.813
+}

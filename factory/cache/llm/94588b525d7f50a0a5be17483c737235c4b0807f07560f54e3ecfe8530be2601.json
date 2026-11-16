@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 72,
+ "content": "{\"statement\": \"The condition is that the Order ID must be within the range of 1 to 2.14748e+09. The effect is that records outside this range are considered invalid and may not be processed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 489,
+ "seconds": 8.951
+}

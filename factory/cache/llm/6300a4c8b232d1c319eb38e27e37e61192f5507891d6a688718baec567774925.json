@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"The condition is that the clm_Limit must be required and must be within the range of 0 to 250000. If these conditions are not met, the record will not be saved.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 494,
+ "seconds": 9.419
+}

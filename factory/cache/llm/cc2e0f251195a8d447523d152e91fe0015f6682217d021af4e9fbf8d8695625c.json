@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"If the output of the trigger is not 'body/cat_endworkflow', then the condition is met. This could be used to decide if the workflow should continue or end based on the source data type.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 573,
+ "seconds": 9.976
+}

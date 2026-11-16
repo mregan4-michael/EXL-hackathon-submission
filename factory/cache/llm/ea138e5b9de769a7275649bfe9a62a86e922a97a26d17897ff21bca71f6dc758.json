@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 63,
+ "content": "{\"statement\": \"The condition sorts public holidays by date in ascending order, considering the selected holiday calendar and only including holidays on or after today. The effect is to display the sorted list of public holidays.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 554,
+ "seconds": 15.652
+}

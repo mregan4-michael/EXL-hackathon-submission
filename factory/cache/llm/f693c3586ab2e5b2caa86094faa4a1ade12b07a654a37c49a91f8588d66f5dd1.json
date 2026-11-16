@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The reminder days must be a positive number and less than or equal to 2,147,480,000. If the reminder days are not a valid number, the system will not allow the record to be saved.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 511,
+ "seconds": 10.748
+}

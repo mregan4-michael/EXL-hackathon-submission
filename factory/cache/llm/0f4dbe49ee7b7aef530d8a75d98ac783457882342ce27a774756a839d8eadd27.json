@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 73,
+ "content": "{\"statement\": \"The button 'btnAutoDecline' is disabled if either the 'lblVulnerable' label is visible or the 'lblFraudScore' text value is 50 or more. Otherwise, it is in edit mode.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 510,
+ "seconds": 8.999
+}

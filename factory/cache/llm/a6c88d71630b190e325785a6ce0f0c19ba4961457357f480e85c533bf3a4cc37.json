@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"The condition is that the 'cat_Paths' table must have at least 1 and at most 5 rows. If it has fewer than 1 or more than 5 rows, the condition fails.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 489,
+ "seconds": 7.596
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 126,
+ "content": "{\"statement\": \"The condition checks the value of the 'cat_reminderchannel' field in the record fetched by 'Get_Existing_Node_Reminder_Instance_record'. If it is 'Email', the switch selects case 809060000; if it is 'Teams', case 809060001; and if it is 'Email_+_Teams', case 809060002. This determines the channel for sending a reminder.\", \n \"category\": \"routing\",\n \"is_business_rule\": true,\n \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 568,
+ "seconds": 15.736
+}

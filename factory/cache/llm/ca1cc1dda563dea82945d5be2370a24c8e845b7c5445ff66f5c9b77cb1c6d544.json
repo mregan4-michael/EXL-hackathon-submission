@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 48,
+ "content": "{\"statement\": \"If the input parameter 'boolean' is true, the workflow action will proceed. Otherwise, it will not.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 513,
+ "seconds": 8.302
+}

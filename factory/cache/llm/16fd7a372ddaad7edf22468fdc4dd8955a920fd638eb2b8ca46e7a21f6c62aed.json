@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 61,
+ "content": "{\"statement\": \"The condition sorts business approval public holidays by date starting from today, considering the holiday calendar selected in the work profile. The effect is to display holidays in ascending order of date.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 557,
+ "seconds": 20.594
+}

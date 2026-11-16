@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 75,
+ "content": "{\"statement\": \"The condition is that the number of prior claims must be between 0 and 50. This threshold value decides whether a record or instance already exists before a workflow step runs, or when a scheduled trigger fires, which is a business rule.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 491,
+ "seconds": 9.895
+}

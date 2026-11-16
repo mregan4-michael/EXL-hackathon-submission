@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 74,
+ "content": "{\"statement\": \"The condition value display formula checks the business approval runtime condition, runtime data, condition data, condition value, and name to determine the display value. It decides the approval routing, approver, or delegate selection based on the business rules.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 521,
+ "seconds": 10.14
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 75,
+ "content": "{\"statement\": \"The label 'lblSummaryResolution' is visible if the complaint is resolved to satisfaction and the difference in days between the complaint receipt date and the resolution date is 3 days or less. This condition decides whether the label should be displayed or not.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 512,
+ "seconds": 10.097
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The condition is that cat_PathIndex must be a positive integer between 1 and 2,147,480,000, and it must be required. If the condition is not met, the system will not proceed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 498,
+ "seconds": 10.906
+}

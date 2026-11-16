@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 75,
+ "content": "{\"statement\": \"The condition is if either chkVulnerable.Value is true or ddChannel.Selected.Value is 'Regulator', then the label lblComplaintRoute.Text will be set to 'Escalated', otherwise it will be set to 'Standard'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 491,
+ "seconds": 9.585
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 54,
+ "content": "{\"statement\": \"The control's text property is set to 'Enabled' if the value is 'Enabled', otherwise it is set to 'Disabled'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 457,
+ "seconds": 10.35
+}

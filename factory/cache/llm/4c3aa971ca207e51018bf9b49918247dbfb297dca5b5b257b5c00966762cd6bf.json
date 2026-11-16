@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 77,
+ "content": "{\"statement\": \"The condition checks if the approval type is either 809060001 or 809060003. If true, the approval will proceed to the next step; otherwise, it will reject the approval.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 592,
+ "seconds": 10.954
+}

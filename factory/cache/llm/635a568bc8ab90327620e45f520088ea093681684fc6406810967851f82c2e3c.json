@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 58,
+ "content": "{\"statement\": \"The condition checks if the variable 'varApprovalCompleted' is false. If it is, the workflow action 'If_Approval_not_completed' is executed.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 512,
+ "seconds": 10.008
+}
