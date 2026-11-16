@@ -93,3 +93,20 @@ def test_compose_never_targets_a_cloud_endpoint() -> None:
     text = emit.compose("claims-workbench")
     assert "documents.azure.com" not in text
     assert "Store__Kind: file" in text
+
+
+@pytest.mark.parametrize(
+    ("control_type", "widget"),
+    [
+        ("TextInput", "text"),
+        ("button", "button"),
+        ("checkbox", "checkbox"),
+        ("dropdown", "select"),
+        ("combobox", "select"),
+        ("Microsoft_CoreControls_ComboBox", "select"),
+        ("Microsoft_CoreControls_Checkbox", "checkbox"),
+        ("cat_PowerCAT.CommandBar", "label"),
+    ],
+)
+def test_widget_mapping_ignores_case_and_namespace(control_type: str, widget: str) -> None:
+    assert dsn.widget_for(control_type) == widget

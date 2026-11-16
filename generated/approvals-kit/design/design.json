@@ -7635,7 +7635,7 @@
         {
           "name": "cboApproverDelegate",
           "type": "combobox",
-          "widget": "label",
+          "widget": "select",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 4333
@@ -7670,7 +7670,7 @@
         {
           "name": "cboApproverBackupDelegate",
           "type": "combobox",
-          "widget": "label",
+          "widget": "select",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 5532
@@ -7706,7 +7706,7 @@
         {
           "name": "ddlPreferredNotification",
           "type": "dropdown",
-          "widget": "label",
+          "widget": "select",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 6731
@@ -7726,7 +7726,7 @@
         {
           "name": "cboOutOfOffice",
           "type": "checkbox",
-          "widget": "label",
+          "widget": "checkbox",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 7487
@@ -7748,7 +7748,7 @@
         {
           "name": "ddlWorkProfile",
           "type": "dropdown",
-          "widget": "label",
+          "widget": "select",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 8207
@@ -7770,72 +7770,79 @@
         {
           "name": "btnSun",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 8949
           },
-          "rules": {}
+          "rules": {},
+          "label": "Sun"
         },
         {
           "name": "btnMon",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 9323
           },
-          "rules": {}
+          "rules": {},
+          "label": "Mon"
         },
         {
           "name": "btnTue",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 9697
           },
-          "rules": {}
+          "rules": {},
+          "label": "Tue"
         },
         {
           "name": "btnWed",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 10071
           },
-          "rules": {}
+          "rules": {},
+          "label": "Wed"
         },
         {
           "name": "btnThu",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 10445
           },
-          "rules": {}
+          "rules": {},
+          "label": "Thu"
         },
         {
           "name": "btnFri",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 10819
           },
-          "rules": {}
+          "rules": {},
+          "label": "Fri"
         },
         {
           "name": "btnSat",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json",
             "line": 11193
           },
-          "rules": {}
+          "rules": {},
+          "label": "Sat"
         },
         {
           "name": "lblHolidayCalendar",
@@ -8098,7 +8105,7 @@
         {
           "name": "cmbxlPreferredNotification",
           "type": "Microsoft_CoreControls_ComboBox",
-          "widget": "label",
+          "widget": "select",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 5434
@@ -8130,7 +8137,7 @@
         {
           "name": "cbxOutOfOffice",
           "type": "Microsoft_CoreControls_Checkbox",
-          "widget": "label",
+          "widget": "checkbox",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 6027
@@ -8152,7 +8159,7 @@
         {
           "name": "cmbxWorkProfile",
           "type": "Microsoft_CoreControls_ComboBox",
-          "widget": "label",
+          "widget": "select",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 6574
@@ -8195,72 +8202,79 @@
         {
           "name": "btnSun_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 7113
           },
-          "rules": {}
+          "rules": {},
+          "label": "//\"Sun\"\r\nSettingsLoc.btnSundayTxt"
         },
         {
           "name": "btnMon_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 7487
           },
-          "rules": {}
+          "rules": {},
+          "label": "//\"Mon\"\r\nSettingsLoc.btnMondayTxt"
         },
         {
           "name": "btnTue_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 7861
           },
-          "rules": {}
+          "rules": {},
+          "label": "//\"Tue\"\r\nSettingsLoc.btnTuesdayTxt"
         },
         {
           "name": "btnWed_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 8235
           },
-          "rules": {}
+          "rules": {},
+          "label": "//\"Wed\"\r\nSettingsLoc.btnWednesdayTxt"
         },
         {
           "name": "btnThu_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 8609
           },
-          "rules": {}
+          "rules": {},
+          "label": "//\"Thu\"\r\nSettingsLoc.btnThursdayTxt"
         },
         {
           "name": "btnFri_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 8983
           },
-          "rules": {}
+          "rules": {},
+          "label": "//\"Fri\"\r\nSettingsLoc.btnFridayTxt"
         },
         {
           "name": "btnSat_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "source": {
             "file": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json",
             "line": 9357
           },
-          "rules": {}
+          "rules": {},
+          "label": "//\"Sat\"\r\nSettingsLoc.btnSaturdayTxt"
         },
         {
           "name": "lblSelectProfile_1",

@@ -340,7 +340,7 @@ export const app: AppDefinition = {
         {
           "name": "cboApproverDelegate",
           "type": "combobox",
-          "widget": "label",
+          "widget": "select",
           "rules": {
             "DefaultSelectedItems": "BR-005"
           },
@@ -460,7 +460,7 @@ export const app: AppDefinition = {
         {
           "name": "cboApproverBackupDelegate",
           "type": "combobox",
-          "widget": "label",
+          "widget": "select",
           "rules": {
             "DefaultSelectedItems": "BR-008",
             "DisplayMode": "BR-009"
@@ -579,7 +579,7 @@ export const app: AppDefinition = {
         {
           "name": "ddlPreferredNotification",
           "type": "dropdown",
-          "widget": "label",
+          "widget": "select",
           "rules": {},
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:6731",
           "computed": [
@@ -652,7 +652,7 @@ export const app: AppDefinition = {
         {
           "name": "cboOutOfOffice",
           "type": "checkbox",
-          "widget": "label",
+          "widget": "checkbox",
           "rules": {
             "Text": "BR-012"
           },
@@ -728,7 +728,7 @@ export const app: AppDefinition = {
         {
           "name": "ddlWorkProfile",
           "type": "dropdown",
-          "widget": "label",
+          "widget": "select",
           "rules": {
             "Items": "BR-013"
           },
@@ -802,8 +802,9 @@ export const app: AppDefinition = {
         {
           "name": "btnSun",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "Sun",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:8949",
           "computed": [
             "Align",
@@ -835,8 +836,9 @@ export const app: AppDefinition = {
         {
           "name": "btnMon",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "Mon",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:9323",
           "computed": [
             "Align",
@@ -868,8 +870,9 @@ export const app: AppDefinition = {
         {
           "name": "btnTue",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "Tue",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:9697",
           "computed": [
             "Align",
@@ -901,8 +904,9 @@ export const app: AppDefinition = {
         {
           "name": "btnWed",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "Wed",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:10071",
           "computed": [
             "Align",
@@ -934,8 +938,9 @@ export const app: AppDefinition = {
         {
           "name": "btnThu",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "Thu",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:10445",
           "computed": [
             "Align",
@@ -967,8 +972,9 @@ export const app: AppDefinition = {
         {
           "name": "btnFri",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "Fri",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:10819",
           "computed": [
             "Align",
@@ -1000,8 +1006,9 @@ export const app: AppDefinition = {
         {
           "name": "btnSat",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "Sat",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/11.json:11193",
           "computed": [
             "Align",
@@ -1817,7 +1824,7 @@ export const app: AppDefinition = {
         {
           "name": "cmbxlPreferredNotification",
           "type": "Microsoft_CoreControls_ComboBox",
-          "widget": "label",
+          "widget": "select",
           "rules": {
             "DefaultSelectedItems": "BR-022"
           },
@@ -1895,7 +1902,7 @@ export const app: AppDefinition = {
         {
           "name": "cbxOutOfOffice",
           "type": "Microsoft_CoreControls_Checkbox",
-          "widget": "label",
+          "widget": "checkbox",
           "rules": {
             "Label": "BR-023"
           },
@@ -1958,7 +1965,7 @@ export const app: AppDefinition = {
         {
           "name": "cmbxWorkProfile",
           "type": "Microsoft_CoreControls_ComboBox",
-          "widget": "label",
+          "widget": "select",
           "rules": {
             "DefaultSelectedItems": "BR-024",
             "Items": "BR-025"
@@ -2043,8 +2050,9 @@ export const app: AppDefinition = {
         {
           "name": "btnSun_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "//\"Sun\"\r\nSettingsLoc.btnSundayTxt",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:7113",
           "computed": [
             "Align",
@@ -2076,8 +2084,9 @@ export const app: AppDefinition = {
         {
           "name": "btnMon_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "//\"Mon\"\r\nSettingsLoc.btnMondayTxt",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:7487",
           "computed": [
             "Align",
@@ -2109,8 +2118,9 @@ export const app: AppDefinition = {
         {
           "name": "btnTue_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "//\"Tue\"\r\nSettingsLoc.btnTuesdayTxt",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:7861",
           "computed": [
             "Align",
@@ -2142,8 +2152,9 @@ export const app: AppDefinition = {
         {
           "name": "btnWed_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "//\"Wed\"\r\nSettingsLoc.btnWednesdayTxt",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:8235",
           "computed": [
             "Align",
@@ -2175,8 +2186,9 @@ export const app: AppDefinition = {
         {
           "name": "btnThu_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "//\"Thu\"\r\nSettingsLoc.btnThursdayTxt",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:8609",
           "computed": [
             "Align",
@@ -2208,8 +2220,9 @@ export const app: AppDefinition = {
         {
           "name": "btnFri_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "//\"Fri\"\r\nSettingsLoc.btnFridayTxt",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:8983",
           "computed": [
             "Align",
@@ -2241,8 +2254,9 @@ export const app: AppDefinition = {
         {
           "name": "btnSat_1",
           "type": "button",
-          "widget": "label",
+          "widget": "button",
           "rules": {},
+          "label": "//\"Sat\"\r\nSettingsLoc.btnSaturdayTxt",
           "source": "legacy/approvals-kit/CanvasApps/cat_settings/Controls/47.json:9357",
           "computed": [
             "Align",

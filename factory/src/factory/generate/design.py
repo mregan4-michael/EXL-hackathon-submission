@@ -36,17 +36,23 @@ RETENTION = {
     "identifier": "Kept with the record it identifies; pseudonymised when that record is erased.",
 }
 PRIV = re.compile(r"prv(Create|Read|Write|Delete|Append|AppendTo|Assign|Share|Approve)(\w+?):(\w+)")
+# Keyed by the lowercase base type: pa.yaml uses "TextInput", .msapp JSON uses "textInput",
+# "button", and modern controls are namespaced ("Microsoft_CoreControls_ComboBox").
 CONTROL_WIDGET = {
-    "TextInput": "text",
-    "DatePicker": "date",
-    "Dropdown": "select",
-    "DropDown": "select",
-    "ComboBox": "select",
-    "Checkbox": "checkbox",
-    "Toggle": "checkbox",
-    "Label": "label",
-    "Button": "button",
+    "textinput": "text",
+    "datepicker": "date",
+    "dropdown": "select",
+    "combobox": "select",
+    "checkbox": "checkbox",
+    "toggle": "checkbox",
+    "label": "label",
+    "button": "button",
 }
+
+
+def widget_for(control_type: str) -> str:
+    base = re.split(r"[_.]", control_type)[-1].lower()
+    return CONTROL_WIDGET.get(base, "label")
 
 
 def plural(word: str) -> str:
@@ -280,7 +286,7 @@ def components(model: dict[str, Any], catalogue: dict[str, Any]) -> list[dict[st
         if c["type"] == "screen":
             screens.setdefault(c["screen"], [])
             continue
-        widget = CONTROL_WIDGET.get(c["type"], "label")
+        widget = widget_for(c["type"])
         entry: dict[str, Any] = {
             "name": c["name"],
             "type": c["type"],
