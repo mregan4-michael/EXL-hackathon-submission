@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 73,
+ "content": "{\"statement\": \"If the selected fault status is 'At fault', the label will display the maximum of 0 and the number of years entered minus 2, otherwise it will display the number of years entered. The threshold is 2 years.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 407,
+ "seconds": 11.987
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 55,
+ "content": "{\"statement\": \"The label lblBackupDelegateError_1 is visible if the length of its text is greater than zero. This rule is used for validation purposes.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 367,
+ "seconds": 8.26
+}

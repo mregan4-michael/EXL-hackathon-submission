@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 84,
+ "content": "{\"statement\": \"The condition is when the runtime stage is 'cat_businessapprovalruntimestage' and the name is 'cat_name'. If the sourcedata value is not null, the effect is to set the cat_sourcedatanamevalue to the sourcedata value. Otherwise, it remains null.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 431,
+ "seconds": 10.893
+}

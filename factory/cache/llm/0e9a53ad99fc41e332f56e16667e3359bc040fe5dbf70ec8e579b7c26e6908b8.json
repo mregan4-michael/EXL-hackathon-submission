@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 87,
+ "content": "{\"statement\": \"The condition is that the value of clm_Complaint.clm_RedressAmount must be between 0 and 100,000 (inclusive). If the value is outside this range, the effect is that the value is adjusted to be within the range. This is a validation rule.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 394,
+ "seconds": 10.088
+}

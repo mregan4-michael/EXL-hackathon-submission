@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"The rule checks if the dynamic approver type is either 809,060,002 or 809,060,001. If true, the workflow continues; otherwise, it stops.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 535,
+ "seconds": 10.44
+}

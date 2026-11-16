@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 93,
+ "content": "{\"statement\": \"This rule prevents double decrement if the 'cat_timeoutupdate' is executed more than once a day by checking if the first part of the split of 'cat_timeoutupdate' (which is the date) is not equal to the first part of the split of the current UTC time. If they are not equal, the decrement is prevented.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 458,
+ "seconds": 13.227
+}

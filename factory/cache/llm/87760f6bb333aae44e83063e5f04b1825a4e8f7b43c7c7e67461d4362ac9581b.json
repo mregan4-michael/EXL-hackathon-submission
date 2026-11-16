@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 86,
+ "content": "{\"statement\": \"If the selected backup delegate is not the same as the approval delegate and the selected backup delegate is not an empty value, then set the label text to either 'You cannot be your own backup delegate.' or 'Delegates cannot be the same person.' based on the selected backup delegate's key.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 579,
+ "seconds": 11.347
+}

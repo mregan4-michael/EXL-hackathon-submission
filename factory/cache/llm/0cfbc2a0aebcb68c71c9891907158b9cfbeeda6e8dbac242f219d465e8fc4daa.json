@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 102,
+ "content": "{\"statement\": \"The code switches the value of 'body/clm_claimtype' from 'Injury' or 'Theft' to 'Injury' or 'Theft' respectively. If 'body/clm_claimtype' is 'Injury', it routes to 'Injury'. If 'body/clm_claimtype' is 'Theft', it routes to 'Theft'.\", \"category\": \"routing\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 436,
+ "seconds": 6.02
+}

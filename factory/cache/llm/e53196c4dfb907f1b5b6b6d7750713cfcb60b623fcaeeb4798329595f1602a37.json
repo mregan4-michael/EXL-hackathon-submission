@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"This rule checks if the message is 3 and if the cat_isoutofoffice filter is true, and triggers the 'When_Approver_is_OOF' workflow if both conditions are met.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 417,
+ "seconds": 10.896
+}

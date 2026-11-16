@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"If the length of the 'body/value' from the 'Get_Next_Stage' output is zero, the condition is met. If so, the workflow proceeds to the 'If_No_more_stages' action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 448,
+ "seconds": 13.424
+}

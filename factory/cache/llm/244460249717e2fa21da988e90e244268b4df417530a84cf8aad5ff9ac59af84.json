@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 90,
+ "content": "{\n \"statement\": \"The condition is that the 'Hols.Date' must be greater than or equal to today's date, and the 'Hols.Calendar.'Business Approval Holiday Calendar' must match the selected holiday calendar. The effect is sorting the 'galPublicHolidays.Items' by 'cat_date' in ascending order.\",\n \"category\": \"calculation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 458,
+ "seconds": 19.354
+}

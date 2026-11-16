@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 71,
+ "content": "{\"statement\": \"This rule sets a recurrence schedule to run every day at 06:00 UTC on January 1, 2024, and continues indefinitely. It is a business rule as it defines a business deadline.\", \"category\": \"deadline\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 437,
+ "seconds": 10.379
+}

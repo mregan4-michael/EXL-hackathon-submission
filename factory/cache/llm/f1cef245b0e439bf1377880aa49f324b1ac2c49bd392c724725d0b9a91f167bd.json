@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 62,
+ "content": "{\"statement\": \"The condition is if either chkVulnerable.Value is true or ddChannel.Selected.Value is 'Regulator', then the output is 'Escalated', otherwise 'Standard'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 395,
+ "seconds": 8.539
+}

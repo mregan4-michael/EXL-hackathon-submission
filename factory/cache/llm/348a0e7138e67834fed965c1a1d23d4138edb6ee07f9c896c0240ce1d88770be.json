@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 53,
+ "content": "{\"statement\": \"This rule sets a daily recurrence starting at midnight on May 9, 2022, to trigger the Daily_Run workflow.\", \"category\": \"deadline\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 425,
+ "seconds": 7.967
+}

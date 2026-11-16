@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 87,
+ "content": "{\"statement\": \"The amount in the clm_Payment.clm_Amount field must be a positive number and must not exceed 1,000,000. If the amount is less than 0 or greater than 1,000,000, the system will reject it.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 392,
+ "seconds": 11.135
+}

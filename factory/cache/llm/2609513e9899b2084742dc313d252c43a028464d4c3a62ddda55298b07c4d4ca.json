@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 59,
+ "content": "{\"statement\": \"The Claim Amount must be a positive number and not exceed 10 million. Any value below 0 or above 10 million will trigger a validation error.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 398,
+ "seconds": 8.439
+}

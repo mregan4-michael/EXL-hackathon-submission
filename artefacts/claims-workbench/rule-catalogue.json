@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "app_id": "claims-workbench",
-  "generated_at_run": "2a4c1c373f62c20c",
+  "generated_at_run": "e32606f7bcaa941c",
   "prompt_versions": {
     "interpret": "interpret.v1",
     "candidates": "candidates.v1"
@@ -10,7 +10,7 @@
     {
       "id": "BR-001",
       "candidate_id": "35d02234e04f",
-      "statement": "The script sets gblUserAuthorityLimit to the limit of the first record in clm_HandlerAuthorities where the email matches the current user's email. It also sets gblIsManager to true if the current user's email is in the colManagers.Email list. It then clears the collection colClaimTypes to include the types 'Motor', 'Home', 'Theft', 'Injury', and 'Travel'.",
+      "statement": "The script sets gblUserAuthorityLimit to the limit of the first record in clm_HandlerAuthorities where the email matches the current user's email. It also sets gblIsManager to true if the current user's email is in the colManagers.Email list. Finally, it collects a list of claim types into colClaimTypes.",
       "category": "authorisation",
       "formula": "Set(gblUserAuthorityLimit, LookUp(clm_HandlerAuthorities, Email = User().Email).Limit);\nSet(gblIsManager, User().Email in colManagers.Email);\nClearCollect(colClaimTypes, [\"Motor\", \"Home\", \"Theft\", \"Injury\", \"Travel\"])",
       "formula_language": "powerfx",
@@ -25,13 +25,13 @@
       "inputs": [
         "Email",
         "clm_HandlerAuthorities",
-        "colClaimTypes",
-        "colManagers.Email",
-        "gblIsManager",
-        "gblUserAuthorityLimit"
+        "colManagers.Email"
       ],
       "outputs": [
-        "App.OnStart"
+        "App.OnStart",
+        "colClaimTypes",
+        "gblIsManager",
+        "gblUserAuthorityLimit"
       ],
       "confidence": 1.0,
       "pii": [
@@ -64,7 +64,7 @@
     {
       "id": "BR-002",
       "candidate_id": "ad898023418e",
-      "statement": "The label 'lblSummaryResolution' is visible if the complaint has been resolved to satisfaction and the difference in days between the complaint receipt date and the resolution date is 3 days or less. This condition is checked by the formula 'chkResolvedToSatisfaction.Value && DateDiff(dpComplaintReceived.SelectedDate, dpResolvedDate.SelectedDate, TimeUnit.Days) <= 3'.",
+      "statement": "The label 'lblSummaryResolution' is visible if the complaint is resolved to satisfaction and the difference in days between the complaint receipt date and the resolution date is 3 days or less. This condition is checked by the formula 'chkResolvedToSatisfaction.Value && DateDiff(dpComplaintReceived.SelectedDate, dpResolvedDate.SelectedDate, TimeUnit.Days) <= 3'.",
       "category": "validation",
       "formula": "chkResolvedToSatisfaction.Value && DateDiff(dpComplaintReceived.SelectedDate, dpResolvedDate.SelectedDate, TimeUnit.Days) <= 3",
       "formula_language": "powerfx",
@@ -105,7 +105,7 @@
     {
       "id": "BR-003",
       "candidate_id": "676426eeec6b",
-      "statement": "The label 'lblComplaintBreach' is hidden if the checkbox 'chkFinalResponseSent' is not checked and the difference in days between the selected dates in 'dpComplaintReceived' and 'dpAsOf' is greater than 56 days.",
+      "statement": "The label 'lblComplaintBreach' is hidden if the checkbox 'chkFinalResponseSent' is not checked and the difference in days between the dates selected in 'dpComplaintReceived' and 'dpAsOf' is greater than 56. This condition is used to determine when a complaint breach label should be visible.",
       "category": "authorisation",
       "formula": "!chkFinalResponseSent.Value && DateDiff(dpComplaintReceived.SelectedDate, dpAsOf.SelectedDate, TimeUnit.Days) > 56",
       "formula_language": "powerfx",
@@ -146,7 +146,7 @@
     {
       "id": "BR-004",
       "candidate_id": "86a62f387584",
-      "statement": "The condition is whether ddComplaintOutcome.Selected.Value is 'Upheld' or 'Partially upheld'. If it is 'Upheld', the output is the sum of txtFinancialLoss.Text and an additional 150 if chkDistressInconvenience.Value is true. If it is 'Partially upheld', the output is half of txtFinancialLoss.Text rounded to two decimal places plus an additional 75 if chkDistressInconvenience.Value is true. Otherwise, the output is 0.",
+      "statement": "If the selected complaint outcome is 'Upheld', the redress label is set to the financial loss plus an additional 150 if distress inconvenience is checked. If the selected complaint outcome is 'Partially upheld', the redress label is set to half the financial loss plus an additional 75 if distress inconvenience is checked. Otherwise, the redress label is set to 0.",
       "category": "calculation",
       "formula": "Switch(\n    ddComplaintOutcome.Selected.Value,\n    \"Upheld\", Value(txtFinancialLoss.Text) + If(chkDistressInconvenience.Value, 150, 0),\n    \"Partially upheld\", Round(Value(txtFinancialLoss.Text) * 0.5, 2) + If(chkDistressInconvenience.Value, 75, 0),\n    0\n)",
       "formula_language": "powerfx",
@@ -194,7 +194,7 @@
     {
       "id": "BR-005",
       "candidate_id": "41c13a16e245",
-      "statement": "The condition is if either chkVulnerable.Value is true or ddChannel.Selected.Value is 'Regulator', then the label lblComplaintRoute.Text will be set to 'Escalated', otherwise it will be set to 'Standard'.",
+      "statement": "The condition is if either chkVulnerable.Value is true or ddChannel.Selected.Value is 'Regulator', then the output is 'Escalated', otherwise 'Standard'.",
       "category": "authorisation",
       "formula": "If(chkVulnerable.Value || ddChannel.Selected.Value = \"Regulator\", \"Escalated\", \"Standard\")",
       "formula_language": "powerfx",
@@ -238,7 +238,7 @@
     {
       "id": "BR-006",
       "candidate_id": "8bc13f1b90ec",
-      "statement": "The policy number displayed in the lblPolicyNumberError.Text field must be exactly 10 characters long and start with 'PL'. If the policy number is blank or does not meet these criteria, an error message is displayed.",
+      "statement": "If the policy number is not blank and either it is not exactly 10 characters long or it does not start with 'PL', then display 'Policy number must be 10 characters and start with PL'. Otherwise, display nothing.",
       "category": "validation",
       "formula": "If(\n    !IsBlank(txtPolicyNumber.Text) && (Len(txtPolicyNumber.Text) <> 10 || !StartsWith(txtPolicyNumber.Text, \"PL\")),\n    \"Policy number must be 10 characters and start with PL\",\n    \"\"\n)",
       "formula_language": "powerfx",
@@ -285,7 +285,7 @@
     {
       "id": "BR-007",
       "candidate_id": "7c51d70096d5",
-      "statement": "If the incident date is not within the policy start and end dates, a message 'Incident date is outside the policy period' is displayed. Otherwise, no message is shown.",
+      "statement": "If the incident date is not within the policy period (between policy start and end dates), it displays a warning message. The policy period is defined by the policy start and end dates.",
       "category": "validation",
       "formula": "If(\n    dpIncidentDate.SelectedDate < dpPolicyStart.SelectedDate || dpIncidentDate.SelectedDate > dpPolicyEnd.SelectedDate,\n    \"Incident date is outside the policy period\",\n    \"\"\n)",
       "formula_language": "powerfx",
@@ -323,7 +323,7 @@
     {
       "id": "BR-008",
       "candidate_id": "2e9d331c1871",
-      "statement": "The label 'Incident date cannot be after the notification date' will be displayed if the selected incident date is later than the selected notification date.",
+      "statement": "The label 'lblDateOrderError.Text' will display the message 'Incident date cannot be after the notification date' if the selected incident date is later than the selected notification date.",
       "category": "validation",
       "formula": "If(dpIncidentDate.SelectedDate > dpNotifiedDate.SelectedDate, \"Incident date cannot be after the notification date\", \"\")",
       "formula_language": "powerfx",
@@ -360,7 +360,7 @@
     {
       "id": "BR-009",
       "candidate_id": "980ade4979e3",
-      "statement": "The label 'lblLateNotification' is visible if the difference between the selected incident date and notified date is more than 30 days. This condition is checked using the DateDiff function.",
+      "statement": "If the difference between the selected incident date and notified date is more than 30 days, then the label 'lblLateNotification' will be visible.",
       "category": "validation",
       "formula": "DateDiff(dpIncidentDate.SelectedDate, dpNotifiedDate.SelectedDate, TimeUnit.Days) > 30",
       "formula_language": "powerfx",
@@ -400,7 +400,7 @@
     {
       "id": "BR-010",
       "candidate_id": "c5366c367caa",
-      "statement": "The condition is if ddFault.Selected.Value is 'At fault', then the output is the maximum of 0 and the difference between the value of txtNcdYears.Text and 2, otherwise the value of txtNcdYears.Text. This rule applies a threshold of 2 years and a default of 0 years.",
+      "statement": "If the selected fault status is 'At fault', the label will display the maximum of 0 and the number of years entered minus 2, otherwise it will display the number of years entered. The threshold is 2 years.",
       "category": "calculation",
       "formula": "If(\n    ddFault.Selected.Value = \"At fault\",\n    Max(0, Value(txtNcdYears.Text) - 2),\n    Value(txtNcdYears.Text)\n)",
       "formula_language": "powerfx",
@@ -441,7 +441,7 @@
     {
       "id": "BR-011",
       "candidate_id": "1d93e74c135b",
-      "statement": "The button 'btnSubmit' will be disabled if the policy number is blank, the incident date is blank, the claim amount is less than or equal to zero, or if there is a cover error message displayed. Otherwise, it will be in edit mode.",
+      "statement": "The button displays as disabled if the policy number is blank, the incident date is blank, the claim amount is less than or equal to zero, or if there is a cover error message. Otherwise, it displays as editable.",
       "category": "authorisation",
       "formula": "If(\n    IsBlank(txtPolicyNumber.Text) || IsBlank(dpIncidentDate.SelectedDate) || Value(txtClaimAmount.Text) <= 0 || !IsBlank(lblCoverError.Text) && lblCoverError.Text <> \"\",\n    DisplayMode.Disabled,\n    DisplayMode.Edit\n)",
       "formula_language": "powerfx",
@@ -544,7 +544,7 @@
     {
       "id": "BR-013",
       "candidate_id": "81e10771fdb7",
-      "statement": "If the value of chkVatRegistered is true, then set lblVatRecoverable to the rounded value of lblNetSettlement divided by 6, otherwise set it to 0.",
+      "statement": "The label 'lblVatRecoverable.Text' displays the vat recoverable amount, calculated as the net settlement divided by 6, rounded to two decimal places if the vat registered checkbox is checked, otherwise it displays 0. The threshold value is the net settlement amount in lblNetSettlement.Text, and the effect is to display the calculated vat recoverable amount.",
       "category": "calculation",
       "formula": "If(chkVatRegistered.Value, Round(Value(lblNetSettlement.Text) / 6, 2), 0)",
       "formula_language": "powerfx",
@@ -589,7 +589,7 @@
     {
       "id": "BR-014",
       "candidate_id": "58debb5aa810",
-      "statement": "If the selected claim type is 'Motor' and the vehicle age is greater than 5 years, the betterment amount is calculated as the cost of parts multiplied by a factor of 0.5 for the first 5 years and then by a decreasing factor for each additional year up to a maximum of 0.1. The result is rounded to 2 decimal places. Otherwise, the betterment amount is 0.",
+      "statement": "If the selected claim type is 'Motor' and the vehicle age is greater than 5 years, then the betterment amount is calculated as the cost of parts multiplied by a factor of 0.5 for the first 5 years and then by a decreasing factor for each additional year up to a maximum of 0.1, rounded to 2 decimal places. Otherwise, the betterment amount is 0.",
       "category": "calculation",
       "formula": "If(\n    ddClaimType.Selected.Value = \"Motor\" && Value(txtVehicleAge.Text) > 5,\n    Round(Value(txtPartsCost.Text) * Min(0.5, (Value(txtVehicleAge.Text) - 5) * 0.1), 2),\n    0\n)",
       "formula_language": "powerfx",
@@ -679,7 +679,7 @@
     {
       "id": "BR-016",
       "candidate_id": "46bb6bfe85a1",
-      "statement": "If the number of days between the agreed payment date and the paid date is more than 14, then calculate the late interest by rounding the product of net settlement value, 8%, and the difference between the days over 14, divided by 365, to two decimal places. Otherwise, the late interest is 0.",
+      "statement": "If the number of days between the agreed payment date and the paid date is more than 14, then calculate the late interest as the net settlement amount multiplied by 8% and divided by 365, then subtract 14 from the days and round the result to two decimal places. Otherwise, the late interest is 0.",
       "category": "calculation",
       "formula": "If(\n    DateDiff(dpAgreedDate.SelectedDate, dpPaidDate.SelectedDate, TimeUnit.Days) > 14,\n    Round(Value(lblNetSettlement.Text) * 0.08 * (DateDiff(dpAgreedDate.SelectedDate, dpPaidDate.SelectedDate, TimeUnit.Days) - 14) / 365, 2),\n    0\n)",
       "formula_language": "powerfx",
@@ -788,7 +788,7 @@
     {
       "id": "BR-018",
       "candidate_id": "7d7a31698808",
-      "statement": "The label 'Authority' will display 'Handler' if the claim amount is $5,000 or less, 'TeamLeader' if the claim amount is between $5,001 and $25,000, and 'ClaimsManager' otherwise.",
+      "statement": "The application checks the claim amount in the 'txtClaimAmount.Text' field. If the claim amount is less than or equal to 5000, it assigns the claim to 'Handler'. If the claim amount is between 5000 and 25000, it assigns the claim to 'TeamLeader'. Otherwise, it assigns the claim to 'ClaimsManager'.",
       "category": "authorisation",
       "formula": "If(\n    Value(txtClaimAmount.Text) <= 5000, \"Handler\",\n    Value(txtClaimAmount.Text) <= 25000, \"TeamLeader\",\n    \"ClaimsManager\"\n)",
       "formula_language": "powerfx",
@@ -832,8 +832,8 @@
     {
       "id": "BR-019",
       "candidate_id": "dcd17aee53ff",
-      "statement": "If the text input 'txtClaimAmount.Text' is greater than 10000, then the label 'lblFourEyes.Visible' is shown.",
-      "category": "validation",
+      "statement": "If the text input 'txtClaimAmount.Text' contains a value greater than 10000, then the label 'lblFourEyes.Visible' is shown. Otherwise, it is hidden.",
+      "category": "visibility",
       "formula": "Value(txtClaimAmount.Text) > 10000",
       "formula_language": "powerfx",
       "source_locations": [
@@ -859,7 +859,7 @@
       ],
       "flags": {
         "contradiction_with": [
-          "BR-042"
+          "BR-043"
         ],
         "dead_code": false,
         "magic_numbers": [
@@ -879,7 +879,7 @@
     {
       "id": "BR-020",
       "candidate_id": "7b63ea0c2707",
-      "statement": "The score is calculated based on the number of days between the incident date and the policy start date, the number of prior claims, and the days between the incident date and the notified date. If the days between the incident and notified dates are more than 30, a score of 20 is added. If there are 3 or more prior claims, a score of 30 is added. If the incident was reported as theft and no police reference was provided, an additional score of 10 is added. The final score is the sum of these conditions.",
+      "statement": "The score is 40 if the difference between the policy start date and incident date is less than 30 days, 30 if the number of prior claims is 3 or more, 20 if the difference between the incident date and notified date is more than 30 days, and 10 if there are no police references and the claim type is theft. The score is 0 otherwise.",
       "category": "calculation",
       "formula": "If(DateDiff(dpPolicyStart.SelectedDate, dpIncidentDate.SelectedDate, TimeUnit.Days) < 30, 40, 0)\n+ If(Value(txtPriorClaims.Text) >= 3, 30, 0)\n+ If(DateDiff(dpIncidentDate.SelectedDate, dpNotifiedDate.SelectedDate, TimeUnit.Days) > 30, 20, 0)\n+ If(chkNoPoliceRef.Value && ddClaimType.Selected.Value = \"Theft\", 10, 0)",
       "formula_language": "powerfx",
@@ -929,8 +929,8 @@
     {
       "id": "BR-021",
       "candidate_id": "380d03744696",
-      "statement": "The condition is that the value of lblFraudScore.Text must be greater than or equal to 50. If this condition is met, lblFraudReferral.Visible will be shown.",
-      "category": "validation",
+      "statement": "The label 'lblFraudReferral' is visible if the fraud score is 50 or higher. This rule is used for authorisation purposes.",
+      "category": "authorisation",
       "formula": "Value(lblFraudScore.Text) >= 50",
       "formula_language": "powerfx",
       "source_locations": [
@@ -969,7 +969,7 @@
     {
       "id": "BR-022",
       "candidate_id": "b8c8df822ad4",
-      "statement": "The label 'lblVulnerable' is visible if the user is 75 years or older, or if they have a 'Third party (Power of Attorney)' preference for contact, regardless of their date of birth.",
+      "statement": "The label 'lblVulnerable' is shown if the user is 75 years or older, or if they have a 'Third party (Power of Attorney)' preference for contact, or if the user's date of birth is more than 75 years before the date they were notified.",
       "category": "authorisation",
       "formula": "chkVulnerable.Value\n    || DateDiff(dpDateOfBirth.SelectedDate, dpNotifiedDate.SelectedDate, TimeUnit.Years) >= 75\n    || ddContactPref.Selected.Value = \"Third party (Power of Attorney)\"",
       "formula_language": "powerfx",
@@ -1026,7 +1026,7 @@
     {
       "id": "BR-023",
       "candidate_id": "5d539335ce51",
-      "statement": "The label 'P1' is displayed if the 'lblVulnerable' is visible, or if the selected claim type is 'Injury', or if the claim amount is greater than 25000. The label 'P2' is displayed if none of the above conditions are met, and the label 'P3' is always displayed.",
+      "statement": "The label 'P1' is displayed if the 'lblVulnerable' is visible, or if the selected claim type is 'Injury', or if the claim amount is greater than 25000. The label 'P2' is displayed if none of the above conditions are met and the claim amount is 25000 or less. The label 'P3' is displayed if none of the above conditions are met and the claim amount is less than 25000.",
       "category": "authorisation",
       "formula": "If(\n    lblVulnerable.Visible, \"P1\",\n    ddClaimType.Selected.Value = \"Injury\", \"P1\",\n    Value(txtClaimAmount.Text) > 25000, \"P2\",\n    \"P3\"\n)",
       "formula_language": "powerfx",
@@ -1117,7 +1117,7 @@
     {
       "id": "BR-025",
       "candidate_id": "0b145bb1c486",
-      "statement": "The button displays as disabled if either the 'lblVulnerable.Visible' label is shown or the 'lblFraudScore.Text' value is 50 or higher. Otherwise, it displays as editable.",
+      "statement": "The button displays as disabled if either the 'lblVulnerable.Visible' label is shown or the 'lblFraudScore.Text' value is 50 or higher. Otherwise, it displays in edit mode.",
       "category": "authorisation",
       "formula": "If(\n    lblVulnerable.Visible || Value(lblFraudScore.Text) >= 50,\n    DisplayMode.Disabled,\n    DisplayMode.Edit\n)",
       "formula_language": "powerfx",
@@ -1169,7 +1169,7 @@
     {
       "id": "BR-026",
       "candidate_id": "f77de067cadb",
-      "statement": "If the claim amount is greater than 50000, it applies a 5% surcharge. Otherwise, no surcharge is applied.",
+      "statement": "If the claim amount is greater than 50000, a 5% surcharge is applied. Otherwise, no surcharge is applied.",
       "category": "authorisation",
       "formula": "If(Value(txtClaimAmount.Text) > 50000, \"Apply 5% large-loss handling surcharge\", \"\")",
       "formula_language": "powerfx",
@@ -1214,7 +1214,7 @@
     {
       "id": "BR-027",
       "candidate_id": "1baff1251bba",
-      "statement": "The Claim Amount must be a positive number and less than or equal to 10 million. If the Claim Amount is zero or negative, the rule fails.",
+      "statement": "The Claim Amount must be a positive number and not exceed 10 million. Any value below 0 or above 10 million will trigger a validation error.",
       "category": "validation",
       "formula": "Required(clm_ClaimAmount) && Range(clm_ClaimAmount, 0, 1e+07)",
       "formula_language": "dataverse_metadata",
@@ -1243,7 +1243,7 @@
         "contradiction_with": [],
         "dead_code": false,
         "magic_numbers": [
-          7.0
+          10000000.0
         ],
         "fairness_review": false,
         "needs_human_review": false,
@@ -1257,7 +1257,7 @@
     {
       "id": "BR-028",
       "candidate_id": "fc7949d02bf7",
-      "statement": "The Fraud Score must be between 0 and 100. If the Fraud Score is outside this range, it will be considered invalid.",
+      "statement": "The Fraud Score column in the Claim entity ranges from 0 to 100. If the Fraud Score is outside this range, it is considered invalid.",
       "category": "validation",
       "formula": "Range(clm_FraudScore, 0, 100)",
       "formula_language": "dataverse_metadata",
@@ -1297,7 +1297,7 @@
     {
       "id": "BR-029",
       "candidate_id": "b8dd68218c0f",
-      "statement": "The condition is that the value of clm_PriorClaims must be between 0 and 50 (inclusive). If it is outside this range, the effect is that the value is set to 0.",
+      "statement": "The condition is that the number of prior claims must be between 0 and 50. If this condition is met, the effect is that the number of prior claims remains unchanged.",
       "category": "validation",
       "formula": "Range(clm_PriorClaims, 0, 50)",
       "formula_language": "dataverse_metadata",
@@ -1335,7 +1335,7 @@
     {
       "id": "BR-030",
       "candidate_id": "64eec9a132c0",
-      "statement": "The Redress Amount must be between 0 and 100,000 (inclusive). Any value outside this range will trigger an error.",
+      "statement": "The condition is that the value of clm_Complaint.clm_RedressAmount must be between 0 and 100,000 (inclusive). If the value is outside this range, the effect is that the value is adjusted to be within the range. This is a validation rule.",
       "category": "validation",
       "formula": "Range(clm_RedressAmount, 0, 100000)",
       "formula_language": "dataverse_metadata",
@@ -1421,7 +1421,7 @@
     {
       "id": "BR-032",
       "candidate_id": "39ff36fa74ba",
-      "statement": "The condition is that the clm_Payment.clm_Amount must be required and must fall within the range of 0 to 1,000,000. If these conditions are not met, the effect is an error or validation failure.",
+      "statement": "The amount in the clm_Payment.clm_Amount field must be a positive number and must not exceed 1,000,000. If the amount is less than 0 or greater than 1,000,000, the system will reject it.",
       "category": "validation",
       "formula": "Required(clm_Amount) && Range(clm_Amount, 0, 1e+06)",
       "formula_language": "dataverse_metadata",
@@ -1450,7 +1450,7 @@
         "contradiction_with": [],
         "dead_code": false,
         "magic_numbers": [
-          6.0
+          1000000.0
         ],
         "fairness_review": false,
         "needs_human_review": false,
@@ -1464,7 +1464,7 @@
     {
       "id": "BR-033",
       "candidate_id": "15cf0a5ec9ef",
-      "statement": "The Auditor role has read access to all claim, payment, and complaint records. If a user is assigned the Auditor role, they can read any claim, payment, or complaint record.",
+      "statement": "The Auditor role has read access to all claim, payment, and complaint records. If the role is granted, the system will allow read access to these records.",
       "category": "authorisation",
       "formula": "Role(Auditor) GRANTS prvReadclm_Claim:Global, prvReadclm_Payment:Global, prvReadclm_Complaint:Global",
       "formula_language": "dataverse_metadata",
@@ -1500,7 +1500,7 @@
     {
       "id": "BR-034",
       "candidate_id": "f12235391301",
-      "statement": "The ClaimsHandler role grants read, write, and create permissions for Claim objects to users, and read permissions for Complaint objects to BusinessUnit objects. The threshold values are specific permissions granted to different types of users and objects.",
+      "statement": "The ClaimsHandler role grants read, write, and create permissions for Claim objects to users and BusinessUnit-level permissions for Complaint objects. The threshold values are read, write, and create permissions for Claim objects, and BusinessUnit-level permissions for Complaint objects.",
       "category": "authorisation",
       "formula": "Role(ClaimsHandler) GRANTS prvReadclm_Claim:User, prvWriteclm_Claim:User, prvCreateclm_Payment:User, prvReadclm_Complaint:BusinessUnit",
       "formula_language": "dataverse_metadata",
@@ -1536,7 +1536,7 @@
     {
       "id": "BR-035",
       "candidate_id": "7272275f2146",
-      "statement": "The ClaimsManager role grants global permissions for read, write, approve, assign, and write complaints on claims. This role has no restrictions or limitations.",
+      "statement": "The ClaimsManager role grants global read, write, approve, assign, and write complaint permissions to claims data. This rule applies to the ClaimsManager security role.",
       "category": "authorisation",
       "formula": "Role(ClaimsManager) GRANTS prvReadclm_Claim:Global, prvWriteclm_Claim:Global, prvApproveclm_Payment:Global, prvAssignclm_Claim:Global, prvWriteclm_Complaint:Global",
       "formula_language": "dataverse_metadata",
@@ -1572,8 +1572,8 @@
     {
       "id": "BR-036",
       "candidate_id": "b6bae1b24c03",
-      "statement": "The TeamLeader role grants read, write, create, approve, and write access to claims and complaint records within the same business unit. This affects the visibility and permissions of TeamLeader users in the claims workbench.",
-      "category": "visibility",
+      "statement": "The TeamLeader role grants read, write, create, approve, and write access to claims and complaints within the same business unit. If a user is assigned the TeamLeader role, they can access these claims and complaints.",
+      "category": "authorisation",
       "formula": "Role(TeamLeader) GRANTS prvReadclm_Claim:BusinessUnit, prvWriteclm_Claim:BusinessUnit, prvCreateclm_Payment:BusinessUnit, prvApproveclm_Payment:BusinessUnit, prvWriteclm_Complaint:BusinessUnit",
       "formula_language": "dataverse_metadata",
       "source_locations": [
@@ -1607,8 +1607,42 @@
     },
     {
       "id": "BR-037",
+      "candidate_id": "fe41285e4495",
+      "statement": "This rule sets a recurrence schedule to run every day at 06:00 UTC on January 1, 2024, and continues indefinitely. It is a business rule as it defines a business deadline.",
+      "category": "deadline",
+      "formula": "Recurrence({\"frequency\": \"Day\", \"interval\": 1, \"startTime\": \"2024-01-01T06:00:00Z\", \"timeZone\": \"GMT Standard Time\"})",
+      "formula_language": "wdl",
+      "source_locations": [
+        {
+          "file": "legacy/claims-workbench/Workflows/ClaimsComplaintDeadlines-7B2E3D21-1C2E-4F9B-8D22-3E4F5A6B7C02.json",
+          "kind": "flow_trigger",
+          "path": "ClaimsComplaintDeadlines/triggers/Recurrence",
+          "line": 9
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        "Recurrence"
+      ],
+      "confidence": 1.0,
+      "pii": [],
+      "flags": {
+        "contradiction_with": [],
+        "dead_code": false,
+        "magic_numbers": [],
+        "fairness_review": false,
+        "needs_human_review": false,
+        "review_reasons": []
+      },
+      "oracle": {
+        "proof_type": "scenario",
+        "reason": "Power Automate flow logic; no executable oracle. Proved by a scenario test."
+      }
+    },
+    {
+      "id": "BR-038",
       "candidate_id": "d75f736a1f4a",
-      "statement": "This rule checks if the complaint has been open between 40 and 56 days. If true, it triggers the 'Check_reminder_window' action.",
+      "statement": "This rule checks if the complaint has been open between 40 and 56 days. If true, it triggers a reminder at week 6.",
       "category": "validation",
       "formula": "{\"and\": [{\"greater\": [\"@outputs('Days_open')\", 40]}, {\"lessOrEquals\": [\"@outputs('Days_open')\", 56]}]}",
       "formula_language": "wdl",
@@ -1645,9 +1679,9 @@
       }
     },
     {
-      "id": "BR-038",
+      "id": "BR-039",
       "candidate_id": "68ca53de7800",
-      "statement": "The rule checks if the Days_open value is greater than or equal to 56 days. If true, it triggers the Check_eight_week_breach action.",
+      "statement": "The rule checks if the Days_open value is greater than or equal to 56 days. If true, it triggers the action 'Check_eight_week_breach'.",
       "category": "validation",
       "formula": "{\"and\": [{\"greater\": [\"@outputs('Days_open')\", 56]}]}",
       "formula_language": "wdl",
@@ -1683,9 +1717,9 @@
       }
     },
     {
-      "id": "BR-039",
+      "id": "BR-040",
       "candidate_id": "e80ee181dbad",
-      "statement": "This rule triggers when a claim is added or modified, and it applies if the fraud score is 50 or higher. The condition is that the message is 3 and the fraud score is greater than or equal to 50.",
+      "statement": "The rule triggers when a new claim is added or modified, and it checks if the claim's fraud score is 50 or higher. If the condition is met, the rule is triggered.",
       "category": "validation",
       "formula": "On(clm_claim, message=3, filter=clm_fraudscore ge 50)",
       "formula_language": "wdl",
@@ -1719,9 +1753,9 @@
       }
     },
     {
-      "id": "BR-040",
+      "id": "BR-041",
       "candidate_id": "225c9ea266db",
-      "statement": "The condition checks if the customer has a welfare flag set to true. If true, the customer is referred for further review. Otherwise, the process is auto-declined.",
+      "statement": "The rule checks if the customer has a vulnerability flag set to true. If true, the customer is referred for further review; otherwise, the system auto-declines the claim.",
       "category": "authorisation",
       "formula": "{\"and\": [{\"equals\": [\"@triggerOutputs()?['body/clm_customer/clm_vulnerabilityflag']\", true]}]}",
       "formula_language": "wdl",
@@ -1766,9 +1800,9 @@
       }
     },
     {
-      "id": "BR-041",
+      "id": "BR-042",
       "candidate_id": "c8bcbaac1529",
-      "statement": "This rule triggers when a new claim payment row is added or modified, and the claim amount is greater than zero. If the condition is met, the rule will proceed.",
+      "statement": "This rule checks if the claim payment amount is greater than zero. If true, it triggers the workflow. The threshold value is 0.",
       "category": "validation",
       "formula": "On(clm_payment, message=1, filter=clm_amount gt 0)",
       "formula_language": "wdl",
@@ -1800,7 +1834,7 @@
       }
     },
     {
-      "id": "BR-042",
+      "id": "BR-043",
       "candidate_id": "5c4513c4b6b4",
       "statement": "The rule checks if the claim amount is 10,000 or more. If true, it requires a second approver.",
       "category": "authorisation",
@@ -1847,9 +1881,9 @@
       }
     },
     {
-      "id": "BR-043",
+      "id": "BR-044",
       "candidate_id": "fccf763d442c",
-      "statement": "The payment is held if the payee changed in the last 30 days, as determined by the current time minus the payee change time being greater than 30 days.",
+      "statement": "The payment is held if the payee changed in the last 30 days, as determined by the difference between the current time and the payee change timestamp being less than 30 days.",
       "category": "authorisation",
       "formula": "{\"and\": [{\"less\": [\"@div(sub(ticks(utcNow()),ticks(triggerOutputs()?['body/clm_payeechangedon'])),864000000000)\", 30]}]}",
       "formula_language": "wdl",
@@ -1885,9 +1919,9 @@
       }
     },
     {
-      "id": "BR-044",
+      "id": "BR-045",
       "candidate_id": "3bb477a7b6e2",
-      "statement": "The code checks the value of 'body/clm_claimtype' from the input 'Get_claim'. If it is 'Injury', it routes to 'Injury'. If it is 'Theft', it routes to 'Theft'.",
+      "statement": "The code switches the value of 'body/clm_claimtype' from 'Injury' or 'Theft' to 'Injury' or 'Theft' respectively. If 'body/clm_claimtype' is 'Injury', it routes to 'Injury'. If 'body/clm_claimtype' is 'Theft', it routes to 'Theft'.",
       "category": "routing",
       "formula": "Switch(\"@outputs('Get_claim')?['body/clm_claimtype']\", cases={\"Injury\": \"Injury\", \"Theft\": \"Theft\"})",
       "formula_language": "wdl",
@@ -2101,6 +2135,10 @@
         "kind": "rule"
       },
       {
+        "id": "BR-045",
+        "kind": "rule"
+      },
+      {
         "id": "claims-workbench",
         "kind": "app"
       },
@@ -2155,6 +2193,11 @@
     ],
     "edges": [
       {
+        "from": "BR-001",
+        "to": "BR-017",
+        "kind": "reads"
+      },
+      {
         "from": "BR-007",
         "to": "BR-011",
         "kind": "reads"
@@ -2192,16 +2235,6 @@
       {
         "from": "BR-023",
         "to": "BR-024",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-029",
-        "to": "BR-027",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-029",
-        "to": "BR-028",
         "kind": "reads"
       },
       {
@@ -2275,7 +2308,7 @@
         "kind": "defines"
       },
       {
-        "from": "flow:ClaimsFraudReferral",
+        "from": "flow:ClaimsComplaintDeadlines",
         "to": "BR-039",
         "kind": "defines"
       },
@@ -2285,7 +2318,7 @@
         "kind": "defines"
       },
       {
-        "from": "flow:ClaimsPaymentAuthorisation",
+        "from": "flow:ClaimsFraudReferral",
         "to": "BR-041",
         "kind": "defines"
       },
@@ -2302,6 +2335,11 @@
       {
         "from": "flow:ClaimsPaymentAuthorisation",
         "to": "BR-044",
+        "kind": "defines"
+      },
+      {
+        "from": "flow:ClaimsPaymentAuthorisation",
+        "to": "BR-045",
         "kind": "defines"
       },
       {

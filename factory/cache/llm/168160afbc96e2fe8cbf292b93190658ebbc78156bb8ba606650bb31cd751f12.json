@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\n \"statement\": \"The condition checks if the length of the body/value from the Get_any_other_running_Node_Instances action is zero, indicating no more running node instances. If true, the instance is considered completed.\",\n \"category\": \"validation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 472,
+ "seconds": 8.762
+}

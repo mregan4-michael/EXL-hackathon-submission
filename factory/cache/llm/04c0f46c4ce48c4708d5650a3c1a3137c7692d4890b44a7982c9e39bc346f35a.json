@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 78,
+ "content": "{\"statement\": \"The condition is when the value of cat_sourcedatanamevalue is calculated using cat_businessapprovalruntimedata, cat_businessapprovalruntimenode, and cat_name. The effect is to set the value of cat_sourcedatanamevalue.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 429,
+ "seconds": 13.596
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 65,
+ "content": "{\"statement\": \"The condition is that if the selected delegate's UPN matches the user's UPN, then the label 'lblDelegateError' will display the message 'You cannot be your own delegate.'\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 395,
+ "seconds": 11.558
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 112,
+ "content": "{\"statement\": \"The score is 40 if the difference between the policy start date and incident date is less than 30 days, 30 if the number of prior claims is 3 or more, 20 if the difference between the incident date and notified date is more than 30 days, and 10 if there are no police references and the claim type is theft. The score is 0 otherwise.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 521,
+ "seconds": 16.187
+}

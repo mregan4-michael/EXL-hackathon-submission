@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 101,
+ "content": "{\"statement\": \"The condition checks if 'text_1' is 'Stage Instance'. If true, it sets the variable 'varConditions' with the stage ID from the 'Apply_to_each' items, otherwise it sets the variable with the 'cat_pathindex' from the 'Apply_to_each' items. This ensures the correct stage ID is used based on the current stage instance.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 496,
+ "seconds": 14.877
+}

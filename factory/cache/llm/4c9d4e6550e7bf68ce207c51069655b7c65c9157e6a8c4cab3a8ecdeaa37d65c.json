@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 58,
+ "content": "{\"statement\": \"This rule checks if the complaint has been open between 40 and 56 days. If true, it triggers a reminder at week 6. \", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 455,
+ "seconds": 8.816
+}

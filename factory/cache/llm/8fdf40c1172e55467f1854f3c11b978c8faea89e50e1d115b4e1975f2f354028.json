@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"If the value of the 'Get_Next_Node' action is not equal to null and the value of '_cat_nodeduedaterequestdata_value' is not equal to null, then the condition is met.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 488,
+ "seconds": 10.626
+}

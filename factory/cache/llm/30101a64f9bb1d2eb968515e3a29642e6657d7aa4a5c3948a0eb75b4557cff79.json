@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 79,
+ "content": "{\"statement\": \"The condition is when the cat_pathindex is not null. If it is null, the cat_path is set to null. Otherwise, it calculates the cat_path using the cat_businessapprovalruntimenode and cat_businessapprovalruntimenodeinstance entities.\", \"category\": \"calculation\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 413,
+ "seconds": 12.325
+}

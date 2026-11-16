@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 65,
+ "content": "{\"statement\": \"The rule triggers when a new claim is added or modified, and it checks if the claim's fraud score is 50 or higher. If the condition is met, the rule is triggered.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 416,
+ "seconds": 8.681
+}

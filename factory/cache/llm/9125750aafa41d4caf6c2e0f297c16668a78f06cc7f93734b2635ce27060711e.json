@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 76,
+ "content": "{\"statement\": \"If the length of the 'body/value' in the output of 'Get_Dynamic_Approver_Data' is greater than 0, then the condition is met. If the condition is met, the output 'If_has_data' is generated.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 437,
+ "seconds": 9.888
+}

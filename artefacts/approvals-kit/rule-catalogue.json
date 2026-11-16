@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "app_id": "approvals-kit",
-  "generated_at_run": "bed317c6dfda2db2",
+  "generated_at_run": "30f56ebcbf4c9f0a",
   "prompt_versions": {
     "interpret": "interpret.v1",
     "candidates": "candidates.v1"
@@ -10,7 +10,7 @@
     {
       "id": "BR-001",
       "candidate_id": "38d6a54eedb5",
-      "statement": "The rule checks if _myUPN is blank. If it is, it sets _myUPN to the userPrincipalName from the Office365Users.MyProfileV2 function. Then, it sets _mySettings to the first record in the Business Approvers table where the Approver Id matches _myUPN. This rule is for authorisation.",
+      "statement": "The condition checks if _myUPN is blank. If true, it sets _myUPN to the userPrincipalName from the Office365Users.MyProfileV2 function. Then, it sets _mySettings to the first record in the Business Approvers table where the Approver Id matches _myUPN.",
       "category": "authorisation",
       "formula": "If(IsBlank(_myUPN), Set(_myUPN, Office365Users.MyProfileV2({'$select':\"userPrincipalName\"}).userPrincipalName));\r\nSet(_mySettings, LookUp('Business Approvers', 'Approver Id' = _myUPN))",
       "formula_language": "powerfx",
@@ -24,12 +24,12 @@
       ],
       "inputs": [
         "Approver Id",
-        "Business Approvers",
-        "_mySettings",
-        "_myUPN"
+        "Business Approvers"
       ],
       "outputs": [
-        "scrSettings.OnVisible"
+        "scrSettings.OnVisible",
+        "_mySettings",
+        "_myUPN"
       ],
       "confidence": 1.0,
       "pii": [
@@ -54,7 +54,7 @@
     {
       "id": "BR-002",
       "candidate_id": "583773f0df82",
-      "statement": "The condition is if the selected item key is 'Save'. If so, it sets _isBusy to true and checks if there are any selected items in cboApproverDelegate. If there are, it patches the Business Approvers table to add new approvers if they don't exist, and notifies the user if there are errors. If the selected item key is not 'Save', it resets the settings and controls to their default values.",
+      "statement": "The condition is when the selected item key is 'Save'. The threshold values are the count of selected items in cboApproverDelegate and the existence of delegates. The effect is to save new approvers if they do not exist, notify success or error, and reset controls if there are errors.",
       "category": "authorisation",
       "formula": "Switch(Self.Selected.ItemKey,\r\n    \"Save\",\r\n    Set(_isBusy, true);\r\n    //first delegate\r\n    If(CountRows(cboApproverDelegate.SelectedItems)>0,\r\n        With({ \r\n                del1: LookUp('Business Approvers', 'Approver Id' = cboApproverDelegate.Selected.UserPrincipalName),\r\n                del2: LookUp('Business Approvers', 'Approver Id' = cboApproverBackupDelegate.Selected.UserPrincipalName)\r\n            },\r\n            \r\n            //save delegates as new approvers if does not exist\r\n            //first delegate\r\n            Patch('Business Approvers', Coalesce(_mySettings, Defaults('Business Approvers')),\r\n            {\r\n                Delegate: If(IsBlank(del1), Patch('Business Approvers', Defaults('Business Approvers'), \r\n                    {\r\n                        'Approver Id': cboApproverDelegate.Selected.UserPrincipalName,\r\n                        Name: cboApproverDelegate.Selected.DisplayName, 'Approver Type': 'Business Approver Type'.User\r\n                    }), del1\r\n                ),\r\n                'Backup Delegate': If(CountRows(cboApproverBackupDelegate.SelectedItems)>0,\r\n                    If(IsBlank(del2), Patch('Business Approvers', Defaults('Business Approvers'), \r\n                        {\r\n                            'Approver Id': cboApproverBackupDelegate.Selected.UserPrincipalName,\r\n                            Name: cboApproverBackupDelegate.Selected.DisplayName, 'Approver Type': 'Business Approver Type'.User\r\n                        }), del2\r\n                    ),Blank()\r\n                ),\r\n                'Notification Type': ddlPreferredNotification.Selected.Value, 'Work Profile': ddlWorkProfile.Selected,\r\n                'Approver Type': 'Business Approver Type'.User,\r\n                'Is Out of Office':cboOutOfOffice.Value\r\n            });\r\n        )\r\n    );\r\n    //error check\r\n    If(\r\n        !IsEmpty(Errors('Business Approvers')),\r\n        Notify(Concat(Errors('Business Approvers'), Column&\": \"&Message),\r\n            NotificationType.Error\r\n        ),\r\n        Notify(\"Settings saved successfully.\", \r\n        NotificationType.Success\r\n        )\r\n    );    \r\n    Set(_isBusy, false),\r\n    \"Reset\",\r\n    Set(_mySettings, LookUp('Business Approvers', 'Approver Id' = _myUPN));\r\n    Reset(cboApproverBackupDelegate);Reset(cboApproverDelegate);Reset(ddlPreferredNotification);Reset(ddlWorkProfile);Reset(cboOutOfOffice)\r\n)",
       "formula_language": "powerfx",
@@ -74,8 +74,6 @@
         "Message",
         "NotificationType.Error",
         "NotificationType.Success",
-        "_isBusy",
-        "_mySettings",
         "_myUPN",
         "cboApproverBackupDelegate",
         "cboApproverBackupDelegate.Selected.DisplayName",
@@ -95,7 +93,9 @@
         "del2"
       ],
       "outputs": [
-        "ck_CommandBar.OnChange"
+        "ck_CommandBar.OnChange",
+        "_isBusy",
+        "_mySettings"
       ],
       "confidence": 1.0,
       "pii": [
@@ -138,7 +138,7 @@
     {
       "id": "BR-003",
       "candidate_id": "d248b79f3874",
-      "statement": "If either 'lblDelegateError.Visible' or 'lblBackupDelegateError.Visible' is true, then disable the 'Save' button.",
+      "statement": "If either the lblDelegateError is visible or the lblBackupDelegateError is visible, then the 'Save' button is disabled.",
       "category": "authorisation",
       "formula": "If(lblDelegateError.Visible || lblBackupDelegateError.Visible, [ \"Save\" ])",
       "formula_language": "powerfx",
@@ -180,7 +180,7 @@
     {
       "id": "BR-004",
       "candidate_id": "3776ef885906",
-      "statement": "The condition is if the count of selected delegates in cboApproverDelegate is greater than 0. If true, it checks if the first delegate does not exist in Business Approvers and patches it with the selected user's details. It also checks if the backup delegate does not exist and patches it with the selected user's details. If there are errors in Business Approvers, it notifies with the error message. Otherwise, it notifies with a success message. The effect is to save the settings and reset the controls if the operation is successful.",
+      "statement": "The condition is if the count of selected delegates in cboApproverDelegate is greater than 0. If true, it checks if the first delegate exists in Business Approvers. If not, it adds the first delegate as a new Business Approver. It also checks if the backup delegate exists in Business Approvers. If the backup delegate exists, it adds the backup delegate as a new Business Approver. If the backup delegate does not exist, it adds the backup delegate as a new Business Approver. If there are errors in Business Approvers, it notifies with an error message. Otherwise, it notifies with a success message. The effect is to save the settings and reset the delegates and notification dropdowns.",
       "category": "authorisation",
       "formula": "Switch(MenuItem,\r\n    \"Save\",\r\n    Set(_isBusy, true);\r\n    //first delegate\r\n    If(CountRows(cboApproverDelegate.SelectedItems)>0,\r\n        With({ \r\n                del1: LookUp('Business Approvers', 'Approver Id' = cboApproverDelegate.Selected.UserPrincipalName),\r\n                del2: LookUp('Business Approvers', 'Approver Id' = cboApproverBackupDelegate.Selected.UserPrincipalName)\r\n            },\r\n            \r\n            //save delegates as new approvers if does not exist\r\n            //first delegate\r\n            Patch('Business Approvers', Coalesce(_mySettings, Defaults('Business Approvers')),\r\n            {\r\n                Delegate: If(IsBlank(del1), Patch('Business Approvers', Defaults('Business Approvers'), \r\n                    {\r\n                        'Approver Id': cboApproverDelegate.Selected.UserPrincipalName,\r\n                        Name: cboApproverDelegate.Selected.DisplayName, 'Approver Type': 'Business Approver Type'.User\r\n                    }), del1\r\n                ),\r\n                'Backup Delegate': If(CountRows(cboApproverBackupDelegate.SelectedItems)>0,\r\n                    If(IsBlank(del2), Patch('Business Approvers', Defaults('Business Approvers'), \r\n                        {\r\n                            'Approver Id': cboApproverBackupDelegate.Selected.UserPrincipalName,\r\n                            Name: cboApproverBackupDelegate.Selected.DisplayName, 'Approver Type': 'Business Approver Type'.User\r\n                        }), del2\r\n                    ),Blank()\r\n                ),\r\n                'Notification Type': ddlPreferredNotification.Selected.Value, 'Work Profile': ddlWorkProfile.Selected,\r\n                'Approver Type': 'Business Approver Type'.User,\r\n                'Is Out of Office':cboOutOfOffice.Value\r\n            });\r\n        )\r\n    );\r\n    //error check\r\n    If(\r\n        !IsEmpty(Errors('Business Approvers')),\r\n        Notify(Concat(Errors('Business Approvers'), Column&\": \"&Message),\r\n            NotificationType.Error\r\n        ),\r\n        Notify(\"Settings saved successfully.\", \r\n        NotificationType.Success\r\n        )\r\n    );    \r\n    Set(_isBusy, false),\r\n    \"Reset\",\r\n    Set(_mySettings, LookUp('Business Approvers', 'Approver Id' = _myUPN));\r\n    Reset(cboApproverBackupDelegate);Reset(cboApproverDelegate);Reset(ddlPreferredNotification);Reset(ddlWorkProfile);Reset(cboOutOfOffice)\r\n)",
       "formula_language": "powerfx",
@@ -201,8 +201,6 @@
         "Message",
         "NotificationType.Error",
         "NotificationType.Success",
-        "_isBusy",
-        "_mySettings",
         "_myUPN",
         "cboApproverBackupDelegate",
         "cboApproverBackupDelegate.Selected.DisplayName",
@@ -222,7 +220,9 @@
         "del2"
       ],
       "outputs": [
-        "Toolbar_7.OnClick"
+        "Toolbar_7.OnClick",
+        "_isBusy",
+        "_mySettings"
       ],
       "confidence": 1.0,
       "pii": [
@@ -305,7 +305,7 @@
     {
       "id": "BR-006",
       "candidate_id": "b11a0f864ec4",
-      "statement": "If the selected approver's UPN matches the user's UPN, then display the message 'You cannot be your own delegate.'",
+      "statement": "The condition is that if the selected delegate's UPN matches the user's UPN, then the label 'lblDelegateError' will display the message 'You cannot be your own delegate.'",
       "category": "validation",
       "formula": "If(cboApproverDelegate.Selected.UserPrincipalName = _myUPN, \"You cannot be your own delegate.\")",
       "formula_language": "powerfx",
@@ -351,7 +351,7 @@
     {
       "id": "BR-007",
       "candidate_id": "b14c1bc5a637",
-      "statement": "The label 'lblDelegateError' will be visible only if the text input is not empty. If the input text is empty, the label will be hidden.",
+      "statement": "The label 'lblDelegateError' is hidden if the text it contains is empty. Otherwise, it is visible.",
       "category": "visibility",
       "formula": "Len(Self.Text) > 0",
       "formula_language": "powerfx",
@@ -387,7 +387,7 @@
     {
       "id": "BR-008",
       "candidate_id": "bec0f6c00d29",
-      "statement": "The condition is that the 'Backup Delegate' field is not empty and contains a valid Approver ID. If the condition is met, the system searches for a user with the specified Approver ID.",
+      "statement": "The condition is if the 'Backup Delegate' is not blank, then search for a user by their 'Approver Id'. The threshold values are the 'Backup Delegate' and 'Approver Id'. The effect is to set the 'cboApproverBackupDelegate.DefaultSelectedItems' to the result of the search.",
       "category": "authorisation",
       "formula": "With({ delegate: _mySettings.'Backup Delegate'}, \r\n    If(!IsBlank(delegate), Office365Users.SearchUserV2({searchTerm: delegate.'Approver Id', top:1}).value)\r\n)",
       "formula_language": "powerfx",
@@ -427,7 +427,7 @@
     {
       "id": "BR-009",
       "candidate_id": "1ca0d1661337",
-      "statement": "The condition checks if the number of selected items in cboApproverDelegate is zero. If true, it sets the DisplayMode to Disabled; otherwise, it sets it to Edit.",
+      "statement": "The condition checks if the number of selected items in cboApproverDelegate is zero. If true, it sets DisplayMode to Disabled; otherwise, it sets it to Edit.",
       "category": "authorisation",
       "formula": "If(CountRows(cboApproverDelegate.SelectedItems)=0,DisplayMode.Disabled,DisplayMode.Edit)",
       "formula_language": "powerfx",
@@ -472,8 +472,8 @@
     {
       "id": "BR-010",
       "candidate_id": "398f907aba8a",
-      "statement": "The condition checks if the selected backup delegate is the same as the user's UPN or if the selected backup delegate is the same as any of the selected delegates. If either condition is met, it displays an error message.",
-      "category": "validation",
+      "statement": "If the selected user in cboApproverBackupDelegate is not the same as _myUPN, and the count of selected users in cboApproverDelegate is greater than 0, then display 'You cannot be your own backup delegate.' Otherwise, display 'Delegates cannot be the same person.'",
+      "category": "authorisation",
       "formula": "With({ selected: cboApproverBackupDelegate.Selected.UserPrincipalName},\r\n    If(CountRows(cboApproverDelegate.SelectedItems)>0,\r\n        If(selected = _myUPN, \"You cannot be your own backup delegate.\", cboApproverDelegate.Selected.UserPrincipalName = selected, \r\n        \"Delegates cannot be the same person.\")\r\n    )\r\n)",
       "formula_language": "powerfx",
       "source_locations": [
@@ -527,7 +527,7 @@
     {
       "id": "BR-011",
       "candidate_id": "a88e0d1d7ed3",
-      "statement": "The label 'lblBackupDelegateError' is hidden if the text inside it is empty. Otherwise, it is visible.",
+      "statement": "The label 'lblBackupDelegateError' is visible if the length of its text is greater than zero. This rule applies to the label in the 'scrSettings' section of the 'cat_settings' canvas app.",
       "category": "visibility",
       "formula": "Len(Self.Text) > 0",
       "formula_language": "powerfx",
@@ -563,7 +563,7 @@
     {
       "id": "BR-012",
       "candidate_id": "0056c9563ba1",
-      "statement": "The control 'cboOutOfOffice.Text' will display 'Enabled' if the value is 'Enabled', otherwise it will display 'Disabled'.",
+      "statement": "The control 'cboOutOfOffice.Text' will be set to 'Enabled' if its value is 'Enabled', otherwise it will be set to 'Disabled'.",
       "category": "authorisation",
       "formula": "If(Self.Value,\"Enabled\",\"Disabled\")",
       "formula_language": "powerfx",
@@ -599,7 +599,7 @@
     {
       "id": "BR-013",
       "candidate_id": "6dee39038633",
-      "statement": "The condition is to filter Business Approval Work Profiles based on the 'Active Business Approval Work Profiles' view. The threshold values are 'Business Approval Work Profiles' and 'Business Approval Work Profiles (Views).Active Business Approval Work Profiles'. The effect is to return the 'ddlWorkProfile.Items'.",
+      "statement": "The condition is to filter Business Approval Work Profiles based on the 'Active Business Approval Work Profiles' view. The threshold values are 'Business Approval Work Profiles' and 'Business Approval Work Profiles (Views).Active Business Approval Work Profiles'. The effect is to return the items from the 'ddlWorkProfile.Items' control.",
       "category": "validation",
       "formula": "Filter('Business Approval Work Profiles', 'Business Approval Work Profiles (Views)'.'Active Business Approval Work Profiles')",
       "formula_language": "powerfx",
@@ -638,7 +638,7 @@
     {
       "id": "BR-014",
       "candidate_id": "b282dac41111",
-      "statement": "Sorts the Business Approval Public Holidays by the cat_date column in ascending order, filtering for holidays that match the selected holiday calendar and are on or after today.",
+      "statement": "The condition is that the 'Hols.Date' must be greater than or equal to today's date, and the 'Hols.Calendar.'Business Approval Holiday Calendar' must match the selected holiday calendar. The effect is sorting the 'galPublicHolidays.Items' by 'cat_date' in ascending order.",
       "category": "calculation",
       "formula": "SortByColumns(\r\nFilter('Business Approval Public Holidays' As Hols, \r\n    Hols.Calendar.'Business Approval Holiday Calendar' = ddlWorkProfile.Selected.'Holiday Calendar'.'Business Approval Holiday Calendar' &&         Hols.Date >= Today()\r\n), \"cat_date\", SortOrder.Ascending)",
       "formula_language": "powerfx",
@@ -680,7 +680,7 @@
     {
       "id": "BR-015",
       "candidate_id": "465dd89ff6d9",
-      "statement": "If the Approver ID is blank, it sets _myUPN to the userPrincipalName of the first user found in the Office365Users.MyProfileV2 query. If there is a Delegate or Backup Delegate, it collects and adds columns to the colSelectedApprovalDelegate and colSelectedBackupDelegate arrays from the Office365Users.SearchUserV2 query based on the Delegate or Backup Delegate IDs.",
+      "statement": "If the _myUPN is blank, it sets _myUPN to the userPrincipalName of the Office365Users.MyProfileV2. If there is a valid Delegate in _mySettings, it clears and collects colSelectedApprovalDelegate with the details of the Delegate from Office365Users.SearchUserV2. If there is a valid Backup Delegate in _mySettings, it clears and collects colSelectedBackupDelegate with the details of the Backup Delegate from Office365Users.SearchUserV2.",
       "category": "authorisation",
       "formula": "If(IsBlank(_myUPN), Set(_myUPN, Office365Users.MyProfileV2({'$select':\"userPrincipalName\"}).userPrincipalName));\r\nSet(_mySettings, LookUp('Business Approvers', 'Approver Id' = _myUPN));\r\n\r\n\r\nIf(!IsBlankOrError(_mySettings.Delegate),\r\nClearCollect(\r\n    colSelectedApprovalDelegate,\r\n    AddColumns(\r\n    Office365Users.SearchUserV2({searchTerm: _mySettings.Delegate.'Approver Id', top:1 }).value,\r\n    \"PersonaKey\", UserPrincipalName, \r\n    \"PersonaName\", DisplayName,\r\n    \"PersonaRole\", JobTitle\r\n)));\r\n\r\n\r\nIf(!IsBlankOrError(_mySettings.'Backup Delegate'),\r\nClearCollect(\r\n    colSelectedBackupDelegate,\r\n    AddColumns(\r\n    Office365Users.SearchUserV2({searchTerm: _mySettings.'Backup Delegate'.'Approver Id', top:1 }).value,\r\n    \"PersonaKey\", UserPrincipalName, \r\n    \"PersonaName\", DisplayName,\r\n    \"PersonaRole\", JobTitle\r\n)));\r\n",
       "formula_language": "powerfx",
@@ -698,17 +698,17 @@
         "DisplayName",
         "JobTitle",
         "UserPrincipalName",
-        "_mySettings",
         "_mySettings.Backup Delegate",
         "_mySettings.Backup Delegate.Approver Id",
         "_mySettings.Delegate",
-        "_mySettings.Delegate.Approver Id",
+        "_mySettings.Delegate.Approver Id"
+      ],
+      "outputs": [
+        "scrSettingsNew.OnVisible",
+        "_mySettings",
         "_myUPN",
         "colSelectedApprovalDelegate",
         "colSelectedBackupDelegate"
-      ],
-      "outputs": [
-        "scrSettingsNew.OnVisible"
       ],
       "confidence": 1.0,
       "pii": [
@@ -741,7 +741,7 @@
     {
       "id": "BR-016",
       "candidate_id": "fb6fa45f6d4a",
-      "statement": "The rule checks if the selected item is 'Back'. If not, it sets _isBusy to true and updates the context with the first delegate. It also checks for backup delegates and updates the context accordingly. If there are no errors, it saves the settings and notifies the user. Otherwise, it shows an error message.",
+      "statement": "The rule saves settings and delegates based on selected items. It checks if there are approval and backup delegates, updates the 'Business Approvers' table, and notifies the user with an error or success message.",
       "category": "authorisation",
       "formula": "Switch(\n    Self.Selected.ItemKey,\n    \"Back\",\n    Back(),\n    \"Save\",\n    Set(\n        _isBusy,\n        true\n    );\n    //first delegate\nIf(\n        CountRows(colSelectedApprovalDelegate) > 0,\n        UpdateContext(\n            {\n                del1: LookUp(\n                    'Business Approvers',\n                    'Approver Id' = First(colSelectedApprovalDelegate).PersonaKey\n                )\n            }\n        ));\nIf(\n        CountRows(colSelectedBackupDelegate) > 0,\n        UpdateContext(\n            {\n                del2: LookUp(\n                    'Business Approvers',\n                    'Approver Id' = First(colSelectedBackupDelegate).PersonaKey\n                )\n            }\n        ));\n        Patch(\n            'Business Approvers',\n            Coalesce(\n                _mySettings,\n                Defaults('Business Approvers')\n            ),\n            {\n                 Name: _myUPN,\n                'Approver Id':_myUPN,\n                Delegate: If(\n                    IsBlank(del1),\n                    Patch(\n                        'Business Approvers',\n                        Defaults('Business Approvers'),\n                        {\n                            'Approver Id': First(colSelectedApprovalDelegate).PersonaKey,\n                            Name: First(colSelectedApprovalDelegate).PersonaName,\n                            'Approver Type': 'Business Approver Type'.User\n                        }\n                    ),\n                    del1\n                ),\n                'Backup Delegate': If(\n                    CountRows(colSelectedBackupDelegate) > 0,\n                    If(\n                        IsBlank(del2),\n                        Patch(\n                            'Business Approvers',\n                            Defaults('Business Approvers'),\n                            {\n                                'Approver Id': First(colSelectedBackupDelegate).PersonaKey,\n                                Name: First(colSelectedBackupDelegate).PersonaName,\n                                'Approver Type': 'Business Approver Type'.User\n                            }\n                        ),\n                        del2\n                    ),\n                    Blank()\n                ),\n                'Notification Type': cmbxlPreferredNotification.Selected.Value,\n                'Work Profile': cmbxWorkProfile.Selected,\n                'Approver Type': 'Business Approver Type'.User,\n                'Is Out of Office': cbxOutOfOffice.Checked\n            }\n        );\n//error check\n        If(\n            !IsEmpty(Errors('Business Approvers')),\n            Notify(\n                Concat(\n                    Errors('Business Approvers'),\n                    Column & \": \" & Message\n                ),\n                NotificationType.Error\n            ),\n            Notify(\n               SettingsLoc.settingsSaveMsg ,//\"Settings saved successfully.\"\n                NotificationType.Success\n            )\n        );\n    Set(\n        _isBusy,\n        false\n    );,\n    \"Reset\",\n    Set(\n        _mySettings,\n        LookUp(\n            'Business Approvers',\n            'Approver Id' = _myUPN\n        )\n    );\n    ClearCollect(\n        colSelectedApprovalDelegate,\n        Blank()\n    );\n    ClearCollect(\n        colSelectedBackupDelegate,\n        Blank()\n    );\n    Reset(cmbxlPreferredNotification);\n    Reset(cmbxWorkProfile);\n    Reset(cbxOutOfOffice)\n)",
       "formula_language": "powerfx",
@@ -762,8 +762,6 @@
         "NotificationType.Error",
         "NotificationType.Success",
         "SettingsLoc.settingsSaveMsg",
-        "_isBusy",
-        "_mySettings",
         "_myUPN",
         "cbxOutOfOffice",
         "cbxOutOfOffice.Checked",
@@ -771,13 +769,15 @@
         "cmbxWorkProfile.Selected",
         "cmbxlPreferredNotification",
         "cmbxlPreferredNotification.Selected.Value",
-        "colSelectedApprovalDelegate",
-        "colSelectedBackupDelegate",
         "del1",
         "del2"
       ],
       "outputs": [
-        "ck_CommandBar_1.OnSelect"
+        "ck_CommandBar_1.OnSelect",
+        "_isBusy",
+        "_mySettings",
+        "colSelectedApprovalDelegate",
+        "colSelectedBackupDelegate"
       ],
       "confidence": 1.0,
       "pii": [
@@ -804,7 +804,7 @@
     {
       "id": "BR-017",
       "candidate_id": "8fd3127835ac",
-      "statement": "This rule clears the collection colSelectedApprovalDelegate if the SelectedPeople field is not blank or contains an error. It adds all items from the SelectedPeople field to colSelectedApprovalDelegate.",
+      "statement": "This rule clears a collection named colSelectedApprovalDelegate with the values of Self.SelectedPeople if Self.SelectedPeople is not blank or an error. If Self.SelectedPeople is blank or an error, the collection remains unchanged.",
       "category": "authorisation",
       "formula": "If(!IsBlankOrError(Self.SelectedPeople), ClearCollect(\n    colSelectedApprovalDelegate,\n    Self.SelectedPeople\n))",
       "formula_language": "powerfx",
@@ -816,11 +816,10 @@
           "line": 3584
         }
       ],
-      "inputs": [
-        "colSelectedApprovalDelegate"
-      ],
+      "inputs": [],
       "outputs": [
-        "ck_PeoplePicker_ApprovalDelegate.OnChange"
+        "ck_PeoplePicker_ApprovalDelegate.OnChange",
+        "colSelectedApprovalDelegate"
       ],
       "confidence": 1.0,
       "pii": [],
@@ -840,7 +839,7 @@
     {
       "id": "BR-018",
       "candidate_id": "9837e7cf305e",
-      "statement": "If the People Picker Approval Delegate has selected someone and that person is not the user's own UPN, then set the label delegate error message. Otherwise, do not set the label delegate error message.",
+      "statement": "If the selected delegate in the approval process is not empty and the selected delegate's PersonaKey matches the user's UPN, then set the label 'lblDelegateError_1.Text' to the error message 'SettingsLoc.lblDelegateErrorMsg'.",
       "category": "validation",
       "formula": "If(!IsBlankOrError(ck_PeoplePicker_ApprovalDelegate.SelectedPeople),If(First(ck_PeoplePicker_ApprovalDelegate.SelectedPeople).PersonaKey = _myUPN, SettingsLoc.lblDelegateErrorMsg))//You cannot be your own delegate.",
       "formula_language": "powerfx",
@@ -885,8 +884,8 @@
     {
       "id": "BR-019",
       "candidate_id": "238159a0d45f",
-      "statement": "This rule ensures that if the selected people are not blank or contain errors, they are collected and stored in the colSelectedBackupDelegate. If the selected people are blank or contain errors, nothing is collected.",
-      "category": "authorisation",
+      "statement": "This rule clears a collection named colSelectedBackupDelegate if the SelectedPeople field is not blank or contains an error. Otherwise, it does nothing.",
+      "category": "validation",
       "formula": "If(!IsBlankOrError(Self.SelectedPeople), ClearCollect(\n    colSelectedBackupDelegate,\n    Self.SelectedPeople\n))",
       "formula_language": "powerfx",
       "source_locations": [
@@ -897,11 +896,10 @@
           "line": 4598
         }
       ],
-      "inputs": [
-        "colSelectedBackupDelegate"
-      ],
+      "inputs": [],
       "outputs": [
-        "ck_PeoplePicker_BackupDelegate.OnChange"
+        "ck_PeoplePicker_BackupDelegate.OnChange",
+        "colSelectedBackupDelegate"
       ],
       "confidence": 1.0,
       "pii": [],
@@ -921,8 +919,8 @@
     {
       "id": "BR-020",
       "candidate_id": "6bb32ab6dd8e",
-      "statement": "If the selected backup delegate is not the same as the approval delegate and both delegates have been selected, then set the error message to 'Delegates cannot be the same person.' if the selected backup delegate is the same as the user's UPN, otherwise set the error message to 'You cannot be your own backup delegate.'",
-      "category": "validation",
+      "statement": "If the selected backup delegate is not the same as the approval delegate and the selected backup delegate is not an empty value, then set the label text to either 'You cannot be your own backup delegate.' or 'Delegates cannot be the same person.' based on the selected backup delegate's key.",
+      "category": "authorisation",
       "formula": "If(\n    !IsBlankOrError(ck_PeoplePicker_ApprovalDelegate.SelectedPeople) && !IsBlankOrError(ck_PeoplePicker_BackupDelegate.SelectedPeople),\n    With(\n        {selected: First(ck_PeoplePicker_BackupDelegate.SelectedPeople).PersonaKey},\n        If(\n            CountRows(ck_PeoplePicker_ApprovalDelegate.SelectedPeople) > 0,\n            If(\n                selected = _myUPN,\n                SettingsLoc.lblBckpDelegateErrorMsg1,//\"You cannot be your own backup delegate.\"\n                First(ck_PeoplePicker_ApprovalDelegate.SelectedPeople).PersonaKey = selected,\n                SettingsLoc.lblBckpDelegateErrorMsg2//\"Delegates cannot be the same person.\"\n            )\n        )\n    )\n)",
       "formula_language": "powerfx",
       "source_locations": [
@@ -969,7 +967,7 @@
     {
       "id": "BR-021",
       "candidate_id": "1d7421ab2032",
-      "statement": "The label 'lblBackupDelegateError_1' is visible if the length of its text is greater than zero. This rule is used for validation purposes.",
+      "statement": "The label lblBackupDelegateError_1 is visible if the length of its text is greater than zero. This rule is used for validation purposes.",
       "category": "validation",
       "formula": "Len(Self.Text) > 0",
       "formula_language": "powerfx",
@@ -1005,7 +1003,7 @@
     {
       "id": "BR-022",
       "candidate_id": "2f0752ae7bad",
-      "statement": "If the 'Notification Type' is not blank or an error, it checks if the value matches any in the 'Business Approver Notification Type' list and sets the default selected item accordingly.",
+      "statement": "If the 'Notification Type' is not blank or an error, it checks if the value matches any in the 'Business Approver Notification Type' list. If it does, it selects the corresponding item in the 'cmbxlPreferredNotification.DefaultSelectedItems' control.",
       "category": "authorisation",
       "formula": "If(!IsBlankOrError(_mySettings.'Notification Type'),[LookUp(Choices('Business Approver Notification Type'), Value = _mySettings.'Notification Type')])",
       "formula_language": "powerfx",
@@ -1045,7 +1043,7 @@
     {
       "id": "BR-023",
       "candidate_id": "894e55679bc2",
-      "statement": "The condition is if the checkbox is checked. If it is checked, the label is set to 'SettingsLoc.cbxOutOfOfficeEnabledLbl', otherwise it is set to 'SettingsLoc.cbxOutOfOfficeDisabledLbl'.",
+      "statement": "The condition is whether the checkbox is checked. If it is checked, the label is set to 'Enabled' label, otherwise to 'Disabled' label.",
       "category": "authorisation",
       "formula": "//If(Self.Checked,\"Enabled\",\"Disabled\")\r\nIf(Self.Checked,SettingsLoc.cbxOutOfOfficeEnabledLbl,SettingsLoc.cbxOutOfOfficeDisabledLbl)",
       "formula_language": "powerfx",
@@ -1089,8 +1087,8 @@
     {
       "id": "BR-024",
       "candidate_id": "729887a08139",
-      "statement": "The condition is to look up a Business Approval Work Profile based on the name provided. The threshold values are the provided name, and the effect is to return the DefaultSelectedItems of the found work profile.",
-      "category": "authorisation",
+      "statement": "The condition is that the lookup result matches the name of the business approval work profile. The threshold values are the name of the work profile, and the effect is to set the DefaultSelectedItems control to the lookup result.",
+      "category": "validation",
       "formula": "[LookUp('Business Approval Work Profiles',Name = _mySettings.'Work Profile'.Name)]",
       "formula_language": "powerfx",
       "source_locations": [
@@ -1177,7 +1175,7 @@
     {
       "id": "BR-026",
       "candidate_id": "8194ecd4ace7",
-      "statement": "This business rule sorts the 'Business Approval Public Holidays' table by the 'cat_date' column in ascending order, filtering for records where the 'Holiday Calendar' matches the selected calendar and the 'Date' is today or later.",
+      "statement": "The condition is that the holiday calendar selected in the work profile must match the business approval holiday calendar and the holiday date must be on or after today. The effect is sorting the public holidays by date in ascending order.",
       "category": "routing",
       "formula": "SortByColumns(\r\nFilter('Business Approval Public Holidays' As Hols, \r\n    Hols.Calendar.'Business Approval Holiday Calendar' = cmbxWorkProfile.Selected.'Holiday Calendar'.'Business Approval Holiday Calendar' &&         Hols.Date >= Today()\r\n), \"cat_date\", SortOrder.Ascending)",
       "formula_language": "powerfx",
@@ -1219,7 +1217,7 @@
     {
       "id": "BR-027",
       "candidate_id": "8b806643f143",
-      "statement": "The condition checks if the value of cat_PathIndex is within the range of 1 to 2,147,480,447. If not, it will trigger an effect.",
+      "statement": "The condition checks if the value of cat_PathIndex is within the range of 1 to 2.14748e+09. If the value is outside this range, it triggers an error.",
       "category": "validation",
       "formula": "Range(cat_PathIndex, 1, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1242,9 +1240,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
         "review_reasons": []
@@ -1257,8 +1253,8 @@
     {
       "id": "BR-028",
       "candidate_id": "24719d6ee917",
-      "statement": "The condition checks if the business approval condition, business approval stage, condition value display, and stage condition are met. If any of these conditions are not met, the display will not show.",
-      "category": "validation",
+      "statement": "The condition checks if the business approval condition, business approval stage, condition value display, and stage condition are met. If any of these are not met, the display is hidden.",
+      "category": "authorisation",
       "formula": "cat_branchdisplay := CALC(cat_businessapprovalcondition, cat_businessapprovalstage, cat_conditionvaluedisplay, cat_stagecondition)",
       "formula_language": "dataverse_xaml",
       "source_locations": [
@@ -1293,7 +1289,7 @@
     {
       "id": "BR-029",
       "candidate_id": "b86ec484729d",
-      "statement": "The condition checks if the node name value matches the business approval condition and node. If it does, the value is set; otherwise, it remains unchanged.",
+      "statement": "The condition checks if the node name value is valid based on the business approval condition, business approval node, and name. If the node name value is valid, it returns the node name value; otherwise, it returns an empty string.",
       "category": "validation",
       "formula": "cat_nodenamevalue := CALC(cat_businessapprovalcondition, cat_businessapprovalnode, cat_name, cat_node)",
       "formula_language": "dataverse_xaml",
@@ -1329,7 +1325,7 @@
     {
       "id": "BR-030",
       "candidate_id": "b9809beded29",
-      "statement": "The condition checks if the current stage name matches any of the predefined stages in the cat_businessapprovalstage table. If it does, the value of cat_stagenamevalue is set to the current stage name. Otherwise, it remains null.",
+      "statement": "The condition checks if the current stage name matches 'stagenamevalue'. If it does, the stage is considered valid; otherwise, it is invalid. The threshold is the exact match of 'stagenamevalue' in the current stage name.",
       "category": "validation",
       "formula": "cat_stagenamevalue := CALC(cat_businessapprovalcondition, cat_businessapprovalstage, cat_name, cat_stage)",
       "formula_language": "dataverse_xaml",
@@ -1364,46 +1360,8 @@
     },
     {
       "id": "BR-031",
-      "candidate_id": "2a391bdfb79f",
-      "statement": "The condition is that the first 5 elements of the cat_GoToPaths column must be within a certain range. The threshold values are the first 5 elements, and the effect is that these elements are validated.",
-      "category": "validation",
-      "formula": "Range(cat_GoToPaths, 0, 5)",
-      "formula_language": "dataverse_metadata",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Entity.xml",
-          "kind": "table_column",
-          "path": "cat_BusinessApprovalNode.cat_GoToPaths",
-          "line": 250
-        }
-      ],
-      "inputs": [
-        "cat_BusinessApprovalNode.cat_GoToPaths"
-      ],
-      "outputs": [
-        "cat_BusinessApprovalNode.cat_GoToPaths"
-      ],
-      "confidence": 1.0,
-      "pii": [],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
-        "magic_numbers": [
-          5.0
-        ],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Platform-enforced Dataverse metadata; proved by an API validation scenario."
-      }
-    },
-    {
-      "id": "BR-032",
       "candidate_id": "06f4a4646fa0",
-      "statement": "The cat_PathIndex column in the cat_BusinessApprovalNode table must have a value between 1 and 2,147,480,000 (inclusive). If the value is outside this range, the system will reject the approval.",
+      "statement": "The Path Index column in the cat_BusinessApprovalNode table can only have values between 1 and 2,147,480,000, inclusive. Any value outside this range will be considered invalid.",
       "category": "validation",
       "formula": "Range(cat_PathIndex, 1, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1426,9 +1384,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
         "review_reasons": []
@@ -1439,9 +1395,9 @@
       }
     },
     {
-      "id": "BR-033",
+      "id": "BR-032",
       "candidate_id": "84efa35aafc9",
-      "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000, inclusive. If the condition is met, the effect is that the cat_RowIndex is validated and can proceed.",
+      "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000. If the condition is met, the value is allowed to proceed.",
       "category": "validation",
       "formula": "Required(cat_RowIndex) && Range(cat_RowIndex, 1, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1464,9 +1420,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
         "review_reasons": []
@@ -1477,9 +1431,9 @@
       }
     },
     {
-      "id": "BR-034",
+      "id": "BR-033",
       "candidate_id": "d6e8c604a11b",
-      "statement": "The cat_TimeOut column in the cat_BusinessApprovalNode table must have a value between 0 and 2.14748e+09 (2,147,480,000). If the value is outside this range, the system will reject it.",
+      "statement": "The cat_TimeOut column in the cat_BusinessApprovalNode table can only have values between 0 and 2.14748e+09 (2 billion). Any value outside this range will be considered invalid.",
       "category": "validation",
       "formula": "Range(cat_TimeOut, 0, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1502,44 +1456,6 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Platform-enforced Dataverse metadata; proved by an API validation scenario."
-      }
-    },
-    {
-      "id": "BR-035",
-      "candidate_id": "62b6e3ab7207",
-      "statement": "The condition is that the value of cat_processnamevalue is calculated using cat_businessapprovalnode, cat_businessapprovalprocess, and cat_name. The effect is to set the value of cat_processnamevalue based on these inputs.",
-      "category": "calculation",
-      "formula": "cat_processnamevalue := CALC(cat_businessapprovalnode, cat_businessapprovalprocess, cat_name)",
-      "formula_language": "dataverse_xaml",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalNode/Formulas/cat_businessapprovalnode-cat_processnamevalue.xaml",
-          "kind": "calculated_column",
-          "path": "cat_BusinessApprovalNode.cat_processnamevalue",
-          "line": 1
-        }
-      ],
-      "inputs": [
-        "cat_BusinessApprovalNode.cat_processnamevalue"
-      ],
-      "outputs": [
-        "cat_BusinessApprovalNode.cat_processnamevalue"
-      ],
-      "confidence": 1.0,
-      "pii": [],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
         "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
@@ -1551,7 +1467,7 @@
       }
     },
     {
-      "id": "BR-036",
+      "id": "BR-034",
       "candidate_id": "d3e20a32a0f9",
       "statement": "The business approval node calculates the value of cat_sourcedatanamevalue based on cat_businessapprovaldata, cat_businessapprovalnode, and cat_name. If the calculation fails, the value remains unchanged.",
       "category": "calculation",
@@ -1587,9 +1503,9 @@
       }
     },
     {
-      "id": "BR-037",
+      "id": "BR-035",
       "candidate_id": "71ac94e7e986",
-      "statement": "The business approval node's stagenamevalue is calculated based on the cat_businessapprovalnode, cat_businessapprovalstage, and cat_name. If any of these values are missing or invalid, the stagenamevalue will be null.",
+      "statement": "The business approval node's stagenamevalue is calculated based on the business approval node, business approval stage, and name. If any of these values are null, the stagenamevalue will also be null.",
       "category": "validation",
       "formula": "cat_stagenamevalue := CALC(cat_businessapprovalnode, cat_businessapprovalstage, cat_name)",
       "formula_language": "dataverse_xaml",
@@ -1607,7 +1523,7 @@
       "outputs": [
         "cat_BusinessApprovalNode.cat_stagenamevalue"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "pii": [],
       "flags": {
         "contradiction_with": [],
@@ -1623,9 +1539,9 @@
       }
     },
     {
-      "id": "BR-038",
+      "id": "BR-036",
       "candidate_id": "85d32952fc5f",
-      "statement": "The condition is that the value in the cat_ReminderDays column must be a positive number and less than or equal to 2,147,480,000. If the value is not within this range, the business rule will prevent the record from being saved.",
+      "statement": "The reminder days must be a positive integer between 0 and 2,147,480,000, inclusive. If the reminder days are not within this range, the system will not allow the record to be saved.",
       "category": "validation",
       "formula": "Required(cat_ReminderDays) && Range(cat_ReminderDays, 0, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1648,9 +1564,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
         "review_reasons": []
@@ -1661,9 +1575,9 @@
       }
     },
     {
-      "id": "BR-039",
+      "id": "BR-037",
       "candidate_id": "97419cfe82f3",
-      "statement": "The reminder days must be a positive integer between 0 and 2,147,480,000. If the reminder days are outside this range, the system will reject the reminder days value.",
+      "statement": "The reminder days column in the cat_BusinessApprovalNodeReminderInstance table can have values between 0 and 2,147,480,000 (inclusive). Any value outside this range will be considered invalid.",
       "category": "validation",
       "formula": "Range(cat_ReminderDays, 0, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1686,44 +1600,6 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Platform-enforced Dataverse metadata; proved by an API validation scenario."
-      }
-    },
-    {
-      "id": "BR-040",
-      "candidate_id": "4bddc3248b53",
-      "statement": "The condition is that the friendly name is calculated based on cat_businessapprovalpublishedworkflow, cat_businessapprovalversion, cat_name, and cat_version. The effect is to set the friendly name column in the Business Approval Published Workflow entity.",
-      "category": "calculation",
-      "formula": "cat_friendlyname := CALC(cat_businessapprovalpublishedworkflow, cat_businessapprovalversion, cat_name, cat_version)",
-      "formula_language": "dataverse_xaml",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalPublishedWorkflow/Formulas/cat_businessapprovalpublishedworkflow-cat_friendlyname.xaml",
-          "kind": "calculated_column",
-          "path": "cat_BusinessApprovalPublishedWorkflow.cat_friendlyname",
-          "line": 1
-        }
-      ],
-      "inputs": [
-        "cat_BusinessApprovalPublishedWorkflow.cat_friendlyname"
-      ],
-      "outputs": [
-        "cat_BusinessApprovalPublishedWorkflow.cat_friendlyname"
-      ],
-      "confidence": 1.0,
-      "pii": [],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
         "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
@@ -1735,10 +1611,10 @@
       }
     },
     {
-      "id": "BR-041",
+      "id": "BR-038",
       "candidate_id": "8bed95183e43",
-      "statement": "The business approval version (cat_BusinessApprovalPublishedWorkflow.cat_version) is calculated based on the business approval version (cat_businessapprovalversion). If the cat_businessapprovalversion is 0, the cat_version will be 0; otherwise, it will be the cat_businessapprovalversion.",
-      "category": "calculation",
+      "statement": "The business approval version (cat_version) is calculated based on the business approval version (cat_businessapprovalversion). If the cat_businessapprovalversion is greater than 10, the cat_version is set to 1; otherwise, it remains 0.",
+      "category": "validation",
       "formula": "cat_version := CALC(cat_businessapprovalpublishedworkflow, cat_businessapprovalversion)",
       "formula_language": "dataverse_xaml",
       "source_locations": [
@@ -1771,9 +1647,9 @@
       }
     },
     {
-      "id": "BR-042",
+      "id": "BR-039",
       "candidate_id": "ed090d4154ae",
-      "statement": "The condition checks if the value of cat_PathIndex is between 1 and 2,147,480,439 (inclusive). If the value is outside this range, the business rule will trigger an error.",
+      "statement": "The condition is that the value of cat_PathIndex must be between 1 and 2,147,480,439 (inclusive). If the value is outside this range, the effect is that the runtime condition is invalid.",
       "category": "validation",
       "formula": "Range(cat_PathIndex, 1, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1796,9 +1672,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
         "review_reasons": []
@@ -1809,47 +1683,9 @@
       }
     },
     {
-      "id": "BR-043",
-      "candidate_id": "a8ff251eca88",
-      "statement": "The condition is that the first 5 characters of the 'cat_GoToPaths' column must be within a specific range. The threshold values are the first 5 characters, and the effect is to validate these characters.",
-      "category": "validation",
-      "formula": "Range(cat_GoToPaths, 0, 5)",
-      "formula_language": "dataverse_metadata",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Entity.xml",
-          "kind": "table_column",
-          "path": "cat_BusinessApprovalRuntimeNode.cat_GoToPaths",
-          "line": 250
-        }
-      ],
-      "inputs": [
-        "cat_BusinessApprovalRuntimeNode.cat_GoToPaths"
-      ],
-      "outputs": [
-        "cat_BusinessApprovalRuntimeNode.cat_GoToPaths"
-      ],
-      "confidence": 1.0,
-      "pii": [],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
-        "magic_numbers": [
-          5.0
-        ],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Platform-enforced Dataverse metadata; proved by an API validation scenario."
-      }
-    },
-    {
-      "id": "BR-044",
+      "id": "BR-040",
       "candidate_id": "bd2ae352bd96",
-      "statement": "The condition is that the cat_PathIndex must be a positive number and within the range of 1 to 2,147,480,000. If the condition is not met, the business rule will prevent the operation.",
+      "statement": "The condition is that the cat_PathIndex must be a valid number between 1 and 2,147,480,000. If it is not, the business rule will prevent the operation.",
       "category": "validation",
       "formula": "Required(cat_PathIndex) && Range(cat_PathIndex, 1, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1872,9 +1708,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
         "review_reasons": []
@@ -1885,9 +1719,9 @@
       }
     },
     {
-      "id": "BR-045",
+      "id": "BR-041",
       "candidate_id": "aa1e3d1b9a21",
-      "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000, inclusive. If the condition is met, the effect is that the cat_RowIndex is validated and can proceed.",
+      "statement": "The condition is that the cat_RowIndex must be a positive integer between 1 and 2,147,480,000. If the cat_RowIndex is not within this range, the system will not allow the row to proceed.",
       "category": "validation",
       "formula": "Required(cat_RowIndex) && Range(cat_RowIndex, 1, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1910,9 +1744,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
         "review_reasons": []
@@ -1923,9 +1755,9 @@
       }
     },
     {
-      "id": "BR-046",
+      "id": "BR-042",
       "candidate_id": "8f0b510d7968",
-      "statement": "The cat_TimeOut column in the cat_BusinessApprovalRuntimeNode table should have a value between 0 and 2.14748e+09 (2,147,480,000). Any value outside this range will trigger an error.",
+      "statement": "The cat_TimeOut column in the cat_BusinessApprovalRuntimeNode table can only have values between 0 and 2.14748e+09 (2,147,480,000). Any value outside this range will be considered invalid.",
       "category": "validation",
       "formula": "Range(cat_TimeOut, 0, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -1948,44 +1780,6 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Platform-enforced Dataverse metadata; proved by an API validation scenario."
-      }
-    },
-    {
-      "id": "BR-047",
-      "candidate_id": "5d17ac06a58c",
-      "statement": "The business rule calculates the value of cat_sourcedatanamevalue based on cat_businessapprovalruntimedata, cat_businessapprovalruntimenode, and cat_name. If the calculated value exceeds a certain threshold, it triggers an action.",
-      "category": "calculation",
-      "formula": "cat_sourcedatanamevalue := CALC(cat_businessapprovalruntimedata, cat_businessapprovalruntimenode, cat_name, cat_sourcedata)",
-      "formula_language": "dataverse_xaml",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNode/Formulas/cat_businessapprovalruntimenode-cat_sourcedatanamevalue.xaml",
-          "kind": "calculated_column",
-          "path": "cat_BusinessApprovalRuntimeNode.cat_sourcedatanamevalue",
-          "line": 1
-        }
-      ],
-      "inputs": [
-        "cat_BusinessApprovalRuntimeNode.cat_sourcedatanamevalue"
-      ],
-      "outputs": [
-        "cat_BusinessApprovalRuntimeNode.cat_sourcedatanamevalue"
-      ],
-      "confidence": 1.0,
-      "pii": [],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
         "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
@@ -1997,9 +1791,9 @@
       }
     },
     {
-      "id": "BR-048",
+      "id": "BR-043",
       "candidate_id": "412f505c56f9",
-      "statement": "The business approval runtime node value is calculated based on the business approval runtime node and the node name value. If the node name value is not valid, it will return an error.",
+      "statement": "The business approval runtime node value is calculated based on the business approval runtime node and the node name. If the value is less than 0, it is set to 0; otherwise, it remains unchanged.",
       "category": "validation",
       "formula": "cat_nodenamevalue := CALC(cat_businessapprovalruntimenode, cat_businessapprovalruntimenodeinstance, cat_name)",
       "formula_language": "dataverse_xaml",
@@ -2017,42 +1811,6 @@
       "outputs": [
         "cat_BusinessApprovalRuntimeNodeInstance.cat_nodenamevalue"
       ],
-      "confidence": 0.95,
-      "pii": [],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
-        "magic_numbers": [],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Platform-enforced Dataverse metadata; proved by an API validation scenario."
-      }
-    },
-    {
-      "id": "BR-049",
-      "candidate_id": "bdd674c5a1a1",
-      "statement": "The condition is when the cat_order calculated column is triggered. The threshold values are not explicitly defined in the code, but the effect is that the cat_order column is recalculated based on the cat_businessapprovalruntimenode and cat_businessapprovalruntimenodeinstance entities. This is a calculation business rule.",
-      "category": "calculation",
-      "formula": "cat_order := CALC(cat_businessapprovalruntimenode, cat_businessapprovalruntimenodeinstance, cat_rowindex)",
-      "formula_language": "dataverse_xaml",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeNodeInstance/Formulas/cat_businessapprovalruntimenodeinstance-cat_order.xaml",
-          "kind": "calculated_column",
-          "path": "cat_BusinessApprovalRuntimeNodeInstance.cat_order",
-          "line": 1
-        }
-      ],
-      "inputs": [
-        "cat_BusinessApprovalRuntimeNodeInstance.cat_order"
-      ],
-      "outputs": [
-        "cat_BusinessApprovalRuntimeNodeInstance.cat_order"
-      ],
       "confidence": 1.0,
       "pii": [],
       "flags": {
@@ -2069,9 +1827,9 @@
       }
     },
     {
-      "id": "BR-050",
+      "id": "BR-044",
       "candidate_id": "705607f004ad",
-      "statement": "The condition is that the value of cat_ReminderDays must be a number between 0 and 2,147,480,000 (inclusive). If the value is not a number or falls outside this range, the effect is that the business rule fails.",
+      "statement": "The condition is that the value of cat_ReminderDays must be a number between 0 and 2,147,480,000 (inclusive). If the value is outside this range, the system will not allow the reminder days to be set.",
       "category": "validation",
       "formula": "Required(cat_ReminderDays) && Range(cat_ReminderDays, 0, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -2094,9 +1852,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
         "review_reasons": []
@@ -2107,9 +1863,9 @@
       }
     },
     {
-      "id": "BR-051",
+      "id": "BR-045",
       "candidate_id": "d09e27840dac",
-      "statement": "The condition is that the value of the 'Order' field must be between 1 and 2.14748e+09 (2.14748 billion). If the value is outside this range, the business rule will trigger an effect.",
+      "statement": "The Order entity must have a value between 1 and 2.14748e+09 (2.14748 billion) to be valid. If the value is outside this range, the entity is considered invalid.",
       "category": "validation",
       "formula": "Range(cat_Order, 1, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -2132,9 +1888,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": true,
         "needs_human_review": true,
         "review_reasons": [
@@ -2147,9 +1901,9 @@
       }
     },
     {
-      "id": "BR-052",
+      "id": "BR-046",
       "candidate_id": "2bebbf9f996d",
-      "statement": "The condition is that the value in the cat_Paths column must be required and must be within the range of 1 to 5. If not, the effect is that the data is invalid.",
+      "statement": "The condition is that the 'cat_Paths' column must have a value between 1 and 5, inclusive. If the value is outside this range, the business approval runtime stage will not be valid.",
       "category": "validation",
       "formula": "Required(cat_Paths) && Range(cat_Paths, 1, 5)",
       "formula_language": "dataverse_metadata",
@@ -2187,10 +1941,10 @@
       }
     },
     {
-      "id": "BR-053",
+      "id": "BR-047",
       "candidate_id": "74570556c937",
-      "statement": "The business approval runtime stage's sourcedatanamevalue is calculated based on cat_businessapprovalruntimedata, cat_businessapprovalruntimestage, and cat_name. If the value is 0, it is set to 'Not Started'; if it is 1, it is set to 'In Progress'; if it is 2, it is set to 'Completed'; otherwise, it is set to 'Cancelled'.",
-      "category": "state_transition",
+      "statement": "The condition is when the runtime stage is 'cat_businessapprovalruntimestage' and the name is 'cat_name'. If the sourcedata value is not null, the effect is to set the cat_sourcedatanamevalue to the sourcedata value. Otherwise, it remains null.",
+      "category": "validation",
       "formula": "cat_sourcedatanamevalue := CALC(cat_businessapprovalruntimedata, cat_businessapprovalruntimestage, cat_name, cat_sourcedata)",
       "formula_language": "dataverse_xaml",
       "source_locations": [
@@ -2225,9 +1979,45 @@
       }
     },
     {
-      "id": "BR-054",
+      "id": "BR-048",
+      "candidate_id": "28eaf4763901",
+      "statement": "The condition is when the value of cat_businessapprovalruntimestage is equal to the value of cat_businessapprovalruntimestageinstance. The effect is to set the value of cat_order to the result of the cat_businessapprovalruntimestage function. This is a calculation business rule.",
+      "category": "calculation",
+      "formula": "cat_order := CALC(cat_businessapprovalruntimestage, cat_businessapprovalruntimestageinstance)",
+      "formula_language": "dataverse_xaml",
+      "source_locations": [
+        {
+          "file": "legacy/approvals-kit/Entities/cat_BusinessApprovalRuntimeStageInstance/Formulas/cat_businessapprovalruntimestageinstance-cat_order.xaml",
+          "kind": "calculated_column",
+          "path": "cat_BusinessApprovalRuntimeStageInstance.cat_order",
+          "line": 1
+        }
+      ],
+      "inputs": [
+        "cat_BusinessApprovalRuntimeStageInstance.cat_order"
+      ],
+      "outputs": [
+        "cat_BusinessApprovalRuntimeStageInstance.cat_order"
+      ],
+      "confidence": 1.0,
+      "pii": [],
+      "flags": {
+        "contradiction_with": [],
+        "dead_code": false,
+        "magic_numbers": [],
+        "fairness_review": false,
+        "needs_human_review": false,
+        "review_reasons": []
+      },
+      "oracle": {
+        "proof_type": "scenario",
+        "reason": "Platform-enforced Dataverse metadata; proved by an API validation scenario."
+      }
+    },
+    {
+      "id": "BR-049",
       "candidate_id": "75ff51de9d1e",
-      "statement": "The condition is that the 'cat_Order' value must be required and within the range of 1 to 2,147,480,000. The effect is that if the condition is not met, the system will not allow the record to proceed.",
+      "statement": "The condition is that the value in the cat_Order column must be required and must be within the range of 1 to 2.14748e+09. If the condition is not met, the effect is that the record is not valid.",
       "category": "validation",
       "formula": "Required(cat_Order) && Range(cat_Order, 1, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -2250,9 +2040,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": true,
         "needs_human_review": true,
         "review_reasons": [
@@ -2265,9 +2053,9 @@
       }
     },
     {
-      "id": "BR-055",
+      "id": "BR-050",
       "candidate_id": "8f2efc584d1f",
-      "statement": "The condition is that the 'cat_Paths' column must have a value between 1 and 5, inclusive. If the value is outside this range, the business rule will prevent the action.",
+      "statement": "The condition is that the 'cat_Paths' column must have a value between 1 and 5, inclusive. If the value is outside this range, the business approval stage is invalid.",
       "category": "validation",
       "formula": "Required(cat_Paths) && Range(cat_Paths, 1, 5)",
       "formula_language": "dataverse_metadata",
@@ -2305,7 +2093,7 @@
       }
     },
     {
-      "id": "BR-056",
+      "id": "BR-051",
       "candidate_id": "0c9e155bbd17",
       "statement": "The business approval stage's sourcedatanamevalue is calculated based on cat_businessapprovaldata, cat_businessapprovalstage, cat_name, cat_sourcedata, and cat_sourcedatatype. If any of these values are missing or invalid, the sourcedatanamevalue will be null.",
       "category": "validation",
@@ -2343,9 +2131,9 @@
       }
     },
     {
-      "id": "BR-057",
+      "id": "BR-052",
       "candidate_id": "5ba4f2b99548",
-      "statement": "The condition is that the cat_Version must be required and must fall within the range of 1 to 2,147,480,000. The effect is that if the condition is not met, the system will not allow further processing.",
+      "statement": "The version field must have a value between 1 and 2,147,480,000, inclusive. If the value is outside this range, the system will not allow the record to be saved.",
       "category": "validation",
       "formula": "Required(cat_Version) && Range(cat_Version, 1, 2.14748e+09)",
       "formula_language": "dataverse_metadata",
@@ -2368,9 +2156,7 @@
       "flags": {
         "contradiction_with": [],
         "dead_code": false,
-        "magic_numbers": [
-          9.0
-        ],
+        "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": false,
         "review_reasons": []
@@ -2381,10 +2167,10 @@
       }
     },
     {
-      "id": "BR-058",
+      "id": "BR-053",
       "candidate_id": "8a718511a6cf",
-      "statement": "The business approval version's default approver display name is calculated based on the business approver and their name. If the business approver is not found, the default approver display name will be empty.",
-      "category": "authorisation",
+      "statement": "The default approver display name is calculated based on the business approval version, business approver, and name. If any of these values are null, the default approver display name will also be null.",
+      "category": "validation",
       "formula": "cat_defaultapproverdisplayname := CALC(cat_businessapprovalversion, cat_businessapprover, cat_name)",
       "formula_language": "dataverse_xaml",
       "source_locations": [
@@ -2422,9 +2208,9 @@
       }
     },
     {
-      "id": "BR-059",
+      "id": "BR-054",
       "candidate_id": "6a1ad22a2a50",
-      "statement": "The business approval version's default approver email is calculated based on the cat_approverid, cat_businessapprovalversion, and cat_businessapprover. If any of these values are null, the default approver email will also be null.",
+      "statement": "The default approver email is calculated based on the cat_approverid, cat_businessapprovalversion, and cat_businessapprover columns. If any of these columns have null values, the default approver email will be null.",
       "category": "validation",
       "formula": "cat_defaultapproveremail := CALC(cat_approverid, cat_businessapprovalversion, cat_businessapprover)",
       "formula_language": "dataverse_xaml",
@@ -2463,7 +2249,7 @@
       }
     },
     {
-      "id": "BR-060",
+      "id": "BR-055",
       "candidate_id": "e44d133ef564",
       "statement": "The business approval workflow version (cat_version) is calculated based on the business approval version (cat_businessapprovalversion) and the business approval workflow (cat_businessapprovalworkflow). If the workflow or version changes, the version will update accordingly.",
       "category": "calculation",
@@ -2499,7 +2285,7 @@
       }
     },
     {
-      "id": "BR-061",
+      "id": "BR-056",
       "candidate_id": "7817618e5201",
       "statement": "The calculated column 'cat_BusinessApprover.cat_backupdelegateid' determines the value based on the 'cat_approverid', 'cat_backupdelegate', and 'cat_businessapprover' columns. If any of these columns have a value of 0, the calculated column will also have a value of 0.",
       "category": "validation",
@@ -2535,10 +2321,10 @@
       }
     },
     {
-      "id": "BR-062",
+      "id": "BR-057",
       "candidate_id": "b4c86ec7de65",
-      "statement": "The business approver's delegate ID is calculated based on their own ID and the business approver's ID. If the business approver's ID is 0, the delegate ID is also 0. Otherwise, the delegate ID is the business approver's ID.",
-      "category": "authorisation",
+      "statement": "The business approver's delegate ID is calculated based on the approver ID, business approver, and delegate. If any of these values are null, the result will also be null.",
+      "category": "validation",
       "formula": "cat_delegateid := CALC(cat_approverid, cat_businessapprover, cat_delegate)",
       "formula_language": "dataverse_xaml",
       "source_locations": [
@@ -2555,7 +2341,7 @@
       "outputs": [
         "cat_BusinessApprover.cat_delegateid"
       ],
-      "confidence": 1.0,
+      "confidence": 0.95,
       "pii": [],
       "flags": {
         "contradiction_with": [],
@@ -2571,51 +2357,10 @@
       }
     },
     {
-      "id": "BR-063",
-      "candidate_id": "049d7d952b71",
-      "statement": "The business approver's display name is calculated based on the business approval data, business approver, dynamic approver type, and name. If any of these inputs are missing or invalid, the display name will be empty.",
-      "category": "validation",
-      "formula": "cat_displayname := CALC(cat_businessapprovaldata, cat_businessapprover, cat_dynamicapprovertype, cat_name)",
-      "formula_language": "dataverse_xaml",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Entities/cat_BusinessApprover/Formulas/cat_businessapprover-cat_displayname.xaml",
-          "kind": "calculated_column",
-          "path": "cat_BusinessApprover.cat_displayname",
-          "line": 1
-        }
-      ],
-      "inputs": [
-        "cat_BusinessApprover.cat_displayname"
-      ],
-      "outputs": [
-        "cat_BusinessApprover.cat_displayname"
-      ],
-      "confidence": 1.0,
-      "pii": [
-        {
-          "field": "cat_BusinessApprover.cat_displayname",
-          "classification": "personal"
-        }
-      ],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
-        "magic_numbers": [],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Platform-enforced Dataverse metadata; proved by an API validation scenario."
-      }
-    },
-    {
-      "id": "BR-064",
+      "id": "BR-058",
       "candidate_id": "cdad3c11912f",
-      "statement": "This business rule triggers when a business approval instance has a message of 3 and the cat_timeoutcounter is 0 and the cat_instancestatus is 809060001. The rule is designed to handle a timeout scenario.",
-      "category": "validation",
+      "statement": "This business rule triggers when a business approval instance has a message of 3 and the cat_timeoutcounter is 0 and the cat_instancestatus is 809060001. The rule is designed to handle timeout scenarios.",
+      "category": "authorisation",
       "formula": "On(cat_businessapprovalinstance, message=3, filter=cat_timeoutcounter eq 0 and cat_instancestatus eq 809060001)",
       "formula_language": "wdl",
       "source_locations": [
@@ -2646,9 +2391,9 @@
       }
     },
     {
-      "id": "BR-065",
+      "id": "BR-059",
       "candidate_id": "d16fc67be008",
-      "statement": "If the delegate is out of office (isoutofoffice is true), the backup delegate's business approver ID is used. Otherwise, the regular delegate's business approver ID is used.",
+      "statement": "If the delegate is marked as out of office (isoutofoffice), the system uses the backup delegate's ID instead of the primary delegate's ID. Otherwise, it uses the primary delegate's ID.",
       "category": "authorisation",
       "formula": "InitializeVariable({\"variables\": [{\"name\": \"varDelegate\", \"type\": \"string\", \"value\": \"@{if(equals(first(body('Get_Delegates')['value'])['cat_Delegate/cat_isoutofoffice'], true), first(body('Get_Delegates')['value'])['cat_BackupDelegate/cat_businessapproverid'], first(body('Get_Delegates')['value'])['cat_Delegate/cat_businessapproverid'])}\"}]})",
       "formula_language": "wdl",
@@ -2695,9 +2440,9 @@
       }
     },
     {
-      "id": "BR-066",
+      "id": "BR-060",
       "candidate_id": "e8f71aacbafb",
-      "statement": "The condition checks if the variable 'varDelegate' is null. If it is, the effect is to set the output to 'If_no_delegates'.",
+      "statement": "If the variable 'varDelegate' is null, the workflow will proceed to the 'If_no_delegates' action.",
       "category": "authorisation",
       "formula": "{\"equals\": [\"@variables('varDelegate')\", \"@null\"]}",
       "formula_language": "wdl",
@@ -2731,7 +2476,7 @@
       }
     },
     {
-      "id": "BR-067",
+      "id": "BR-061",
       "candidate_id": "817e47fcca4e",
       "statement": "The condition checks if the length of the variable 'varDelegate' is greater than 0. If it is, the action 'If_delegate_exists' is triggered.",
       "category": "validation",
@@ -2767,9 +2512,9 @@
       }
     },
     {
-      "id": "BR-068",
+      "id": "BR-062",
       "candidate_id": "a5d465fc1dfc",
-      "statement": "This rule checks if the business approver's message is 3 and if the cat_isoutofoffice filter is true, and triggers the 'When_Approver_is_OOF' workflow if both conditions are met.",
+      "statement": "This rule checks if the message is 3 and if the cat_isoutofoffice filter is true, and triggers the 'When_Approver_is_OOF' workflow if both conditions are met.",
       "category": "validation",
       "formula": "On(cat_businessapprover, message=3, filter=cat_isoutofoffice eq true)",
       "formula_language": "wdl",
@@ -2801,9 +2546,9 @@
       }
     },
     {
-      "id": "BR-069",
+      "id": "BR-063",
       "candidate_id": "03ad9185837e",
-      "statement": "The condition checks if the business approval process category has a message of 3 and a statecode filter. If true, it triggers the process.",
+      "statement": "The condition checks if the business approval process category has a message of 3 and a statecode filter. If true, the process status is changed.",
       "category": "validation",
       "formula": "On(cat_businessapprovalprocess, message=3, filter=statecode)",
       "formula_language": "wdl",
@@ -2835,9 +2580,9 @@
       }
     },
     {
-      "id": "BR-070",
+      "id": "BR-064",
       "candidate_id": "81f2b523f876",
-      "statement": "This rule checks if the 'statecode' of a 'cat_businessapprovalversion' message is 3. If it is, the row is considered for addition, modification, or deletion.",
+      "statement": "This rule checks if the 'statecode' of a 'cat_businessapprovalversion' message is 3. If true, it triggers the 'When_a_row_is_added,_modified_or_deleted' action.",
       "category": "validation",
       "formula": "On(cat_businessapprovalversion, message=3, filter=statecode)",
       "formula_language": "wdl",
@@ -2869,7 +2614,7 @@
       }
     },
     {
-      "id": "BR-071",
+      "id": "BR-065",
       "candidate_id": "b262e82e3b51",
       "statement": "The rule checks if the input number_1 equals 809060000. If true, it proceeds to the next node. Otherwise, it stops.",
       "category": "validation",
@@ -2905,9 +2650,9 @@
       }
     },
     {
-      "id": "BR-072",
+      "id": "BR-066",
       "candidate_id": "912b608c1eae",
-      "statement": "The rule checks if both conditions are true. If they are, the rule passes. Otherwise, it fails.",
+      "statement": "The rule checks if both conditions are true. If they are, the rule proceeds. Otherwise, it stops.",
       "category": "validation",
       "formula": "{\"equals\": [\"@true\", \"@true\"]}",
       "formula_language": "wdl",
@@ -2927,12 +2672,12 @@
       "pii": [],
       "flags": {
         "contradiction_with": [],
-        "dead_code": true,
+        "dead_code": false,
         "magic_numbers": [],
         "fairness_review": false,
         "needs_human_review": true,
         "review_reasons": [
-          "dead_code"
+          "constant_condition: always true, else branch unreachable"
         ]
       },
       "oracle": {
@@ -2941,9 +2686,9 @@
       }
     },
     {
-      "id": "BR-073",
+      "id": "BR-067",
       "candidate_id": "8958b2f4e1d5",
-      "statement": "The rule sets the variable 'varSourceData' to the value of 'value' from 'Get_Dynamic_Data' if the type is '809060001', otherwise it concatenates the value with quotes. If 'Get_Dynamic_Data' is empty, it uses the default value.",
+      "statement": "The rule sets the variable 'varSourceData' to the value of 'value' from the 'Get_Dynamic_Data' action if the type is '809060001', otherwise it concatenates the value with quotes. If the 'raw' field is not empty, it uses the 'raw' field; otherwise, it uses the 'default' field.",
       "category": "validation",
       "formula": "SetVariable({\"name\": \"varSourceData\", \"value\": {\"value\": \"@if(equals(body('Get_Dynamic_Data')?['type'], '809060001'),body('Get_Dynamic_Data')?['value'],concat('''', body('Get_Dynamic_Data')?['value'],''''))\", \"raw\": \"@{body('Get_Dynamic_Data')?['raw']}\", \"default\": \"@{body('Get_Dynamic_Data')?['default']}\", \"type\": \"@body('Get_Dynamic_Data')?['type']\"}})",
       "formula_language": "wdl",
@@ -2981,9 +2726,9 @@
       }
     },
     {
-      "id": "BR-074",
+      "id": "BR-068",
       "candidate_id": "d28c2807b0a7",
-      "statement": "The rule checks if the number_1 input is equal to 809060001. If true, it evaluates the outcome based on the previous node.",
+      "statement": "The rule checks if the number_1 input equals 8,090,600,01. If true, it proceeds.",
       "category": "validation",
       "formula": "{\"equals\": [\"@triggerBody()['number_1']\", 809060001]}",
       "formula_language": "wdl",
@@ -3017,9 +2762,9 @@
       }
     },
     {
-      "id": "BR-075",
+      "id": "BR-069",
       "candidate_id": "2f01a75d5031",
-      "statement": "The rule checks if the value of 'cat_conditionvalue' in the current item of 'Apply_to_each' is equal to the 'value' variable. If they match, the rule applies the action; otherwise, it does not.",
+      "statement": "The rule checks if the value in the 'cat_conditionvalue' field of each item in the 'Apply_to_each' array is equal to the 'value' variable. If they are not equal, the rule's outcome is affected.",
       "category": "validation",
       "formula": "{\"equals\": [\"@items('Apply_to_each')?['cat_conditionvalue']\", \"@variables('varSourceData')['value']\"]}",
       "formula_language": "wdl",
@@ -3055,10 +2800,10 @@
       }
     },
     {
-      "id": "BR-076",
+      "id": "BR-070",
       "candidate_id": "a587bd2a18f0",
-      "statement": "The condition sets varCondition to the value of stageid if text_1 is 'Stage Instance', otherwise it sets it to the value of _cat_gotostage_value from the Apply_to_each items. The effect is to set a variable varCondition with a stageid and path based on the condition.",
-      "category": "validation",
+      "statement": "The condition checks if 'text_1' is 'Stage Instance'. If true, it sets the variable 'varConditions' with the stage ID from the 'Apply_to_each' items, otherwise it sets the variable with the 'cat_pathindex' from the 'Apply_to_each' items. This ensures the correct stage ID is used based on the current stage instance.",
+      "category": "authorisation",
       "formula": "SetVariable({\"name\": \"varConditions\", \"value\": [{\"stageid\": \"@{if(equals(triggerBody()['text_1'],'Stage Instance'),'', items('Apply_to_each')?['_cat_gotostage_value'])}\", \"path\": \"@items('Apply_to_each')?['cat_pathindex']\"}]})",
       "formula_language": "wdl",
       "source_locations": [
@@ -3093,9 +2838,9 @@
       }
     },
     {
-      "id": "BR-077",
+      "id": "BR-071",
       "candidate_id": "36d6895ebef2",
-      "statement": "If the number in the trigger body is greater than or equal to 809060006, the condition is met.",
+      "statement": "If the number in the trigger body is less than or equal to 8,090,600, the condition is met. Otherwise, the condition is not met.",
       "category": "validation",
       "formula": "{\"less\": [\"@triggerBody()['number']\", 809060006]}",
       "formula_language": "wdl",
@@ -3129,9 +2874,9 @@
       }
     },
     {
-      "id": "BR-078",
+      "id": "BR-072",
       "candidate_id": "30b985a97c3d",
-      "statement": "The rule checks if the length of the XPath_Selection output is greater than 0. If true, it proceeds; otherwise, it stops.",
+      "statement": "If the XPath_Selection outputs have a length greater than zero, the condition is met. If so, the Found_Condition is found.",
       "category": "validation",
       "formula": "{\"greater\": [\"@length(outputs('XPath_Selection'))\", 0]}",
       "formula_language": "wdl",
@@ -3165,9 +2910,9 @@
       }
     },
     {
-      "id": "BR-079",
+      "id": "BR-073",
       "candidate_id": "d9fe1681a3eb",
-      "statement": "Checks if the output of 'Get_Settings' has exactly one item in its 'body/value' array. If not, it returns a 'If_found_settings' action.",
+      "statement": "The condition checks if the length of the 'body/value' from the 'Get_Settings' output is exactly 1. If true, the 'If_found_settings' action is executed.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_Settings')?['body/value'])\", 1]}",
       "formula_language": "wdl",
@@ -3202,9 +2947,9 @@
       }
     },
     {
-      "id": "BR-080",
+      "id": "BR-074",
       "candidate_id": "2e95b87eefbe",
-      "statement": "If the input parameter 'boolean' is true, the action will execute. Otherwise, it will not execute.",
+      "statement": "If the input parameter 'boolean' is true, the workflow will proceed. Otherwise, it will not execute.",
       "category": "validation",
       "formula": "{\"equals\": [\"@triggerBody()['boolean']\", \"@true\"]}",
       "formula_language": "wdl",
@@ -3238,9 +2983,9 @@
       }
     },
     {
-      "id": "BR-081",
+      "id": "BR-075",
       "candidate_id": "1c17af10009c",
-      "statement": "If the length of the 'body/value' field from the 'Get_Approver_and_Delegates' output is zero, then the condition is met. If so, the workflow will proceed to check if the approver is not found.",
+      "statement": "If the length of the 'body/value' field from the 'Get_Approver_and_Delegates' output is zero, then the condition is met. If so, the system will proceed to check if the approver is not found.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_Approver_and_Delegates')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -3275,7 +3020,7 @@
       }
     },
     {
-      "id": "BR-082",
+      "id": "BR-076",
       "candidate_id": "2902c7e1b33b",
       "statement": "If the input parameter 'boolean' is true, the action will be executed. Otherwise, it will not.",
       "category": "validation",
@@ -3311,9 +3056,9 @@
       }
     },
     {
-      "id": "BR-083",
+      "id": "BR-077",
       "candidate_id": "ffd555a39847",
-      "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Dynamic_Approver_Data' is greater than 0. If it is, the condition is met.",
+      "statement": "If the length of the 'body/value' in the output of 'Get_Dynamic_Approver_Data' is greater than 0, then the condition is met. If the condition is met, the output 'If_has_data' is generated.",
       "category": "validation",
       "formula": "{\"greater\": [\"@length(outputs('Get_Dynamic_Approver_Data')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -3348,9 +3093,9 @@
       }
     },
     {
-      "id": "BR-084",
+      "id": "BR-078",
       "candidate_id": "14284247150b",
-      "statement": "The condition checks if the value of the 'WaitOnNoApprover' setting from the 'Get_Default_Setting' action is true. If it is, the action 'Do_we_wait_for_Dynamic_Approver_Data' is executed.",
+      "statement": "If the value of the 'WaitOnNoApprover' setting from the 'Get_Default_Setting' action is true, then proceed to the 'Do_we_wait_for_Dynamic_Approver_Data' action.",
       "category": "validation",
       "formula": "{\"equals\": [\"@body('Get_Default_Setting')?['WaitOnNoApprover']\", \"@true\"]}",
       "formula_language": "wdl",
@@ -3385,9 +3130,9 @@
       }
     },
     {
-      "id": "BR-085",
+      "id": "BR-079",
       "candidate_id": "d9fca554fe32",
-      "statement": "If the length of the 'body/value' in the output of 'Get_Instance_Data' is greater than 0, then proceed to the next action.",
+      "statement": "If the length of the 'body/value' in the output of 'Get_Instance_Data' is greater than 0, then proceed with the next action.",
       "category": "validation",
       "formula": "{\"greater\": [\"@length(outputs('Get_Instance_Data')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -3422,9 +3167,9 @@
       }
     },
     {
-      "id": "BR-086",
+      "id": "BR-080",
       "candidate_id": "90725e57cbbf",
-      "statement": "The condition checks if the Approver UPN is not empty. If Approver UPN is empty, the condition is false.",
+      "statement": "The condition checks if the 'approver' field in the 'User_Details' output is not empty. If it is not empty, the condition is considered false.",
       "category": "validation",
       "formula": "{\"equals\": [\"@empty(outputs('User_Details')['approver'])\", \"@false\"]}",
       "formula_language": "wdl",
@@ -3464,9 +3209,9 @@
       }
     },
     {
-      "id": "BR-087",
+      "id": "BR-081",
       "candidate_id": "1260f9733c8e",
-      "statement": "The rule checks if the status is not disabled and if the current date falls between the start and end date, and if the date difference is greater than the Out Of Office Check Days. If any of these conditions are not met, the rule will not proceed.",
+      "statement": "The condition checks if the status is not disabled and the current date falls between the start and end date, and the date difference is greater than the out of office check days. If all conditions are met, the workflow proceeds.",
       "category": "validation",
       "formula": "{\"and\": [{\"not\": {\"equals\": [\"@body('Parse_Automatic_Replies_Setting')?['status']\", \"disabled\"]}}, {\"and\": [{\"greaterOrEquals\": [\"@outputs('Current_Date_of_User_Timezone')\", \"@outputs('Start_Date')\"]}, {\"lessOrEquals\": [\"@outputs('Current_Date_of_User_Timezone')\", \"@outputs('End_Date')\"]}, {\"and\": [{\"greater\": [\"@outputs('dateDifference_-_Days')\", \"@parameters('Out Of Office Check Days (cat_OutOfOfficeCheckDays)')\"]}]}]}]}",
       "formula_language": "wdl",
@@ -3506,9 +3251,9 @@
       }
     },
     {
-      "id": "BR-088",
+      "id": "BR-082",
       "candidate_id": "04a00df5a476",
-      "statement": "The condition checks if the difference in days between the current date and the Out Of Office Check Days parameter is greater than the value of the Out Of Office Check Days parameter. If true, the condition is met.",
+      "statement": "If the difference in days between the current date and a specified date is greater than the number of Out of Office Check Days, the condition is met.",
       "category": "validation",
       "formula": "{\"greater\": [\"@outputs('dateDifference_-_Days')\", \"@parameters('Out Of Office Check Days (cat_OutOfOfficeCheckDays)')\"]}",
       "formula_language": "wdl",
@@ -3543,9 +3288,9 @@
       }
     },
     {
-      "id": "BR-089",
+      "id": "BR-083",
       "candidate_id": "9fb9dc432700",
-      "statement": "If the input text_3 is equal to 'Information', then the condition is met and the action is triggered. Otherwise, the action is not triggered.",
+      "statement": "If the input text_3 is equal to 'Information', the condition is met and the action is triggered. Otherwise, the action is not triggered.",
       "category": "validation",
       "formula": "{\"equals\": [\"@triggerBody()['text_3']\", \"Information\"]}",
       "formula_language": "wdl",
@@ -3579,9 +3324,9 @@
       }
     },
     {
-      "id": "BR-090",
+      "id": "BR-084",
       "candidate_id": "0f46aa4b83d3",
-      "statement": "The condition checks if the value of 'text_3' is 'Data not found', 'Approver not found', or 'Object not found'. If it matches 'Data not found', it sets 'Exception_Type' to 'Data not found'. If it matches 'Approver not found', it sets 'Exception_Type' to 'Approver not found'. If it matches 'Object not found', it sets 'Exception_Type' to 'Object not found'.",
+      "statement": "The condition checks if the value of 'text_3' in the trigger body is 'Data not found', 'Approver not found', or 'Object not found'. If it matches 'Data not found', it sets 'Exception_Type' to 'Data not found'. If it matches 'Approver not found', it sets 'Exception_Type' to 'Approver not found'. If it matches 'Object not found', it sets 'Exception_Type' to 'Object not found'.",
       "category": "validation",
       "formula": "Switch(\"@triggerBody()['text_3']\", cases={\"Data_not_found\": \"Data not found\", \"Approver_not_found\": \"Approver not found\", \"Object_not_found\": \"Object not found\"})",
       "formula_language": "wdl",
@@ -3615,9 +3360,9 @@
       }
     },
     {
-      "id": "BR-091",
+      "id": "BR-085",
       "candidate_id": "e454b5b7b940",
-      "statement": "Prevents the execution of the 'If_Time_Out_not_updated_today' action if the 'cat_timeoutupdate' input is processed more than once in a day.",
+      "statement": "This rule prevents double decrement if the 'cat_timeoutupdate' is executed more than once a day by checking if the first part of the split of 'cat_timeoutupdate' (which is the date) is not equal to the first part of the split of the current UTC time. If they are not equal, the decrement is prevented.",
       "category": "validation",
       "formula": "{\"not\": {\"equals\": [\"@first(split(item()['cat_timeoutupdate'], 'T'))\", \"@first(split(utcNow(), 'T'))\"]}}",
       "formula_language": "wdl",
@@ -3651,10 +3396,10 @@
       }
     },
     {
-      "id": "BR-092",
+      "id": "BR-086",
       "candidate_id": "95f6146faff0",
-      "statement": "This rule checks if the timeout mode is set to 809060000 (Business Days). If true, it requires a calculation based on the Work Profile and holidays.",
-      "category": "validation",
+      "statement": "This rule checks if the TimeOut Mode is set to Business Days (809060000). If true, it requires a calculation based on Work Profile and holidays.",
+      "category": "calculation",
       "formula": "{\"equals\": [\"@items('Each_Approval_Instance')?['cat_node/cat_timeoutmode']\", 809060000]}",
       "formula_language": "wdl",
       "source_locations": [
@@ -3687,49 +3432,9 @@
       }
     },
     {
-      "id": "BR-093",
-      "candidate_id": "bf4a2b099092",
-      "statement": "The condition checks if the current day is a working day according to the Work Profile Days and if there are no holidays. If both conditions are met, the value is set to 'If_Today_is_Working_day_and_not_holiday'.",
-      "category": "validation",
-      "formula": "{\"and\": [{\"equals\": [\"@outputs('Work_Profile_Days')[dayOfWeek(outputs('Today'))]['isWorkday']\", \"@true\"]}, {\"equals\": [\"@length(body('Get_Holidays')['value'])\", 0]}]}",
-      "formula_language": "wdl",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Workflows/BACoreDailyCalculateApprovalTimeouts-5ABBAFC2-37CF-EC11-A7B5-0022486DABEE.json",
-          "kind": "flow_action",
-          "path": "BACoreDailyCalculateApprovalTimeouts/actions/Each_Approval_Instance/actions/If_Time_Out_not_updated_today/actions/If_TimeOut_Mode_is_Business_Days/actions/If_Today_is_Working_day_and_not_holiday",
-          "line": 209
-        }
-      ],
-      "inputs": [
-        "Get_Holidays",
-        "Today",
-        "Work_Profile_Days",
-        "isWorkday",
-        "value"
-      ],
-      "outputs": [
-        "If_Today_is_Working_day_and_not_holiday"
-      ],
-      "confidence": 1.0,
-      "pii": [],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
-        "magic_numbers": [],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Power Automate flow logic; no executable oracle. Proved by a scenario test."
-      }
-    },
-    {
-      "id": "BR-094",
+      "id": "BR-087",
       "candidate_id": "c6b4ea3afde8",
-      "statement": "This rule checks if the business approval version category has a message of 1 and if the publishing status is 809060000, then it triggers the 'When_new_Process_Version_is_Published' event.",
+      "statement": "This rule checks if the business approval version category has a message of 1 and if the publishing status is 809060000. If both conditions are met, the process version is published.",
       "category": "validation",
       "formula": "On(cat_businessapprovalversion, message=1, filter=cat_publishingstatus eq 809060000)",
       "formula_language": "wdl",
@@ -3761,10 +3466,10 @@
       }
     },
     {
-      "id": "BR-095",
+      "id": "BR-088",
       "candidate_id": "164774318f68",
-      "statement": "The rule checks if the dynamic approver type is either 809060002 (Manager of Request Data Field) or 809060001 (Use Request Data Field). If either condition is met, the rule passes.",
-      "category": "validation",
+      "statement": "The rule checks if the dynamic approver type is either 809,060,002 or 809,060,001. If true, the workflow continues; otherwise, it stops.",
+      "category": "authorisation",
       "formula": "{\"or\": [{\"equals\": [\"@item()['cat_dynamicapprovertype']\", 809060002]}, {\"equals\": [\"@item()['cat_dynamicapprovertype']\", 809060001]}]}",
       "formula_language": "wdl",
       "source_locations": [
@@ -3799,9 +3504,9 @@
       }
     },
     {
-      "id": "BR-096",
+      "id": "BR-089",
       "candidate_id": "ab97352249c8",
-      "statement": "The condition checks if the length of the 'body/value' in the output 'Check_if_mapping_already_exist' is zero. If it is, the effect is to set the output 'If_Mapping_Does_not_Exist' to true.",
+      "statement": "This rule checks if the 'body/value' of the 'Check_if_mapping_already_exist' output is empty. If it is, the rule proceeds to the next action.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Check_if_mapping_already_exist')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -3838,9 +3543,9 @@
       }
     },
     {
-      "id": "BR-097",
+      "id": "BR-090",
       "candidate_id": "954ceffb264b",
-      "statement": "The condition checks if the output of the 'body/cat_activateonpublish' is true. If it is, the action is considered successful.",
+      "statement": "The condition checks if the output of the trigger 'body/cat_activateonpublish' is true. If it is, the process continues; otherwise, it stops.",
       "category": "validation",
       "formula": "{\"equals\": [\"@triggerOutputs()?['body/cat_activateonpublish']\", \"@true\"]}",
       "formula_language": "wdl",
@@ -3874,7 +3579,7 @@
       }
     },
     {
-      "id": "BR-098",
+      "id": "BR-091",
       "candidate_id": "f906d6d74cdd",
       "statement": "The condition checks if the value of 'id' in the 'Apply_to_each_' items is equal to 'additionalinformation'. If true, the condition is met.",
       "category": "validation",
@@ -3910,9 +3615,9 @@
       }
     },
     {
-      "id": "BR-099",
+      "id": "BR-092",
       "candidate_id": "34e7fe8965b2",
-      "statement": "The condition checks if the value of the 'id' field in the 'Apply_to_each_' items list is equal to 'Requested By'. If true, the condition is satisfied.",
+      "statement": "The condition checks if the value of the 'id' input is equal to 'Requested By'. If true, the condition is met.",
       "category": "validation",
       "formula": "{\"equals\": [\"@items('Apply_to_each_')['id']\", \"Requested By\"]}",
       "formula_language": "wdl",
@@ -3946,9 +3651,9 @@
       }
     },
     {
-      "id": "BR-100",
+      "id": "BR-093",
       "candidate_id": "9eab553e3544",
-      "statement": "The condition checks if the value of the 'id' field in the 'Apply_to_each_' items matches the 'externalreference' value. If they match, the condition is considered true.",
+      "statement": "The condition checks if the value of the 'id' field in the 'Apply_to_each_' items is equal to the 'externalreference'. If they match, the condition is considered true.",
       "category": "validation",
       "formula": "{\"equals\": [\"@items('Apply_to_each_')['id']\", \"externalreference\"]}",
       "formula_language": "wdl",
@@ -3982,9 +3687,9 @@
       }
     },
     {
-      "id": "BR-101",
+      "id": "BR-094",
       "candidate_id": "a818d895bfec",
-      "statement": "This rule checks if the 'body/cat_customresponses' field is empty. If it is, the workflow proceeds; otherwise, it stops.",
+      "statement": "This rule checks if the 'body/cat_customresponses' field is empty. If it is, the rule triggers the 'If_no_Custom_Responses' action.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(coalesce(triggerOutputs()?['body/cat_customresponses'],''))\", 0]}",
       "formula_language": "wdl",
@@ -4018,9 +3723,9 @@
       }
     },
     {
-      "id": "BR-102",
+      "id": "BR-095",
       "candidate_id": "3fa31db71b02",
-      "statement": "The condition checks if the variable 'varApprovalCompleted' is false. If it is, the action 'If_Approval_not_completed' is triggered.",
+      "statement": "The condition checks if the variable 'varApprovalCompleted' is false. If it is, the action 'If_Approval_not_completed' is executed.",
       "category": "validation",
       "formula": "{\"equals\": [\"@variables('varApprovalCompleted')\", \"@false\"]}",
       "formula_language": "wdl",
@@ -4054,9 +3759,9 @@
       }
     },
     {
-      "id": "BR-103",
+      "id": "BR-096",
       "candidate_id": "c8f4d6addff5",
-      "statement": "If the output of 'Wait_on_Override' contains 'body/cat_iscancellation', the condition is false. Otherwise, the condition is true.",
+      "statement": "This rule checks if the output 'Wait_on_Override' contains a 'body/cat_iscancellation' value. If it does not, the rule sets the output to 'If_Not_Cancellation'.",
       "category": "validation",
       "formula": "{\"equals\": [\"@outputs('Wait_on_Override')?['body/cat_iscancellation']\", \"@false\"]}",
       "formula_language": "wdl",
@@ -4091,9 +3796,9 @@
       }
     },
     {
-      "id": "BR-104",
+      "id": "BR-097",
       "candidate_id": "b74cb8cf4074",
-      "statement": "The condition checks if the node type is 'Approval'. If true, it sets the output to 809060000. If the node type is 'Go_to_Stage', it sets the output to 809060001. If the node type is 'End_Workflow', it sets the output to 809060002.",
+      "statement": "The condition checks if the node type is 'Approval'. If true, it sets the output to 809060000. If false, it sets the output to 809060001. If the node type is 'End_Workflow', it sets the output to 809060002.",
       "category": "authorisation",
       "formula": "Switch(\"@outputs('Get_Runtime_Node_Definition')?['body/cat_nodetype']\", cases={\"Approval\": 809060000, \"Go_to_Stage\": 809060001, \"End_Workflow\": 809060002})",
       "formula_language": "wdl",
@@ -4128,9 +3833,9 @@
       }
     },
     {
-      "id": "BR-105",
+      "id": "BR-098",
       "candidate_id": "a643bafabf1c",
-      "statement": "The condition checks if the value of cat_approvertype is exactly 8,090,600,000. If it is, the effect is to proceed to the next step in the workflow.",
+      "statement": "The condition checks if the value of cat_approvertype is exactly 8,090,600,000. If true, the approval process continues; otherwise, it stops.",
       "category": "validation",
       "formula": "{\"equals\": [\"@item()['cat_approvertype']\", 809060000]}",
       "formula_language": "wdl",
@@ -4164,9 +3869,9 @@
       }
     },
     {
-      "id": "BR-106",
+      "id": "BR-099",
       "candidate_id": "291e37bf6f72",
-      "statement": "The condition checks if the runtime node definition is either 809,060,002 (Out of Office) or 809,060,003 (Time-out or Out of Office). If true, the node rule is considered as Out of Office.",
+      "statement": "The condition checks if the node delegation rule is either Out of Office (809,060,002) or Time-out or Out of Office (809,060,003). If the condition is met, the workflow proceeds.",
       "category": "validation",
       "formula": "{\"and\": [{\"or\": [{\"equals\": [\"@outputs('Get_Runtime_Node_Definition')?['body/cat_delegationrule']\", 809060002]}, {\"equals\": [\"@outputs('Get_Runtime_Node_Definition')?['body/cat_delegationrule']\", 809060003]}]}]}",
       "formula_language": "wdl",
@@ -4201,7 +3906,7 @@
       }
     },
     {
-      "id": "BR-107",
+      "id": "BR-100",
       "candidate_id": "bb19b589d5b5",
       "statement": "The rule checks if there is at least one 'id' in the 'First_Not_OOF' output. If there is, the rule passes; otherwise, it fails.",
       "category": "validation",
@@ -4238,7 +3943,7 @@
       }
     },
     {
-      "id": "BR-108",
+      "id": "BR-101",
       "candidate_id": "06694b953102",
       "statement": "The condition checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, the approval process continues; otherwise, it stops.",
       "category": "validation",
@@ -4280,7 +3985,7 @@
       }
     },
     {
-      "id": "BR-109",
+      "id": "BR-102",
       "candidate_id": "de8a1014fd8a",
       "statement": "The condition checks if the value of the parameter 'Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)' is true. If it is, the effect is to set the output 'Check_If_Enable_O365_Mailbox_Settings_is_true' to true.",
       "category": "validation",
@@ -4325,9 +4030,9 @@
       }
     },
     {
-      "id": "BR-110",
+      "id": "BR-103",
       "candidate_id": "1dd2f3f7b01b",
-      "statement": "The rule checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, it proceeds; otherwise, it stops.",
+      "statement": "The condition checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, the approval process continues; otherwise, it stops.",
       "category": "validation",
       "formula": "{\"greater\": [\"@length(variables('varApproverInfo')['approverid'])\", 0]}",
       "formula_language": "wdl",
@@ -4367,9 +4072,9 @@
       }
     },
     {
-      "id": "BR-111",
+      "id": "BR-104",
       "candidate_id": "755d061392fd",
-      "statement": "The condition checks if the runtime node definition rule is either 809,060,002 (Out of Office) or 809,060,003 (Time-out or Out of Office). If true, the rule is considered as an OOF condition.",
+      "statement": "The condition checks if the node delegation rule is either Out of Office (809,060,002) or Time-out or Out of Office (809,060,003). If the condition is met, the approval process continues.",
       "category": "validation",
       "formula": "{\"and\": [{\"or\": [{\"equals\": [\"@outputs('Get_Runtime_Node_Definition')?['body/cat_delegationrule']\", 809060002]}, {\"equals\": [\"@outputs('Get_Runtime_Node_Definition')?['body/cat_delegationrule']\", 809060003]}]}]}",
       "formula_language": "wdl",
@@ -4404,9 +4109,9 @@
       }
     },
     {
-      "id": "BR-112",
+      "id": "BR-105",
       "candidate_id": "d3c80f6669be",
-      "statement": "The condition checks if the value of the parameter 'Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)' is true. If it is, the action proceeds; otherwise, it does not.",
+      "statement": "The condition checks if the value of the parameter 'Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)' is true. If it is, the effect is to proceed with the next action.",
       "category": "validation",
       "formula": "{\"equals\": [\"@parameters('Enable Office 365 Mailbox Settings (cat_EnableOffice365MailboxSettings)')\", \"@true\"]}",
       "formula_language": "wdl",
@@ -4449,9 +4154,9 @@
       }
     },
     {
-      "id": "BR-113",
+      "id": "BR-106",
       "candidate_id": "be05bea3a677",
-      "statement": "If the length of the 'id' in the output 'First_Not_OOF_2' is greater than 0, then proceed to the next action.",
+      "statement": "If the length of the 'id' in the output 'First_Not_OOF_2' is greater than 0, then proceed with the next action.",
       "category": "validation",
       "formula": "{\"greater\": [\"@length(coalesce(outputs('First_Not_OOF_2')?['id'],'' ))\", 0]}",
       "formula_language": "wdl",
@@ -4486,7 +4191,7 @@
       }
     },
     {
-      "id": "BR-114",
+      "id": "BR-107",
       "candidate_id": "4952afe31a57",
       "statement": "The rule checks if the length of the 'approverid' in the 'varApproverInfo' variable is greater than 0. If true, it proceeds to the next rule; otherwise, it returns 'If_Manager_found_2'.",
       "category": "validation",
@@ -4528,9 +4233,9 @@
       }
     },
     {
-      "id": "BR-115",
+      "id": "BR-108",
       "candidate_id": "892675338b47",
-      "statement": "The rule checks the value of the 'cat_dynamicapprovertype' field and assigns it to different managers based on predefined cases. If the value matches 'Manager_of_Initiator', 'Manager_of_Request_Data', or 'Manager_of_Last_Approver', it assigns the corresponding manager ID. If none match, it assigns 'Use_Request_Data'.",
+      "statement": "The rule checks the value of the 'cat_dynamicapprovertype' field and assigns it to the appropriate manager based on predefined cases. If the value is 'Manager_of_Initiator', 'Manager_of_Request_Data', or 'Manager_of_Last_Approver', it assigns the corresponding manager ID. Otherwise, it assigns 'Use_Request_Data'.",
       "category": "authorisation",
       "formula": "Switch(\"@items('Each_Approver')['cat_dynamicapprovertype']\", cases={\"Manager_of_Initiator\": 809060000, \"Manager_of_Request_Data\": 809060002, \"Manager_of_Last_Approver\": 809060003, \"Use_Request_Data\": 809060001})",
       "formula_language": "wdl",
@@ -4564,9 +4269,9 @@
       }
     },
     {
-      "id": "BR-116",
+      "id": "BR-109",
       "candidate_id": "c4f20af71e69",
-      "statement": "The condition checks if the length of the dynamic approver data is greater than zero. If true, the approval process continues; otherwise, it is halted.",
+      "statement": "The condition checks if the length of the dynamic approver data is greater than zero. If it is, the approval process continues; otherwise, it stops.",
       "category": "validation",
       "formula": "{\"greater\": [\"@length(coalesce(outputs('Get_Dynamic_Approver_Data')?['Body']?['value']))\", 0]}",
       "formula_language": "wdl",
@@ -4602,9 +4307,9 @@
       }
     },
     {
-      "id": "BR-117",
+      "id": "BR-110",
       "candidate_id": "8800f46f9028",
-      "statement": "The rule checks if there are any dynamic approvers found in the request data. If there are, the rule proceeds; otherwise, it stops.",
+      "statement": "The condition checks if the length of the 'value' in the 'Body' of the output from 'Get_Dynamic_Data_for_Request_Data' is greater than 0. If true, it means there are dynamic approvers found in the request data.",
       "category": "validation",
       "formula": "{\"greater\": [\"@length(outputs('Get_Dynamic_Data_for_Request_Data')?['Body']?['value'])\", 0]}",
       "formula_language": "wdl",
@@ -4640,46 +4345,9 @@
       }
     },
     {
-      "id": "BR-118",
-      "candidate_id": "da52341d27e2",
-      "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Runtime_Reminder_Node' is greater than 0. If true, it indicates that a runtime reminder node exists.",
-      "category": "validation",
-      "formula": "{\"greater\": [\"@length(outputs('Get_Runtime_Reminder_Node')?['body/value'])\", 0]}",
-      "formula_language": "wdl",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Workflows/BACoreRuntime-StartNode-D0CCBEBF-D08C-EC11-8D20-000D3A09D351.json",
-          "kind": "flow_action",
-          "path": "BACoreRuntime-StartNode/actions/Create_Approval_Instances/actions/Check_Node_Type/cases/Approval/actions/Create_Node_Reminder_Instance/actions/Runtime_Node_Reminder_Exists",
-          "line": 1628
-        }
-      ],
-      "inputs": [
-        "Get_Runtime_Reminder_Node",
-        "body/value"
-      ],
-      "outputs": [
-        "Runtime_Node_Reminder_Exists"
-      ],
-      "confidence": 1.0,
-      "pii": [],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
-        "magic_numbers": [],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Power Automate flow logic; no executable oracle. Proved by a scenario test."
-      }
-    },
-    {
-      "id": "BR-119",
+      "id": "BR-111",
       "candidate_id": "d2d7f7eb7d7a",
-      "statement": "The condition checks if the value of the 'body/cat_nodeduedatedatatype' field in the trigger outputs is equal to 809060000. If true, the workflow proceeds; otherwise, it does not.",
+      "statement": "The condition checks if the value of the 'body/cat_nodeduedatedatatype' field in the trigger outputs is equal to 809060000. If true, the effect is to proceed with the action.",
       "category": "validation",
       "formula": "{\"equals\": [\"@triggerOutputs()?['body/cat_nodeduedatedatatype']\", 809060000]}",
       "formula_language": "wdl",
@@ -4713,9 +4381,9 @@
       }
     },
     {
-      "id": "BR-120",
+      "id": "BR-112",
       "candidate_id": "7d0629b08244",
-      "statement": "The condition checks if the node condition is 'If/Else' (809060001). If true, the workflow proceeds; otherwise, it stops.",
+      "statement": "The condition checks if the runtime node definition contains 'If/Else' (809060001). If it does, the condition is met and the workflow proceeds to the next stage.",
       "category": "authorisation",
       "formula": "{\"equals\": [\"@outputs('Get_Runtime_Node_Definition')?['body/cat_nodecondition']\", 809060001]}",
       "formula_language": "wdl",
@@ -4752,7 +4420,7 @@
       }
     },
     {
-      "id": "BR-121",
+      "id": "BR-113",
       "candidate_id": "f2a2c671e9eb",
       "statement": "If the variable 'varGotoStageId' is not empty, the workflow will proceed. Otherwise, it will stop.",
       "category": "validation",
@@ -4790,9 +4458,9 @@
       }
     },
     {
-      "id": "BR-122",
+      "id": "BR-114",
       "candidate_id": "a9754777099d",
-      "statement": "The condition checks if the value of 'body/cat_stagecondition' from the output of 'Get_Runtime_Stage_Definition' is equal to 809060000. If true, it proceeds to the 'If_No_Conditions' action.",
+      "statement": "The rule checks if the 'cat_stagecondition' value from the runtime stage definition is 809060000. If true, it proceeds to the 'If_No_Conditions' action.",
       "category": "validation",
       "formula": "{\"equals\": [\"@outputs('Get_Runtime_Stage_Definition')?['body/cat_stagecondition']\", 809060000]}",
       "formula_language": "wdl",
@@ -4829,9 +4497,9 @@
       }
     },
     {
-      "id": "BR-123",
+      "id": "BR-115",
       "candidate_id": "7763521c72a2",
-      "statement": "The rule checks if exactly one node is found in the stage. If more than one node is found, the action is skipped.",
+      "statement": "The rule checks if exactly one node is found in the stage. If more than one node is found, the rule fails.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_First_Node_in_Stage')?['body/value'])\", 1]}",
       "formula_language": "wdl",
@@ -4868,9 +4536,9 @@
       }
     },
     {
-      "id": "BR-124",
+      "id": "BR-116",
       "candidate_id": "457b07987cc8",
-      "statement": "The condition checks if the value of the first node in the stage is not equal to null. If it is not null, the condition is considered true.",
+      "statement": "The condition checks if the value of '_cat_nodeduedaterequestdata_value' from the first node in the stage is not null. If it is null, the condition is considered true.",
       "category": "validation",
       "formula": "{\"not\": {\"equals\": [\"@first(body('Get_First_Node_in_Stage')['value'])?['_cat_nodeduedaterequestdata_value']\", \"@null\"]}}",
       "formula_language": "wdl",
@@ -4908,7 +4576,7 @@
       }
     },
     {
-      "id": "BR-125",
+      "id": "BR-117",
       "candidate_id": "aec3b9b63ea8",
       "statement": "This rule checks if there is exactly one stage found. If there is, the workflow continues; otherwise, it stops.",
       "category": "authorisation",
@@ -4947,9 +4615,9 @@
       }
     },
     {
-      "id": "BR-126",
+      "id": "BR-118",
       "candidate_id": "7d9478593f64",
-      "statement": "The condition checks if the business approval instance has a message with a value of 3 and the instance status is filtered. If both conditions are met, the workflow triggers.",
+      "statement": "The condition checks if the business approval instance has a message with a value of 3 and the instance status is filtered. If true, the workflow triggers.",
       "category": "validation",
       "formula": "On(cat_businessapprovalinstance, message=3, filter=cat_instancestatus)",
       "formula_language": "wdl",
@@ -4981,9 +4649,9 @@
       }
     },
     {
-      "id": "BR-127",
+      "id": "BR-119",
       "candidate_id": "6464ab1be37a",
-      "statement": "The condition checks if the value of the 'body/cat_instancestatus' output is 'Completed_(809060002)', and if so, sets the output 'Check_Instance_Status_type' to 809060002. This is a validation rule.",
+      "statement": "The condition checks if the value of `@triggerOutputs()?['body/cat_instancestatus']` is one of the specified instance statuses: Completed (809,060,002), Suspended (809,060,003), Canceled (809,060,004), Timed Out (809,060,005), or Error (809,060,006). If it matches, the value 809060002 is assigned to the output.",
       "category": "validation",
       "formula": "Switch(\"@triggerOutputs()?['body/cat_instancestatus']\", cases={\"Completed_(809060002)\": 809060002})",
       "formula_language": "wdl",
@@ -5017,9 +4685,9 @@
       }
     },
     {
-      "id": "BR-128",
+      "id": "BR-120",
       "candidate_id": "06a7f0f54b80",
-      "statement": "The condition checks the value of the 'body/cat_outcome' output from the trigger. If it is 'Approve', the action 'Approve' is executed; if it is 'Reject', the action 'Reject' is executed.",
+      "statement": "The condition checks the value of 'body/cat_outcome' from the trigger outputs. If it is 'Approve', it proceeds to 'Approve'. If it is 'Reject', it proceeds to 'Reject'.",
       "category": "authorisation",
       "formula": "Switch(\"@triggerOutputs()?['body/cat_outcome']\", cases={\"Approve\": \"Approve\", \"Reject\": \"Reject\"})",
       "formula_language": "wdl",
@@ -5053,10 +4721,10 @@
       }
     },
     {
-      "id": "BR-129",
+      "id": "BR-121",
       "candidate_id": "0c79cf7dbf40",
-      "statement": "If the approval type is either 809060001 (First) or 809060003 (Custom First), the condition is met and the approval is checked.",
-      "category": "validation",
+      "statement": "The rule checks if the approval type is either 809060001 (Approve/Reject - First) or 809060003 (Custom - First). If true, the approval is processed.",
+      "category": "authorisation",
       "formula": "{\"or\": [{\"equals\": [\"@triggerOutputs()?['body/cat_approvaltype']\", 809060001]}, {\"equals\": [\"@triggerOutputs()?['body/cat_approvaltype']\", 809060003]}]}",
       "formula_language": "wdl",
       "source_locations": [
@@ -5089,9 +4757,9 @@
       }
     },
     {
-      "id": "BR-130",
+      "id": "BR-122",
       "candidate_id": "74fe44e80681",
-      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If true, the effect is to set the output to 'If_no_more_running_instances'.",
+      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If true, the effect is to proceed to the 'If_no_more_running_instances' case.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_Other_Approval_Instances')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -5126,7 +4794,7 @@
       }
     },
     {
-      "id": "BR-131",
+      "id": "BR-123",
       "candidate_id": "3ac329c736ab",
       "statement": "The condition checks if the approval type is either 809060001 or 809060003. If true, the approval is rejected.",
       "category": "validation",
@@ -5162,9 +4830,9 @@
       }
     },
     {
-      "id": "BR-132",
+      "id": "BR-124",
       "candidate_id": "24bcb9db1a6b",
-      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If true, the effect is to proceed to the 'If_no_more_running_instances_2' action.",
+      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If it is, the effect is to proceed to the 'If_no_more_running_instances_2' action.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_Other_Approval_Instances')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -5199,9 +4867,9 @@
       }
     },
     {
-      "id": "BR-133",
+      "id": "BR-125",
       "candidate_id": "6c7fbbe0778e",
-      "statement": "The condition checks if the 'cat_approvaltype' in the trigger outputs is either 809060001 or 809060003. If true, the condition is met.",
+      "statement": "The condition checks if the 'cat_approvaltype' in the trigger outputs is either 809060001 or 809060003. If true, the action proceeds; otherwise, it is skipped.",
       "category": "validation",
       "formula": "{\"or\": [{\"equals\": [\"@triggerOutputs()?['body/cat_approvaltype']\", 809060001]}, {\"equals\": [\"@triggerOutputs()?['body/cat_approvaltype']\", 809060003]}]}",
       "formula_language": "wdl",
@@ -5235,46 +4903,9 @@
       }
     },
     {
-      "id": "BR-134",
-      "candidate_id": "79668584ced8",
-      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If it is, the condition is met.",
-      "category": "validation",
-      "formula": "{\"equals\": [\"@length(outputs('Get_Other_Approval_Instances')?['body/value'])\", 0]}",
-      "formula_language": "wdl",
-      "source_locations": [
-        {
-          "file": "legacy/approvals-kit/Workflows/BACoreRuntime-UpdateApproval-BF11CA75-9D8D-EC11-8D20-000D3A09D351.json",
-          "kind": "flow_action",
-          "path": "BACoreRuntime-UpdateApproval/actions/Check_Instance_Status_type/cases/Completed_(809060002)/actions/Check_Outcome/default/actions/Condition/actions/If_no_more_running_instances_3",
-          "line": 417
-        }
-      ],
-      "inputs": [
-        "Get_Other_Approval_Instances",
-        "body/value"
-      ],
-      "outputs": [
-        "If_no_more_running_instances_3"
-      ],
-      "confidence": 1.0,
-      "pii": [],
-      "flags": {
-        "contradiction_with": [],
-        "dead_code": false,
-        "magic_numbers": [],
-        "fairness_review": false,
-        "needs_human_review": false,
-        "review_reasons": []
-      },
-      "oracle": {
-        "proof_type": "scenario",
-        "reason": "Power Automate flow logic; no executable oracle. Proved by a scenario test."
-      }
-    },
-    {
-      "id": "BR-135",
+      "id": "BR-126",
       "candidate_id": "eb243ac2267c",
-      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero. If it is, the effect is to execute the 'If_no_more_running_instances_4' action.",
+      "statement": "If the length of the 'body/value' array from the 'Get_Other_Approval_Instances' output is zero, the condition is met. If so, the action proceeds.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_Other_Approval_Instances')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -5309,7 +4940,7 @@
       }
     },
     {
-      "id": "BR-136",
+      "id": "BR-127",
       "candidate_id": "d929d7fd67f2",
       "statement": "If the node status is in the category 'cat_businessapprovalruntimenodeinstance' and the message is 3, and the filter condition 'cat_gotostageinstanceid' is null, then execute the flow trigger 'When_Node_Status_Changed'.",
       "category": "authorisation",
@@ -5343,9 +4974,9 @@
       }
     },
     {
-      "id": "BR-137",
+      "id": "BR-128",
       "candidate_id": "45fc96cc8342",
-      "statement": "The condition checks if the value of the 'body/cat_instancestatus' output is 'Completed_(809060002)' or 'Canceled_(809060004)', and if true, sets the output to the corresponding numeric value (809060002 or 809060004).",
+      "statement": "The condition checks if the value of `@triggerOutputs()?['body/cat_instancestatus']` is either 'Completed_(809060002)' or 'Canceled_(809060004)', and if so, sets the output to the corresponding numeric value (809060002 or 809060004).",
       "category": "validation",
       "formula": "Switch(\"@triggerOutputs()?['body/cat_instancestatus']\", cases={\"Completed_(809060002)\": 809060002, \"Canceled_(809060004)\": 809060004})",
       "formula_language": "wdl",
@@ -5379,9 +5010,9 @@
       }
     },
     {
-      "id": "BR-138",
+      "id": "BR-129",
       "candidate_id": "6ff35fff5591",
-      "statement": "If the length of the 'body/value' from the 'Get_Next_Node' action is zero, the condition is met and the workflow will proceed to the 'If_no_node_found' case.",
+      "statement": "The condition checks if the length of the 'body/value' from the 'Get_Next_Node' action is zero. If it is, the effect is to set the output to 'If_no_node_found'.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_Next_Node')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -5416,10 +5047,10 @@
       }
     },
     {
-      "id": "BR-139",
+      "id": "BR-130",
       "candidate_id": "0c46fa0cba7a",
-      "statement": "If there are no running node instances, the workflow will end.",
-      "category": "state_transition",
+      "statement": "The condition checks if the length of the body/value from the Get_any_other_running_Node_Instances action is zero, indicating no more running node instances. If true, the instance is considered completed.",
+      "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_any_other_running_Node_Instances')?['body/value'])\", 0]}",
       "formula_language": "wdl",
       "source_locations": [
@@ -5453,9 +5084,9 @@
       }
     },
     {
-      "id": "BR-140",
+      "id": "BR-131",
       "candidate_id": "aa1b25475035",
-      "statement": "The rule checks if the node type is not equal to 809060002. If true, it proceeds to the next action.",
+      "statement": "This rule checks if the node type is not equal to 809060002. If true, it proceeds to the next action.",
       "category": "authorisation",
       "formula": "{\"not\": {\"equals\": [\"@triggerOutputs()?['body/cat_nodetype']\", 809060002]}}",
       "formula_language": "wdl",
@@ -5489,9 +5120,9 @@
       }
     },
     {
-      "id": "BR-141",
+      "id": "BR-132",
       "candidate_id": "66e2650b8fcb",
-      "statement": "If the value returned by the 'Get_Next_Node' action does not match the '_cat_nodeduedaterequestdata_value' field, the condition is met.",
+      "statement": "If the value of the 'Get_Next_Node' action is not equal to null and the value of '_cat_nodeduedaterequestdata_value' is not equal to null, then the condition is met.",
       "category": "validation",
       "formula": "{\"not\": {\"equals\": [\"@first(body('Get_Next_Node')['value'])?['_cat_nodeduedaterequestdata_value']\", \"@null\"]}}",
       "formula_language": "wdl",
@@ -5527,9 +5158,9 @@
       }
     },
     {
-      "id": "BR-142",
+      "id": "BR-133",
       "candidate_id": "c2d5489fd6c7",
-      "statement": "If the length of the 'body/value' from the 'Get_Next_Node_2' output is zero, the condition is met. If so, the flow action 'If_no_node_found_2' is triggered.",
+      "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Next_Node_2' is zero. If it is, the action 'If_no_node_found_2' is triggered.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_Next_Node_2')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -5564,10 +5195,10 @@
       }
     },
     {
-      "id": "BR-143",
+      "id": "BR-134",
       "candidate_id": "1ba9c34f2ed9",
-      "statement": "If there are no running node instances, the condition is met, ending the current stage instance.",
-      "category": "state_transition",
+      "statement": "The condition checks if the length of the 'body/value' array from the 'Get_any_other_running_Node_Instances_2' output is zero. If true, it proceeds to the 'If_no_more_running_node_instances_2' action.",
+      "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_any_other_running_Node_Instances_2')?['body/value'])\", 0]}",
       "formula_language": "wdl",
       "source_locations": [
@@ -5601,9 +5232,9 @@
       }
     },
     {
-      "id": "BR-144",
+      "id": "BR-135",
       "candidate_id": "1142b5d37801",
-      "statement": "The condition checks if the next node's type is GoToStage(809060001) and the source data type is Previous Node Outcome(809060001). If both conditions are met, the flow action proceeds.",
+      "statement": "The condition checks if the next node's type is 'GoToStage' (809060001) and its source data type is 'Previous Node Outcome' (809060001). If both conditions are met, the flow continues.",
       "category": "authorisation",
       "formula": "{\"and\": [{\"equals\": [\"@first(outputs('Get_Next_Node_2')?['body/value'])?['cat_nodetype']\", 809060001]}, {\"equals\": [\"@first(outputs('Get_Next_Node_2')?['body/value'])?['cat_sourcedatatype']\", 809060001]}]}",
       "formula_language": "wdl",
@@ -5642,10 +5273,10 @@
       }
     },
     {
-      "id": "BR-145",
+      "id": "BR-136",
       "candidate_id": "918b4b64d583",
-      "statement": "If the value of 'body/cat_nodetype' is not equal to 809060002, the condition is met.",
-      "category": "validation",
+      "statement": "The condition checks if the value of 'body/cat_nodetype' is not equal to 809060002. If true, the workflow proceeds to the next node; otherwise, it returns the output 'If_Node_Type_is_not_equal_End_Workflow'.",
+      "category": "authorisation",
       "formula": "{\"not\": {\"equals\": [\"@triggerOutputs()?['body/cat_nodetype']\", 809060002]}}",
       "formula_language": "wdl",
       "source_locations": [
@@ -5680,9 +5311,9 @@
       }
     },
     {
-      "id": "BR-146",
+      "id": "BR-137",
       "candidate_id": "b4edeb57b189",
-      "statement": "If there are no more running node instances, the current stage instance will end.",
+      "statement": "The condition checks if there are no more running node instances. If true, the effect is to end the current stage instance.",
       "category": "state_transition",
       "formula": "{\"equals\": [\"@length(outputs('Get_any_other_running_Node_Instances_3')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -5719,9 +5350,9 @@
       }
     },
     {
-      "id": "BR-147",
+      "id": "BR-138",
       "candidate_id": "0c5711541418",
-      "statement": "This rule checks if the business approval runtime stage instance message is 3 and the filter for instance status is met. If so, it triggers the workflow.",
+      "statement": "This rule checks if the business approval runtime stage instance has a message count of 3 and a filter for instance status. If both conditions are met, it triggers the 'When_Stage_Instance_is_Updated' workflow.",
       "category": "validation",
       "formula": "On(cat_businessapprovalruntimestageinstance, message=3, filter=cat_instancestatus)",
       "formula_language": "wdl",
@@ -5753,9 +5384,9 @@
       }
     },
     {
-      "id": "BR-148",
+      "id": "BR-139",
       "candidate_id": "675985048483",
-      "statement": "If the value of body/_cat_gotostage_value is not null, the rule exists check will be performed.",
+      "statement": "If the value of body/_cat_gotostage_value is not null, the rule exists and the workflow continues. Otherwise, the rule does not exist and the workflow stops.",
       "category": "validation",
       "formula": "{\"not\": {\"equals\": [\"@triggerOutputs()?['body/_cat_gotostage_value']\", \"@null\"]}}",
       "formula_language": "wdl",
@@ -5789,9 +5420,9 @@
       }
     },
     {
-      "id": "BR-149",
+      "id": "BR-140",
       "candidate_id": "b996b59512db",
-      "statement": "The condition checks if the value of the 'body/cat_instancestatus' output is 'Completed_(809060002)' or 'Cancelled_(809060004)', and if true, sets the output to the corresponding threshold value (809060002 or 809060004).",
+      "statement": "The condition checks if the value of `@triggerOutputs()?['body/cat_instancestatus']` is either 'Completed_(809060002)' or 'Cancelled_(809060004)', and if so, sets the output to the corresponding numeric value (809060002 or 809060004).",
       "category": "validation",
       "formula": "Switch(\"@triggerOutputs()?['body/cat_instancestatus']\", cases={\"Completed_(809060002)\": 809060002, \"Cancelled_(809060004)\": 809060004})",
       "formula_language": "wdl",
@@ -5825,7 +5456,7 @@
       }
     },
     {
-      "id": "BR-150",
+      "id": "BR-141",
       "candidate_id": "2a9ef2bad6ce",
       "statement": "If the length of the 'body/value' from the 'Get_Next_Stage' output is zero, the condition is met. If so, the workflow proceeds to the 'If_No_more_stages' action.",
       "category": "validation",
@@ -5864,7 +5495,7 @@
       }
     },
     {
-      "id": "BR-151",
+      "id": "BR-142",
       "candidate_id": "333f213e294d",
       "statement": "If the output of the trigger is not equal to true, then the condition is met. This means if the value of 'body/cat_endworkflow' is anything other than true, the condition is satisfied.",
       "category": "validation",
@@ -5900,9 +5531,9 @@
       }
     },
     {
-      "id": "BR-152",
+      "id": "BR-143",
       "candidate_id": "70ef1aa9e40e",
-      "statement": "The condition checks if the length of the 'body/value' from the output 'Get_Next_Stage_2' is zero. If it is, the effect is to proceed to the action 'If_No_more_stages_2'.",
+      "statement": "The condition checks if the length of the 'body/value' in the output of 'Get_Next_Stage_2' is zero. If it is, the effect is to proceed to the 'If_No_more_stages_2' action.",
       "category": "validation",
       "formula": "{\"equals\": [\"@length(outputs('Get_Next_Stage_2')?['body/value'])\", 0]}",
       "formula_language": "wdl",
@@ -5937,10 +5568,10 @@
       }
     },
     {
-      "id": "BR-153",
+      "id": "BR-144",
       "candidate_id": "6eb5512f41cd",
-      "statement": "The condition checks if the 'cat_sourcedatatype' value from the 'Get_Next_Stage_2' output is equal to 809060001. If true, the flow proceeds to the next action; otherwise, it continues to the else branch.",
-      "category": "validation",
+      "statement": "The condition checks if the source data type from the next stage is 809060001. If true, the effect is to proceed to the next stage; otherwise, it stops.",
+      "category": "authorisation",
       "formula": "{\"equals\": [\"@first(outputs('Get_Next_Stage_2')?['body/value'])?['cat_sourcedatatype']\", 809060001]}",
       "formula_language": "wdl",
       "source_locations": [
@@ -5975,10 +5606,10 @@
       }
     },
     {
-      "id": "BR-154",
+      "id": "BR-145",
       "candidate_id": "89b3b35e14af",
-      "statement": "If the output of the trigger is not equal to true, the condition is met. If this condition is met, the workflow will proceed to the next action.",
-      "category": "authorisation",
+      "statement": "If the output of the trigger is not equal to true, then the workflow will continue.",
+      "category": "validation",
       "formula": "{\"not\": {\"equals\": [\"@triggerOutputs()?['body/cat_endworkflow']\", \"@true\"]}}",
       "formula_language": "wdl",
       "source_locations": [
@@ -6011,9 +5642,9 @@
       }
     },
     {
-      "id": "BR-155",
+      "id": "BR-146",
       "candidate_id": "cd01e8c948c9",
-      "statement": "This rule checks if the message is 3 and the _cat_nextremindernode_value is not null. If both conditions are met, it triggers the flow.",
+      "statement": "This rule checks if the message is 3 and if the _cat_nextremindernode_value is not null. If both conditions are met, it triggers the flow.",
       "category": "validation",
       "formula": "On(cat_businessapprovalruntimenodeinstance, message=3, filter=_cat_nextremindernode_value ne null)",
       "formula_language": "wdl",
@@ -6045,9 +5676,46 @@
       }
     },
     {
-      "id": "BR-156",
+      "id": "BR-147",
+      "candidate_id": "86a9396ff68f",
+      "statement": "The condition checks if the length of the 'body/value' array from the output of 'Get_All_Running_Approval_Instances_for_the_Node' is greater than 0. If true, the condition is met.",
+      "category": "validation",
+      "formula": "{\"greater\": [\"@length(outputs('Get_All_Running_Approval_Instances_for_the_Node')?['body/value'])\", 0]}",
+      "formula_language": "wdl",
+      "source_locations": [
+        {
+          "file": "legacy/approvals-kit/Workflows/BACoreSendReminder-0BC0B71B-0BFD-EE11-A1FE-000D3A16BED5.json",
+          "kind": "flow_action",
+          "path": "BACoreSendReminder/actions/Condition",
+          "line": 138
+        }
+      ],
+      "inputs": [
+        "Get_All_Running_Approval_Instances_for_the_Node",
+        "body/value"
+      ],
+      "outputs": [
+        "Condition"
+      ],
+      "confidence": 1.0,
+      "pii": [],
+      "flags": {
+        "contradiction_with": [],
+        "dead_code": false,
+        "magic_numbers": [],
+        "fairness_review": false,
+        "needs_human_review": false,
+        "review_reasons": []
+      },
+      "oracle": {
+        "proof_type": "scenario",
+        "reason": "Power Automate flow logic; no executable oracle. Proved by a scenario test."
+      }
+    },
+    {
+      "id": "BR-148",
       "candidate_id": "c14dd44f23cf",
-      "statement": "The condition checks the value of the 'body/cat_reminderchannel' field from the 'Get_Existing_Node_Reminder_Instance_record' output. If it is 'Email', the threshold is 809060000; if it is 'Teams', the threshold is 809060001; and if it is 'Email_+_Teams', the threshold is 809060002. The effect is to switch based on the threshold values.",
+      "statement": "The condition checks the value of the 'body/cat_reminderchannel' field from the 'Get_Existing_Node_Reminder_Instance_record' output. If it is 'Email', the switch will use the value 809060000; if it is 'Teams', the value 809060001; and if it is 'Email_+_Teams', the value 809060002.",
       "category": "authorisation",
       "formula": "Switch(\"@outputs('Get_Existing_Node_Reminder_Instance_record')?['body/cat_reminderchannel']\", cases={\"Email\": 809060000, \"Teams\": 809060001, \"Email_+_Teams\": 809060002})",
       "formula_language": "wdl",
@@ -6082,9 +5750,9 @@
       }
     },
     {
-      "id": "BR-157",
+      "id": "BR-149",
       "candidate_id": "95e56e22a858",
-      "statement": "The condition checks if the value of 'body/cat_nodeduedatedatatype' is equal to 809060000. If true, the workflow proceeds; otherwise, it stops.",
+      "statement": "The rule checks if the value of 'body/cat_nodeduedatedatatype' is equal to 809060000. If true, the workflow proceeds; otherwise, it stops.",
       "category": "validation",
       "formula": "{\"equals\": [\"@triggerOutputs()?['body/cat_nodeduedatedatatype']\", 809060000]}",
       "formula_language": "wdl",
@@ -6118,9 +5786,9 @@
       }
     },
     {
-      "id": "BR-158",
+      "id": "BR-150",
       "candidate_id": "745eac2eecc9",
-      "statement": "This rule checks if the business approval version category has a message of 3 and the statecode is 0. If true, it updates the workflow when a version is activated.",
+      "statement": "This rule checks if the business approval version category has a message of 3 and the state code is 0. If true, it updates the workflow when a version is activated.",
       "category": "validation",
       "formula": "On(cat_businessapprovalversion, message=3, filter=statecode eq 0)",
       "formula_language": "wdl",
@@ -6755,38 +6423,6 @@
         "kind": "rule"
       },
       {
-        "id": "BR-151",
-        "kind": "rule"
-      },
-      {
-        "id": "BR-152",
-        "kind": "rule"
-      },
-      {
-        "id": "BR-153",
-        "kind": "rule"
-      },
-      {
-        "id": "BR-154",
-        "kind": "rule"
-      },
-      {
-        "id": "BR-155",
-        "kind": "rule"
-      },
-      {
-        "id": "BR-156",
-        "kind": "rule"
-      },
-      {
-        "id": "BR-157",
-        "kind": "rule"
-      },
-      {
-        "id": "BR-158",
-        "kind": "rule"
-      },
-      {
         "id": "approvals-kit",
         "kind": "app"
       },
@@ -6927,6 +6563,10 @@
         "kind": "table"
       },
       {
+        "id": "table:cat_BusinessApprovalRuntimeStageInstance",
+        "kind": "table"
+      },
+      {
         "id": "table:cat_BusinessApprovalStage",
         "kind": "table"
       },
@@ -6945,48 +6585,8 @@
     ],
     "edges": [
       {
-        "from": "BR-005",
-        "to": "BR-002",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-005",
-        "to": "BR-004",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-005",
-        "to": "BR-006",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-005",
-        "to": "BR-009",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-005",
-        "to": "BR-010",
-        "kind": "reads"
-      },
-      {
         "from": "BR-007",
         "to": "BR-003",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-009",
-        "to": "BR-002",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-009",
-        "to": "BR-004",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-009",
-        "to": "BR-010",
         "kind": "reads"
       },
       {
@@ -6995,188 +6595,48 @@
         "kind": "reads"
       },
       {
-        "from": "BR-012",
+        "from": "BR-015",
         "to": "BR-002",
         "kind": "reads"
       },
       {
-        "from": "BR-012",
+        "from": "BR-015",
         "to": "BR-004",
         "kind": "reads"
       },
       {
-        "from": "BR-013",
-        "to": "BR-002",
+        "from": "BR-015",
+        "to": "BR-006",
         "kind": "reads"
       },
       {
-        "from": "BR-013",
-        "to": "BR-004",
+        "from": "BR-015",
+        "to": "BR-010",
         "kind": "reads"
       },
       {
-        "from": "BR-013",
-        "to": "BR-014",
+        "from": "BR-015",
+        "to": "BR-016",
         "kind": "reads"
       },
       {
-        "from": "BR-017",
+        "from": "BR-015",
         "to": "BR-018",
         "kind": "reads"
       },
       {
-        "from": "BR-017",
+        "from": "BR-015",
         "to": "BR-020",
         "kind": "reads"
       },
       {
-        "from": "BR-019",
-        "to": "BR-020",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-022",
-        "to": "BR-016",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-023",
-        "to": "BR-016",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-025",
-        "to": "BR-016",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-025",
-        "to": "BR-026",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-030",
-        "to": "BR-027",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-030",
-        "to": "BR-028",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-030",
-        "to": "BR-029",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-037",
-        "to": "BR-031",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-037",
-        "to": "BR-032",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-037",
-        "to": "BR-033",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-037",
-        "to": "BR-034",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-037",
-        "to": "BR-035",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-037",
-        "to": "BR-036",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-041",
-        "to": "BR-040",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-047",
-        "to": "BR-043",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-047",
-        "to": "BR-044",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-047",
-        "to": "BR-045",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-047",
-        "to": "BR-046",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-049",
-        "to": "BR-048",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-053",
-        "to": "BR-051",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-053",
-        "to": "BR-052",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-056",
-        "to": "BR-054",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-056",
-        "to": "BR-055",
+        "from": "BR-059",
+        "to": "BR-060",
         "kind": "reads"
       },
       {
         "from": "BR-059",
-        "to": "BR-057",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-059",
-        "to": "BR-058",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-063",
         "to": "BR-061",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-063",
-        "to": "BR-062",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-065",
-        "to": "BR-066",
-        "kind": "reads"
-      },
-      {
-        "from": "BR-065",
-        "to": "BR-067",
         "kind": "reads"
       },
       {
@@ -7351,6 +6811,11 @@
       },
       {
         "from": "approvals-kit",
+        "to": "table:cat_BusinessApprovalRuntimeStageInstance",
+        "kind": "contains"
+      },
+      {
+        "from": "approvals-kit",
         "to": "table:cat_BusinessApprovalStage",
         "kind": "contains"
       },
@@ -7371,36 +6836,66 @@
       },
       {
         "from": "flow:BACoreApprovalTime-out",
-        "to": "BR-064",
+        "to": "BR-058",
         "kind": "defines"
       },
       {
         "from": "flow:BACoreApprovalTime-out",
-        "to": "BR-065",
+        "to": "BR-059",
         "kind": "defines"
       },
       {
         "from": "flow:BACoreApprovalTime-out",
-        "to": "BR-066",
+        "to": "BR-060",
         "kind": "defines"
       },
       {
         "from": "flow:BACoreApprovalTime-out",
-        "to": "BR-067",
+        "to": "BR-061",
         "kind": "defines"
       },
       {
         "from": "flow:BACoreApproverOOF",
-        "to": "BR-068",
+        "to": "BR-062",
         "kind": "defines"
       },
       {
         "from": "flow:BACoreCascadeProcessStatus",
-        "to": "BR-069",
+        "to": "BR-063",
         "kind": "defines"
       },
       {
         "from": "flow:BACoreCascadePublishingActivation",
+        "to": "BR-064",
+        "kind": "defines"
+      },
+      {
+        "from": "flow:BACoreChildEvaluateRule",
+        "to": "BR-065",
+        "kind": "defines"
+      },
+      {
+        "from": "flow:BACoreChildEvaluateRule",
+        "to": "BR-066",
+        "kind": "defines"
+      },
+      {
+        "from": "flow:BACoreChildEvaluateRule",
+        "to": "BR-067",
+        "kind": "defines"
+      },
+      {
+        "from": "flow:BACoreChildEvaluateRule",
+        "to": "BR-068",
+        "kind": "defines"
+      },
+      {
+        "from": "flow:BACoreChildEvaluateRule",
+        "to": "BR-069",
+        "kind": "defines"
+      },
+      {
+        "from": "flow:BACoreChildEvaluateRule",
         "to": "BR-070",
         "kind": "defines"
       },
@@ -7415,157 +6910,157 @@
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildEvaluateRule",
+        "from": "flow:BACoreChildGetDefaultSettings",
         "to": "BR-073",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildEvaluateRule",
+        "from": "flow:BACoreChildGetDynamicApprover",
         "to": "BR-074",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildEvaluateRule",
+        "from": "flow:BACoreChildGetDynamicApprover",
         "to": "BR-075",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildEvaluateRule",
+        "from": "flow:BACoreChildGetDynamicDataInstance",
         "to": "BR-076",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildEvaluateRule",
+        "from": "flow:BACoreChildGetDynamicDataInstance",
         "to": "BR-077",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildEvaluateRule",
+        "from": "flow:BACoreChildGetDynamicDataInstance",
         "to": "BR-078",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetDefaultSettings",
+        "from": "flow:BACoreChildGetDynamicDataInstance",
         "to": "BR-079",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetDynamicApprover",
+        "from": "flow:BACoreChildGetUserMailboxSettings",
         "to": "BR-080",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetDynamicApprover",
+        "from": "flow:BACoreChildGetUserMailboxSettings",
         "to": "BR-081",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetDynamicDataInstance",
+        "from": "flow:BACoreChildGetUserMailboxSettings",
         "to": "BR-082",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetDynamicDataInstance",
+        "from": "flow:BACoreChildLogRuns",
         "to": "BR-083",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetDynamicDataInstance",
+        "from": "flow:BACoreChildLogRuns",
         "to": "BR-084",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetDynamicDataInstance",
+        "from": "flow:BACoreDailyCalculateApprovalTimeouts",
         "to": "BR-085",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetUserMailboxSettings",
+        "from": "flow:BACoreDailyCalculateApprovalTimeouts",
         "to": "BR-086",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetUserMailboxSettings",
+        "from": "flow:BACorePublishProcess",
         "to": "BR-087",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildGetUserMailboxSettings",
+        "from": "flow:BACorePublishProcess",
         "to": "BR-088",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildLogRuns",
+        "from": "flow:BACorePublishProcess",
         "to": "BR-089",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreChildLogRuns",
+        "from": "flow:BACorePublishProcess",
         "to": "BR-090",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreDailyCalculateApprovalTimeouts",
+        "from": "flow:BACoreRuntime-InitializeWorkflowQueue",
         "to": "BR-091",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreDailyCalculateApprovalTimeouts",
+        "from": "flow:BACoreRuntime-InitializeWorkflowQueue",
         "to": "BR-092",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreDailyCalculateApprovalTimeouts",
+        "from": "flow:BACoreRuntime-InitializeWorkflowQueue",
         "to": "BR-093",
         "kind": "defines"
       },
       {
-        "from": "flow:BACorePublishProcess",
+        "from": "flow:BACoreRuntime-StartApproval",
         "to": "BR-094",
         "kind": "defines"
       },
       {
-        "from": "flow:BACorePublishProcess",
+        "from": "flow:BACoreRuntime-StartApproval",
         "to": "BR-095",
         "kind": "defines"
       },
       {
-        "from": "flow:BACorePublishProcess",
+        "from": "flow:BACoreRuntime-StartApproval",
         "to": "BR-096",
         "kind": "defines"
       },
       {
-        "from": "flow:BACorePublishProcess",
+        "from": "flow:BACoreRuntime-StartNode",
         "to": "BR-097",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-InitializeWorkflowQueue",
+        "from": "flow:BACoreRuntime-StartNode",
         "to": "BR-098",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-InitializeWorkflowQueue",
+        "from": "flow:BACoreRuntime-StartNode",
         "to": "BR-099",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-InitializeWorkflowQueue",
+        "from": "flow:BACoreRuntime-StartNode",
         "to": "BR-100",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartApproval",
+        "from": "flow:BACoreRuntime-StartNode",
         "to": "BR-101",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartApproval",
+        "from": "flow:BACoreRuntime-StartNode",
         "to": "BR-102",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartApproval",
+        "from": "flow:BACoreRuntime-StartNode",
         "to": "BR-103",
         "kind": "defines"
       },
@@ -7620,62 +7115,62 @@
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartNode",
+        "from": "flow:BACoreRuntime-StartStage",
         "to": "BR-114",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartNode",
+        "from": "flow:BACoreRuntime-StartStage",
         "to": "BR-115",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartNode",
+        "from": "flow:BACoreRuntime-StartStage",
         "to": "BR-116",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartNode",
+        "from": "flow:BACoreRuntime-StartWorkflow",
         "to": "BR-117",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartNode",
+        "from": "flow:BACoreRuntime-UpdateApproval",
         "to": "BR-118",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartNode",
+        "from": "flow:BACoreRuntime-UpdateApproval",
         "to": "BR-119",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartNode",
+        "from": "flow:BACoreRuntime-UpdateApproval",
         "to": "BR-120",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartNode",
+        "from": "flow:BACoreRuntime-UpdateApproval",
         "to": "BR-121",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartStage",
+        "from": "flow:BACoreRuntime-UpdateApproval",
         "to": "BR-122",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartStage",
+        "from": "flow:BACoreRuntime-UpdateApproval",
         "to": "BR-123",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartStage",
+        "from": "flow:BACoreRuntime-UpdateApproval",
         "to": "BR-124",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-StartWorkflow",
+        "from": "flow:BACoreRuntime-UpdateApproval",
         "to": "BR-125",
         "kind": "defines"
       },
@@ -7685,47 +7180,47 @@
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateApproval",
+        "from": "flow:BACoreRuntime-UpdateNodeInstance",
         "to": "BR-127",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateApproval",
+        "from": "flow:BACoreRuntime-UpdateNodeInstance",
         "to": "BR-128",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateApproval",
+        "from": "flow:BACoreRuntime-UpdateNodeInstance",
         "to": "BR-129",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateApproval",
+        "from": "flow:BACoreRuntime-UpdateNodeInstance",
         "to": "BR-130",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateApproval",
+        "from": "flow:BACoreRuntime-UpdateNodeInstance",
         "to": "BR-131",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateApproval",
+        "from": "flow:BACoreRuntime-UpdateNodeInstance",
         "to": "BR-132",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateApproval",
+        "from": "flow:BACoreRuntime-UpdateNodeInstance",
         "to": "BR-133",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateApproval",
+        "from": "flow:BACoreRuntime-UpdateNodeInstance",
         "to": "BR-134",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateApproval",
+        "from": "flow:BACoreRuntime-UpdateNodeInstance",
         "to": "BR-135",
         "kind": "defines"
       },
@@ -7740,108 +7235,68 @@
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateNodeInstance",
+        "from": "flow:BACoreRuntime-UpdateStageInstance",
         "to": "BR-138",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateNodeInstance",
+        "from": "flow:BACoreRuntime-UpdateStageInstance",
         "to": "BR-139",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateNodeInstance",
+        "from": "flow:BACoreRuntime-UpdateStageInstance",
         "to": "BR-140",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateNodeInstance",
+        "from": "flow:BACoreRuntime-UpdateStageInstance",
         "to": "BR-141",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateNodeInstance",
+        "from": "flow:BACoreRuntime-UpdateStageInstance",
         "to": "BR-142",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateNodeInstance",
+        "from": "flow:BACoreRuntime-UpdateStageInstance",
         "to": "BR-143",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateNodeInstance",
+        "from": "flow:BACoreRuntime-UpdateStageInstance",
         "to": "BR-144",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateNodeInstance",
+        "from": "flow:BACoreRuntime-UpdateStageInstance",
         "to": "BR-145",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateNodeInstance",
+        "from": "flow:BACoreSendReminder",
         "to": "BR-146",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateStageInstance",
+        "from": "flow:BACoreSendReminder",
         "to": "BR-147",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateStageInstance",
+        "from": "flow:BACoreSendReminder",
         "to": "BR-148",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateStageInstance",
+        "from": "flow:BACoreSendReminder",
         "to": "BR-149",
         "kind": "defines"
       },
       {
-        "from": "flow:BACoreRuntime-UpdateStageInstance",
-        "to": "BR-150",
-        "kind": "defines"
-      },
-      {
-        "from": "flow:BACoreRuntime-UpdateStageInstance",
-        "to": "BR-151",
-        "kind": "defines"
-      },
-      {
-        "from": "flow:BACoreRuntime-UpdateStageInstance",
-        "to": "BR-152",
-        "kind": "defines"
-      },
-      {
-        "from": "flow:BACoreRuntime-UpdateStageInstance",
-        "to": "BR-153",
-        "kind": "defines"
-      },
-      {
-        "from": "flow:BACoreRuntime-UpdateStageInstance",
-        "to": "BR-154",
-        "kind": "defines"
-      },
-      {
-        "from": "flow:BACoreSendReminder",
-        "to": "BR-155",
-        "kind": "defines"
-      },
-      {
-        "from": "flow:BACoreSendReminder",
-        "to": "BR-156",
-        "kind": "defines"
-      },
-      {
-        "from": "flow:BACoreSendReminder",
-        "to": "BR-157",
-        "kind": "defines"
-      },
-      {
         "from": "flow:BACoreUpdateActivePublishedWorkflow",
-        "to": "BR-158",
+        "to": "BR-150",
         "kind": "defines"
       },
       {
@@ -8020,143 +7475,113 @@
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalNode",
+        "from": "table:cat_BusinessApprovalNodeReminder",
         "to": "BR-036",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalNode",
+        "from": "table:cat_BusinessApprovalNodeReminderInstance",
         "to": "BR-037",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalNodeReminder",
+        "from": "table:cat_BusinessApprovalPublishedWorkflow",
         "to": "BR-038",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalNodeReminderInstance",
+        "from": "table:cat_BusinessApprovalRuntimeCondition",
         "to": "BR-039",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalPublishedWorkflow",
+        "from": "table:cat_BusinessApprovalRuntimeNode",
         "to": "BR-040",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalPublishedWorkflow",
+        "from": "table:cat_BusinessApprovalRuntimeNode",
         "to": "BR-041",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeCondition",
+        "from": "table:cat_BusinessApprovalRuntimeNode",
         "to": "BR-042",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeNode",
+        "from": "table:cat_BusinessApprovalRuntimeNodeInstance",
         "to": "BR-043",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeNode",
+        "from": "table:cat_BusinessApprovalRuntimeNodeReminder",
         "to": "BR-044",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeNode",
+        "from": "table:cat_BusinessApprovalRuntimeStage",
         "to": "BR-045",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeNode",
+        "from": "table:cat_BusinessApprovalRuntimeStage",
         "to": "BR-046",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeNode",
+        "from": "table:cat_BusinessApprovalRuntimeStage",
         "to": "BR-047",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeNodeInstance",
+        "from": "table:cat_BusinessApprovalRuntimeStageInstance",
         "to": "BR-048",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeNodeInstance",
+        "from": "table:cat_BusinessApprovalStage",
         "to": "BR-049",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeNodeReminder",
+        "from": "table:cat_BusinessApprovalStage",
         "to": "BR-050",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeStage",
+        "from": "table:cat_BusinessApprovalStage",
         "to": "BR-051",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeStage",
+        "from": "table:cat_BusinessApprovalVersion",
         "to": "BR-052",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalRuntimeStage",
+        "from": "table:cat_BusinessApprovalVersion",
         "to": "BR-053",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalStage",
+        "from": "table:cat_BusinessApprovalVersion",
         "to": "BR-054",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalStage",
+        "from": "table:cat_BusinessApprovalWorkflow",
         "to": "BR-055",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalStage",
+        "from": "table:cat_BusinessApprover",
         "to": "BR-056",
         "kind": "defines"
       },
       {
-        "from": "table:cat_BusinessApprovalVersion",
+        "from": "table:cat_BusinessApprover",
         "to": "BR-057",
-        "kind": "defines"
-      },
-      {
-        "from": "table:cat_BusinessApprovalVersion",
-        "to": "BR-058",
-        "kind": "defines"
-      },
-      {
-        "from": "table:cat_BusinessApprovalVersion",
-        "to": "BR-059",
-        "kind": "defines"
-      },
-      {
-        "from": "table:cat_BusinessApprovalWorkflow",
-        "to": "BR-060",
-        "kind": "defines"
-      },
-      {
-        "from": "table:cat_BusinessApprover",
-        "to": "BR-061",
-        "kind": "defines"
-      },
-      {
-        "from": "table:cat_BusinessApprover",
-        "to": "BR-062",
-        "kind": "defines"
-      },
-      {
-        "from": "table:cat_BusinessApprover",
-        "to": "BR-063",
         "kind": "defines"
       }
     ]

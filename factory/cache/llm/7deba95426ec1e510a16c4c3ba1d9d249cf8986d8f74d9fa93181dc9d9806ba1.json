@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 109,
+ "content": "{\"statement\": \"The condition checks if the value of `@triggerOutputs()?['body/cat_instancestatus']` is either 'Completed_(809060002)' or 'Canceled_(809060004)', and if so, sets the output to the corresponding numeric value (809060002 or 809060004).\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 538,
+ "seconds": 15.586
+}

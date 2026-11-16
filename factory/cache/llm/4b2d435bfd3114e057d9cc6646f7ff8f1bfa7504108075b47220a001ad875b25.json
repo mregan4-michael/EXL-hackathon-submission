@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 152,
+ "content": "{\n \"statement\": \"The condition checks if the value of `@triggerOutputs()?['body/cat_instancestatus']` is one of the specified instance statuses: Completed (809,060,002), Suspended (809,060,003), Canceled (809,060,004), Timed Out (809,060,005), or Error (809,060,006). If it matches, the value 809060002 is assigned to the output.\",\n \"category\": \"validation\",\n \"is_business_rule\": true,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 511,
+ "seconds": 20.601
+}

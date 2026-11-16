@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 65,
+ "content": "{\"statement\": \"This rule checks if the TimeOut Mode is set to Business Days (809060000). If true, it requires a calculation based on Work Profile and holidays.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 482,
+ "seconds": 7.986
+}

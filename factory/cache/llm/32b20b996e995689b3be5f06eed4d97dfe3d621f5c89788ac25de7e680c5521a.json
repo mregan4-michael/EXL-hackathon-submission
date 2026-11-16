@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 102,
+ "content": "{\"statement\": \"The label 'lblVatRecoverable.Text' displays the vat recoverable amount, calculated as the net settlement divided by 6, rounded to two decimal places if the vat registered checkbox is checked, otherwise it displays 0. The threshold value is the net settlement amount in lblNetSettlement.Text, and the effect is to display the calculated vat recoverable amount.\", \"category\": \"calculation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 398,
+ "seconds": 12.14
+}

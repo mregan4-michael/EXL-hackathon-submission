@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 63,
+ "content": "{\"statement\": \"If the incident date is not within the policy period (between policy start and end dates), it displays a warning message. The policy period is defined by the policy start and end dates.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 423,
+ "seconds": 7.811
+}

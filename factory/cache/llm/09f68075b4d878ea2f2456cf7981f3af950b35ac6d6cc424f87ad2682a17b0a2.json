@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 54,
+ "content": "{\"statement\": \"This rule checks if the claim payment amount is greater than zero. If true, it triggers the workflow. The threshold value is 0.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 411,
+ "seconds": 8.021
+}

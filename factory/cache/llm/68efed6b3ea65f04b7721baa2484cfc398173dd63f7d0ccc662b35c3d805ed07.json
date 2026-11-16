@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 107,
+ "content": "{\"statement\": \"The application checks the claim amount in the 'txtClaimAmount.Text' field. If the claim amount is less than or equal to 5000, it assigns the claim to 'Handler'. If the claim amount is between 5000 and 25000, it assigns the claim to 'TeamLeader'. Otherwise, it assigns the claim to 'ClaimsManager'.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 403,
+ "seconds": 13.709
+}

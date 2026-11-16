@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 73,
+ "content": "{\"statement\": \"The Path Index column in the cat_BusinessApprovalNode table can only have values between 1 and 2,147,480,000, inclusive. Any value outside this range will be considered invalid.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 396,
+ "seconds": 9.348
+}

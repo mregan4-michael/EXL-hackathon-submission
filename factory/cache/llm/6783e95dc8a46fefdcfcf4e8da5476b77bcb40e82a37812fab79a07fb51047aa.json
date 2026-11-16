@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 68,
+ "content": "{\"statement\": \"The default approver display name is calculated based on the business approval version, business approver, and name. If any of these values are null, the default approver display name will also be null.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 0.95}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 411,
+ "seconds": 8.691
+}

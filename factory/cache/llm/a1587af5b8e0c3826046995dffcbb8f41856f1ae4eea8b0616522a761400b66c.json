@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 70,
+ "content": "{\"statement\": \"If the delegate is marked as out of office (isoutofoffice), the system uses the backup delegate's ID instead of the primary delegate's ID. Otherwise, it uses the primary delegate's ID.\", \"category\": \"authorisation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 531,
+ "seconds": 12.588
+}

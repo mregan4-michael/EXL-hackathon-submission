@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 62,
+ "content": "{\"statement\": \"If the value of body/_cat_gotostage_value is not null, the rule exists and the workflow continues. Otherwise, the rule does not exist and the workflow stops.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 444,
+ "seconds": 12.139
+}

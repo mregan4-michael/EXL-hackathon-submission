@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 73,
+ "content": "{\"statement\": \"The rule checks if the value in the 'cat_conditionvalue' field of each item in the 'Apply_to_each' array is equal to the 'value' variable. If they are not equal, the rule's outcome is affected.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 450,
+ "seconds": 9.461
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 58,
+ "content": "{\"statement\": \"This rule checks if the 'body/cat_customresponses' field is empty. If it is, the rule triggers the 'If_no_Custom_Responses' action.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 422,
+ "seconds": 8.991
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 56,
+ "content": "{\"statement\": \"The label lblDelegateError_1 is visible if the length of the text in the current object is greater than zero. Otherwise, it is hidden.\", \"category\": \"visibility\", \"is_business_rule\": false, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 371,
+ "seconds": 5.378
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 67,
+ "content": "{\"statement\": \"The business approval node's stagenamevalue is calculated based on the business approval node, business approval stage, and name. If any of these values are null, the stagenamevalue will also be null.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 0.9}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 406,
+ "seconds": 8.874
+}

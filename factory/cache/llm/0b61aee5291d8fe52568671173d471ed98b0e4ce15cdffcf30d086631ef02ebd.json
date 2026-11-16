@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 56,
+ "content": "{\"statement\": \"The rule checks if the number_1 input equals 8,090,600,01. If true, it proceeds.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 446,
+ "seconds": 8.478
+}

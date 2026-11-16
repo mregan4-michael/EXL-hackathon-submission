@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 72,
+ "content": "{\n \"statement\": \"The application sets the themeing and default theme, then clears the collections for colSelectedApprovalDelegate and colSelectedBackupDelegate, and populates colSelectedBackupDelegate with the value of _mySettings.Backup Delegate.\",\n \"category\": \"authorisation\",\n \"is_business_rule\": false,\n \"confidence\": 1.0\n}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 1012,
+ "seconds": 21.742
+}

@@ -1,0 +1,7 @@
+{
+ "completion_tokens": 63,
+ "content": "{\"statement\": \"If the number in the trigger body is less than or equal to 8,090,600, the condition is met. Otherwise, the condition is not met.\", \"category\": \"validation\", \"is_business_rule\": true, \"confidence\": 1.0}",
+ "model": "/home/ubuntu/tools/llama/qwen2.5-3b-instruct-q4_k_m.gguf",
+ "prompt_tokens": 439,
+ "seconds": 7.769
+}
