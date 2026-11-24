@@ -105,7 +105,16 @@ def _cmd_parity(args: argparse.Namespace) -> int:
             f"scenario {r.get('scenario', 0)} unproven {r.get('unproven', 0)} "
             f"failed {r.get('failed', 0)}"
         )
-        bad += rep["oracle_drift"] + (f.get("fail", 0) + r.get("failed", 0) if args.check else 0)
+        # A formula with no current frozen cases was never compared, so it cannot pass a check.
+        gaps = sum(
+            v.get("reason", "").startswith(("stale:", "not in frozen test set"))
+            for v in rep.get("formula_results", {}).values()
+        )
+        if args.check and gaps:
+            print(f"{app}: {gaps} formulas lack current frozen cases; re-freeze with --freeze")
+        bad += rep["oracle_drift"] + (
+            f.get("fail", 0) + r.get("failed", 0) + gaps if args.check else 0
+        )
     return 1 if bad else 0
 
 

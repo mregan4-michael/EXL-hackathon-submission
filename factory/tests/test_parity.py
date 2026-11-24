@@ -152,3 +152,21 @@ def test_parity_check_fails_on_failed_rules(monkeypatch):
     monkeypatch.setattr(harness, "run", lambda app: rep)
     assert cli.main(["parity", "claims-workbench", "--check"]) == 1
     assert cli.main(["parity", "claims-workbench"]) == 0
+
+
+def test_parity_check_fails_on_stale_or_missing_frozen_cases(monkeypatch):
+    from factory import cli
+    from factory.parity import harness
+
+    for reason in ("stale: legacy formula changed since freeze", "not in frozen test set"):
+        rep = {
+            "frozen_cases": 0,
+            "oracle_drift": 0,
+            "formulas": {"unproven": 1},
+            "formula_results": {"Screen.x": {"status": "unproven", "reason": reason}},
+            "mutation": {"killed": 0, "total": 0},
+            "rules": {},
+        }
+        monkeypatch.setattr(harness, "run", lambda app, rep=rep: rep)
+        assert cli.main(["parity", "claims-workbench", "--check"]) == 1
+        assert cli.main(["parity", "claims-workbench"]) == 0
