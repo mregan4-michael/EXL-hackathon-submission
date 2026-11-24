@@ -26,7 +26,7 @@ from factory.improve import score
 TUNING, HELDOUT = "approvals-kit", "claims-workbench"
 RUNS = REPO_ROOT / "experiments" / "runs"
 # A run name is its file stem: no separators, dots or suffixes that could alias another file.
-RUN_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]*")
+RUN_NAME = re.compile(r"[A-Za-z0-9_][A-Za-z0-9_-]*")
 CRITIC_PROMPT = "critic.v1"
 
 
