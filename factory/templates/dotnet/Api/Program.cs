@@ -114,6 +114,12 @@ app.MapPost("/api/screens/{screen}/actions/{control}", async (string screen, str
     }
     var env = await Session.EnvAsync(req.Inputs, user, store, ct);
     var ev = Evaluator.Run(App.Formulas, env);
+    if (ev.Errors.Count > 0)
+    {
+        log.LogWarning("Refused {Screen}/{Control}: {Count} formula errors", screen, control, ev.Errors.Count);
+        return Results.Problem("Legacy formulas raised errors for these inputs; fix the inputs before acting.",
+            statusCode: 422, extensions: new Dictionary<string, object?> { ["errors"] = ev.Errors });
+    }
     if (action.Guard is not null && !string.Equals(Env.ToText(env.Raw(action.Guard)), "Edit", StringComparison.Ordinal))
     {
         log.LogWarning("Refused {Screen}/{Control}: guard {Guard} = {Mode}", screen, control, action.Guard, env.Raw(action.Guard));
