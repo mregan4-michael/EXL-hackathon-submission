@@ -89,6 +89,9 @@ def test_experiment_results_are_append_only_and_branch_from_kept_runs(
     monkeypatch.setattr(experiment, "RUNS", tmp_path)
     with pytest.raises(SystemExit, match="already recorded"):
         experiment.run("a", "interpret.v2", "candidates.v1", "", None, replay=True)
+    for alias in ("./a", "a.critique", "../runs/a", ""):
+        with pytest.raises(SystemExit, match="run names may only use"):
+            experiment.run(alias, "interpret.v2", "candidates.v1", "", None, replay=True)
     with pytest.raises(SystemExit, match="was reverted"):
         experiment.run("x", "interpret.v2", "candidates.v1", "", "r", replay=True)
     with pytest.raises(SystemExit, match="unknown parent"):
