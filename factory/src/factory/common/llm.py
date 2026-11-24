@@ -141,7 +141,7 @@ class LLMClient:
                     "completion_tokens": int(usage.get("completion_tokens", 0)),
                     "seconds": round(time.monotonic() - t0, 3),
                 }
-            except (httpx.HTTPError, KeyError, ValueError) as exc:
+            except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError) as exc:
                 last = exc
                 self.breaker.record(False)
                 time.sleep(min(8.0, 0.5 * 2**attempt) + random.uniform(0, 0.25))  # noqa: S311
@@ -167,7 +167,9 @@ class LLMClient:
             "prompt_tokens": rec.get("prompt_tokens", 0),
             "completion_tokens": rec.get("completion_tokens", 0),
             "duration_s": rec.get("seconds", 0.0),
-            "cost_usd": round(tokens / 1000 * self.config.usd_per_1k_tokens, 6),
+            "cost_usd": (
+                0.0 if cache_hit else round(tokens / 1000 * self.config.usd_per_1k_tokens, 6)
+            ),
             "cache_hit": cache_hit,
             "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         }

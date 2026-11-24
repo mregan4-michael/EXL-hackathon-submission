@@ -131,8 +131,14 @@ export function App() {
     let widget;
     if (c.widget === "text")
       widget = <input id={c.name} value={typeof raw === "string" ? raw : ""} onChange={(e) => set(e.target.value)} />;
-    else if (c.widget === "date")
-      widget = <input id={c.name} type="date" value={typeof raw === "string" ? raw : ""} onChange={(e) => set(e.target.value || null)} />;
+    else if (c.widget === "date") {
+      const def = prop(c, "DefaultDate");
+      // A read-only legacy picker always shows its computed default; an editable one shows the user's value once set.
+      const shown = !disabled(c) && typeof raw === "string" ? raw : typeof def === "string" ? def.slice(0, 10) : "";
+      widget = (
+        <input id={c.name} type="date" value={shown} disabled={disabled(c)} onChange={(e) => set(e.target.value || null)} />
+      );
+    }
     else if (c.widget === "checkbox")
       widget = <input id={c.name} type="checkbox" checked={raw === true} onChange={(e) => set(e.target.checked)} />;
     else if (c.widget === "select" && !c.options?.length)

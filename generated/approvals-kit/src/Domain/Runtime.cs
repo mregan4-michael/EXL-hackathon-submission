@@ -118,6 +118,36 @@ public static class Evaluator
         return new Evaluation(computed, errors);
     }
 
+    /// <summary>
+    /// Formula outputs the given references depend on, transitively. A reference to a control's
+    /// data property (e.g. SelectedDate) also depends on the default formula that seeds it.
+    /// </summary>
+    public static HashSet<string> DependsOn(IReadOnlyCollection<Formula> formulas, IEnumerable<string> refs)
+    {
+        var byRef = new Dictionary<string, List<Formula>>(StringComparer.OrdinalIgnoreCase);
+        void Add(string key, Formula f)
+        {
+            if (!byRef.TryGetValue(key, out var list)) byRef[key] = list = [];
+            list.Add(f);
+        }
+        foreach (var f in formulas)
+        {
+            Add(f.Output, f);
+            var dot = f.Output.LastIndexOf('.');
+            if (DefaultOf.TryGetValue(f.Output[(dot + 1)..], out var data)) Add(f.Output[..dot] + "." + data, f);
+        }
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var todo = new Stack<string>(refs);
+        while (todo.Count > 0)
+        {
+            if (!byRef.TryGetValue(todo.Pop(), out var fs)) continue;
+            foreach (var f in fs)
+                if (seen.Add(f.Output))
+                    foreach (var i in f.Inputs) todo.Push(i);
+        }
+        return seen;
+    }
+
     public static object? Coerce(string output, object? v)
     {
         var prop = output[(output.LastIndexOf('.') + 1)..];

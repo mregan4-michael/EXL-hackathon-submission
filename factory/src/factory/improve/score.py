@@ -30,12 +30,14 @@ GT_DIR = REPO_ROOT / "experiments" / "ground-truth"
 
 def ground_truth(app: str) -> set[tuple[str, str]] | None:
     path = GT_DIR / f"{app}.json"
-    if not path.exists():
-        return None
     lock = {
         n: h
         for h, n in (x.split() for x in (GT_DIR / "GROUNDTRUTH.lock").read_text().splitlines() if x)
     }
+    if not path.exists():
+        if f"experiments/ground-truth/{app}.json" in lock:
+            raise SystemExit(f"{path.name}: listed in GROUNDTRUTH.lock but missing")
+        return None
     got = hashlib.sha256(path.read_bytes()).hexdigest()
     if lock.get(f"experiments/ground-truth/{app}.json") != got:
         raise SystemExit(f"{path.name}: sha256 {got} does not match GROUNDTRUTH.lock")

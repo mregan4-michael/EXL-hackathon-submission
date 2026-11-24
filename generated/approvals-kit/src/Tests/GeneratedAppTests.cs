@@ -56,6 +56,21 @@ public sealed class GeneratedAppTests(HostFactory host) : IClassFixture<HostFact
     }
 
     [Fact]
+    public void Action_dependencies_follow_inputs_and_seeded_defaults_only()
+    {
+        static Formula F(string output, params string[] inputs) => new(output, "S", null, "src", inputs, _ => null);
+        var formulas = new[]
+        {
+            F("dpDue.DefaultDate", "dpStart.SelectedDate"),
+            F("lblFee.Text", "dpDue.SelectedDate"),
+            F("btnGo.DisplayMode", "lblFee.Text"),
+            F("lblUnrelated.Text", "txtOther.Text"),
+        };
+        var used = Evaluator.DependsOn(formulas, ["btnGo.DisplayMode"]);
+        Assert.Equal(new[] { "btnGo.DisplayMode", "dpDue.DefaultDate", "lblFee.Text" }, used.Order(StringComparer.Ordinal));
+    }
+
+    [Fact]
     public void Formulas_are_in_dependency_order()
     {
         var seen = new HashSet<string>();

@@ -13,6 +13,7 @@ Protocol (ADR-013):
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +25,8 @@ from factory.improve import score
 
 TUNING, HELDOUT = "approvals-kit", "claims-workbench"
 RUNS = REPO_ROOT / "experiments" / "runs"
+# A run name is its file stem: no separators, dots or suffixes that could alias another file.
+RUN_NAME = re.compile(r"[A-Za-z0-9_][A-Za-z0-9_-]*")
 CRITIC_PROMPT = "critic.v1"
 
 
@@ -54,13 +57,23 @@ def load_runs() -> list[dict[str, Any]]:
 
 
 def run(
-    name: str, interpret: str, policy: str, hypothesis: str, parent: str | None, replay: bool
+    name: str | None, interpret: str, policy: str, hypothesis: str, parent: str | None, replay: bool
 ) -> dict[str, Any]:
+    if not name:
+        raise SystemExit("experiment run needs a NAME")
     load_prompt(interpret)
     if policy not in rules.POLICIES:
         raise SystemExit(f"unknown candidate policy {policy}")
+    if not RUN_NAME.fullmatch(name):
+        raise SystemExit(f"{name!r}: run names may only use letters, digits, '-' and '_'")
     prev = {r["name"]: r for r in load_runs()}
+    if name in prev or (RUNS / f"{name}.json").exists():
+        raise SystemExit(f"{name}: already recorded; results are append-only, pick a new name")
     if parent is not None:
+        if parent not in prev:
+            raise SystemExit(f"{name}: unknown parent {parent}")
+        if prev[parent].get("decision") == "reverted":
+            raise SystemExit(f"{name}: parent {parent} was reverted; branch from a kept run")
         p = prev[parent]["config"]
         changed = [
             k for k, v in {"interpret": interpret, "candidates": policy}.items() if p[k] != v

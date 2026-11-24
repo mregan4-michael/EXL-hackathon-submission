@@ -726,6 +726,36 @@ resource funcStorage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   properties: { allowSharedKeyAccess: false, minimumTlsVersion: 'TLS1_2', allowBlobPublicAccess: false }
 }
 
+resource funcStorageBlob 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: funcStorage
+  name: guid(funcStorage.id, identity.id, 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')
+  properties: {
+    principalId: identity.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')
+  }
+}
+
+resource funcStorageQueue 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: funcStorage
+  name: guid(funcStorage.id, identity.id, '974c5e8b-45b9-4653-ba55-5f855dd0fb88')
+  properties: {
+    principalId: identity.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '974c5e8b-45b9-4653-ba55-5f855dd0fb88')
+  }
+}
+
+resource funcStorageTable 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: funcStorage
+  name: guid(funcStorage.id, identity.id, '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3')
+  properties: {
+    principalId: identity.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3')
+  }
+}
+
 resource funcPlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: '${prefix}-fnplan'
   location: location
