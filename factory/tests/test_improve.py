@@ -93,6 +93,8 @@ def test_experiment_results_are_append_only_and_branch_from_kept_runs(
     (tmp_path / "_a.json").write_text(json.dumps({"name": "_a", "config": cfg}))
     with pytest.raises(SystemExit, match="already recorded"):
         experiment.run("_a", "interpret.v2", "candidates.v1", "", None, replay=True)
+    with pytest.raises(SystemExit, match="needs a NAME"):
+        experiment.run(None, "interpret.v2", "candidates.v1", "", None, replay=True)
     for alias in ("./a", "a.critique", "../runs/a", "-a"):
         with pytest.raises(SystemExit, match="run names may only use"):
             experiment.run(alias, "interpret.v2", "candidates.v1", "", None, replay=True)

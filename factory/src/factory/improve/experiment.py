@@ -57,8 +57,10 @@ def load_runs() -> list[dict[str, Any]]:
 
 
 def run(
-    name: str, interpret: str, policy: str, hypothesis: str, parent: str | None, replay: bool
+    name: str | None, interpret: str, policy: str, hypothesis: str, parent: str | None, replay: bool
 ) -> dict[str, Any]:
+    if not name:
+        raise SystemExit("experiment run needs a NAME")
     load_prompt(interpret)
     if policy not in rules.POLICIES:
         raise SystemExit(f"unknown candidate policy {policy}")
