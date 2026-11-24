@@ -60,7 +60,13 @@ def run(
     if policy not in rules.POLICIES:
         raise SystemExit(f"unknown candidate policy {policy}")
     prev = {r["name"]: r for r in load_runs()}
+    if name in prev:
+        raise SystemExit(f"{name}: already recorded; results are append-only, pick a new name")
     if parent is not None:
+        if parent not in prev:
+            raise SystemExit(f"{name}: unknown parent {parent}")
+        if prev[parent].get("decision") == "reverted":
+            raise SystemExit(f"{name}: parent {parent} was reverted; branch from a kept run")
         p = prev[parent]["config"]
         changed = [
             k for k, v in {"interpret": interpret, "candidates": policy}.items() if p[k] != v
