@@ -76,3 +76,30 @@ def test_runs_are_loaded_whatever_their_name(
     (tmp_path / "fairness-v4.critique.json").write_text("{}")
     monkeypatch.setattr(experiment, "RUNS", tmp_path)
     assert [r["name"] for r in experiment.load_runs()] == ["fairness-v4"]
+
+
+def test_experiment_results_are_append_only_and_branch_from_kept_runs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    cfg = {"interpret": "interpret.v1", "candidates": "candidates.v1"}
+    (tmp_path / "a.json").write_text(json.dumps({"name": "a", "config": cfg, "decision": "kept"}))
+    (tmp_path / "r.json").write_text(
+        json.dumps({"name": "r", "config": cfg, "decision": "reverted"})
+    )
+    monkeypatch.setattr(experiment, "RUNS", tmp_path)
+    with pytest.raises(SystemExit, match="already recorded"):
+        experiment.run("a", "interpret.v2", "candidates.v1", "", None, replay=True)
+    with pytest.raises(SystemExit, match="was reverted"):
+        experiment.run("x", "interpret.v2", "candidates.v1", "", "r", replay=True)
+    with pytest.raises(SystemExit, match="unknown parent"):
+        experiment.run("x", "interpret.v2", "candidates.v1", "", "nope", replay=True)
+
+
+def test_locked_ground_truth_cannot_go_missing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "GROUNDTRUTH.lock").write_text((score.GT_DIR / "GROUNDTRUTH.lock").read_text())
+    monkeypatch.setattr(score, "GT_DIR", tmp_path)
+    with pytest.raises(SystemExit, match="missing"):
+        score.ground_truth("approvals-kit")
+    assert score.ground_truth("claims-workbench") is None
